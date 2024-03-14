@@ -61,7 +61,7 @@ tasks:
   #     - task octavia
   duck:
     cmds:
-      - duckdb ./$DOE_NSW_DATA_STACK_IN_A_BOX_DB_PATH__DEV #./reports/doe_nsw_data_stack_in_a_box.duckdb 
+      - duckdb ./$NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH__DEV #./reports/nsw_doe_data_stack_in_a_box.duckdb 
   evidence_setup:
     cmds:
       - cd reports & npm install
@@ -80,11 +80,11 @@ tasks:
 
   dag_remote:
     cmds:
-      - cd orchestration && DAGSTER_DBT_PARSE_PROJECT_ON_LOAD=1 && export DAGSTER_HOME="/workspaces/doe-nsw-data-stack-in-a-box/orchestration/dagster-local-file-store" && DA dagster dev
+      - cd orchestration && DAGSTER_DBT_PARSE_PROJECT_ON_LOAD=1 && export DAGSTER_HOME="/workspaces/nsw-doe-data-stack-in-a-box/orchestration/dagster-local-file-store" && DA dagster dev
   dag:
     desc: limitation DAGSTER_HOME cant be dynamic 🥹
     cmds:
-      - cd orchestration && DAGSTER_DBT_PARSE_PROJECT_ON_LOAD=1 && export DAGSTER_HOME="/home/dave/data-engineering/doe-nsw-data-stack-in-a-box/orchestration/dagster-local-file-store" && dagster dev
+      - cd orchestration && DAGSTER_DBT_PARSE_PROJECT_ON_LOAD=1 && export DAGSTER_HOME="/home/dave/data-engineering/nsw-doe-data-stack-in-a-box/orchestration/dagster-local-file-store" && dagster dev
   orchestration_setup:
     cmds:
       - cd orchestration && uv pip install -e ".[dev]"

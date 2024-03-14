@@ -1,4 +1,31 @@
-# DOE NSW data stack in a box 📊
+# NSW Department of Educatio data stack in a box 📊
+
+## TL;DR (too long didnt read)
+
+ Click below 👇🏼 to setup your own free data stack packed with [NSW Department of Education](https://education.nsw.gov.au/) data.
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/wisemuffin/nsw-doe-data-stack-in-a-box?quickstart=1)
+
+## Objectives
+[NSW Department of Education](https://education.nsw.gov.au/) data stack in a box has two objectives:
+1)	Getting humans excited about the data within the department.
+2)	Demo some of the important features required for a data stack.
+
+## Principals
+Simple one button click setting you up with your own blazingly fast data stack
+Completely free 💲💲💲. 
+
+## Audience
+The project is designed to be very simple but allow you the flexibility for you to go as deep you like!
+- **I want to analyse and gain insights into the data.** With the infrastructure free and deployed in one click you don’t need to worry about any implementation details. You can skip straight to analysing and training models on top of your own local warehouse.
+- **Interested in modelling via SQL?** We got you covered with a environment setup for DBT.
+- **Love DevOps and platform engineering?** Check out our Orchestration, CICD pipelines, and automation such as linting, data diffs ect.
+
+
+## Datasets
+
+🚧
+
 
 ## Todo
 

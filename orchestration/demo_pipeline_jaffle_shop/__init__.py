@@ -15,11 +15,11 @@ from .schedules import schedules
 
 load_dotenv()
 
-DOE_NSW_DATA_STACK_IN_A_BOX_DB_NAME__DEV = os.getenv('DOE_NSW_DATA_STACK_IN_A_BOX_DB_NAME__DEV')
-DOE_NSW_DATA_STACK_IN_A_BOX_DB_NAME__PROD = os.getenv('DOE_NSW_DATA_STACK_IN_A_BOX_DB_NAME__PROD')
+NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__DEV = os.getenv('NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__DEV')
+NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD = os.getenv('NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD')
 
-DB_NAME__DEV = f"{DOE_NSW_DATA_STACK_IN_A_BOX_DB_NAME__DEV}.duckdb"
-DB_NAME__PROD = f"{DOE_NSW_DATA_STACK_IN_A_BOX_DB_NAME__PROD}.duckdb"
+DB_NAME__DEV = f"{NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__DEV}.duckdb"
+DB_NAME__PROD = f"{NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD}.duckdb"
 
 resources_by_env = {
     "prod": {
@@ -47,5 +47,5 @@ resources_by_env = {
 defs = Definitions(
     assets=[raw_customers_py,raw_orders_py,raw_payments_py,iris_dataset,iris_dataset_test_to_remove,jaffle_shop_dbt_assets],
     schedules=schedules,
-    resources=resources_by_env[os.getenv("DOE_NSW_DATA_STACK_IN_A_BOX__ENV", "dev")],
+    resources=resources_by_env[os.getenv("NSW_DOE_DATA_STACK_IN_A_BOX__ENV", "dev")],
 )

@@ -1,9 +1,9 @@
-name: 'doe_nsw_data_stack_in_a_box'
+name: 'nsw_doe_data_stack_in_a_box'
 
 config-version: 2
 version: '0.1'
 
-profile: 'doe_nsw_data_stack_in_a_box_profile'
+profile: 'nsw_doe_data_stack_in_a_box_profile'
 # profile: 'my_dbt_trino_project'
 
 model-paths: ["models"]
@@ -22,8 +22,8 @@ require-dbt-version: [">=1.0.0", "<2.0.0"]
 
 models:
   cese_dia_analytics:
-    doe_nsw_data_stack_in_a_box:
-      # +schema: doe_nsw_data_stack_in_a_box # custom schema's not working in dbt-fabric yet, workaround is to change schema in profiles.yml see https://github.com/microsoft/dbt-fabric/issues/53
+    nsw_doe_data_stack_in_a_box:
+      # +schema: nsw_doe_data_stack_in_a_box # custom schema's not working in dbt-fabric yet, workaround is to change schema in profiles.yml see https://github.com/microsoft/dbt-fabric/issues/53
       materialized: table
       staging:
         materialized: view

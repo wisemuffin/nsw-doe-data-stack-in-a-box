@@ -1,0 +1,11 @@
+.venv
+# .env # include env variables in code repo
+# .vscode
+dbt_packages
+target/
+dbt_modules/
+logs/
+**/.DS_Store
+TD_DIA_Lakehouse*/
+tmp*/
+README-secret.md

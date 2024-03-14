@@ -1,0 +1,10 @@
+{
+    "dbt.queryLimit": 500,
+    "dbt.enableNewLineagePanel": true,
+    "files.associations": {
+        "*.sql": "jinja-sql", // all .sql files
+
+        // optional: don't format models in `target/` dir
+        "**/target/**": ""
+    }
+}

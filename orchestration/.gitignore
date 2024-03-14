@@ -1,0 +1,12 @@
+__pycache__
+tmp*
+*.egg-info
+history/
+schedules/
+storage/
+.logs_queue/
+.telemetry/
+logs/
+.nux/
+*.env
+.azure-for-docker

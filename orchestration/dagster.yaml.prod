@@ -1,0 +1,84 @@
+scheduler:
+  module: dagster.core.scheduler
+  class: DagsterDaemonScheduler
+
+run_coordinator:
+  module: dagster.core.run_coordinator
+  class: QueuedRunCoordinator
+
+
+# run_launcher:
+#   module: dagster_docker
+#   class: DockerRunLauncher
+#   config:
+#     env_vars:
+#       - DAGSTER_POSTGRES_USER
+#       - DAGSTER_POSTGRES_PASSWORD
+#       - DAGSTER_POSTGRES_DB
+#       # - AWS_ACCESS_KEY_ID
+#       # - AWS_SECRET_ACCESS_KEY
+#       - DATABASE_IP
+#       - DATABASE_PORT
+#       - DATABASE_USER
+#       - DATABASE_PASSWORD
+#       - DATABASE_NAME
+#     network: dagster_network
+#     container_kwargs:
+#       volumes: # Make docker client accessible to any launched containers as well
+#         - /var/run/docker.sock:/var/run/docker.sock
+#         - /tmp/io_manager_storage:/tmp/io_manager_storage
+#         - /tmp/dagster-data:/opt/dagster/dagster_home/storage
+#         # TODO: Note that only absolute paths are accepted for some reason.
+#         #- /home/dgriffiths27/data-engineering/cese-dai-analytics/cese_ida_dagster/demo_pipeline_jaffle_shop:/opt/dagster/app/demo_pipeline_jaffle_shop
+#         #- /home/dgriffiths27/data-engineering/cese-dai-analytics/dbt:/opt/dbt
+
+run_storage:
+  module: dagster_postgres.run_storage
+  class: PostgresRunStorage
+  config:
+    postgres_db:
+      hostname: dagster_postgresql
+      username:
+        env: DAGSTER_POSTGRES_USER
+      password:
+        env: DAGSTER_POSTGRES_PASSWORD
+      db_name:
+        env: DAGSTER_POSTGRES_DB
+      port: 5432
+
+schedule_storage:
+  module: dagster_postgres.schedule_storage
+  class: PostgresScheduleStorage
+  config:
+    postgres_db:
+      hostname: dagster_postgresql
+      username:
+        env: DAGSTER_POSTGRES_USER
+      password:
+        env: DAGSTER_POSTGRES_PASSWORD
+      db_name:
+        env: DAGSTER_POSTGRES_DB
+      port: 5432
+
+event_log_storage:
+  module: dagster_postgres.event_log
+  class: PostgresEventLogStorage
+  config:
+    postgres_db:
+      hostname: dagster_postgresql
+      username:
+        env: DAGSTER_POSTGRES_USER
+      password:
+        env: DAGSTER_POSTGRES_PASSWORD
+      db_name:
+        env: DAGSTER_POSTGRES_DB
+      port: 5432
+
+# compute_logs:
+#   module: dagster_aws.s3.compute_log_manager
+#   class: S3ComputeLogManager
+#   config:
+#     bucket: "etl-dagster-data"
+#     prefix: "compute-logs"
+#     skip_empty_files: true
+#     upload_interval: 30

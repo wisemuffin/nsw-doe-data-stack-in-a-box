@@ -1,0 +1,15 @@
+doe_nsw_data_stack_in_a_box_profile:
+  outputs:
+    dev:
+      type: duckdb
+      path: "../{{ env_var('DOE_NSW_DATA_STACK_IN_A_BOX_DB_PATH__DEV') }}"
+      database: "{{ env_var('DOE_NSW_DATA_STACK_IN_A_BOX_DB_NAME__DEV') }}"
+      schema: "{{ env_var('DOE_NSW_DATA_STACK_IN_A_BOX_TARGET_SCHEMA__DEV') }}"
+      threads: 4
+    prod:
+      type: duckdb
+      path: "../{{ env_var('DOE_NSW_DATA_STACK_IN_A_BOX_DB_PATH__PROD') }}"
+      database: "{{ env_var('DOE_NSW_DATA_STACK_IN_A_BOX_DB_NAME__PROD') }}"
+      schema: "{{ env_var('DOE_NSW_DATA_STACK_IN_A_BOX_TARGET_SCHEMA__PROD') }}"
+      threads: 4
+  target: "{{ env_var('DOE_NSW_DATA_STACK_IN_A_BOX__ENV') }}"

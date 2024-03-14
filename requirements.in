@@ -1,0 +1,6 @@
+dbt-duckdb
+
+# dagster deps
+dagster-dbt
+dagster-duckdb
+dagster-duckdb-pandas

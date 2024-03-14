@@ -1,0 +1,141 @@
+version: "3.9"
+
+services:
+  # This service runs the postgres DB used by dagster for run storage, schedule storage,
+  # and event log storage.
+  dagster_postgresql:
+    image: postgres:11
+    container_name: dagster_postgresql
+    environment:
+      POSTGRES_USER: "postgres_user"
+      POSTGRES_PASSWORD: "postgres_password"
+      POSTGRES_DB: "postgres_db"
+    networks:
+      - dagster_network
+    volumes:
+      - $HOME/.azure-for-docker:/root/.azure 
+
+  # This service runs the gRPC server that loads your user code, in both dagster-webserver
+  # and dagster-daemon. By setting DAGSTER_CURRENT_IMAGE to its own image, we tell the
+  # run launcher to use this same image when launching runs in a new container as well.
+  # Multiple containers like this can be deployed separately - each just needs to run on
+  # its own port, and have its own entry in the workspace.yaml file that's loaded by the
+      # webserver.
+  demo_pipeline_jaffle_shop:
+    image: demo_pipeline_jaffle_shop
+    build: 
+      dockerfile: $HOME/data-engineering/cese-dai-analytics/cese_dia_dagster/demo_pipeline_jaffle_shop/Dockerfile
+    restart: always
+    environment:
+      DAGSTER_POSTGRES_USER: "postgres_user"
+      DAGSTER_POSTGRES_PASSWORD: "postgres_password"
+      DAGSTER_POSTGRES_DB: "postgres_db"
+      DAGSTER_CURRENT_IMAGE: "demo_pipeline_jaffle_shop"
+      AWS_ACCESS_KEY_ID: "yourAWSKeyID"
+      AWS_SECRET_ACCESS_KEY: "yourAWSSecretAccessKey"
+      DATABASE_IP: "192.168.136.166"
+      DATABASE_PORT: 5432
+      DATABASE_USER: "etl_user"
+      DATABASE_PASSWORD: "etl_password"
+      DATABASE_NAME: "etl_db"
+    networks:
+      - dagster_network
+    volumes:
+      # - /opt/dagster/dagster_home:/tmp/dagster-data
+      # has to be absoloute path
+      - $HOME/data-engineering/cese-dai-analytics/cese_dia_dagster/demo_pipeline_jaffle_shop:/opt/dagster/app/demo_pipeline_jaffle_shop
+      - $HOME/data-engineering/cese-dai-analytics/dbt:/opt/dagster/dbt
+      # azure cli workaround see https://endjin.com/blog/2022/09/using-azcli-authentication-within-local-containers#using-the-workaround
+      - $HOME/.azure-for-docker:/root/.azure
+    # command: sleep 500
+    command: dagster api grpc -h 0.0.0.0 -p 4001 -m demo_pipeline_jaffle_shop
+    # command: pwd
+
+  demo_pipeline_y:
+    # container_name: demo-pipeline-y
+    image: demo_pipeline_y
+    build:
+      dockerfile: $HOME/data-engineering/cese-dai-analytics/cese_dia_dagster/demo_pipeline_y/Dockerfile
+    restart: always
+    environment:
+      DAGSTER_POSTGRES_USER: "postgres_user"
+      DAGSTER_POSTGRES_PASSWORD: "postgres_password"
+      DAGSTER_POSTGRES_DB: "postgres_db"
+      DAGSTER_CURRENT_IMAGE: "demo-pipeline-y"
+      DATABASE_IP: "192.168.136.166"
+      DATABASE_PORT: 5432
+      DATABASE_USER: "etl_user"
+      DATABASE_PASSWORD: "etl_password"
+      DATABASE_NAME: "etl_db"
+    networks:
+      - dagster_network
+    volumes:
+      - $HOME/data-engineering/cese-dai-analytics/cese_dia_dagster/demo_pipeline_y:/opt/dagster/app/demo_pipeline_y
+    command: dagster api grpc -h 0.0.0.0 -p 4002 -m demo_pipeline_y
+
+  # This service runs dagster-webserver, which loads your user code from the user code container.
+  # Since our instance uses the QueuedRunCoordinator, any runs submitted from the webserver will be put on
+  # a queue and later dequeued and launched by dagster-daemon.
+  dagster_webserver:
+    image: dagster
+    entrypoint:
+      - dagster-webserver
+      - -h
+      - "0.0.0.0"
+      - -p
+      - "3000"
+      - -w
+      - workspace.yaml
+    container_name: dagster_webserver
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    environment:
+      DAGSTER_POSTGRES_USER: "postgres_user"
+      DAGSTER_POSTGRES_PASSWORD: "postgres_password"
+      DAGSTER_POSTGRES_DB: "postgres_db"
+    volumes: # Make docker client accessible, so we can terminate containers from the webserver
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/io_manager_storage:/tmp/io_manager_storage
+    networks:
+      - dagster_network
+    depends_on:
+      - dagster_postgresql
+      - demo_pipeline_jaffle_shop
+      - demo_pipeline_y
+
+  # This service runs the dagster-daemon process, which is responsible for taking runs
+  # off of the queue and launching them, as well as creating runs from schedules or sensors.
+  dagster_daemon:
+    image: dagster
+    entrypoint:
+      - dagster-daemon
+      - run
+    container_name: dagster_daemon
+    restart: on-failure
+    environment:
+      DAGSTER_POSTGRES_USER: "postgres_user"
+      DAGSTER_POSTGRES_PASSWORD: "postgres_password"
+      DAGSTER_POSTGRES_DB: "postgres_db"
+      AWS_ACCESS_KEY_ID: "yourAWSKeyID"
+      AWS_SECRET_ACCESS_KEY: "yourAWSSecretAccessKey"
+      DATABASE_IP: "192.168.136.166"
+      DATABASE_PORT: 5432
+      DATABASE_USER: "etl_user"
+      DATABASE_PASSWORD: "etl_password"
+      DATABASE_NAME: "etl_db"
+    volumes: # Make docker client accessible, so we can launch containers using host docker
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/io_manager_storage:/tmp/io_manager_storage
+    networks:
+      - dagster_network
+    depends_on:
+      - dagster_postgresql
+      - demo_pipeline_y
+      - demo_pipeline_jaffle_shop
+
+networks:
+  dagster_network:
+    driver: bridge
+    name: dagster_network

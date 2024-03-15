@@ -5,21 +5,21 @@
     "ghcr.io/devcontainers-contrib/features/black:1": {},
     "ghcr.io/devcontainers/features/node:1": {},
 	"ghcr.io/devcontainers/features/docker-in-docker:2": {"moby":false},
-	"ghcr.io/eitsupi/devcontainer-features/duckdb-cli:1": {
-		// "version": "0.8.1",
-		"extensions": "parquet"
-	},
+	// "ghcr.io/eitsupi/devcontainer-features/duckdb-cli:1": {
+	// 	// "version": "0.8.1",
+	// 	"extensions": "parquet"
+	// },
 	"ghcr.io/eitsupi/devcontainer-features/go-task:1": {}
   },
   // Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "task setup",
 	"containerEnv": {
 		// use a .env file outside of source control to store secrets
-		"AIRBYTE_LOCAL_PASSWORD": "password" // only for local development!!!
+		// "AIRBYTE_LOCAL_PASSWORD": "password" // only for local development!!!
 	},
 	"remoteEnv": {
-		"DATABASE": "duckdb",
-		"FILENAME": "jaffle_shop.duckdb"
+		// "DATABASE": "duckdb",
+		// "FILENAME": "jaffle_shop.duckdb"
 	},
   // Configure tool-specific properties
   "customizations": {

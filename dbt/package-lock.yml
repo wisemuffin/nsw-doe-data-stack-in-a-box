@@ -1,0 +1,6 @@
+packages:
+- package: dbt-labs/dbt_utils
+  version: 1.0.0
+- package: calogica/dbt_date
+  version: 0.10.0
+sha1_hash: db5bf9e2f5c462aa83e53b3116077730ee554804

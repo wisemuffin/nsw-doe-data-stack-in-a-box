@@ -1,10 +1,23 @@
 {
     "dbt.queryLimit": 500,
     "dbt.enableNewLineagePanel": true,
+    "dbt.profilesDirOverride": ".",
+    "python.analysis.typeCheckingMode": "basic",
+    "sqlfluff.dialect": "duckdb",
+    "sqlfluff.executablePath": "/home/vscode/.local/bin/sqlfluff",
+    // "sqlfluff.executablePath": ".venv/bin/sqlfluff",
+    // "python.defaultInterpreterPath": ".venv/bin/python",
+    "sqlfluff.experimental.format.executeInTerminal": true,
+
+    "[jinja-sql]": {
+        "editor.defaultFormatter": "dorzey.vscode-sqlfluff",
+        "editor.formatOnSave": false
+    },
     "files.associations": {
         "*.sql": "jinja-sql", // all .sql files
 
         // optional: don't format models in `target/` dir
         "**/target/**": ""
-    }
+    },
+    "python.envFile": "${workspaceFolder}/.env"
 }

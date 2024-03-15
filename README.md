@@ -9,7 +9,7 @@
 ## Objectives
 [NSW Department of Education](https://education.nsw.gov.au/) data stack in a box has two objectives:
 1)	Getting humans excited about the data within the department.
-2)	Demo some of the important features required for a data stack.
+2)	Level up our data stack by demoing features in the data stack that we are lacking or need to improve in [NSW Department of Education](https://education.nsw.gov.au/). These demos will start the conversation on what features we want to prioritise.
 
 ## Principals
 Simple one button click setting you up with your own blazingly fast data stack

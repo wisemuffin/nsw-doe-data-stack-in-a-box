@@ -25,9 +25,7 @@ resources_by_env = {
     "prod": {
         "io_manager": duckdb_pandas_io_manager.configured(
             {
-                "database": os.path.join(
-                    duckdb_project_dir, DB_NAME__PROD
-                ),
+                "database":  f'md:{NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD}',
             }
         ),
         "dbt": DbtCliResource(project_dir=os.fspath(dbt_project_dir))

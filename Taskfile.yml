@@ -25,6 +25,10 @@ tasks:
       - python3 -m pip install uv
       - pip install -r requirements.txt 
       - cd dbt && dbt deps
+
+  node_deps:
+    cmds:
+      - npm install --prefix ./reports
       
   git:
     cmds:
@@ -57,6 +61,7 @@ tasks:
     cmds:
       - task temp_limitation
       - task python_deps
+      - task node_deps
       - task git
       - task znap
       - task zsh_plugins

@@ -21,6 +21,7 @@ if __name__ == "__main__":
                     # raw_customers_py
                     ] 
                     + sources,
-                partition_key="2024-01-14",
+                partition_key="2024-01-14", #works
+                # partition_key="2024-03-17", # no data example
                 resources=resource_defs,
                 run_config={})

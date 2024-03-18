@@ -30,6 +30,8 @@ The project is designed to be very simple but allow you the flexibility for you 
 ## Todo
 
 🚧working on
+- failing partitions when nothing returned by df
+- dagster auto start container
 - duckdb_pandas_io_manager is legacy and should be replaced by  DuckDBPandasIOManager but currently getting duckdb locks so trying to figure out what caused this
 - DOE data
 - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions

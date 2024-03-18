@@ -36,8 +36,8 @@ tasks:
   git:
     cmds:
       - git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-      - git config --global user.name "David Griffiths"
-      - git config --global user.email dgriffiths@example.com
+      - git config --global user.name "example user"
+      - git config --global user.email username@example.com
   znap:
     cmds:
       - export ZSH=~/.oh-my-zsh/ 
@@ -57,6 +57,7 @@ tasks:
       - task znap # already exists in devcontainer
       - task zsh_plugins
       - task orchestration_setup_devcontainer
+      - task setup_sqltools
       # - task airbyte
       # - task octavia_setup
 
@@ -88,7 +89,11 @@ tasks:
   duck:
     cmds:
       - duckdb ./$NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH__DEV #./reports/nsw_doe_data_stack_in_a_box.duckdb 
+  setup_sqltools:
+    cmds:
+      - cd ~/.local/share/vscode-sqltools && npm install duckdb-async@0.8.1 && exit 0
   evidence_setup:
+    desc: dont need this now was just for inital setup just run node_deps
     cmds:
       - npm --prefix ./reports install
       - npm --prefix ./reports run sources

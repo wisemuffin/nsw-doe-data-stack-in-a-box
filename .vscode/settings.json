@@ -36,5 +36,6 @@
             "driver": "DuckDB",
             "databaseFilePath": "./reports/nsw_doe_data_stack_in_a_box__dev.duckdb"
         }
-    ]
+    ],
+    "files.autoSave": "off"
 }

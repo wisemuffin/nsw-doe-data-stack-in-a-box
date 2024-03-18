@@ -30,7 +30,9 @@ The project is designed to be very simple but allow you the flexibility for you 
 ## Todo
 
 🚧working on
+
 - auto start dagster in codespace and popup webserver but also want evidence-dev to also pop up?
+  - "postStartCommand": "task dag" does this mean the codesandbox wont closed down?
 - failing partitions when nothing returned by df
 - dagster auto start container
 - duckdb_pandas_io_manager is legacy and should be replaced by  DuckDBPandasIOManager but currently getting duckdb locks so trying to figure out what caused this

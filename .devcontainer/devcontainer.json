@@ -13,6 +13,7 @@
   },
   // Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "task setup",
+  "postStartCommand": "task dag_remote_devcontainer",
   "runArgs": [
     "--env-file", "${localWorkspaceFolder}/.env"
     ],

@@ -54,7 +54,7 @@ tasks:
       - task temp_limitation
       - task python_deps_devcontainer
       - task git
-      # - task znap # already exists in devcontainer
+      - task znap # already exists in devcontainer
       - task zsh_plugins
       - task orchestration_setup_devcontainer
       # - task airbyte
@@ -69,6 +69,7 @@ tasks:
       - task znap
       - task zsh_plugins
       - task orchestration_setup
+      - task dag_remote_devcontainer
       # - task airbyte
       # - task octavia_setup
   

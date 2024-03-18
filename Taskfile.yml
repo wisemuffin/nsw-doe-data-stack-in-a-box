@@ -84,7 +84,7 @@ tasks:
   dag:
     desc: limitation DAGSTER_HOME cant be dynamic 🥹
     cmds:
-      - cd orchestration && DAGSTER_DBT_PARSE_PROJECT_ON_LOAD=1 && export DAGSTER_HOME="/home/dave/data-engineering/nsw-doe-data-stack-in-a-box/orchestration/dagster-local-file-store" && dagster dev
+      - cd orchestration && DAGSTER_DBT_PARSE_PROJECT_ON_LOAD=1 && export DAGSTER_HOME="/home/dave/data-engineering/nsw-doe-data-stack-in-a-box/orchestration/dagster-local-file-store/"$NSW_DOE_DATA_STACK_IN_A_BOX__ENV  && dagster dev
   orchestration_setup:
     cmds:
       - cd orchestration && uv pip install -e ".[dev]"

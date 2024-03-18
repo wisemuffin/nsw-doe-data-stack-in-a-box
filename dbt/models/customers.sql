@@ -66,6 +66,6 @@ final as (
 
 )
 
-select * from final
+select *,{{ add_audit_columns() }} from final
 
 

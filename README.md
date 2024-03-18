@@ -30,7 +30,9 @@ The project is designed to be very simple but allow you the flexibility for you 
 ## Todo
 
 🚧working on
-- CESE data
+- audit columns
+- DOE data
+- waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
 
 🔙🪵backlog
 - Motherduck

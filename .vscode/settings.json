@@ -19,5 +19,22 @@
         // optional: don't format models in `target/` dir
         "**/target/**": ""
     },
-    "python.envFile": "${workspaceFolder}/.env"
+    "python.envFile": "${workspaceFolder}/.env",
+    "sqltools.useNodeRuntime": true,
+    "sqltools.connections": [
+        {
+            "name": "MotherDuck Prod",
+            "accessMode": "Read/Write",
+            "previewLimit": 50,
+            "driver": "DuckDB",
+            "databaseFilePath": "md:nsw_doe_data_stack_in_a_box__prod"
+        },
+        {
+            "name": "DuckDB",
+            "accessMode": "Read Only",
+            "previewLimit": 50,
+            "driver": "DuckDB",
+            "databaseFilePath": "./reports/nsw_doe_data_stack_in_a_box__dev.duckdb"
+        }
+    ]
 }

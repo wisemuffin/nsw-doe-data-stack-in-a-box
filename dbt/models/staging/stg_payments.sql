@@ -10,6 +10,6 @@ renamed as (
 
     from source
 )
-select * from renamed
+select *,{{ add_audit_columns() }} from renamed
   
   

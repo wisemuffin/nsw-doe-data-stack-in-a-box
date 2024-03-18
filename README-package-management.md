@@ -4,7 +4,7 @@ first add what packages you need to `requirements.in`
 uv pip compile requirements.in -o requirements.txt  # Read a requirements.in file.
 ```
 
-
+Then start your enviroment
 ```bash
 
 uv venv

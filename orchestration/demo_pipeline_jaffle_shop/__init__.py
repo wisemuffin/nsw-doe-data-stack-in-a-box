@@ -6,7 +6,7 @@ from dagster import Definitions, FilesystemIOManager
 from dagster_dbt import DbtCliResource
 
 from dagster_dbt import dbt_cli_resource
-from dagster_duckdb_pandas import duckdb_pandas_io_manager
+from dagster_duckdb_pandas import duckdb_pandas_io_manager, DuckDBPandasIOManager
 # from dagster_airbyte import airbyte_resource
 
 from .assets import jaffle_shop_dbt_assets,raw_customers_py,raw_orders_py,raw_payments_py,iris_dataset,iris_dataset_test_to_remove #,csv_to_onelake_asset
@@ -23,20 +23,16 @@ DB_NAME__PROD = f"{NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD}.duckdb"
 
 resources_by_env = {
     "prod": {
-        "io_manager": duckdb_pandas_io_manager.configured(
-            {
-                "database":  f'md:{NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD}',
-            }
+        "io_manager": DuckDBPandasIOManager(
+                database=  f'md:{NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD}',
         ),
         "dbt": DbtCliResource(project_dir=os.fspath(dbt_project_dir))
     },
     "dev": {
-        "io_manager": duckdb_pandas_io_manager.configured(
-            {
-                "database": os.path.join(
+        "io_manager": DuckDBPandasIOManager(
+                database= os.path.join(
                     duckdb_project_dir, DB_NAME__DEV
                 )
-            }
         ),
         "dbt": DbtCliResource(project_dir=os.fspath(dbt_project_dir))
     },

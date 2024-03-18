@@ -12,16 +12,26 @@ def jaffle_shop_dbt_assets(context: AssetExecutionContext, dbt: DbtCliResource):
 
 @asset(compute_kind="python", key_prefix=["raw"])
 def raw_customers_py() -> pd.DataFrame:
-    return pd.read_csv(
-        "https://raw.githubusercontent.com/dbt-labs/jaffle_shop/main/seeds/raw_customers.csv",
+    url = "https://raw.githubusercontent.com/dbt-labs/jaffle_shop/main/seeds/raw_customers.csv"
+    df =pd.read_csv(
+        url,
     )
+
+    df['_load_timestamp'] = pd.Timestamp('now')
+    df['_source'] = url
+
+    return df
 
 @asset(compute_kind="python", key_prefix=["raw"], partitions_def=DailyPartitionsDefinition(start_date="2024-01-01"), metadata={"partition_expr": "order_date"})
 def raw_orders_py(context: AssetExecutionContext) -> pd.DataFrame:
+    url = "https://raw.githubusercontent.com/dbt-labs/jaffle_shop/main/seeds/raw_orders.csv"
     df = pd.read_csv(
-        "https://raw.githubusercontent.com/dbt-labs/jaffle_shop/main/seeds/raw_orders.csv",
+        url,
         parse_dates=['order_date'] # having some trouble with default timestamp to ns with pyarrow
     )
+
+    df['_load_timestamp'] = pd.Timestamp('now')
+    df['_source'] = url
 
     df['order_date'] = df['order_date']  + pd.offsets.DateOffset(years=6)
 
@@ -35,9 +45,13 @@ def raw_orders_py(context: AssetExecutionContext) -> pd.DataFrame:
 
 @asset(compute_kind="python", key_prefix=["raw"])
 def raw_payments_py() -> pd.DataFrame:
-    return pd.read_csv(
-        "https://raw.githubusercontent.com/dbt-labs/jaffle_shop/main/seeds/raw_payments.csv",
+    url = "https://raw.githubusercontent.com/dbt-labs/jaffle_shop/main/seeds/raw_payments.csv"
+    df = pd.read_csv(
+        url,
     )
+    df['_load_timestamp'] = pd.Timestamp('now')
+    df['_source'] = url
+    return df
 
 
 

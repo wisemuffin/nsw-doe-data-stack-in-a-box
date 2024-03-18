@@ -5,7 +5,7 @@
       "name": "Dagster: debug with .debug.py",
       "type": "python",
       "request": "launch",
-      "cwd": "${workspaceFolder}/cese_dia_dagster",
+      "cwd": "${workspaceFolder}/orchestration",
       "module": "debug",
       "justMyCode": false,
       "envFile": "${workspaceFolder}/.env",
@@ -19,28 +19,13 @@
       "request": "launch",
       "module": "dagster",
       "justMyCode": false,
-      "cwd": "${workspaceFolder}/cese_dia_dagster",
+      "cwd": "${workspaceFolder}/orchestration",
       "args": [
         "dev",
       ],
       "envFile": "${workspaceFolder}/.env",
       "env": {
         "DAGSTER_DBT_PARSE_PROJECT_ON_LOAD": "YES"
-      }
-    },
-    {
-      "name": "Dagster: Debug Dagit UI - delta azure example",
-      "type": "python",
-      "request": "launch",
-      "module": "dagster",
-      "justMyCode": false,
-      "cwd": "${workspaceFolder}/cese_dia_dagster",
-      "args": [
-        "dev",
-      ],
-      "envFile": "${workspaceFolder}/.env",
-      "env": {
-        "DAGSTER_DBT_PARSE_PROJECT_ON_LOAD": "1"
       }
     }
   ]

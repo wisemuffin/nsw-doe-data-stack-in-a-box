@@ -15,4 +15,4 @@ renamed as (
 
 )
 
-select * from renamed
+select *,{{ add_audit_columns() }} from renamed

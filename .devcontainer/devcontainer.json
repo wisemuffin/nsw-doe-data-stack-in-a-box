@@ -13,6 +13,9 @@
   },
   // Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "task setup",
+  "runArgs": [
+    "--env-file", "${localWorkspaceFolder}/.env"
+    ],
 	"containerEnv": {
 		// use a .env file outside of source control to store secrets
 		// "AIRBYTE_LOCAL_PASSWORD": "password" // only for local development!!!

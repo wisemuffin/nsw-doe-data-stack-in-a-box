@@ -9,22 +9,25 @@ tasks:
     cmds: 
       - bash -c 'if [ -d "./semantic_models_removed_see_dagster_limitation" ]; then mv ./semantic_models_removed_see_dagster_limitation/ ./models/semantic_models; else echo "No, the semantic_models folder does not exist."; fi'
   python_deps:
-    desc: setting up env with uv package manager for python and installing requirements
+    desc: setting up env with uv package manager for python and installing requirements. TODO still a bit of a mess with UV and taskfile
     cmds:
       - python3 -m pip install uv
       # - uv venv  # Create a virtual environment at .venv. # limitation cant create venv with make file due to limitation: ask runs as a subprocess of your current shell, so it can't change the environment of the shell that started it. 
       # - source .venv/bin/activate
       # - uv pip install -r requirements.txt
-      # - uv pip sync requirements.txt 
+      # - uv venv && source .venv/bin/activate && uv pip sync requirements.txt 
+      - uv venv && source .venv/bin/activate && uv pip install -r requirements.txt 
       # - python -m pip install --progress-bar off -r requirements.txt
-      - pip install -r requirements.txt 
+      # - pip install -r requirements.txt 
       - cd dbt && dbt deps
   python_deps_devcontainer:
     desc: Limitation with taskfile cant use vertial envs. So cant use UV
     cmds:
-      - python3 -m pip install uv
       - pip install -r requirements.txt 
       - cd dbt && dbt deps
+      # workaround as cant get dynamic manifest.json to build
+      - cd dbt && dbt parse 
+
 
   node_deps:
     cmds:

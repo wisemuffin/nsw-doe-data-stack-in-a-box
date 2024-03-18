@@ -30,9 +30,10 @@ The project is designed to be very simple but allow you the flexibility for you 
 ## Todo
 
 🚧working on
-- audit columns
+- duckdb_pandas_io_manager is legacy and should be replaced by  DuckDBPandasIOManager but currently getting duckdb locks so trying to figure out what caused this
 - DOE data
 - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
+  - this will also fix issue around lock on database when connected via sql tools then try and do etl...
 
 🔙🪵backlog
 - Motherduck
@@ -43,6 +44,10 @@ The project is designed to be very simple but allow you the flexibility for you 
 - docs on taskfile
 - docs on dbt power users for vscode
 - setup linting and formating with black
+
+Limitations 😢😭
+- python package manager uv is so much faster but cant use in taskfile
+- dynamic check for dbt's manifest.json not working
 
 
 ## Key features

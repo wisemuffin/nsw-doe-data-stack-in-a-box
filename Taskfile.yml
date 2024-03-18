@@ -90,11 +90,12 @@ tasks:
       - duckdb ./$NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH__DEV #./reports/nsw_doe_data_stack_in_a_box.duckdb 
   evidence_setup:
     cmds:
-      - cd reports & npm install
-      - cd reports & npm run dev
+      - npm --prefix ./reports install
+      - npm --prefix ./reports run sources
+      - npm --prefix ./reports run dev
   evidence:
     cmds:
-      - cd reports & npm run dev
+      - npm --prefix ./reports run dev
 
   dbtdoc:
     cmds:

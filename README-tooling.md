@@ -35,6 +35,10 @@ View the documentation for the project:
 $ dbt docs serve
 ```
 
+### code gen
+
+[dbt codegen](https://github.com/dbt-labs/dbt-codegen) allows us to automatically generate source, and staging tables and staging yaml without having to write all the columns manually 🚀
+
 
 # Debugging
 

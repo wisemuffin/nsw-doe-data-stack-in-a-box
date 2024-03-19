@@ -29,8 +29,8 @@ The project is designed to be very simple but allow you the flexibility for you 
 ## Key features
 
 - seperation of business logic and i/o with dagster i/o manager
-- speed up data ingestion development with dataframe strait to delta via dagster i/o manager
-- standardised and well known transformation framework with dbt's integration with fabric warehouse
+- lineage
+- co pilot
 
 
 

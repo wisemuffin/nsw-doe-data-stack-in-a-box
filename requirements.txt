@@ -370,3 +370,7 @@ yarl==1.9.4
     # via gql
 zipp==3.18.0
     # via importlib-metadata
+
+
+# For Documentation
+mkdocs-material

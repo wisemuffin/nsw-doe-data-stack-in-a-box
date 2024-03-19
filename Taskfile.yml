@@ -126,3 +126,7 @@ tasks:
   dag_server:
     cmds:
       - cd orchestration && dagster dev -h 0.0.0.0 -p 3000
+  
+  docs:
+    desc: documentation static site generator with mkdocs 💣 Warning doesnt work with taskfile 🚧 TODO
+    cmds: mkdocs serve

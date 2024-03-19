@@ -4,3 +4,5 @@ packages:
   - package: calogica/dbt_date
     version: [">=0.8.0"]
     # <see https://github.com/calogica/dbt-date/releases/latest> for the latest version tag
+  - package: dbt-labs/codegen
+    version: 0.12.1

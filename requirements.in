@@ -13,3 +13,7 @@ dagster-duckdb-pandas
 prophet
 scipy
 plotly
+
+
+# For Documentation
+mkdocs-material

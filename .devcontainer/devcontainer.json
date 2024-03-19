@@ -13,7 +13,7 @@
   },
   // Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "task setup",
-  "postStartCommand": "task dag", // TODO will this mean the codesandbox stays open?
+  // "postStartCommand": "task dag", // TODO will this mean the codesandbox stays open?
   "runArgs": [
     "--env-file", "${localWorkspaceFolder}/.env"
     ],

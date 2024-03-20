@@ -20,7 +20,9 @@ attrs==23.2.0
     #   jsonschema
     #   referencing
 babel==2.14.0
-    # via agate
+    # via
+    #   agate
+    #   mkdocs-material
 backoff==2.2.1
     # via gql
 certifi==2024.2.2
@@ -35,16 +37,25 @@ click==8.1.7
     #   dagster-webserver
     #   dbt-core
     #   dbt-semantic-interfaces
+    #   mkdocs
     #   typer
     #   uvicorn
+cmdstanpy==1.2.1
+    # via prophet
 colorama==0.4.6
-    # via dbt-core
+    # via
+    #   dbt-core
+    #   mkdocs-material
 coloredlogs==14.0
     # via dagster
 comm==0.2.2
     # via ipykernel
+contourpy==1.2.0
+    # via matplotlib
 croniter==2.0.2
     # via dagster
+cycler==0.12.1
+    # via matplotlib
 dagster==1.6.11
     # via
     #   dagster-dbt
@@ -82,8 +93,12 @@ duckdb==0.9.2
     #   dbt-duckdb
 executing==2.0.1
     # via stack-data
+fonttools==4.50.0
+    # via matplotlib
 fsspec==2024.2.0
     # via universal-pathlib
+ghp-import==2.1.0
+    # via mkdocs
 gql==3.5.0
     # via dagster-graphql
 graphene==3.3
@@ -105,6 +120,8 @@ grpcio-health-checking==1.62.1
     # via dagster
 h11==0.14.0
     # via uvicorn
+holidays==0.45
+    # via prophet
 httptools==0.6.1
     # via uvicorn
 humanfriendly==10.0
@@ -117,6 +134,8 @@ idna==3.6
     #   yarl
 importlib-metadata==6.11.0
     # via dbt-semantic-interfaces
+importlib-resources==6.3.2
+    # via prophet
 ipykernel==6.29.3
 ipython==8.22.2
     # via ipykernel
@@ -132,6 +151,8 @@ jinja2==3.1.3
     #   dagster-dbt
     #   dbt-core
     #   dbt-semantic-interfaces
+    #   mkdocs
+    #   mkdocs-material
 jsonschema==4.21.1
     # via
     #   dbt-core
@@ -144,28 +165,45 @@ jupyter-core==5.7.2
     # via
     #   ipykernel
     #   jupyter-client
+kiwisolver==1.4.5
+    # via matplotlib
 leather==0.4.0
     # via agate
 logbook==1.5.3
     # via dbt-core
 mako==1.3.2
     # via alembic
+markdown==3.6
+    # via
+    #   mkdocs
+    #   mkdocs-material
+    #   pymdown-extensions
 markdown-it-py==3.0.0
     # via rich
 markupsafe==2.1.5
     # via
     #   jinja2
     #   mako
+    #   mkdocs
 mashumaro==3.12
     # via dbt-core
+matplotlib==3.8.3
+    # via prophet
 matplotlib-inline==0.1.6
     # via
     #   ipykernel
     #   ipython
 mdurl==0.1.2
     # via markdown-it-py
+mergedeep==1.3.4
+    # via mkdocs
 minimal-snowplow-tracker==0.0.2
     # via dbt-core
+mkdocs==1.5.3
+    # via mkdocs-material
+mkdocs-material==9.5.14
+mkdocs-material-extensions==1.3.1
+    # via mkdocs-material
 more-itertools==10.2.0
     # via dbt-semantic-interfaces
 msgpack==1.0.8
@@ -179,7 +217,14 @@ networkx==3.2.1
     #   dagster-dbt
     #   dbt-core
 numpy==1.26.4
-    # via pandas
+    # via
+    #   cmdstanpy
+    #   contourpy
+    #   matplotlib
+    #   pandas
+    #   prophet
+    #   scipy
+    #   stanio
 orjson==3.9.15
     # via dagster-dbt
 packaging==24.0
@@ -188,22 +233,38 @@ packaging==24.0
     #   dagster-dbt
     #   dbt-core
     #   ipykernel
+    #   matplotlib
+    #   mkdocs
+    #   plotly
+paginate==0.5.6
+    # via mkdocs-material
 pandas==2.0.3
-    # via dagster-duckdb-pandas
+    # via
+    #   cmdstanpy
+    #   dagster-duckdb-pandas
+    #   prophet
 parsedatetime==2.6
     # via agate
 parso==0.8.3
     # via jedi
 pathspec==0.11.2
-    # via dbt-core
+    # via
+    #   dbt-core
+    #   mkdocs
 pendulum==3.0.0
     # via dagster
 pexpect==4.9.0
     # via ipython
+pillow==10.2.0
+    # via matplotlib
 platformdirs==4.2.0
-    # via jupyter-core
+    # via
+    #   jupyter-core
+    #   mkdocs
+plotly==5.20.0
 prompt-toolkit==3.0.43
     # via ipython
+prophet==1.1.5
 protobuf==4.25.3
     # via
     #   dagster
@@ -226,13 +287,21 @@ pydantic-core==2.16.3
 pygments==2.17.2
     # via
     #   ipython
+    #   mkdocs-material
     #   rich
+pymdown-extensions==10.7.1
+    # via mkdocs-material
+pyparsing==3.1.2
+    # via matplotlib
 python-dateutil==2.9.0.post0
     # via
     #   croniter
     #   dagster
     #   dbt-semantic-interfaces
+    #   ghp-import
+    #   holidays
     #   jupyter-client
+    #   matplotlib
     #   pandas
     #   pendulum
     #   time-machine
@@ -255,7 +324,12 @@ pyyaml==6.0.1
     #   dagster
     #   dbt-core
     #   dbt-semantic-interfaces
+    #   mkdocs
+    #   pymdown-extensions
+    #   pyyaml-env-tag
     #   uvicorn
+pyyaml-env-tag==0.1
+    # via mkdocs
 pyzmq==25.1.2
     # via
     #   ipykernel
@@ -264,6 +338,8 @@ referencing==0.33.0
     # via
     #   jsonschema
     #   jsonschema-specifications
+regex==2023.12.25
+    # via mkdocs-material
 requests==2.31.0
     # via
     #   dagster
@@ -272,6 +348,7 @@ requests==2.31.0
     #   dbt-core
     #   gql
     #   minimal-snowplow-tracker
+    #   mkdocs-material
     #   requests-toolbelt
 requests-toolbelt==1.0.0
     # via gql
@@ -283,6 +360,7 @@ rpds-py==0.18.0
     # via
     #   jsonschema
     #   referencing
+scipy==1.12.0
 setuptools==69.2.0
     # via dagster
 six==1.16.0
@@ -301,6 +379,8 @@ sqlparse==0.4.4
     # via dbt-core
 stack-data==0.6.3
     # via ipython
+stanio==0.3.0
+    # via cmdstanpy
 starlette==0.37.2
     # via
     #   dagster-graphql
@@ -309,6 +389,8 @@ structlog==24.1.0
     # via dagster
 tabulate==0.9.0
     # via dagster
+tenacity==8.2.3
+    # via plotly
 text-unidecode==1.3
     # via python-slugify
 time-machine==2.14.0
@@ -322,7 +404,10 @@ tornado==6.4
     #   ipykernel
     #   jupyter-client
 tqdm==4.66.2
-    # via dagster
+    # via
+    #   cmdstanpy
+    #   dagster
+    #   prophet
 traitlets==5.14.2
     # via
     #   comm
@@ -359,7 +444,9 @@ uvicorn==0.28.0
 uvloop==0.19.0
     # via uvicorn
 watchdog==4.0.0
-    # via dagster
+    # via
+    #   dagster
+    #   mkdocs
 watchfiles==0.21.0
     # via uvicorn
 wcwidth==0.2.13
@@ -370,7 +457,3 @@ yarl==1.9.4
     # via gql
 zipp==3.18.0
     # via importlib-metadata
-
-
-# For Documentation
-mkdocs-material

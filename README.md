@@ -29,8 +29,19 @@ The project is designed to be very simple but allow you the flexibility for you 
 ## Key features
 
 - seperation of business logic and i/o with dagster i/o manager
-- lineage
 - co pilot
+
+**Accelerate dbt Development**
+
+📓 some of the AI features require a API key from [Accelerate](https://www.altimate.ai/)
+
+[Full list of dbt accelerations from dbt power users](https://docs.myaltimate.com/)
+
+- build models, test, visualise iterate in vscode ![dbt-power-users](.github/static/dbt-power-users-test-and-vis-queries.gif)
+- Document data models with AI ![AI docs](.github/static/dbt-altimate-ai-documentation.gif)
+- Explore column level lineage and carry out impact analysis![lineage and impact analysis](.github/static/dbt-power-users-lineage-and-impact-analysis-column-lineage.gif)
+- Navigate data models ![Naviate data models](.github/static/dbt-power-users-quick-navigation.gif)
+- [Defer to prod](https://docs.myaltimate.com/test/defertoprod/) - dont copy accross all of the prod models into dev when you can simply reference them.
 
 
 

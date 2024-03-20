@@ -129,4 +129,5 @@ tasks:
   
   docs:
     desc: documentation static site generator with mkdocs 💣 Warning doesnt work with taskfile 🚧 TODO
-    cmds: mkdocs serve
+    cmds: 
+      - mkdocs serve

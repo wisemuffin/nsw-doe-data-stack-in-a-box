@@ -1,7 +1,7 @@
 semantic_models:
   - name: customers
     defaults:
-      agg_time_dimension: first_ordered
+      agg_time_dimension: first_order
     description: |
       Customer grain mart.
     model: ref('customers')
@@ -10,11 +10,11 @@ semantic_models:
         expr: customer_id
         type: primary
     dimensions:
-      - name: customer_first_name
+      - name: first_name
         type: categorical
-      - name: customer_last_name
+      - name: last_name
         type: categorical
-      - name: first_ordered
+      - name: first_order
         type: time
         type_params:
           time_granularity: day

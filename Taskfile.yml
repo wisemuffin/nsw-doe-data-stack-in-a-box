@@ -131,3 +131,8 @@ tasks:
     desc: documentation static site generator with mkdocs 💣 Warning doesnt work with taskfile 🚧 TODO
     cmds: 
       - mkdocs serve
+
+  mf_check:
+    desc: compiles dbt code then runs the metric flow checker
+    cmds: 
+      - cd dbt && dbt compile && mf validate-configs

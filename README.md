@@ -111,6 +111,9 @@ It offers a simple script to extract and load (EL) data from the [NSW Education 
   - also need to find way to stop process so can make changes whilst editing
 - DOE data
 
+🧱 Blocked
+- dbt power user lineage no metrics and saved queries. Currently can only do this in dbt cloud.
+
 🔙🪵backlog
 - local reporting (evidence)
 - limitation, when dbt model fails all downstream fails (i.e. if have depency on any other dbt table). To investigate.

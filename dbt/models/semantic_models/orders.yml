@@ -6,8 +6,9 @@ semantic_models:
       Order fact table. This table is at the order grain with one row per order.
     model: ref('orders')
     entities:
-      - name: order_id
+      - name: order
         type: primary
+        expr: order_id
       - name: customer
         type: foreign
         expr: customer_id
@@ -53,7 +54,7 @@ metrics:
     label: Order Total
     type_params:
       measure: orders
-  - name: orders
+  - name: orders_count
     description: Count of orders.
     label: Orders
     type: simple
@@ -68,10 +69,11 @@ saved_queries:
         metrics:
             - orders
         group_by:
-            - "Dimension('orders__status')"
+            - "Dimension('order__status')"
         where:
-            - "{{ Dimension('orders__order_date', 'DAY') }} <= now()"
-            - "{{ Dimension('orders__order_date', 'DAY') }} >= '2023-01-01'"
+            - "{{ Dimension('order__status') }} != 'Dave'"
+            # - "{{ Dimension('order__order_date', 'DAY') }} <= now()"
+        #     - "{{ Dimension('order__order_date', 'DAY') }} >= '2023-01-01'"
     exports:
         - name: my_export
           config:

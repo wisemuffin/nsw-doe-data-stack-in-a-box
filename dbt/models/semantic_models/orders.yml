@@ -1,0 +1,80 @@
+semantic_models:
+  - name: orders
+    defaults:
+      agg_time_dimension: ordered_date
+    description: |
+      Order fact table. This table is at the order grain with one row per order.
+    model: ref('orders')
+    entities:
+      - name: order_id
+        type: primary
+      - name: customer
+        type: foreign
+        expr: customer_id
+    dimensions:
+      - name: ordered_date
+        expr: ordered_date
+        type: time
+        type_params:
+          time_granularity: day
+      - name: status
+        type: categorical
+        expr: status
+    measures:
+      - name: orders
+        description: The total amount for each order including taxes.
+        agg: sum
+        expr: amount
+      - name: order_count
+        description: Distinct count of orders 
+        expr: order_id
+        agg: count_distinct
+      - name: order_average
+        description: The average value of orders.
+        expr: amount
+        agg: average
+      - name: p99_order_value
+        description: The 99th percentile order value
+        expr: amount
+        agg: percentile
+        agg_params:
+          percentile: .99
+          use_discrete_percentile: False #False will calculate the discrete percentile and True will calculate the continuous percentile
+      - name: order_median
+        description: The median order value
+        expr: amount
+        agg: median
+        
+
+    metrics:
+      - name: orders
+        description: Sum of total order amonunt. Includes tax + revenue.
+        type: simple
+        label: Order Total
+        type_params:
+          measure: amount
+      - name: orders
+        description: Count of orders.
+        label: Orders
+        type: simple
+        type_params:
+          measure: order_count
+
+  saved_queries:
+    - name: test_saved_query
+      description: test desc #"{{ doc('saved_query_description') }}"
+      label: Test saved query
+      query_params:
+          metrics:
+              - orders
+          group_by:
+              - "Dimension('status')"
+          where:
+              - "{{ Dimension('ordered_date', 'DAY') }} <= now()"
+              - "{{ Dimension('ordered_date', 'DAY') }} >= '2023-01-01'"
+      exports:
+          - name: my_export
+            config:
+              alias: my_export_alias
+              export_as: table
+              schema: my_export_schema_name

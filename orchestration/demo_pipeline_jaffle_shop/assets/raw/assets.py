@@ -15,8 +15,37 @@ def raw_customers_py() -> pd.DataFrame:
 
     return df
 
-@asset(compute_kind="python", key_prefix=["raw"], partitions_def=DailyPartitionsDefinition(start_date="2024-01-01"), metadata={"partition_expr": "order_date"},io_manager_key="io_manager_dw")
+@asset(compute_kind="python", key_prefix=["raw"],io_manager_key="io_manager_dw")
 def raw_orders_py(context: AssetExecutionContext) -> Union[pd.DataFrame,None]:
+    url = "https://raw.githubusercontent.com/dbt-labs/jaffle_shop/main/seeds/raw_orders.csv"
+    # input_dtype = {
+    #     'id': 'int64',
+    #     'user_id': 'int64',
+    #     # 'order_date': 'datetime64[ns]', # TypeError: the dtype datetime64 is not supported for parsing, pass this column using parse_dates instead
+    #     'status': 'string' 
+    # }
+    output_dtype = {
+        'id': 'int64',
+        'user_id': 'int64',
+        'order_date': 'datetime64[ns]',
+        'status': 'string', 
+        # '_load_datetime': 'datetime64[ns]',
+        '_source': 'string'
+    }
+    df = pd.read_csv(
+        url,
+        parse_dates=['order_date'] # TypeError: the dtype datetime64 is not supported for parsing, pass this column using parse_dates instead
+    )
+
+    # df['_load_timestamp'] = pd.Timestamp('now') # partions no longer working with load timestamp TODO
+    df['_source'] = url
+
+    df['order_date'] = df['order_date']  + pd.offsets.DateOffset(years=6)
+    return df
+
+    
+@asset(compute_kind="python", key_prefix=["raw"], partitions_def=DailyPartitionsDefinition(start_date="2024-01-01"), metadata={"partition_expr": "order_date"},io_manager_key="io_manager_dw")
+def raw_orders_partitioned_py(context: AssetExecutionContext) -> Union[pd.DataFrame,None]:
     url = "https://raw.githubusercontent.com/dbt-labs/jaffle_shop/main/seeds/raw_orders.csv"
     # input_dtype = {
     #     'id': 'int64',

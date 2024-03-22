@@ -6,14 +6,13 @@
     "ghcr.io/devcontainers/features/node:1": {},
 	"ghcr.io/devcontainers/features/docker-in-docker:2": {"moby":false},
 	"ghcr.io/eitsupi/devcontainer-features/duckdb-cli:1": {
-		// "version": "0.9.2",
+		"version": "0.10.1",
 		"extensions": "parquet"
 	},
 	"ghcr.io/eitsupi/devcontainer-features/go-task:1": {}
   },
   // Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "task setup",
-  // "postStartCommand": "task dag", // TODO will this mean the codesandbox stays open?
   "runArgs": [
     "--env-file", "${localWorkspaceFolder}/.env"
     ],
@@ -26,13 +25,6 @@
 		// "FILENAME": "jaffle_shop.duckdb"
 	},
   // Configure tool-specific properties
-
-// will try and get away with 2 cpus but maybe during dev have 4
-  "hostRequirements": {
-    "cpus": 4,
-    "memory": "16gb",
-    "storage": "32gb"
- }, 
   "customizations": {
     "vscode": {
       "settings": {
@@ -55,13 +47,13 @@
         "mechatroner.rainbow-csv",
         "evidence.evidence-vscode",
         "svelte.svelte-vscode",
-        // "GitHub.copilot",
-        // "GitHub.copilot-labs",
+        "GitHub.copilot",
+        "GitHub.copilot-labs",
         "innoverio.vscode-dbt-power-user",
         "bastienboutonnet.vscode-dbt",
         "eamodio.gitlens",
         "Evidence.sqltools-duckdb-driver",
-        "ms-toolsai.jupyter"
+        "Evidence.evidence-vscode"
       ]
     }
   }

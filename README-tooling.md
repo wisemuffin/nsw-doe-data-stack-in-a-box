@@ -1,5 +1,9 @@
 # Tooling
 
+# duckdb / motherduck
+
+- do you all remember what it was like having to worry about a trailing comma at the end of a select clause? asking for a friend
+
 ## Orchistration
 
 COMING SOON 🚧

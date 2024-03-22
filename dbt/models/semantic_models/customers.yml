@@ -1,0 +1,48 @@
+semantic_models:
+  - name: customers
+    defaults:
+      agg_time_dimension: first_ordered
+    description: |
+      Customer grain mart.
+    model: ref('customers')
+    entities:
+      - name: customer
+        expr: customer_id
+        type: primary
+    dimensions:
+      - name: customer_first_name
+        type: categorical
+      - name: customer_last_name
+        type: categorical
+      - name: first_ordered
+        type: time
+        type_params:
+          time_granularity: day
+      - name: most_recent_order
+        type: time
+        type_params:
+          time_granularity: day
+    measures:
+      - name: number_of_orders
+        description: Total count of orders per customer.
+        agg: sum
+      - name: customer_lifetime_value
+        agg: sum
+        description: Gross customer lifetime spend inclusive of taxes.
+
+metrics:
+  # Simple metrics
+  - name: number_of_orders
+    description: "Distict count of customers placing orders"
+    # owners:
+    #   - dave@wisemuffin.com
+    type: simple
+    label: Customers no. Orders
+    type_params:
+      measure: number_of_orders
+  - name: customer_lifetime_value
+    description: customer_lifetime_value
+    label: Customers Lifetime value
+    type: simple
+    type_params:
+      measure: customer_lifetime_value

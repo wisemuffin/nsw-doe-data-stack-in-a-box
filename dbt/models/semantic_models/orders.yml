@@ -61,22 +61,23 @@ metrics:
     type_params:
       measure: order_count
 
-saved_queries:
-  - name: test_saved_query
-    description: test desc
-    label: Test saved query
-    query_params:
-        metrics:
-            - orders
-        group_by:
-            - "Dimension('order__status')"
-        where:
-            - "{{ Dimension('order__status') }} != 'Dave'"
-            # - "{{ Dimension('order__order_date', 'DAY') }} <= now()"
-        #     - "{{ Dimension('order__order_date', 'DAY') }} >= '2023-01-01'"
-    exports:
-        - name: my_export
-          config:
-            alias: my_export_alias
-            export_as: table
-            schema: my_export_schema_name
+## saved queries node is causing issues with dagster 🚧 TODO
+# saved_queries:
+#   - name: test_saved_query
+#     description: test desc
+#     label: Test saved query
+#     query_params:
+#         metrics:
+#             - orders
+#         group_by:
+#             - "Dimension('order__status')"
+#         where:
+#             - "{{ Dimension('order__status') }} != 'Dave'"
+#             # - "{{ Dimension('order__order_date', 'DAY') }} <= now()"
+#         #     - "{{ Dimension('order__order_date', 'DAY') }} >= '2023-01-01'"
+#     exports:
+#         - name: my_export
+#           config:
+#             alias: my_export_alias
+#             export_as: table
+#             schema: my_export_schema_name

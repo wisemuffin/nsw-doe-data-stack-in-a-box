@@ -18,7 +18,7 @@ def model_func(x, a, b):
 @asset(
     compute_kind="python",
     # group_name="machine_learning_simple_forecast",
-    io_manager_key="io_manager_dw",
+    io_manager_key="io_manager",
     ins={"orders": AssetIn(key_prefix=["analytics"])},
 
 )
@@ -31,7 +31,7 @@ def simple_forecast_order_model(context, orders: pd.DataFrame) -> Any:
             f=model_func,
             xdata=df.order_date.astype(np.int64),
             ydata=df.amount,
-            p0=[10, 100],
+            # p0=[10, 100],
         )[0]
     )
 

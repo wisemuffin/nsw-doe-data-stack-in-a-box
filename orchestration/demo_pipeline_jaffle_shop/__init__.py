@@ -10,7 +10,7 @@ from dagster_duckdb_pandas import duckdb_pandas_io_manager, DuckDBPandasIOManage
 # from dagster_airbyte import airbyte_resource
 
 # from .assets import jaffle_shop_dbt_assets,raw_customers_py,raw_orders_py,raw_payments_py,iris_dataset,iris_dataset_test_to_remove #,csv_to_onelake_asset
-from .assets import other,raw,transformation,machine_learning
+from .assets import other,raw,transformation,machine_learning,demo_great_expecations
 from .constants import dbt_project_dir, duckdb_project_dir
 from .schedules import schedules
 
@@ -41,7 +41,7 @@ resources_by_env = {
     },
 }
 
-all_assets = [*load_assets_from_package_module(raw, group_name="jaffle_shop"), *load_assets_from_package_module(transformation, group_name="jaffle_shop"), *load_assets_from_package_module(other, group_name="other"), *load_assets_from_package_module(machine_learning, group_name="jaffle_shop")]
+all_assets = [ *load_assets_from_package_module(raw, group_name="jaffle_shop"), *load_assets_from_package_module(transformation, group_name="jaffle_shop"), *load_assets_from_package_module(other, group_name="other"), *load_assets_from_package_module(machine_learning, group_name="jaffle_shop"), *load_assets_from_package_module(demo_great_expecations, group_name="demo_great_expecations")]
 
 defs = Definitions(
     # assets=[raw_customers_py,raw_orders_py,raw_payments_py,iris_dataset,iris_dataset_test_to_remove,jaffle_shop_dbt_assets],

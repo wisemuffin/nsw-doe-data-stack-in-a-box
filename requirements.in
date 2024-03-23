@@ -1,5 +1,5 @@
 dbt-duckdb
-dbt-metricflow[duckdb]
+# dbt-metricflow[duckdb]
 
 dagster-webserver
 ipykernel
@@ -10,6 +10,9 @@ duckdb==0.10.1 #currently supported duckdb version for motherduck
 dagster-dbt
 dagster-duckdb
 dagster-duckdb-pandas
+dagster_ge
+great-expectations>=0.17.0
+
 
 prophet
 scipy

@@ -46,7 +46,6 @@ all_assets = [*load_assets_from_package_module(raw, group_name="jaffle_shop"), *
 defs = Definitions(
     # assets=[raw_customers_py,raw_orders_py,raw_payments_py,iris_dataset,iris_dataset_test_to_remove,jaffle_shop_dbt_assets],
     assets=all_assets,
-    # asset_checks=[raw.num_rows_is_within_two_standard_deviations],
     schedules=schedules,
     resources=resources_by_env[os.getenv("NSW_DOE_DATA_STACK_IN_A_BOX__ENV", "dev")],
 )

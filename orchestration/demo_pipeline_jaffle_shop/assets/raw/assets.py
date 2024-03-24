@@ -3,6 +3,8 @@ import pandas as pd
 from dagster import AssetCheckResult, AssetCheckSpec, AssetExecutionContext, AssetKey, DagsterEventType, EventRecordsFilter, Output, asset, DailyPartitionsDefinition, asset_check, file_relative_path
 from typing import Union
 
+from ._helper import calculate_column_stats_for_anomily_detection
+
 
 @asset(compute_kind="python", key_prefix=["raw"],io_manager_key="io_manager_dw", check_specs=[AssetCheckSpec(name="raw_customers_py_id_has_no_nulls", asset=AssetKey(['raw', 'raw_customers_py']))])
 def raw_customers_py():
@@ -15,27 +17,33 @@ def raw_customers_py():
     df['_source'] = url
 
     # return Output(df, metadata={"num_rows": df.shape[0]})
-
     yield Output(df, metadata={"num_rows": df.shape[0]})
 
-    # checks
+    # checks # example within asset
     count_nulls = df['id'].isna().sum()
     yield AssetCheckResult(passed=bool(count_nulls == 0))
 
-# @asset_check(asset=raw_customers_py)
-# def num_rows_is_within_two_standard_deviations(context: AssetExecutionContext):
-#     records = context.instance.get_event_records(
-#         EventRecordsFilter(DagsterEventType.ASSET_MATERIALIZATION, asset_key=AssetKey("raw_customers_py")),
-#         limit=11,
-#     )
 
-#     num_rows_values = [
-#         record.asset_materialization.metadata["num_rows"].value for record in records
-#     ]
-#     mean = statistics.mean(num_rows_values[:-1])
-#     stdev = statistics.stdev(num_rows_values[:-1])
+## dont think we can use this until we get paritioned asset checks
+# def num_rows_is_within_two_standard_deviations(df : pd.DataFrame, date_column: str):
+#     stats = calculate_column_stats_for_anomily_detection(df, column_name="",group_by_column="")
+#     return AssetCheckResult(passed=abs(stats.count - stats.mean) - 2 * stats.std)
 
-#     return AssetCheckResult(passed=abs(num_rows_values[-1] - mean) - 2 * stdev)
+# checks # example outside asset # downside is we need to add each one to definitions file
+@asset_check(asset=AssetKey(['raw', 'raw_customers_py']))
+def num_rows_is_within_two_standard_deviations(context: AssetExecutionContext):
+    records = context.instance.get_event_records(
+        EventRecordsFilter(DagsterEventType.ASSET_MATERIALIZATION, asset_key=AssetKey(['raw',"raw_customers_py"])),
+        limit=11,
+    )
+
+    num_rows_values = [
+        record.asset_materialization.metadata["num_rows"].value for record in records
+    ]
+    mean = statistics.mean(num_rows_values[:-1])
+    stdev = statistics.stdev(num_rows_values[:-1])
+
+    return AssetCheckResult(passed=abs(num_rows_values[-1] - mean) - 2 * stdev)
 
 # @asset_check(asset=raw_customers_py)
 # def no_null_event_ids(context: AssetExecutionContext, raw_customers_py):

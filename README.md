@@ -103,16 +103,19 @@ It offers a simple script to extract and load (EL) data from the [NSW Education 
 
 🚧working on
 
-- asset checks - dbt, and anomily detection
 - DOE data
 - evidence
 
 🧱 Blocked
+- asset checks - anomily detection 🌿 feature/asset-checks
+  - working on anomily detection. asset check in defintion file not supported yet in dagster
+  - 🧱 dagster version currently 1.6.11 but i need 1.6.13 for asset checks i think
 - dbt metrics via semantic layer using dbt cloud. 🧱 will need mother duck to accept v 0.10
 - dbt power user lineage no metrics and saved queries. Currently can only do this in dbt cloud.
 - motherduck not supported in dbt cloud yet.
 - dbt saved queries node is causing issues with dagster 🚧 TODO
 - dagster data quality - quarantine if fail asset checks. Currently no examples for this type of workflow.
+- dagster data quality - asset checks for partitions not supported yet
 
 🔙🪵backlog
 - dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this.
@@ -142,7 +145,7 @@ Limitations / hard to do 😢😭
 - auto start dagster in codespace and popup webserver but also want evidence-dev to also pop up?
   - "postStartCommand": "task dag" does this mean the codesandbox wont closed down?
   - also need to find way to stop process so can make changes whilst editing
-- great expecations
+- great expecations 🌿 feature/great-expectations
   - i really want to test with GE and use the quarantine pattern for data like in: https://youtu.be/wAayC-J9TsU?si=MYx_eG3ZOB_q_LDS
   - dagster isnt maintaining dagster_ge [🔗 link](https://github.com/dagster-io/dagster/blob/1.6.13/examples/with_great_expectations/README.md)
   - dagster seems to be more focused on asset checks. But i want to also handle quarantine data

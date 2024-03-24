@@ -1,10 +1,11 @@
+import statistics
 import pandas as pd
-from dagster import AssetExecutionContext, asset, DailyPartitionsDefinition, file_relative_path
+from dagster import AssetCheckResult, AssetCheckSpec, AssetExecutionContext, AssetKey, DagsterEventType, EventRecordsFilter, Output, asset, DailyPartitionsDefinition, asset_check, file_relative_path
 from typing import Union
 
 
-@asset(compute_kind="python", key_prefix=["raw"],io_manager_key="io_manager_dw")
-def raw_customers_py() -> pd.DataFrame:
+@asset(compute_kind="python", key_prefix=["raw"],io_manager_key="io_manager_dw", check_specs=[AssetCheckSpec(name="raw_customers_py_id_has_no_nulls", asset=AssetKey(['raw', 'raw_customers_py']))])
+def raw_customers_py():
     url = "https://raw.githubusercontent.com/dbt-labs/jaffle_shop/main/seeds/raw_customers.csv"
     df =pd.read_csv(
         url,
@@ -13,7 +14,33 @@ def raw_customers_py() -> pd.DataFrame:
     df['_load_timestamp'] = pd.Timestamp('now')
     df['_source'] = url
 
-    return df
+    # return Output(df, metadata={"num_rows": df.shape[0]})
+
+    yield Output(df, metadata={"num_rows": df.shape[0]})
+
+    # checks
+    count_nulls = df['id'].isna().sum()
+    yield AssetCheckResult(passed=bool(count_nulls == 0))
+
+# @asset_check(asset=raw_customers_py)
+# def num_rows_is_within_two_standard_deviations(context: AssetExecutionContext):
+#     records = context.instance.get_event_records(
+#         EventRecordsFilter(DagsterEventType.ASSET_MATERIALIZATION, asset_key=AssetKey("raw_customers_py")),
+#         limit=11,
+#     )
+
+#     num_rows_values = [
+#         record.asset_materialization.metadata["num_rows"].value for record in records
+#     ]
+#     mean = statistics.mean(num_rows_values[:-1])
+#     stdev = statistics.stdev(num_rows_values[:-1])
+
+#     return AssetCheckResult(passed=abs(num_rows_values[-1] - mean) - 2 * stdev)
+
+# @asset_check(asset=raw_customers_py)
+# def no_null_event_ids(context: AssetExecutionContext, raw_customers_py):
+#     count_nulls = raw_customers_py['id'].isna().sum()
+#     return AssetCheckResult(passed=count_nulls == 0)
 
 @asset(compute_kind="python", key_prefix=["raw"],io_manager_key="io_manager_dw")
 def raw_orders_py(context: AssetExecutionContext) -> Union[pd.DataFrame,None]:

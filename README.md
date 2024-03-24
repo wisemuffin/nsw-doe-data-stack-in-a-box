@@ -102,19 +102,20 @@ It offers a simple script to extract and load (EL) data from the [NSW Education 
 ## Todo
 
 🚧working on
-- example metrics layer - saved queries vs exports
-- machine learning - e.g. facebook prophecy
-- why cant i preview markdown anymore?
-- raw_orders_py fails when first run contains no data thus data types are all int. Then next partition with data will fail. Not a show stopper. Maybe just get a dataset with data every day to avoid this?
-- auto start dagster in codespace and popup webserver but also want evidence-dev to also pop up?
-  - "postStartCommand": "task dag" does this mean the codesandbox wont closed down?
-  - also need to find way to stop process so can make changes whilst editing
+
+- asset checks - dbt, and anomily detection
 - DOE data
+- evidence
 
 🧱 Blocked
+- dbt metrics via semantic layer using dbt cloud. 🧱 will need mother duck to accept v 0.10
 - dbt power user lineage no metrics and saved queries. Currently can only do this in dbt cloud.
+- motherduck not supported in dbt cloud yet.
+- dbt saved queries node is causing issues with dagster 🚧 TODO
+- dagster data quality - quarantine if fail asset checks. Currently no examples for this type of workflow.
 
 🔙🪵backlog
+- dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this.
 - local reporting (evidence)
 - limitation, when dbt model fails all downstream fails (i.e. if have depency on any other dbt table). To investigate.
 - Motherduck upgrade to 0.10.X eta end of march
@@ -130,18 +131,32 @@ It offers a simple script to extract and load (EL) data from the [NSW Education 
 - docs on taskfile
 - docs on dbt power users for vscode
 - setup linting and formating with black
+- update jaffle shop?
 
-Limitations 😢😭
+Limitations / hard to do 😢😭
+- why cant i preview markdown anymore?
 - python package manager uv is so much faster but cant use in taskfile. Explore this some more
 - dynamic check for dbt's manifest.json not working. For now will always parse dbt project.
 - duckdb locks from different processes. Think this is solved in duckdb 0.10.0?
 - pandas to duckdb io manager (see notes in jaffle shop raw_orders_py when recieves empty df then it wont use the dtypes from dataframe when building db objects. i.e. strings are getting convereted to int32...
-
+- auto start dagster in codespace and popup webserver but also want evidence-dev to also pop up?
+  - "postStartCommand": "task dag" does this mean the codesandbox wont closed down?
+  - also need to find way to stop process so can make changes whilst editing
+- great expecations
+  - i really want to test with GE and use the quarantine pattern for data like in: https://youtu.be/wAayC-J9TsU?si=MYx_eG3ZOB_q_LDS
+  - dagster isnt maintaining dagster_ge [🔗 link](https://github.com/dagster-io/dagster/blob/1.6.13/examples/with_great_expectations/README.md)
+  - dagster seems to be more focused on asset checks. But i want to also handle quarantine data
+  - some issues with dagster and GE to solve
+    - need to remove dbt-metricflow[duckdb] to get great expecations to work for now. **Error** because you require dbt-metricflow[duckdb] and you require great-expectations>=0.17.0, we can conclude that the requirements are unsatisfiable.
+    - need to setup dagster test suite
 
 Fixes
+- machine learning - e.g. facebook prophecy
 - failing partitions when nothing returned by df
 - dagster auto start container
 - duckdb_pandas_io_manager is legacy and should be replaced by  DuckDBPandasIOManager but currently getting duckdb locks so trying to figure out what caused this
+- example metrics layer - saved queries vs exports
+
 
 ## Contributing
 

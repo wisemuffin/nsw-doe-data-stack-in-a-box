@@ -13,7 +13,9 @@
   },
   // Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "task setup",
-  "postCreateCommand": "task setup && task dag && task evidence_setup && task evidence ",
+  // cant get evidence to start in seperate process yet! cuyrrently stops when running dagit
+  // "postCreateCommand": "task setup && task dag && task evidence_setup && task evidence ",
+  "postCreateCommand": "task setup && task dag ",
   "runArgs": [
     "--env-file", "${localWorkspaceFolder}/.env"
     ],

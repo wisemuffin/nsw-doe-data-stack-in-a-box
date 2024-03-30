@@ -4,16 +4,22 @@ dbt-metricflow[duckdb]
 dagster-webserver
 ipykernel
 
-duckdb==0.10.1 #currently supported duckdb version for motherduck
+duckdb==0.10.1 #currently not supported duckdb version for motherduck
 
 # dagster deps
 dagster-dbt
 dagster-duckdb
 dagster-duckdb-pandas
 
+dagstermill
+papermill-origami>=0.0.8
+
 prophet
 scipy
 plotly
+
+seaborn
+scikit-learn
 
 
 # For Documentation

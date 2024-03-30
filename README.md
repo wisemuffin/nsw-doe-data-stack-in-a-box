@@ -64,9 +64,23 @@ Just create a python pandas dataframe and put that logic into the orchistrator d
 > [!WARNING]  
 > Pandas will only scale so far. But for +95% of the work we do at NSW DOE analytics its probably enough.
 
+
+Data Wrangler
+Exploritory analysis
+cleaning - string from example 
+Dont need to memorise Pandas API. Drag and dops converts to Pandas 🐼
+
+![Data Wangler](.github/static/data-wrangler.gif)
+
+
 **testing**
 
-🚧
+dagster asset checks
+dbt tests
+piplines should master metadata including tests...
+
+🚧 anomily detection
+🚧 schema validation
 
 **debugging**
 
@@ -102,11 +116,11 @@ It offers a simple script to extract and load (EL) data from the [NSW Education 
 ## Todo
 
 🚧working on
-
-- DOE data
 - evidence
+- DOE data
 
 🧱 Blocked
+- using jupyter notebooks as upstream data transformations in dagster as assets (all good if they are the last part of the dag). Keen an eye on this [thread](https://github.com/dagster-io/dagster/issues/10557). Also note its possible to do with Ops just not Assets yet for example `AssetsDefinition.from_op(my_asset_name)`
 - asset checks - anomily detection 🌿 feature/asset-checks
   - working on anomily detection. asset check in defintion file not supported yet in dagster
   - 🧱 dagster version currently 1.6.11 but i need 1.6.13 for asset checks i think
@@ -118,6 +132,7 @@ It offers a simple script to extract and load (EL) data from the [NSW Education 
 - dagster data quality - asset checks for partitions not supported yet
 
 🔙🪵backlog
+- change all gif to be NSW based
 - dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this.
 - local reporting (evidence)
 - limitation, when dbt model fails all downstream fails (i.e. if have depency on any other dbt table). To investigate.

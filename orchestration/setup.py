@@ -8,11 +8,14 @@ setup(
         "dagster",
         "dagster-cloud",
         "dagster-dbt",
+        "dagstermill",
+        "papermill-origami>=0.0.8",
         "pandas"
     ],
     extras_require={
         "dev": [
             "dagster-webserver",
+            "pytest"
         ]
     },
 )

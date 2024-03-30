@@ -53,7 +53,8 @@
         "bastienboutonnet.vscode-dbt",
         "eamodio.gitlens",
         "Evidence.sqltools-duckdb-driver",
-        "Evidence.evidence-vscode"
+        "Evidence.evidence-vscode",
+        "ms-toolsai.datawrangler"
       ]
     }
   }

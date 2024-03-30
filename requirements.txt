@@ -9,6 +9,7 @@ aniso8601==9.0.1
 anyio==4.3.0
     # via
     #   gql
+    #   httpx
     #   starlette
     #   watchfiles
 asttokens==2.4.1
@@ -22,11 +23,24 @@ babel==2.14.0
     #   agate
     #   mkdocs-material
 backoff==2.2.1
-    # via gql
+    # via
+    #   gql
+    #   noteable-origami
+beautifulsoup4==4.12.3
+    # via nbconvert
+bitmath==1.3.3.1
+    # via noteable-origami
+bleach==6.1.0
+    # via nbconvert
 certifi==2024.2.2
-    # via requests
+    # via
+    #   httpcore
+    #   httpx
+    #   requests
 cffi==1.16.0
-    # via dbt-core
+    # via
+    #   cryptography
+    #   dbt-core
 charset-normalizer==3.3.2
     # via requests
 click==8.1.7
@@ -37,8 +51,11 @@ click==8.1.7
     #   dbt-semantic-interfaces
     #   metricflow
     #   mkdocs
+    #   papermill
     #   typer
     #   uvicorn
+cloudpickle==2.2.1
+    # via papermill-origami
 cmdstanpy==1.2.1
     # via prophet
 colorama==0.4.6
@@ -55,6 +72,10 @@ contourpy==1.2.0
     # via matplotlib
 croniter==2.0.2
     # via dagster
+cryptography==42.0.5
+    # via
+    #   jwt
+    #   noteable-origami
 cycler==0.12.1
     # via matplotlib
 dagster==1.6.11
@@ -64,6 +85,7 @@ dagster==1.6.11
     #   dagster-duckdb-pandas
     #   dagster-graphql
     #   dagster-webserver
+    #   dagstermill
 dagster-dbt==0.22.11
 dagster-duckdb==0.22.11
     # via dagster-duckdb-pandas
@@ -73,6 +95,7 @@ dagster-graphql==1.6.11
 dagster-pipes==1.6.11
     # via dagster
 dagster-webserver==1.6.11
+dagstermill==0.22.11
 dbt-core==1.7.9
     # via
     #   dagster-dbt
@@ -92,14 +115,24 @@ debugpy==1.8.1
     # via ipykernel
 decorator==5.1.1
     # via ipython
+defusedxml==0.7.1
+    # via nbconvert
+diff-match-patch==20200713
+    # via noteable-origami
 docstring-parser==0.15
     # via dagster
 duckdb==0.10.1
     # via
     #   dagster-duckdb
     #   dbt-duckdb
+entrypoints==0.4
+    # via
+    #   jupyter-client
+    #   papermill
 executing==2.0.1
     # via stack-data
+fastjsonschema==2.19.1
+    # via nbformat
 fonttools==4.50.0
     # via matplotlib
 fsspec==2024.2.0
@@ -128,19 +161,26 @@ grpcio==1.62.1
 grpcio-health-checking==1.62.1
     # via dagster
 h11==0.14.0
-    # via uvicorn
+    # via
+    #   httpcore
+    #   uvicorn
 halo==0.0.31
     # via metricflow
 holidays==0.45
     # via prophet
+httpcore==1.0.5
+    # via httpx
 httptools==0.6.1
     # via uvicorn
+httpx==0.27.0
+    # via noteable-origami
 humanfriendly==10.0
     # via coloredlogs
 idna==3.6
     # via
     #   anyio
     #   dbt-core
+    #   httpx
     #   requests
     #   yarl
 importlib-metadata==6.11.0
@@ -148,8 +188,13 @@ importlib-metadata==6.11.0
 importlib-resources==6.3.2
     # via prophet
 ipykernel==6.29.3
+    # via dagstermill
 ipython==8.22.2
-    # via ipykernel
+    # via
+    #   ipykernel
+    #   scrapbook
+ipython-genutils==0.2.0
+    # via dagstermill
 isodate==0.6.1
     # via
     #   agate
@@ -165,18 +210,33 @@ jinja2==3.1.3
     #   metricflow
     #   mkdocs
     #   mkdocs-material
+    #   nbconvert
+joblib==1.3.2
+    # via scikit-learn
 jsonschema==4.21.1
     # via
     #   dbt-core
     #   dbt-semantic-interfaces
+    #   nbformat
+    #   scrapbook
 jsonschema-specifications==2023.12.1
     # via jsonschema
-jupyter-client==8.6.1
-    # via ipykernel
+jupyter-client==7.4.9
+    # via
+    #   dagstermill
+    #   ipykernel
+    #   nbclient
 jupyter-core==5.7.2
     # via
     #   ipykernel
     #   jupyter-client
+    #   nbclient
+    #   nbconvert
+    #   nbformat
+jupyterlab-pygments==0.3.0
+    # via nbconvert
+jwt==1.3.1
+    # via noteable-origami
 kiwisolver==1.4.5
     # via matplotlib
 leather==0.4.0
@@ -199,10 +259,13 @@ markupsafe==2.1.5
     #   jinja2
     #   mako
     #   mkdocs
+    #   nbconvert
 mashumaro==3.12
     # via dbt-core
 matplotlib==3.8.3
-    # via prophet
+    # via
+    #   prophet
+    #   seaborn
 matplotlib-inline==0.1.6
     # via
     #   ipykernel
@@ -215,6 +278,8 @@ metricflow==0.205.0
     # via dbt-metricflow
 minimal-snowplow-tracker==0.0.2
     # via dbt-core
+mistune==3.0.2
+    # via nbconvert
 mkdocs==1.5.3
     # via mkdocs-material
 mkdocs-material==9.5.14
@@ -228,12 +293,28 @@ msgpack==1.0.8
     # via mashumaro
 multidict==6.0.5
     # via yarl
+nbclient==0.10.0
+    # via
+    #   nbconvert
+    #   papermill
+nbconvert==7.16.3
+    # via dagstermill
+nbformat==5.10.3
+    # via
+    #   nbclient
+    #   nbconvert
+    #   noteable-origami
+    #   papermill
 nest-asyncio==1.6.0
-    # via ipykernel
+    # via
+    #   ipykernel
+    #   jupyter-client
 networkx==3.2.1
     # via
     #   dagster-dbt
     #   dbt-core
+noteable-origami==0.0.35
+    # via papermill-origami
 numpy==1.26.4
     # via
     #   cmdstanpy
@@ -241,18 +322,25 @@ numpy==1.26.4
     #   matplotlib
     #   pandas
     #   prophet
+    #   pyarrow
+    #   scikit-learn
     #   scipy
+    #   seaborn
     #   stanio
 orjson==3.9.15
-    # via dagster-dbt
+    # via
+    #   dagster-dbt
+    #   noteable-origami
 packaging==24.0
     # via
     #   dagster
     #   dagster-dbt
+    #   dagstermill
     #   dbt-core
     #   ipykernel
     #   matplotlib
     #   mkdocs
+    #   nbconvert
     #   plotly
 paginate==0.5.6
     # via mkdocs-material
@@ -262,6 +350,16 @@ pandas==1.5.3
     #   dagster-duckdb-pandas
     #   metricflow
     #   prophet
+    #   scrapbook
+    #   seaborn
+pandocfilters==1.5.1
+    # via nbconvert
+papermill==2.5.0
+    # via
+    #   dagstermill
+    #   papermill-origami
+    #   scrapbook
+papermill-origami==0.0.30
 parsedatetime==2.6
     # via agate
 parso==0.8.3
@@ -295,6 +393,8 @@ ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.2
     # via stack-data
+pyarrow==15.0.2
+    # via scrapbook
 pycparser==2.21
     # via cffi
 pydantic==1.10.14
@@ -302,10 +402,12 @@ pydantic==1.10.14
     #   dagster
     #   dbt-semantic-interfaces
     #   metricflow
+    #   noteable-origami
 pygments==2.17.2
     # via
     #   ipython
     #   mkdocs-material
+    #   nbconvert
     #   rich
 pymdown-extensions==10.7.1
     # via mkdocs-material
@@ -345,6 +447,7 @@ pyyaml==6.0.1
     #   dbt-semantic-interfaces
     #   metricflow
     #   mkdocs
+    #   papermill
     #   pymdown-extensions
     #   pyyaml-env-tag
     #   uvicorn
@@ -371,6 +474,7 @@ requests==2.31.0
     #   gql
     #   minimal-snowplow-tracker
     #   mkdocs-material
+    #   papermill
     #   requests-toolbelt
     #   update-checker
 requests-toolbelt==1.0.0
@@ -387,18 +491,30 @@ ruamel-yaml==0.17.40
     # via metricflow
 ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
+scikit-learn==1.4.1.post1
 scipy==1.12.0
+    # via scikit-learn
+scrapbook==0.5.0
+    # via dagstermill
+seaborn==0.13.2
+sending==0.3.0
+    # via noteable-origami
 setuptools==69.2.0
     # via dagster
 six==1.16.0
     # via
     #   asttokens
+    #   bleach
     #   halo
     #   isodate
     #   minimal-snowplow-tracker
     #   python-dateutil
 sniffio==1.3.1
-    # via anyio
+    # via
+    #   anyio
+    #   httpx
+soupsieve==2.5
+    # via beautifulsoup4
 spinners==0.0.24
     # via halo
 sqlalchemy==2.0.28
@@ -415,20 +531,28 @@ starlette==0.37.2
     # via
     #   dagster-graphql
     #   dagster-webserver
-structlog==24.1.0
-    # via dagster
+structlog==22.3.0
+    # via
+    #   dagster
+    #   noteable-origami
 tabulate==0.9.0
     # via
     #   dagster
     #   metricflow
 tenacity==8.2.3
-    # via plotly
+    # via
+    #   papermill
+    #   plotly
 termcolor==2.4.0
     # via halo
 text-unidecode==1.3
     # via python-slugify
+threadpoolctl==3.4.0
+    # via scikit-learn
 time-machine==2.14.0
     # via pendulum
+tinycss2==1.2.1
+    # via nbconvert
 tomli==2.0.1
     # via dagster
 toposort==1.10
@@ -441,6 +565,7 @@ tqdm==4.66.2
     # via
     #   cmdstanpy
     #   dagster
+    #   papermill
     #   prophet
 traitlets==5.14.2
     # via
@@ -450,6 +575,9 @@ traitlets==5.14.2
     #   jupyter-client
     #   jupyter-core
     #   matplotlib-inline
+    #   nbclient
+    #   nbconvert
+    #   nbformat
 typer==0.9.0
     # via dagster-dbt
 typing-extensions==4.10.0
@@ -485,8 +613,14 @@ watchfiles==0.21.0
     # via uvicorn
 wcwidth==0.2.13
     # via prompt-toolkit
+webencodings==0.5.1
+    # via
+    #   bleach
+    #   tinycss2
 websockets==12.0
-    # via uvicorn
+    # via
+    #   noteable-origami
+    #   uvicorn
 yarl==1.9.4
     # via gql
 zipp==3.18.0

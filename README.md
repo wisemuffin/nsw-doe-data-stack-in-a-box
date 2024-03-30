@@ -119,6 +119,10 @@ It offers a simple script to extract and load (EL) data from the [NSW Education 
 - evidence
 - DOE data
 
+- auto start dagster in codespace and popup webserver but also want evidence-dev to also pop up?
+  - "postStartCommand": "task dag" does this mean the codesandbox wont closed down?
+  - also need to find way to stop process so can make changes whilst editing
+
 🧱 Blocked
 - using jupyter notebooks as upstream data transformations in dagster as assets (all good if they are the last part of the dag). Keen an eye on this [thread](https://github.com/dagster-io/dagster/issues/10557). Also note its possible to do with Ops just not Assets yet for example `AssetsDefinition.from_op(my_asset_name)`
 - asset checks - anomily detection 🌿 feature/asset-checks
@@ -157,9 +161,6 @@ Limitations / hard to do 😢😭
 - dynamic check for dbt's manifest.json not working. For now will always parse dbt project.
 - duckdb locks from different processes. Think this is solved in duckdb 0.10.0?
 - pandas to duckdb io manager (see notes in jaffle shop raw_orders_py when recieves empty df then it wont use the dtypes from dataframe when building db objects. i.e. strings are getting convereted to int32...
-- auto start dagster in codespace and popup webserver but also want evidence-dev to also pop up?
-  - "postStartCommand": "task dag" does this mean the codesandbox wont closed down?
-  - also need to find way to stop process so can make changes whilst editing
 - great expecations 🌿 feature/great-expectations
   - i really want to test with GE and use the quarantine pattern for data like in: https://youtu.be/wAayC-J9TsU?si=MYx_eG3ZOB_q_LDS
   - dagster isnt maintaining dagster_ge [🔗 link](https://github.com/dagster-io/dagster/blob/1.6.13/examples/with_great_expectations/README.md)

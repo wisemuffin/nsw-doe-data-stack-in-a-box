@@ -12,7 +12,8 @@
 	"ghcr.io/eitsupi/devcontainer-features/go-task:1": {}
   },
   // Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "task setup",
+	// "postCreateCommand": "task setup",
+  "postCreateCommand": "task setup && task dag && task evidence_setup && task evidence ",
   "runArgs": [
     "--env-file", "${localWorkspaceFolder}/.env"
     ],

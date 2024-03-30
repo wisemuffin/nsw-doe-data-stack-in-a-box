@@ -100,7 +100,7 @@ tasks:
       - npm --prefix ./reports run dev
   evidence:
     cmds:
-      - npm --prefix ./reports run dev
+      - npm --prefix ./reports run dev && simple-browser show http://localhost:3001/
 
   dbtdoc:
     cmds:
@@ -112,7 +112,7 @@ tasks:
 
   dag:
     cmds:
-      - cd orchestration && DAGSTER_DBT_PARSE_PROJECT_ON_LOAD=1 && export DAGSTER_HOME="/workspaces/nsw-doe-data-stack-in-a-box/orchestration/dagster-local-file-store/"$NSW_DOE_DATA_STACK_IN_A_BOX__ENV && dagster dev
+      - cd orchestration && DAGSTER_DBT_PARSE_PROJECT_ON_LOAD=1 && export DAGSTER_HOME="/workspaces/nsw-doe-data-stack-in-a-box/orchestration/dagster-local-file-store/"$NSW_DOE_DATA_STACK_IN_A_BOX__ENV && dagster dev && simple-browser show http://localhost:3000/
   dag_local:
     desc: limitation DAGSTER_HOME cant be dynamic 🥹
     cmds:

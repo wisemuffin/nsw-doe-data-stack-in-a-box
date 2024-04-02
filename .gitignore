@@ -12,3 +12,5 @@ tmp*/
 README-secret.md
 
 *.duckdb*
+
+dbt/exports/*.csv

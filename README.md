@@ -117,11 +117,12 @@ It offers a simple script to extract and load (EL) data from the [NSW Education 
 
 🚧working on
 - evidence
+- metric flow can store metric results in csv then load then back into duckdb each day with `mf query --metrics orders --csv ./dave.csv` not ideal but dbt doesnt expose serice layer or APIs. Workaround is Create and run Exports to save metrics queries as tables in your data platform via the CSV generated above.
+  - 🧱 first un comment the saved query then run `mf query --saved-query new_customer_orders --csv ./dave-saved-query.csv`. saved query currently not working with dagster.
+  - need to then load into duckdb. Could use CLI then take file, load into dataframe then load into duckdb.
+- dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this. Can use Pandera
 - DOE data
 
-- auto start dagster in codespace and popup webserver but also want evidence-dev to also pop up?
-  - "postStartCommand": "task dag" does this mean the codesandbox wont closed down?
-  - also need to find way to stop process so can make changes whilst editing
 
 🧱 Blocked
 - using jupyter notebooks as upstream data transformations in dagster as assets (all good if they are the last part of the dag). Keen an eye on this [thread](https://github.com/dagster-io/dagster/issues/10557). Also note its possible to do with Ops just not Assets yet for example `AssetsDefinition.from_op(my_asset_name)`
@@ -135,28 +136,27 @@ It offers a simple script to extract and load (EL) data from the [NSW Education 
 - dagster data quality - quarantine if fail asset checks. Currently no examples for this type of workflow.
 - dagster data quality - asset checks for partitions not supported yet
 
+
 🔙🪵backlog
 - change all gif to be NSW based
-- dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this.
-- local reporting (evidence)
 - limitation, when dbt model fails all downstream fails (i.e. if have depency on any other dbt table). To investigate.
 - Motherduck upgrade to 0.10.X eta end of march
   - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
   - this will also fix issue around lock on database when connected via sql tools then try and do etl...
   - backwards compatability
 - speed up codespace by using uv as a python package manager
-- dbt tests in dagster
 - cube.dev
 - deployment CICD
 - architecture diagram use https://excalidraw.com/
-- for sources show then with python key in dagster dag
 - docs on taskfile
-- docs on dbt power users for vscode
-- setup linting and formating with black
-- update jaffle shop?
+- setup linting and formating with black - user Ruff
 
 Limitations / hard to do 😢😭
 - why cant i preview markdown anymore?
+- auto start dagster in codespace and popup webserver but also want evidence-dev to also pop up?
+  - "postStartCommand": "task dag" does this mean the codesandbox wont closed down?
+  - "postStartCommand": evidence steps dont run due to dagit runs continiously
+  - for now will just click on forwarded ports
 - python package manager uv is so much faster but cant use in taskfile. Explore this some more
 - dynamic check for dbt's manifest.json not working. For now will always parse dbt project.
 - duckdb locks from different processes. Think this is solved in duckdb 0.10.0?
@@ -176,6 +176,12 @@ Fixes
 - duckdb_pandas_io_manager is legacy and should be replaced by  DuckDBPandasIOManager but currently getting duckdb locks so trying to figure out what caused this
 - example metrics layer - saved queries vs exports
 
+Learnings 🚧
+- python venvs bin and lib folders. bin has executables e.g. cli. With dbt_metricflow we can run `python -m dbt_metricflow.cli.main list metrics` or `python -m dbt.cli.main --help` as the main.py has a `if __name__ = '__main':`
+  - this allows us to run our executables as either python modules for debuging. For CICD just install the CLI.
+- uv python currently doesnt seem to have the correct python location when activating the venv for the first time. I had to deactive then re activate again to solve it.
+- dagster dbt doesnt like saved queries. As a work around have to remove via selection e.g. '@dbt_assets(..., exclude="*saved_query")'
+- dagster assets can set deps instead of loading in a asset via io to make a dependancy
 
 ## Contributing
 

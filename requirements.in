@@ -14,6 +14,9 @@ dagster-duckdb-pandas
 dagstermill
 papermill-origami>=0.0.8
 
+# required for pandas to read excel for acara data
+openpyxl
+
 prophet
 scipy
 plotly

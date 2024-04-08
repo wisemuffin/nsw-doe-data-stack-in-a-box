@@ -11,7 +11,7 @@ from dagster_dbt import DbtCliResource
 # dbt_project_dir = Path(__file__).joinpath(home, "cese-dai-analytics", "dbt").resolve()
 
 
-dbt_project_dir = Path(__file__).joinpath("..", "..", "..", "transformation", "demo_transformation_jaffle_shop").resolve()
+dbt_project_dir = Path(__file__).joinpath("..", "..", "..", "transformation","transformation_nsw_doe").resolve()
 duckdb_project_dir = Path(__file__).joinpath("..", "..", "..", "reports").resolve()
 dbt = DbtCliResource(project_dir=os.fspath(dbt_project_dir))
 

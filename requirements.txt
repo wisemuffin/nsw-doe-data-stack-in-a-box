@@ -129,6 +129,8 @@ entrypoints==0.4
     # via
     #   jupyter-client
     #   papermill
+et-xmlfile==1.1.0
+    # via openpyxl
 executing==2.0.1
     # via stack-data
 fastjsonschema==2.19.1
@@ -327,6 +329,7 @@ numpy==1.26.4
     #   scipy
     #   seaborn
     #   stanio
+openpyxl==3.1.2
 orjson==3.9.15
     # via
     #   dagster-dbt

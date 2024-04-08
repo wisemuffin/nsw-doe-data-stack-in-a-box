@@ -1,10 +1,17 @@
 load_from:
   # Each entry here corresponds to a service in the docker-compose file that exposes user code.
-  - grpc_server:
-      host: demo_pipeline_jaffle_shop
-      port: 4001
-      location_name: "demo_pipeline_jaffle_shop"
-  - grpc_server:
-      host: demo_pipeline_y
-      port: 4002
-      location_name: "demo_pipeline_y"
+#   - grpc_server:
+#       host: demo_pipeline_jaffle_shop
+#       port: 4001
+#       location_name: "demo_pipeline_jaffle_shop"
+#   - grpc_server:
+#       host: demo_pipeline_y
+#       port: 4002
+#       location_name: "demo_pipeline_y"
+#   - grpc_server:
+#       host: pipeline_nsw_doe
+#       port: 4003
+#       location_name: "pipeline_nsw_doe"
+    - python_module: pipeline_nsw_doe
+    - python_module: demo_pipeline_jaffle_shop
+    # - python_module: demo_pipeline_y

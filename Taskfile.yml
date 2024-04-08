@@ -19,14 +19,18 @@ tasks:
       - uv venv && source .venv/bin/activate && uv pip install -r requirements.txt 
       # - python -m pip install --progress-bar off -r requirements.txt
       # - pip install -r requirements.txt 
-      - cd dbt && dbt deps
+      - cd transformation/transformation_nsw_doe && dbt deps
+      - cd transformation/demo_transformation_jaffle_shop && dbt deps
   python_deps_devcontainer:
     desc: Limitation with taskfile cant use vertial envs. So cant use UV
     cmds:
       - pip install -r requirements.txt 
-      - cd dbt && dbt deps
+      - cd transformation/transformation_nsw_doe && dbt deps
       # workaround as cant get dynamic manifest.json to build
-      - cd dbt && dbt parse 
+      - cd transformation/transformation_nsw_doe && dbt parse 
+
+      - cd transformation/demo_transformation_jaffle_shop && dbt deps
+      - cd transformation/demo_transformation_jaffle_shop && dbt parse
 
 
   node_deps:

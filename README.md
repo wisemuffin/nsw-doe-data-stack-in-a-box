@@ -1,10 +1,12 @@
-![NSW Department of Education logo](.github/static/nsw-doe.png)
+<!-- ![NSW Department of Education logo](.github/static/nsw-doe.png) -->
 
-# Welcome to NSW Department of Educatio data stack in a box 🏫
+<img src=".github/static/nsw-doe.png" width="150" >
+
+# Welcome to New South Wales Department of Education (NSW DOE) data stack in a box
 
 🚧 ![CI Checks](https://github.com/gwenwindflower/octocatalog/actions/workflows/ci.yml/badge.svg) 
 
-This is an open-source, open-data data-stack-in-a-box based data from [NSW Education Data Hub](https://data.cese.nsw.gov.au/). With the push of one button you can have your own data stack!
+This is an data-stack-in-a-box based data from [NSW Education Data Hub](https://data.cese.nsw.gov.au/). With the push of one button you can have your own data stack!
 
 > [!IMPORTANT]  
 > Click below 👇🏼 to setup your own free data stack packed with [NSW Department of Education](https://education.nsw.gov.au/) data.
@@ -17,8 +19,8 @@ This is an open-source, open-data data-stack-in-a-box based data from [NSW Educa
 2)	Level up our data stack by demoing features in the data stack that we are lacking or need to improve in [NSW Department of Education](https://education.nsw.gov.au/). These demos will start the conversation on what features we want to prioritise.
 
 ## Principals
-Simple one button click setting you up with your own blazingly fast data stack
-Completely free 💲💲💲. 
+Simple one button click, that sets you up with your own blazingly fast data stack
+`completely free` 💲💲💲. 
 
 ## Audience
 The project is designed to be very simple but allow you the flexibility for you to go as deep you like!
@@ -27,9 +29,31 @@ The project is designed to be very simple but allow you the flexibility for you 
 - **Love DevOps and platform engineering?** Check out our Orchestration, CICD pipelines, and automation such as linting, data diffs ect.
 
 
-## Datasets
 
-🚧 TODO
+## Overview of Project (Architecture) 🥨
+
+![Data Architecture](.github/static/architecture.png)
+
+
+> ![Info] We are simply going to extract data from the [NSW Education Data Hub](https://data.cese.nsw.gov.au/) and load it into our in memory data warehouse 🦆, model, clean, and analyse our data.
+
+
+> [!WARNING]  
+> The datasets from ACARA and NSW DOE are based on static urls. These URLs will break 💣 in the future. I will try to keep an eye out for this every few months. 🚧 TODO setup discussion on limitations with public datasets.
+
+
+<!-- ## Option tooling (Architecture) 🥨
+
+> ![Info] These components are purley for demoing purposes. They are not needed in the project.
+
+- Tableau
+  - ai monitoring
+- Power BI
+- Open Metadata
+- DBT Cloud 
+  - semantic layer
+  - column level linage
+-->
 
 ## Key features
 
@@ -81,6 +105,7 @@ piplines should master metadata including tests...
 
 🚧 anomily detection
 🚧 schema validation
+🚧 dbt unit tests
 
 **debugging**
 
@@ -93,38 +118,56 @@ piplines should master metadata including tests...
 🚧 data science
 
 
+**CICD**
+🚧 branch deployments
+🚧 linting, sql fluff ect
+🚧 data quality test
+
 ## Key Features - where we dont have a good open source option
 
 **semantic/metrics layer**
 
-🚧
+🚧 have a hack to use part of dbt's semantic layer. The hack is very limited but at least I can use dbt semantic layer locally and for testing even if its missing the enterprise features.
 
 **AI metrics**
 
 🚧 AI metrics e.g. tableau
 
 
-## Architecture 🥨
 
-COMING SOON 🚧 use https://excalidraw.com/
+## Bus Matrix
+
+| Fact          | Status | Dim School                            | Dim Schoolastic Year| Dim Calendar Year | Fact Source Url | Notes|
+| ------------- | ---------------- | -------------------------------------- | --- | --- | ---| ---|
+| `Full-time equivalent (FTE) enrolments` | ❌ | ✅ | ✅ | ❌ | https://data.cese.nsw.gov.au/data/dataset/resource-allocation-model | Not doing. No temporal data. |
+| `Resource Allocation Model (RAM)`  | 🚧 | ✅  | ❌ | ✅ | https://data.cese.nsw.gov.au/data/dataset/resource-allocation-model| Each file name is differnt and path is also different will need to manually check and update path |
+|`Specialist support classes` | ❌ | ✅  | ❌ | ❌ |https://data.cese.nsw.gov.au/data/dataset/specialist-support-classes-by-school-and-support-needs-type | Not doing. No temporal data.
+|`Attendance rates` | ❌ `cancelled` | ✅  | ❌ | ✅ | https://data.cese.nsw.gov.au/data/dataset/student-attendance-rate-by-schoo | Dont have numerator and denominator so cant aggregate this fact table |
+|`Multi age or composite classes` | 🚧 | ✅  | ❌ | ✅ | https://data.cese.nsw.gov.au/data/dataset/multi-age-or-composite-classes-in-nsw-government-schools | Required some pivoting |
+|`Staff` | 🚧 | ❌ | ❌ | ✅ | https://www.acara.edu.au/reporting/national-report-on-schooling-in-australia/staff-numbers||
+|`Students` | 🚧 | ❌ | ❌ | ✅ | https://www.acara.edu.au/reporting/national-report-on-schooling-in-australia/student-numbers||
 
 
-[DuckDB](https://duckdb.org/) + [dbt](https://www.getdbt.com/) + [Evidence](https://evidence.dev/).
 
-It offers a simple script to extract and load (EL) data from the [NSW Education Data Hub](https://data.cese.nsw.gov.au/), a dbt project built on top of this data inside a DuckDB database, and BI tooling via Evidence to analyze and present the data.
+## Give me more data!
+
+### Data that I want from DOE
+
+- `Number of techers per school` was on the data hub but was removed citing will now be reported by ABS. But ABS data isnt at a school level.
+
+### Data from ACARA / NESA
+
+- `NAPLAN` and `HSC attainment` by school. Can get NAPLAN by school going to ACARA's [MySchool](https://www.myschool.edu.au/school/41307) but no easy way to get a view for all schools data.
 
 ## Todo
 
-🚧working on
+### 🚧working on
 - evidence
-- metric flow can store metric results in csv then load then back into duckdb each day with `mf query --metrics orders --csv ./dave.csv` not ideal but dbt doesnt expose serice layer or APIs. Workaround is Create and run Exports to save metrics queries as tables in your data platform via the CSV generated above.
-  - 🧱 first un comment the saved query then run `mf query --saved-query new_customer_orders --csv ./dave-saved-query.csv`. saved query currently not working with dagster.
-  - need to then load into duckdb. Could use CLI then take file, load into dataframe then load into duckdb.
 - dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this. Can use Pandera
 - DOE data
 
 
-🧱 Blocked
+### 🧱 Blocked
 - using jupyter notebooks as upstream data transformations in dagster as assets (all good if they are the last part of the dag). Keen an eye on this [thread](https://github.com/dagster-io/dagster/issues/10557). Also note its possible to do with Ops just not Assets yet for example `AssetsDefinition.from_op(my_asset_name)`
 - asset checks - anomily detection 🌿 feature/asset-checks
   - working on anomily detection. asset check in defintion file not supported yet in dagster
@@ -137,19 +180,22 @@ It offers a simple script to extract and load (EL) data from the [NSW Education 
 - dagster data quality - asset checks for partitions not supported yet
 
 
-🔙🪵backlog
+### 🔙🪵backlog
 - change all gif to be NSW based
-- limitation, when dbt model fails all downstream fails (i.e. if have depency on any other dbt table). To investigate.
+- dbt power users cant build or test models yet due to path issues
 - Motherduck upgrade to 0.10.X eta end of march
   - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
   - this will also fix issue around lock on database when connected via sql tools then try and do etl...
   - backwards compatability
-- speed up codespace by using uv as a python package manager
-- cube.dev
+- dbt unit tests (in preview in dbt core 1.8) want to add these soon but dont want to use 1.8 yet until duckdb and mother duck have been updated.
+- limitation, when dbt model fails all downstream fails (i.e. if have depency on any other dbt table). To investigate.
 - deployment CICD
 - architecture diagram use https://excalidraw.com/
 - docs on taskfile
+- sqlfluff
 - setup linting and formating with black - user Ruff
+- setup discussion on limitations with public datasets.
+- sensitive data demo [example](https://handbook.gitlab.com/handbook/business-technology/data-team/platform/dbt-guide/#sensitive-data)
 
 Limitations / hard to do 😢😭
 - why cant i preview markdown anymore?
@@ -169,19 +215,28 @@ Limitations / hard to do 😢😭
     - need to remove dbt-metricflow[duckdb] to get great expecations to work for now. **Error** because you require dbt-metricflow[duckdb] and you require great-expectations>=0.17.0, we can conclude that the requirements are unsatisfiable.
     - need to setup dagster test suite
 
-Fixes
+### Done
+- speed up codespace by using uv as a python package manager
+- metric flow can store metric results in csv then load then back into duckdb each day with `mf query --metrics orders --csv ./dave.csv` not ideal but dbt doesnt expose serice layer or APIs. Workaround is Create and run Exports to save metrics queries as tables in your data platform via the CSV generated above.
+  - first un comment the saved query then run `mf query --saved-query new_customer_orders --csv ./dave-saved-query.csv`. saved query currently not working with dagster.
+  - need to then load into duckdb. Could use CLI then take file, load into dataframe then load into duckdb.
 - machine learning - e.g. facebook prophecy
 - failing partitions when nothing returned by df
 - dagster auto start container
 - duckdb_pandas_io_manager is legacy and should be replaced by  DuckDBPandasIOManager but currently getting duckdb locks so trying to figure out what caused this
 - example metrics layer - saved queries vs exports
 
-Learnings 🚧
+## Learnings 🚧
 - python venvs bin and lib folders. bin has executables e.g. cli. With dbt_metricflow we can run `python -m dbt_metricflow.cli.main list metrics` or `python -m dbt.cli.main --help` as the main.py has a `if __name__ = '__main':`
   - this allows us to run our executables as either python modules for debuging. For CICD just install the CLI.
 - uv python currently doesnt seem to have the correct python location when activating the venv for the first time. I had to deactive then re activate again to solve it.
 - dagster dbt doesnt like saved queries. As a work around have to remove via selection e.g. '@dbt_assets(..., exclude="*saved_query")'
 - dagster assets can set deps instead of loading in a asset via io to make a dependancy
+
+
+## Disclaimer
+
+Due to the evolving nature of school information and local enrolment areas, no responsibility can be taken by the NSW Department of Education, or any of its associated departments, if information is relied upon. For example, but not limited to, real estate purchases or rentals where the school intake zone data is used as a reference source.
 
 ## Contributing
 

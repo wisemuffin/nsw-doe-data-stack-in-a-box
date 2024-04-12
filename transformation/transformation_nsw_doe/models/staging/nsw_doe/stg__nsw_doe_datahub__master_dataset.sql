@@ -46,17 +46,21 @@ renamed as (
         {{ adapter.quote("Longitude") }} as "Longitude",
         {{ adapter.quote("Assets unit") }} as "Assets_Unit",
         {{ adapter.quote("SA4") }} as "SA4",
-        {{ adapter.quote("Date_extracted") }} as "Date_Extracted",
-        {{ adapter.quote("_load_timestamp") }} as _load_source_timestamp,
+        {{ adapter.quote("Date_extracted") }} as _meta__load_source_timestamp,
         {{ adapter.quote("_source") }}
 
     from source
 ),
 final as (
-    select *,{{ add_audit_columns() }}
+    select *
     from renamed
 )
 
-select * from final
 
-  
+  {{ dbt_audit(
+    cte_ref="final",
+    created_by="@daveg",
+    updated_by="@daveg",
+    created_date="2024-04-06",
+    updated_date="2024-04-06"
+) }}

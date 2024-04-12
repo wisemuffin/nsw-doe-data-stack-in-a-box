@@ -14,15 +14,21 @@ renamed as (
         {{ adapter.quote("Proportion of sector") }} as "Proportion_Of_Sector",
         {{ adapter.quote("Proportion of state") }} as "Proportion_Of_State",
         {{ adapter.quote("Proportion of school level") }} as "Proportion_Of_School_Level",
-        {{ adapter.quote("_load_timestamp") }} as _load_source_timestamp,
+        {{ adapter.quote("_load_timestamp") }} as _meta__load_source_timestamp,
         {{ adapter.quote("_source") }}
 
     from source
 ),
 final as (
-    select *,{{ add_audit_columns() }}
+    select *
     from renamed
 )
 
-select * from final
+  {{ dbt_audit(
+    cte_ref="final",
+    created_by="@daveg",
+    updated_by="@daveg",
+    created_date="2024-04-06",
+    updated_date="2024-04-06"
+) }}
   

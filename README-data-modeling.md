@@ -1,4 +1,4 @@
-# Style and Usage Guide
+# Data Modelling
 ## Model Structure
 Kimball-style warehouse
 

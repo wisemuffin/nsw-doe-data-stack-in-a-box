@@ -32,6 +32,7 @@ The project is designed to be very simple but allow you the flexibility for you 
 
 ## Overview of Project (Architecture) 🥨
 
+
 ![Data Architecture](.github/static/architecture.png)
 
 
@@ -162,9 +163,24 @@ piplines should master metadata including tests...
 ## Todo
 
 ### 🚧working on
+- DOE data
+  - duckdb doesnt support merge so missing_member_column is failing (hook in dim__school)
+  - TODO make -1 instead of md5('-1') for missing
+  - TODO relationship tests allow multiple to go to ....
+  - [DBT ERDs](https://github.com/datnguye/dbterd), The Mermaid integration is the best of all IMO and can be automated for diagram generation.
+    - `dbterd run -t mermaid` out out to target/output.md need to figure out
+  - check out scd_latest_state and scd_type 2 macros from gitlab
+  - snapshot data?
+  - pandera
+  - How did you add constraints or enable them to be picked up when running dbterd run
+  - integrated the mermaid diagram output with dbt docs and served it with repo pages
+  - [dbterd](https://dbterd.datnguyen.de) which turns your [dbt relationship data quality checks](https://docs.getdbt.com/docs/build/tests#generic-data-tests) into an ERD.
+- use snapshots?
+- tests
+  - For dimensions, we can test for the existence of the MD5('-1') (missing) dimension_id, and total row counts.
+  - For facts, we can test to ensure the number of records/rows is not expanded due to incorrect granularity joins.
 - evidence
 - dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this. Can use Pandera
-- DOE data
 
 
 ### 🧱 Blocked
@@ -182,7 +198,8 @@ piplines should master metadata including tests...
 
 ### 🔙🪵backlog
 - change all gif to be NSW based
-- dbt power users cant build or test models yet due to path issues
+- python package manager uv is so much faster but cant use in taskfile. Explore this some more
+  - speed up codespace by using uv as a python package manager
 - Motherduck upgrade to 0.10.X eta end of march
   - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
   - this will also fix issue around lock on database when connected via sql tools then try and do etl...
@@ -190,20 +207,20 @@ piplines should master metadata including tests...
 - dbt unit tests (in preview in dbt core 1.8) want to add these soon but dont want to use 1.8 yet until duckdb and mother duck have been updated.
 - limitation, when dbt model fails all downstream fails (i.e. if have depency on any other dbt table). To investigate.
 - deployment CICD
-- architecture diagram use https://excalidraw.com/
+- devcontainer load optimisation, could remove ipywidgets and pandas profiling
 - docs on taskfile
 - sqlfluff
 - setup linting and formating with black - user Ruff
 - setup discussion on limitations with public datasets.
 - sensitive data demo [example](https://handbook.gitlab.com/handbook/business-technology/data-team/platform/dbt-guide/#sensitive-data)
+- demo [gdpr delete dbt macro](https://gitlab.com/gitlab-data/analytics/-/blob/master/transform/snowflake-dbt/macros/warehouse/gdpr_delete.sql)
 
-Limitations / hard to do 😢😭
-- why cant i preview markdown anymore?
+💩 Limitations / hard to do 😢😭
+- dynamic data masking policies in duckdb/motherduck?
 - auto start dagster in codespace and popup webserver but also want evidence-dev to also pop up?
   - "postStartCommand": "task dag" does this mean the codesandbox wont closed down?
   - "postStartCommand": evidence steps dont run due to dagit runs continiously
   - for now will just click on forwarded ports
-- python package manager uv is so much faster but cant use in taskfile. Explore this some more
 - dynamic check for dbt's manifest.json not working. For now will always parse dbt project.
 - duckdb locks from different processes. Think this is solved in duckdb 0.10.0?
 - pandas to duckdb io manager (see notes in jaffle shop raw_orders_py when recieves empty df then it wont use the dtypes from dataframe when building db objects. i.e. strings are getting convereted to int32...
@@ -216,7 +233,8 @@ Limitations / hard to do 😢😭
     - need to setup dagster test suite
 
 ### Done
-- speed up codespace by using uv as a python package manager
+- dbt power users cant build or test models yet due to path issues
+- architecture diagram use https://excalidraw.com/
 - metric flow can store metric results in csv then load then back into duckdb each day with `mf query --metrics orders --csv ./dave.csv` not ideal but dbt doesnt expose serice layer or APIs. Workaround is Create and run Exports to save metrics queries as tables in your data platform via the CSV generated above.
   - first un comment the saved query then run `mf query --saved-query new_customer_orders --csv ./dave-saved-query.csv`. saved query currently not working with dagster.
   - need to then load into duckdb. Could use CLI then take file, load into dataframe then load into duckdb.
@@ -227,12 +245,34 @@ Limitations / hard to do 😢😭
 - example metrics layer - saved queries vs exports
 
 ## Learnings 🚧
+
+- [dbterd](https://dbterd.datnguyen.de) which turns your [dbt relationship data quality checks](https://docs.getdbt.com/docs/build/tests#generic-data-tests) into an ERD.
+  -- option 1 - write as a mermaid file and keep in git repo
+  -- option 2 - then serve your docs with [dbdocs](https://dbdocs.io/) this uses the popular open-source database markup language DBML example option 2:
+```shell
+dbt compile \
+  && dbt docs generate \
+  && dbterd run -s "wildcard:*fct_*" -s "wildcard:*dim_*"
+  && dbdocs build ./target/output.dbml
+```
+- dbt power users vscode extension missing [auto completion for columns issue](https://github.com/AltimateAI/vscode-dbt-power-user/issues/79)
+- Use [Scaffold tables](https://handbook.gitlab.com/handbook/business-technology/data-team/platform/edw/#common-mart) are useful when tools like Tableau which may necessitate a full dataset for relationships  
+  - [scaffold example sql](https://gitlab.com/gitlab-data/analytics/-/blob/master/transform/snowflake-dbt/models/common_mart_sales/reports/rpt_scaffold_sales_funnel.sql) 
+- can use mermaid diagrams in markdown for github and gitlab
+- dynamic data masking possible in warehouse using tags (see snowflake dynamic data masking)
+- microsoft clipchap and my phone works really well. Also integrates with sniping tool
 - python venvs bin and lib folders. bin has executables e.g. cli. With dbt_metricflow we can run `python -m dbt_metricflow.cli.main list metrics` or `python -m dbt.cli.main --help` as the main.py has a `if __name__ = '__main':`
   - this allows us to run our executables as either python modules for debuging. For CICD just install the CLI.
 - uv python currently doesnt seem to have the correct python location when activating the venv for the first time. I had to deactive then re activate again to solve it.
 - dagster dbt doesnt like saved queries. As a work around have to remove via selection e.g. '@dbt_assets(..., exclude="*saved_query")'
 - dagster assets can set deps instead of loading in a asset via io to make a dependancy
 
+## Issues encountered with Datahub datasets
+
+### Data Set - Resource Allocation Model
+- Problem masterdataset is a current view of schools, however historic data such as Resource Allocation shows historic school, some of which like 1515, 2037 which are not in current list from datahubs master schools
+- Each years file the schema changes e.g. naming for original vs estimate... some columns have blanks at start.
+- Some files have grand totals at the bottom
 
 ## Disclaimer
 
@@ -240,4 +280,28 @@ Due to the evolving nature of school information and local enrolment areas, no r
 
 ## Contributing
 
+### Contributing - Data Analyses & Science
+
 🚧 TODO
+
+### Contributing - Data Modeling
+
+I have been following the gitlab's data team's handbook for modeling, naming convetions and testing. 
+
+I am pretty relaxed with standards in this project. But please read through these before developing to help standise the modeling:
+
+- [Enterprise data warehouse](https://handbook.gitlab.com/handbook/business-technology/data-team/platform/edw/)
+- Tests
+- SQL style guide
+
+
+Differences to gitlab's data team's handbook:
+
+1) Raw and other schema's 🚧 TODO - simplify CICD have just used one schema, prefix should be enough
+2) staging layer added between raw and prep layers.
+
+
+#### Contributing - Data Modeling - Checklist
+
+- Read through the standards above.
+- update ERDs. [dbterd](https://dbterd.datnguyen.de) which turns your [dbt relationship data quality checks](https://docs.getdbt.com/docs/build/tests#generic-data-tests) into an ERD.

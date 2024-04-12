@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: fct__resource_allocation
+    columns:
+      - name: _meta__dim__school__sk
+        # tests:
+        #   - relationships:
+        #       to: ref('dim__school')
+        #       field: _meta__dim__school__sk
+      # - name: School_Code
+      #   tests:
+      #     - relationships:
+      #         to: ref('dim__school')
+      #         field: School_Code

@@ -13,4 +13,8 @@ README-secret.md
 
 *.duckdb*
 
-dbt/exports/*.csv
+transformation/demo_transformation_jaffle_shop/exports/*.csv
+transformation/demo_transformation_jaffle_shop/_local_queries/*
+
+transformation/transformation_nsw_doe/exports/*.csv
+transformation/transformation_nsw_doe/_local_queries/*.sql

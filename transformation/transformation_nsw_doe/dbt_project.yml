@@ -25,9 +25,12 @@ clean-targets:
 require-dbt-version: [">=1.0.0", "<2.0.0"]
 
 models:
-  cese_dia_analytics:
-    nsw_doe_data_stack_in_a_box:
-      # +schema: nsw_doe_data_stack_in_a_box # custom schema's not working in dbt-fabric yet, workaround is to change schema in profiles.yml see https://github.com/microsoft/dbt-fabric/issues/53
+  nsw_doe_data_stack_in_a_box:
+    +materialized: table
+    # +schema: common
+    dimensional:
       materialized: table
-      staging:
-        materialized: view
+      dimensions_shared:
+        # +pre_hook: ["select 4;"] # was going to apply missing_member_column as a hook to all dimensions, but for now defining in model config
+    staging:
+      materialized: view

@@ -17,7 +17,7 @@
   // "postCreateCommand": "task setup && task dag && task evidence_setup && task evidence ",
   "postCreateCommand": "task setup && task dag ",
   "runArgs": [
-    "--env-file", "${localWorkspaceFolder}/.env"
+    "--env-file", "${localWorkspaceFolder}/.env.dev"
     ],
 	"containerEnv": {
 		// use a .env file outside of source control to store secrets

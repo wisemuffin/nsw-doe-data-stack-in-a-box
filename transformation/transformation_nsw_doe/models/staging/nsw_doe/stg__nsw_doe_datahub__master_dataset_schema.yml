@@ -1,0 +1,108 @@
+version: 2
+
+models:
+  - name: stg__nsw_doe_datahub__master_dataset
+    description: ""
+    columns:
+    - name: School_Code
+      description: ""
+    - name: Age_ID
+      description: ""
+    - name: School_Name
+      description: ""
+    - name: Street
+      description: ""
+    - name: Town_Suburb
+      description: ""
+    - name: Postcode
+      description: ""
+    - name: Phone
+      description: ""
+    - name: School_Email
+      description: ""
+    - name: Website
+      description: ""
+    - name: Fax
+      description: ""
+    - name: Latest_Year_Enrolment_FTE
+      description: ""
+    - name: Indigenous_pct
+      description: ""
+    - name: LBOTE_pct
+      description: ""
+    - name: ICSEA_value
+      description: ""
+    - name: Level_of_Schooling
+      description: ""
+    - name: Selective_school
+      description: ""
+    - name: Opportunity_class
+      description: ""
+    - name: School_specialty_type
+      description: ""
+    - name: School_Subtype
+      description: ""
+    - name: Support_Classes
+      description: ""
+    - name: Preschool_ind
+      description: ""
+    - name: Distance_Education
+      description: ""
+    - name: Intensive_English_Centre
+      description: ""
+    - name: School_Gender
+      description: ""
+    - name: Late_Opening_School
+      description: ""
+    - name: Date_1st_Teacher
+      description: ""
+    - name: LGA
+      description: ""
+    - name: Electorate_from_2023
+      description: ""
+    - name: Electorate_2015_2022
+      description: ""
+    - name: Fed_electorate
+      description: ""
+    - name: Operational_directorate
+      description: ""
+    - name: Principal_network
+      description: ""
+    - name: Operational_directorate_office
+      description: ""
+    - name: Operational_directorate_office_phone
+      description: ""
+    - name: Operational_directorate_office_address
+      description: ""
+    - name: FACS_district
+      description: ""
+    - name: Local_health_district
+      description: ""
+    - name: AECG_Region
+      description: ""
+    - name: ASGS_Remoteness
+      description: ""
+    - name: Latitude
+      description: ""
+    - name: Longitude
+      description: ""
+    - name: Assets_Unit
+      description: ""
+    - name: SA4
+      description: ""
+    - name: _meta__load_source_timestamp
+      description: ""
+    - name: _source
+      description: ""
+    - name: _audit__created_by
+      description: ""
+    - name: _audit__updated_by
+      description: ""
+    - name: _audit__model_created_date
+      description: ""
+    - name: _audit__model_updated_date
+      description: ""
+    - name: _audit__dbt_updated_at
+      description: ""
+    - name: _audit__dbt_created_at
+      description: ""

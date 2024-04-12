@@ -92,7 +92,7 @@ tasks:
   #     - task octavia
   duck:
     cmds:
-      - duckdb ./$NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH__DEV #./reports/nsw_doe_data_stack_in_a_box.duckdb 
+      - duckdb $NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH__DEV #./reports/nsw_doe_data_stack_in_a_box.duckdb 
   setup_sqltools:
     cmds:
       - cd ~/.local/share/vscode-sqltools && npm install duckdb-async@0.10.0 && exit 0

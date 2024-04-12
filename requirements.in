@@ -26,4 +26,9 @@ scikit-learn
 
 
 # For Documentation
-mkdocs-material
+dbterd
+
+
+# Exploritory data analysis
+ydata_profiling
+ipywidgets

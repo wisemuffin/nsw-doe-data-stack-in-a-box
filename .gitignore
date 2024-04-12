@@ -1,5 +1,5 @@
 .venv
-# .env # include env variables in code repo
+.env
 .env.secret
 # .vscode
 dbt_packages

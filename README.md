@@ -245,7 +245,11 @@ piplines should master metadata including tests...
 - example metrics layer - saved queries vs exports
 
 ## Learnings 🚧
-
+- dbt merge duckdb - duckdb doesnt have merge. The default [get_merge_sql](https://github.com/dbt-labs/dbt-core/blob/7eb6cdbbfbb239f1d9af24d256df228733a4c2df/core/dbt/include/global_project/macros/materializations/models/incremental/merge.sql#L35-L50) wont work for duckdb. dbt-duckdb doesnt have a `duckdb__get_merge_sql`.
+  - work around for now macro `duckdb__get_delete_insert_merge_sql` in dbt-duckdb.
+- dbt-core macros are stored in `.venv/lib/<py version>/site-pacakages/dbt/global_project/macros`
+  - i found this out after understanding `.venv/lib/<py version>/site-pacakages/dbt_core-1.7.9.dist-info/RECORD` contains where python code was added
+- dbt hooks - post- and pre-hook dont show up in CLI. Need to check log file. They also arnt referenced as hooks. So need to search after model for additional sql run after
 - [dbterd](https://dbterd.datnguyen.de) which turns your [dbt relationship data quality checks](https://docs.getdbt.com/docs/build/tests#generic-data-tests) into an ERD.
   -- option 1 - write as a mermaid file and keep in git repo
   -- option 2 - then serve your docs with [dbdocs](https://dbdocs.io/) this uses the popular open-source database markup language DBML example option 2:

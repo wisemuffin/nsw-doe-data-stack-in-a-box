@@ -77,8 +77,7 @@ WITH final AS (
     updated_date="2024-04-06"
 ) }}
 
-{# from {{ ref('dim__school') }} where _meta__dim__school__sk like '%Missing%'
 
 from {{ ref('dim__school') }} where School_Code is null
 
-from {{ ref('dim__school') }} where school_name = 'Missing ' || 'school_name' #}
+from {{ ref('dim__school') }} where school_name = 'Missing ' || 'school_name'

@@ -58,10 +58,7 @@
     )
     {%- endset %}
 
-  {{ get_merge_sql(target, source, primary_key, columns, incremental_predicates=none) }}
-  select * from {{target}}
-  UNION BY NAME
-  select * from {{source}}
+  {{ duckdb__get_delete_insert_merge_sql(target, source, primary_key, columns, incremental_predicates=none) }}
   
 
 {%- endmacro -%}

@@ -148,7 +148,9 @@ piplines should master metadata including tests...
 |`Staff` | 🚧 | ❌ | ❌ | ✅ | https://www.acara.edu.au/reporting/national-report-on-schooling-in-australia/staff-numbers||
 |`Students` | 🚧 | ❌ | ❌ | ✅ | https://www.acara.edu.au/reporting/national-report-on-schooling-in-australia/student-numbers||
 
+## ERD
 
+[Dimensional ERD check out](./ERD.md)
 
 ## Give me more data!
 
@@ -164,19 +166,29 @@ piplines should master metadata including tests...
 
 ### 🚧working on
 - DOE data
-  - duckdb doesnt support merge so missing_member_column is failing (hook in dim__school)
-  - TODO make -1 instead of md5('-1') for missing
-  - TODO relationship tests allow multiple to go to ....
-  - [DBT ERDs](https://github.com/datnguye/dbterd), The Mermaid integration is the best of all IMO and can be automated for diagram generation.
-    - `dbterd run -t mermaid` out out to target/output.md need to figure out
-  - check out scd_latest_state and scd_type 2 macros from gitlab
-  - snapshot data?
-  - pandera
-  - How did you add constraints or enable them to be picked up when running dbterd run
+  - 🚧 facts and dims
+- [DBT ERDs](https://github.com/datnguye/dbterd), The Mermaid integration is the best of all IMO and can be automated for diagram generation.
+  - ✅ duckdb doesnt support merge so missing_member_column is failing (hook in dim__school)
+  - ✅ TODO relationship tests allow multiple to go to ....
+  - need to figure out how to use python to programtically only get _sk columns and x columns. Then where to save?
   - integrated the mermaid diagram output with dbt docs and served it with repo pages
-  - [dbterd](https://dbterd.datnguyen.de) which turns your [dbt relationship data quality checks](https://docs.getdbt.com/docs/build/tests#generic-data-tests) into an ERD.
+  can use python script `ERD_generation.py` or CLI
+  ```bash
+  dbt docs generate
+  dbterd run -s "wildcard:*fct_*" -s "wildcard:*dim_*" --target mermaid --artifacts-dir "./target" --output "./target" --output-file-name "output.md" --omit-columns
+  echo \`\`\`mermaid > ./target/ERD.md
+  echo --- >> ./target/ERD.md
+  echo title: Sample ERD >> ./target/ERD.md
+  echo --- >> ./target/ERD.md
+  cat ./target/output.md >> ./target/ERD.md
+  echo \`\`\` >> ./target/ERD.md
+```
+
+- check out scd_latest_state and scd_type 2 macros from gitlab
+- pandera
 - use snapshots?
 - tests
+  - ✅ relationship tests from fact to dims
   - For dimensions, we can test for the existence of the MD5('-1') (missing) dimension_id, and total row counts.
   - For facts, we can test to ensure the number of records/rows is not expanded due to incorrect granularity joins.
 - evidence

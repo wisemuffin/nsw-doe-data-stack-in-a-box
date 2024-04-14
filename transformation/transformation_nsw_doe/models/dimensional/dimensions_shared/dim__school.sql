@@ -76,8 +76,3 @@ WITH final AS (
     created_date="2024-04-06",
     updated_date="2024-04-06"
 ) }}
-
-
-from {{ ref('dim__school') }} where School_Code is null
-
-from {{ ref('dim__school') }} where school_name = 'Missing ' || 'school_name'

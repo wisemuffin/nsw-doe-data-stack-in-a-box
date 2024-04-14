@@ -25,7 +25,7 @@ def filter_lines(input_string):
 
     return result
  
-erd = DbtErd(select=["wildcard:*fct_*" , "wildcard:*dim_*"], target="mermaid").get_erd()
+erd = DbtErd(select=["wildcard:*fct_*" , "wildcard:*dim_*"], target="mermaid", artifacts_dir="./transformation/transformation_nsw_doe").get_erd()
 # %%
 filtered_result = filter_lines(erd)
 final = filtered_result.replace("MODEL.NSW_DOE_DATA_STACK_IN_A_BOX.","")
@@ -43,5 +43,5 @@ title: Dimensional ERD
 
 # %%
 # Write the filtered result to a Markdown file
-with open("../../ERD.md", "w") as f:
+with open("./ERD.md", "w") as f:
     f.write(erd_prep)

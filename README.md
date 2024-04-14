@@ -56,6 +56,37 @@ The project is designed to be very simple but allow you the flexibility for you 
   - column level linage
 -->
 
+
+
+
+## Bus Matrix
+
+| Fact          | Status | Dim School                            | Dim Schoolastic Year| Dim Calendar Year | Fact Source Url | Notes|
+| ------------- | ---------------- | -------------------------------------- | --- | --- | ---| ---|
+| `Full-time equivalent (FTE) enrolments` | ❌ | ✅ | ✅ | ❌ | https://data.cese.nsw.gov.au/data/dataset/resource-allocation-model | Not doing. No temporal data. |
+| `Resource Allocation Model (RAM)`  | 🚧 | ✅  | ❌ | ✅ | https://data.cese.nsw.gov.au/data/dataset/resource-allocation-model| Each file name is differnt and path is also different will need to manually check and update path |
+|`Specialist support classes` | ❌ | ✅  | ❌ | ❌ |https://data.cese.nsw.gov.au/data/dataset/specialist-support-classes-by-school-and-support-needs-type | Not doing. No temporal data.
+|`Attendance rates` | ❌ `cancelled` | ✅  | ❌ | ✅ | https://data.cese.nsw.gov.au/data/dataset/student-attendance-rate-by-schoo | Dont have numerator and denominator so cant aggregate this fact table |
+|`Multi age or composite classes` | 🚧 | ✅  | ❌ | ✅ | https://data.cese.nsw.gov.au/data/dataset/multi-age-or-composite-classes-in-nsw-government-schools | Required some pivoting |
+|`Staff` | 🚧 | ❌ | ❌ | ✅ | https://www.acara.edu.au/reporting/national-report-on-schooling-in-australia/staff-numbers||
+|`Students` | 🚧 | ❌ | ❌ | ✅ | https://www.acara.edu.au/reporting/national-report-on-schooling-in-australia/student-numbers||
+
+## ERD
+
+[Dimensional ERD check out](./ERD.md)
+
+## Give me more data!
+
+### Data that I want from DOE
+
+- `Number of techers per school` was on the data hub but was removed citing will now be reported by ABS. But ABS data isnt at a school level.
+
+### Data from ACARA / NESA
+
+- `NAPLAN` and `HSC attainment` by school. Can get NAPLAN by school going to ACARA's [MySchool](https://www.myschool.edu.au/school/41307) but no easy way to get a view for all schools data.
+
+
+
 ## Key features
 
 - seperation of business logic and i/o with dagster i/o manager
@@ -135,55 +166,11 @@ piplines should master metadata including tests...
 🚧 AI metrics e.g. tableau
 
 
-
-## Bus Matrix
-
-| Fact          | Status | Dim School                            | Dim Schoolastic Year| Dim Calendar Year | Fact Source Url | Notes|
-| ------------- | ---------------- | -------------------------------------- | --- | --- | ---| ---|
-| `Full-time equivalent (FTE) enrolments` | ❌ | ✅ | ✅ | ❌ | https://data.cese.nsw.gov.au/data/dataset/resource-allocation-model | Not doing. No temporal data. |
-| `Resource Allocation Model (RAM)`  | 🚧 | ✅  | ❌ | ✅ | https://data.cese.nsw.gov.au/data/dataset/resource-allocation-model| Each file name is differnt and path is also different will need to manually check and update path |
-|`Specialist support classes` | ❌ | ✅  | ❌ | ❌ |https://data.cese.nsw.gov.au/data/dataset/specialist-support-classes-by-school-and-support-needs-type | Not doing. No temporal data.
-|`Attendance rates` | ❌ `cancelled` | ✅  | ❌ | ✅ | https://data.cese.nsw.gov.au/data/dataset/student-attendance-rate-by-schoo | Dont have numerator and denominator so cant aggregate this fact table |
-|`Multi age or composite classes` | 🚧 | ✅  | ❌ | ✅ | https://data.cese.nsw.gov.au/data/dataset/multi-age-or-composite-classes-in-nsw-government-schools | Required some pivoting |
-|`Staff` | 🚧 | ❌ | ❌ | ✅ | https://www.acara.edu.au/reporting/national-report-on-schooling-in-australia/staff-numbers||
-|`Students` | 🚧 | ❌ | ❌ | ✅ | https://www.acara.edu.au/reporting/national-report-on-schooling-in-australia/student-numbers||
-
-## ERD
-
-[Dimensional ERD check out](./ERD.md)
-
-## Give me more data!
-
-### Data that I want from DOE
-
-- `Number of techers per school` was on the data hub but was removed citing will now be reported by ABS. But ABS data isnt at a school level.
-
-### Data from ACARA / NESA
-
-- `NAPLAN` and `HSC attainment` by school. Can get NAPLAN by school going to ACARA's [MySchool](https://www.myschool.edu.au/school/41307) but no easy way to get a view for all schools data.
-
 ## Todo
 
 ### 🚧working on
 - DOE data
   - 🚧 facts and dims
-- [DBT ERDs](https://github.com/datnguye/dbterd), The Mermaid integration is the best of all IMO and can be automated for diagram generation.
-  - ✅ duckdb doesnt support merge so missing_member_column is failing (hook in dim__school)
-  - ✅ TODO relationship tests allow multiple to go to ....
-  - need to figure out how to use python to programtically only get _sk columns and x columns. Then where to save?
-  - integrated the mermaid diagram output with dbt docs and served it with repo pages
-  can use python script `ERD_generation.py` or CLI
-  ```bash
-  dbt docs generate
-  dbterd run -s "wildcard:*fct_*" -s "wildcard:*dim_*" --target mermaid --artifacts-dir "./target" --output "./target" --output-file-name "output.md" --omit-columns
-  echo \`\`\`mermaid > ./target/ERD.md
-  echo --- >> ./target/ERD.md
-  echo title: Sample ERD >> ./target/ERD.md
-  echo --- >> ./target/ERD.md
-  cat ./target/output.md >> ./target/ERD.md
-  echo \`\`\` >> ./target/ERD.md
-```
-
 - check out scd_latest_state and scd_type 2 macros from gitlab
 - pandera
 - use snapshots?
@@ -192,7 +179,6 @@ piplines should master metadata including tests...
   - For dimensions, we can test for the existence of the MD5('-1') (missing) dimension_id, and total row counts.
   - For facts, we can test to ensure the number of records/rows is not expanded due to incorrect granularity joins.
 - evidence
-- dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this. Can use Pandera
 
 
 ### 🧱 Blocked
@@ -226,8 +212,11 @@ piplines should master metadata including tests...
 - setup discussion on limitations with public datasets.
 - sensitive data demo [example](https://handbook.gitlab.com/handbook/business-technology/data-team/platform/dbt-guide/#sensitive-data)
 - demo [gdpr delete dbt macro](https://gitlab.com/gitlab-data/analytics/-/blob/master/transform/snowflake-dbt/macros/warehouse/gdpr_delete.sql)
+- integrated the mermaid diagram output with dbt docs and served it with repo pages
+
 
 💩 Limitations / hard to do 😢😭
+- dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this. Can use Pandera
 - dynamic data masking policies in duckdb/motherduck?
 - auto start dagster in codespace and popup webserver but also want evidence-dev to also pop up?
   - "postStartCommand": "task dag" does this mean the codesandbox wont closed down?
@@ -245,16 +234,20 @@ piplines should master metadata including tests...
     - need to setup dagster test suite
 
 ### Done
-- dbt power users cant build or test models yet due to path issues
-- architecture diagram use https://excalidraw.com/
-- metric flow can store metric results in csv then load then back into duckdb each day with `mf query --metrics orders --csv ./dave.csv` not ideal but dbt doesnt expose serice layer or APIs. Workaround is Create and run Exports to save metrics queries as tables in your data platform via the CSV generated above.
+- [DBT ERDs](https://github.com/datnguye/dbterd), The Mermaid integration is the best of all IMO and can be automated for diagram generation.
+  - ✅ duckdb doesnt support merge so missing_member_column is failing (hook in dim__school)
+  - ✅ TODO relationship tests allow multiple to go to ....
+  - ✅ need to figure out how to use python to programtically only get _sk columns and x columns. Then where to save?
+- ✅ dbt power users cant build or test models yet due to path issues
+- ✅ architecture diagram use https://excalidraw.com/
+- ✅ metric flow can store metric results in csv then load then back into duckdb each day with `mf query --metrics orders --csv ./dave.csv` not ideal but dbt doesnt expose serice layer or APIs. Workaround is Create and run Exports to save metrics queries as tables in your data platform via the CSV generated above.
   - first un comment the saved query then run `mf query --saved-query new_customer_orders --csv ./dave-saved-query.csv`. saved query currently not working with dagster.
   - need to then load into duckdb. Could use CLI then take file, load into dataframe then load into duckdb.
-- machine learning - e.g. facebook prophecy
-- failing partitions when nothing returned by df
-- dagster auto start container
-- duckdb_pandas_io_manager is legacy and should be replaced by  DuckDBPandasIOManager but currently getting duckdb locks so trying to figure out what caused this
-- example metrics layer - saved queries vs exports
+- ✅ machine learning - e.g. facebook prophecy
+- ✅ failing partitions when nothing returned by df
+- ✅ dagster auto start container
+- ✅ duckdb_pandas_io_manager is legacy and should be replaced by  DuckDBPandasIOManager but currently getting duckdb locks so trying to figure out what caused this
+- ✅ example metrics layer - saved queries vs exports
 
 ## Learnings 🚧
 - dbt merge duckdb - duckdb doesnt have merge. The default [get_merge_sql](https://github.com/dbt-labs/dbt-core/blob/7eb6cdbbfbb239f1d9af24d256df228733a4c2df/core/dbt/include/global_project/macros/materializations/models/incremental/merge.sql#L35-L50) wont work for duckdb. dbt-duckdb doesnt have a `duckdb__get_merge_sql`.
@@ -265,12 +258,17 @@ piplines should master metadata including tests...
 - [dbterd](https://dbterd.datnguyen.de) which turns your [dbt relationship data quality checks](https://docs.getdbt.com/docs/build/tests#generic-data-tests) into an ERD.
   -- option 1 - write as a mermaid file and keep in git repo
   -- option 2 - then serve your docs with [dbdocs](https://dbdocs.io/) this uses the popular open-source database markup language DBML example option 2:
-```shell
-dbt compile \
-  && dbt docs generate \
-  && dbterd run -s "wildcard:*fct_*" -s "wildcard:*dim_*"
-  && dbdocs build ./target/output.dbml
-```
+  -- can use python script `ERD_generation.py` or CLI
+  ```bash
+    dbt docs generate
+    dbterd run -s "wildcard:*fct_*" -s "wildcard:*dim_*" --target mermaid --artifacts-dir "./target" --output "./target" --output-file-name "output.md" --omit-columns
+    echo \`\`\`mermaid > ./target/ERD.md
+    echo --- >> ./target/ERD.md
+    echo title: Sample ERD >> ./target/ERD.md
+    echo --- >> ./target/ERD.md
+    cat ./target/output.md >> ./target/ERD.md
+    echo \`\`\` >> ./target/ERD.md
+  ```
 - dbt power users vscode extension missing [auto completion for columns issue](https://github.com/AltimateAI/vscode-dbt-power-user/issues/79)
 - Use [Scaffold tables](https://handbook.gitlab.com/handbook/business-technology/data-team/platform/edw/#common-mart) are useful when tools like Tableau which may necessitate a full dataset for relationships  
   - [scaffold example sql](https://gitlab.com/gitlab-data/analytics/-/blob/master/transform/snowflake-dbt/models/common_mart_sales/reports/rpt_scaffold_sales_funnel.sql) 
@@ -321,3 +319,8 @@ Differences to gitlab's data team's handbook:
 
 - Read through the standards above.
 - update ERDs. [dbterd](https://dbterd.datnguyen.de) which turns your [dbt relationship data quality checks](https://docs.getdbt.com/docs/build/tests#generic-data-tests) into an ERD.
+
+```bash
+dbt docs generate
+.venv/bin/python ERD_generation.py
+```

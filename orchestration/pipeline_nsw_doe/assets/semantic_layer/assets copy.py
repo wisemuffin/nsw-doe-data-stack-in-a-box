@@ -1,16 +1,18 @@
 import os
+
 import subprocess
+from pathlib import Path, PurePath
 
 from dagster_dbt import get_asset_key_for_model
 import pandas as pd
 from dagster import AssetIn, asset, file_relative_path, Field, Int, load_assets_from_package_module
 from metricflow.cli.main import cli as mf
 
-from ...constants import dbt_project_dir
-from ..transformation import jaffle_shop_dbt_assets
+
+dbt_project_dir = Path( os.environ['NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR'])
+duckdb_project_dir = Path( os.environ['NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH__DEV'])
 
 
-@asset(compute_kind="python",io_manager_key="io_manager_dw", key_prefix=["analytics"], group_name="semantic_layer", deps=[get_asset_key_for_model([jaffle_shop_dbt_assets],'fct__resource_allocation')])
 def sq__resource_allocation() -> pd.DataFrame:
     """runs: mf query --saved-query resource_allocation_saved_query --csv ./exports/saved_query__resource-allocation.csv"""
 
@@ -25,7 +27,10 @@ def sq__resource_allocation() -> pd.DataFrame:
     # TODO refactor variables
     df = pd.read_csv(csv_location)
 
+    print(df.dtypes)
     # print(df.to_markdown())
     return df
 
+
+sq__resource_allocation()
 

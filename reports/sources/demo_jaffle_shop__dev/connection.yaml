@@ -1,0 +1,5 @@
+# This file was automatically generated
+name: demo_transformation_jaffle_shop
+type: duckdb
+options:
+  filename: demo_transformation_jaffle_shop.duckdb

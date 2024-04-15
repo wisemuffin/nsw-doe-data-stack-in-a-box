@@ -92,7 +92,7 @@ tasks:
   #     - task octavia
   duck:
     cmds:
-      - duckdb $NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH__DEV #./reports/nsw_doe_data_stack_in_a_box.duckdb 
+      - duckdb $NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB__DEV
   setup_sqltools:
     cmds:
       - cd ~/.local/share/vscode-sqltools && npm install duckdb-async@0.10.0 && exit 0
@@ -139,4 +139,7 @@ tasks:
   mf_check:
     desc: compiles dbt code then runs the metric flow checker
     cmds: 
-      - cd dbt && dbt compile && mf validate-configs
+      - cd transformation/transformation_nsw_doe && dbt compile && mf validate-configs'
+  mf:
+    cmds:
+      - cd transformation/transformation_nsw_doe && dbt compile && mf query --saved-query resource_allocation_saved_query --csv ./exports/sq-resource-allocation-non-dag.csv

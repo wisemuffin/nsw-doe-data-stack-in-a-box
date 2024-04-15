@@ -2,8 +2,8 @@ with final as (
     select
     year,
     School_Code::int as School_Code,
-    coalesce(Original_RAM_Funding_AUD, Original_RAM_Funding_AUD_1, Sum_of_RAM_Funding_incl_oncosts_AUD,_Sum_of_RAM_Funding_incl_oncosts_AUD) as Original_RAM_Funding_AUD,
-    coalesce(RAM_Funding_post_Adjustments_AUD, Sum_of_RAM_Funding_incl_oncosts_AUD,_Sum_of_RAM_Funding_incl_oncosts_AUD) as RAM_Funding_post_Adjustments_AUD
+    coalesce(Original_RAM_Funding_AUD, Original_RAM_Funding_AUD_1, Sum_of_RAM_Funding_incl_oncosts_AUD,_Sum_of_RAM_Funding_incl_oncosts_AUD)::integer as Original_RAM_Funding_AUD,
+    coalesce(RAM_Funding_post_Adjustments_AUD, Sum_of_RAM_Funding_incl_oncosts_AUD,_Sum_of_RAM_Funding_incl_oncosts_AUD)::integer as RAM_Funding_post_Adjustments_AUD
     
     from {{ ref("stg__nsw_doe_datahub__ram") }}
     where School_Code not like '%Total%' -- files contain totals 💩

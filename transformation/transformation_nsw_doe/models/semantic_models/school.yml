@@ -1,0 +1,14 @@
+semantic_models:
+  - name: school
+    # defaults:
+    #   agg_time_dimension: allocation_year
+    description: |
+      TBC 🚧
+    model: ref('dim__school')
+    entities:
+      - name: school
+        type: primary
+        expr: _meta__dim__school__sk
+    dimensions:
+      - name: school_name
+        type: categorical

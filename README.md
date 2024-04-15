@@ -179,6 +179,10 @@ piplines should master metadata including tests...
   - For dimensions, we can test for the existence of the MD5('-1') (missing) dimension_id, and total row counts.
   - For facts, we can test to ensure the number of records/rows is not expanded due to incorrect granularity joins.
 - evidence
+  - error when evidence and etl going at same time: `IO Error: Could not set lock on file "/home/dave/data-engineering/nsw-doe-data-stack-in-a-box/reports/sources/nsw_doe_data_stack_in_a_box__dev/nsw_doe_data_stack_in_a_box__dev.duckdb": Conflicting lock is held in /home/dave/.config/nvm/versions/node/v20.11.1/bin/node (PID 1516344). However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/connect/concurrency` 
+    - Evidence connection to duckdb doesnt close. Have to wait for this to be fixed via this [issue](https://github.com/evidence-dev/evidence/issues/1060)
+    - Temp work around is to connect tell engineers to stop the evidence proccess? or could force this with a task?
+
 
 
 ### 🧱 Blocked
@@ -192,7 +196,7 @@ piplines should master metadata including tests...
 - dbt saved queries node is causing issues with dagster 🚧 TODO
 - dagster data quality - quarantine if fail asset checks. Currently no examples for this type of workflow.
 - dagster data quality - asset checks for partitions not supported yet
-
+- sql tools for duckdb locks database [issue](https://github.com/evidence-dev/sqltools-duckdb-driver/issues/5).
 
 ### 🔙🪵backlog
 - change all gif to be NSW based
@@ -200,11 +204,18 @@ piplines should master metadata including tests...
   - speed up codespace by using uv as a python package manager
 - Motherduck upgrade to 0.10.X eta end of march
   - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
-  - this will also fix issue around lock on database when connected via sql tools then try and do etl...
   - backwards compatability
 - dbt unit tests (in preview in dbt core 1.8) want to add these soon but dont want to use 1.8 yet until duckdb and mother duck have been updated.
 - limitation, when dbt model fails all downstream fails (i.e. if have depency on any other dbt table). To investigate.
 - deployment CICD
+  - generate docs on merge for ERDs
+  - check metricflow config see `task mf_check`
+  - dbt data tests
+  - dbt unit tests
+  - dbt data freshness
+  - data diffs
+  - sqlfluff
+  - that python rust package for python linting ect
 - devcontainer load optimisation, could remove ipywidgets and pandas profiling
 - docs on taskfile
 - sqlfluff

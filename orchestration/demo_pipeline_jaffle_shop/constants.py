@@ -11,8 +11,10 @@ from dagster_dbt import DbtCliResource
 # dbt_project_dir = Path(__file__).joinpath(home, "cese-dai-analytics", "dbt").resolve()
 
 
-dbt_project_dir = Path(__file__).joinpath("..", "..", "..", "transformation", "demo_transformation_jaffle_shop").resolve()
-duckdb_project_dir = Path(__file__).joinpath("..", "..", "..", "reports").resolve()
+# dbt_project_dir = Path(__file__).joinpath("..", "..", "..", "transformation", "demo_transformation_jaffle_shop").resolve()
+# duckdb_project_dir = Path(__file__).joinpath("..", "..", "..", "reports", "sources", "demo_transformation_jaffle_shop").resolve()
+dbt_project_dir = Path( os.environ['DEMO_JAFFLE_SHOP_DBT_PROJECT_DIR'])
+duckdb_project_dir = Path( os.environ['DEMO_JAFFLE_SHOP_DB_PATH__DEV'])
 dbt = DbtCliResource(project_dir=os.fspath(dbt_project_dir))
 
 dbt_manifest_path_temp = dbt_project_dir.joinpath("target", "manifest.json")

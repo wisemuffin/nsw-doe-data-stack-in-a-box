@@ -1,0 +1,77 @@
+semantic_models:
+  - name: resource_allocation
+    defaults:
+      agg_time_dimension: allocation_year
+    description: |
+      TBC 🚧
+    model: ref('fct__resource_allocation')
+    entities:
+      - name: resource_allocation
+        type: primary
+        expr: _meta__fct__resource_allocation__sk
+      - name: school
+        type: foreign
+        expr: _meta__dim__school__sk
+    dimensions:
+      - name: allocation_year
+        expr: resource_allocation_date
+        type: time
+        type_params:
+          time_granularity: date
+    measures:
+      - name: funding_aud_original
+        description: tbc
+        agg: sum
+      - name: funding_aud_post_adjustments
+        description: sum of fundings post adjustments
+        agg: sum
+      - name: funding_aud_post_adjustments_average
+        description: the average value of funding_aud_post_adjustmentss.
+        expr: funding_aud_post_adjustments
+        agg: average
+      - name: funding_aud_post_adjustments_99p
+        description: the 99th percentile funding_aud_post_adjustments value
+        expr: funding_aud_post_adjustments
+        agg: percentile
+        agg_params:
+          percentile: .99
+          use_discrete_percentile: false #false will calculate the discrete percentile and true will calculate the continuous percentile
+      - name: funding_aud_post_adjustments_median
+        description: the median funding value
+        expr: funding_aud_post_adjustments
+        agg: median
+        
+
+metrics:
+  - name: funding_aud_post_adjustments
+    description: sum of total funding amonunt. includes tax + revenue.
+    type: simple
+    label: funding adj total
+    type_params:
+      measure: funding_aud_post_adjustments
+  - name: funding_aud_original
+    description: sum of total funding amonunt. includes tax + revenue.
+    type: simple
+    label: funding original total
+    type_params:
+      measure: funding_aud_original
+#   - name: fundings_count
+#     description: Count of fundings.
+#     label: fundings
+#     type: simple
+#     type_params:
+#       measure: funding_count
+
+saved_queries:
+  - name: resource_allocation_saved_query
+    description: test desc
+    label: Test saved query
+    query_params:
+        metrics:
+            - funding_aud_post_adjustments
+            - funding_aud_original
+        group_by:
+            - Dimension('school__school_name')
+            - TimeDimension('metric_time', 'date')
+#         where:
+#             - "{{ Dimension('funding__status') }} != 'Dave'"

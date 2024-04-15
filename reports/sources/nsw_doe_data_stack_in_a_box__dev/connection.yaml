@@ -1,0 +1,5 @@
+# This file was automatically generated
+name: nsw_doe_data_stack_in_a_box__dev
+type: duckdb
+options:
+  filename: nsw_doe_data_stack_in_a_box__dev.duckdb

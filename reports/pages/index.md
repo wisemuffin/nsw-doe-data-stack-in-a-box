@@ -4,7 +4,22 @@ title: Welcome to Evidence
 
 _Build polished data products with SQL and Markdown_
 
-This demo [connects](/settings) to a local DuckDB file `needful_things.duckdb`.
+This demo [connects](/settings) to a local DuckDB file `nsw_doe_data_stack_in_a_box__dev.duckdb`.
+
+```sql dg_test
+select
+  *
+from sq__resource_allocation
+```
+
+
+<BigValue data={dg_test} value="funding_aud_post_adjustments"/>
+<BigValue data={dg_test} value="funding_aud_original"/>
+
+<!-- metric_time__year currently a varchar -->
+<BigValue data={dg_test} value="funding_aud_original" sparkline=metric_time__year/>
+
+<DataTable data="{dg_test}" search="true" />
 
 <LineChart
   data={orders_by_month}

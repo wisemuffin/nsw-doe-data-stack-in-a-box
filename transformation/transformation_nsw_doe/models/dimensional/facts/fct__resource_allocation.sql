@@ -18,14 +18,16 @@ final AS (
         --Foreign Keys
         ----Conformed Dimensions
         {{ get_keyed_nulls('dim__school._meta__dim__school__sk') }} as _meta__dim__school__sk,
-        prep__resource_allocation.year || '-01-01' as _meta__dim__date__fk, -- dont love this. 🚧 TODO - if only one date in fact this works...also doesnt force 
+        prep__resource_allocation.year || '-01-01' as _meta__dim__date__sk, -- dont love this. 🚧 TODO - if only one date in fact this works...also doesnt force 
 
         ----Local Dimensions
 
+        (prep__resource_allocation.year || '-01-01')::date as resource_allocation_date,
+
 
         -- Measures
-        prep__resource_allocation.Original_RAM_Funding_AUD,
-        prep__resource_allocation.RAM_Funding_post_Adjustments_AUD
+        prep__resource_allocation.Original_RAM_Funding_AUD as Funding_AUD_Original,
+        prep__resource_allocation.RAM_Funding_post_Adjustments_AUD as Funding_AUD_post_Adjustments
 
 
     FROM prep__resource_allocation

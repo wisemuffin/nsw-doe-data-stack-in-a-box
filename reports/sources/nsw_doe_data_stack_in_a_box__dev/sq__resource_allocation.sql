@@ -1,0 +1,1 @@
+select * from analytics.sq__resource_allocation

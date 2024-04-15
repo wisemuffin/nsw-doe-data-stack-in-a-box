@@ -2,8 +2,7 @@ nsw_doe_data_stack_in_a_box_profile:
   outputs:
     dev:
       type: duckdb
-      path: "/home/dave/data-engineering/nsw-doe-data-stack-in-a-box/reports/nsw_doe_data_stack_in_a_box__dev.duckdb"
-      # path: "../../{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH__DEV') }}"
+      path: "{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB__DEV') }}"
       database: "{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__DEV') }}"
       schema: "{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA__DEV') }}"
       threads: 4

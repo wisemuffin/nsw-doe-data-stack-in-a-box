@@ -1,18 +1,17 @@
 import os
-from pathlib import Path
+from pathlib import Path, PurePath
 
 # from dagster import file_relative_path
 from dagster_dbt import DbtCliResource
 
 # DBT_MANIFEST_PATH = file_relative_path(__file__, "../../dbt/target/manifest.json")
 
-# home = os.environ['HOME']
-
 # dbt_project_dir = Path(__file__).joinpath(home, "cese-dai-analytics", "dbt").resolve()
 
 
-dbt_project_dir = Path(__file__).joinpath("..", "..", "..", "transformation","transformation_nsw_doe").resolve()
-duckdb_project_dir = Path(__file__).joinpath("..", "..", "..", "reports").resolve()
+# dbt_project_dir = Path(__file__).joinpath("..", "..", "..", "transformation","transformation_nsw_doe").resolve()
+dbt_project_dir = Path( os.environ['NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR'])
+duckdb_project_dir = Path( os.environ['NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH__DEV'])
 dbt = DbtCliResource(project_dir=os.fspath(dbt_project_dir))
 
 dbt_manifest_path_temp = dbt_project_dir.joinpath("target", "manifest.json")

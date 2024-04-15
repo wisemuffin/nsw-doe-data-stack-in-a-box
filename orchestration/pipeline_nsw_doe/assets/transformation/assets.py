@@ -18,6 +18,6 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
 
         return asset_key
     
-@dbt_assets(manifest=dbt_manifest_path, dagster_dbt_translator=CustomDagsterDbtTranslator(settings=DagsterDbtTranslatorSettings(enable_asset_checks=True)),io_manager_key="io_manager_dw",exclude="*saved_query")
+@dbt_assets(manifest=dbt_manifest_path, dagster_dbt_translator=CustomDagsterDbtTranslator(settings=DagsterDbtTranslatorSettings(enable_asset_checks=True)),io_manager_key="io_manager_dw",exclude="*_saved_query")
 def jaffle_shop_dbt_assets(context: AssetExecutionContext, dbt: DbtCliResource):
     yield from dbt.cli(["build"], context=context ).stream()

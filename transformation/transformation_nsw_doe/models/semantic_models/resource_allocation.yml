@@ -17,7 +17,7 @@ semantic_models:
         expr: resource_allocation_date
         type: time
         type_params:
-          time_granularity: date
+          time_granularity: year
     measures:
       - name: funding_aud_original
         description: tbc
@@ -44,15 +44,32 @@ semantic_models:
 
 metrics:
   - name: funding_aud_post_adjustments
-    description: sum of total funding amonunt. includes tax + revenue.
+    label: funding aud post adjustments
     type: simple
-    label: funding adj total
     type_params:
       measure: funding_aud_post_adjustments
+  - name: funding_aud_post_adjustments_prev_year
+    label: funding aud post adjustments prev year
+    type: derived
+    type_params:
+      expr: funding_aud_post_adjustments_prev_year
+      metrics: 
+        - name: funding_aud_post_adjustments
+          offset_window: 1 year
+          alias: funding_aud_post_adjustments_prev_year
+  - name: funding_aud_post_adjustments_yoy
+    label: funding aud post adjustments yoy
+    type: derived
+    type_params:
+      expr: funding_aud_post_adjustments / funding_aud_post_adjustments_prev_year -1
+      metrics: 
+        - name: funding_aud_post_adjustments
+        - name: funding_aud_post_adjustments
+          offset_window: 1 year
+          alias: funding_aud_post_adjustments_prev_year
   - name: funding_aud_original
-    description: sum of total funding amonunt. includes tax + revenue.
+    label: funding aud original
     type: simple
-    label: funding original total
     type_params:
       measure: funding_aud_original
 #   - name: fundings_count
@@ -70,8 +87,10 @@ saved_queries:
         metrics:
             - funding_aud_post_adjustments
             - funding_aud_original
+            - funding_aud_post_adjustments_prev_year
+            - funding_aud_post_adjustments_yoy
         group_by:
             - Dimension('school__school_name')
-            - TimeDimension('metric_time', 'date')
+            - TimeDimension('metric_time', 'year')
 #         where:
 #             - "{{ Dimension('funding__status') }} != 'Dave'"

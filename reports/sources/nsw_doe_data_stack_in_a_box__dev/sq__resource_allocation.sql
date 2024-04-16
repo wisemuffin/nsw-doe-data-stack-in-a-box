@@ -1,1 +1,1 @@
-select * from analytics.sq__resource_allocation
+select *, metric_time__year::date as metric_time__year__date from analytics.sq__resource_allocation

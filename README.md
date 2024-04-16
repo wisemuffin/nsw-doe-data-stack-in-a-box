@@ -227,6 +227,7 @@ piplines should master metadata including tests...
 
 
 💩 Limitations / hard to do 😢😭
+- DuckDBPandasIOManager doesnt handle drop and recreate table so when schema changes get errors like: `duckdb.duckdb.BinderException: Binder Error: table sq__resource_allocation has 4 columns but 5 values were supplied`. For now just drop and recreate entire duckdb. Will need to implement schema via https://docs.dagster.io/_apidocs/libraries/dagster-duckdb-pandas
 - dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this. Can use Pandera
 - dynamic data masking policies in duckdb/motherduck?
 - auto start dagster in codespace and popup webserver but also want evidence-dev to also pop up?

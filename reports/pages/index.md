@@ -12,14 +12,20 @@ select
 from sq__resource_allocation
 ```
 
+```sql data_types
+select * from data_types
+```
 
 <BigValue data={dg_test} value="funding_aud_post_adjustments"/>
 <BigValue data={dg_test} value="funding_aud_original"/>
 
 <!-- metric_time__year currently a varchar -->
-<BigValue data={dg_test} value="funding_aud_original" sparkline=metric_time__year/>
+<BigValue data={dg_test} value="funding_aud_original" sparkline=metric_time__year sparklineYScale=false/>
 
 <DataTable data="{dg_test}" search="true" />
+<DataTable data="{data_types}" search="true" />
+
+<DataTable data="{orders_by_month}" search="true" />
 
 <LineChart
   data={orders_by_month}

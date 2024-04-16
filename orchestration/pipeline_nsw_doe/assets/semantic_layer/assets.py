@@ -23,9 +23,13 @@ def sq__resource_allocation() -> pd.DataFrame:
     subprocess.check_call(command, cwd=working_dir)
 
     # TODO refactor variables
-    df = pd.read_csv(csv_location)
+    df = pd.read_csv(csv_location, parse_dates=['metric_time__year'])
 
-    # print(df.to_markdown())
+    # 🚧 TODO: fixing data types manually. Dont like this but ok for demos
+    # df['metric_time__year'] = pd.to_datetime(df['metric_time__year']).dt.strftime('%Y-%m-%d')
+    df['funding_aud_post_adjustments'] = df['funding_aud_post_adjustments'].astype(pd.Int64Dtype())
+
+    # print(df.dtypes)
     return df
 
 

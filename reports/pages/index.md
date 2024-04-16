@@ -11,10 +11,76 @@ select
   *
 from sq__resource_allocation
 ```
-
 ```sql data_types
 select * from data_types
 ```
+
+```sql metrics_by_year_saved_query
+select * from metrics_by_year_saved_query
+```
+```sql metrics_by_year_school_saved_query
+select * from metrics_by_year_school_saved_query
+```
+
+```sql metric_by_year_saved_query_latest
+-- apply window logic to get latest value
+with prep as (
+    UNPIVOT nsw_doe_data_stack_in_a_box__dev.metrics_by_year_saved_query
+    ON funding_aud_post_adjustments,funding_aud_original,funding_aud_post_adjustments_prev_year,funding_aud_post_adjustments_yoy,staff_count
+    INTO
+        NAME metric_name
+        VALUE metric_value
+),
+prep_rank_period as (
+    select *,
+        row_number() OVER (PARTITION BY "metric_name" ORDER  BY "metric_time__year" desc) AS "period_rank"
+    from prep
+),
+latest_year as (
+    select metric_name, 
+        metric_value as metric_value__latest_year, 
+        metric_time__year as metric_time__year__latest_year,
+    from prep_rank_period where period_rank=1
+),
+prior_year as (
+    select metric_name, 
+        metric_value as metric_value__prior_year, 
+        metric_time__year as metric_time__year__prior_year
+    from prep_rank_period where period_rank=2
+),
+final as (
+    select latest_year.metric_name, 
+        latest_year.metric_value__latest_year, 
+        prior_year.metric_value__prior_year, 
+        latest_year.metric_time__year__latest_year,
+        prior_year.metric_time__year__prior_year,
+        latest_year.metric_value__latest_year / prior_year.metric_value__prior_year - 1 as metric_value__comp
+    from latest_year
+    left join prior_year on latest_year.metric_name = prior_year.metric_name
+)
+select * from final
+```
+<DataTable data="{metric_by_year_saved_query_latest}" search="true" />
+
+
+```sql staff_count
+select * from ${metric_by_year_saved_query_latest} where metric_name = 'staff_count'
+```
+
+<DataTable data="{staff_count}" search="true" />
+
+<BigValue data={staff_count} 
+  title="Staff count"
+  value="metric_value__latest_year" 
+  comparison=metric_value__comp
+  comparisonTitle="prior year growth" 
+  comparisonFmt="pct"
+  />
+
+<BigValue data={metrics_by_year_saved_query} value="funding_aud_post_adjustments"/>
+<BigValue data={metrics_by_year_saved_query} value="funding_aud_original"/>
+<BigValue data={metrics_by_year_saved_query} value="staff_count"/>
+<BigValue data={metrics_by_year_saved_query} value="student_count"/>
 
 <BigValue data={dg_test} value="funding_aud_post_adjustments"/>
 <BigValue data={dg_test} value="funding_aud_original"/>

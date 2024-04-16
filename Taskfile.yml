@@ -142,4 +142,5 @@ tasks:
       - cd transformation/transformation_nsw_doe && dbt compile && mf validate-configs'
   mf:
     cmds:
-      - cd transformation/transformation_nsw_doe && dbt compile && mf query --saved-query resource_allocation_saved_query --csv ./exports/sq-resource-allocation-non-dag.csv
+      - cd transformation/transformation_nsw_doe && dbt compile && mf query --saved-query metrics_by_year_saved_query --csv ./exports/sq-metrics-by-year-saved-query-non-dag.csv
+      - cd transformation/transformation_nsw_doe && dbt compile && mf query --saved-query metrics_by_year_school_saved_query --csv ./exports/sq-metrics-by-year-school-saved-query-non-dag.csv

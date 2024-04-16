@@ -1,0 +1,25 @@
+semantic_models:
+  - name: staff
+    defaults:
+      agg_time_dimension: staff_year
+    description: |
+      TBC 🚧
+    model: ref('fct__staff')
+    entities:
+      - name: staff
+        type: primary
+        expr: _meta__fct__staff__sk
+    dimensions:
+      - name: staff_year
+        expr: staff_date
+        type: time
+        type_params:
+          time_granularity: year
+    measures:
+      - name: staff_count
+        description: tbc
+        agg: sum
+      - name: staff_year_max
+        expr: staff_date
+        agg: max
+        

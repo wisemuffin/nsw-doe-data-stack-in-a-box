@@ -10,7 +10,7 @@ renamed as (
         {{ adapter.quote("Staff function") }} as "Staff_Function",
         {{ adapter.quote("Sex/gender") }} as "Sex_Gender",
         {{ adapter.quote("FTE Status") }} as "FTE_Status",
-        {{ adapter.quote("Staff count") }} as "Staff_Count",
+        REPLACE({{ adapter.quote("Staff count") }}, ',', '')::DECIMAL(16, 2) as "Staff_Count",
         {{ adapter.quote("_load_timestamp") }} as _meta__load_source_timestamp,
         {{ adapter.quote("_source") }}
 

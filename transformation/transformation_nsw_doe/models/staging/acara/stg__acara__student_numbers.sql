@@ -10,7 +10,7 @@ renamed as (
         {{ adapter.quote("Sex/gender") }} as "Sex_Gender",
         {{ adapter.quote("Aboriginal or Torres Strait Islander status") }} as "Aboriginal_Or_Torres_Strait_Islander_Status",
         {{ adapter.quote("Full-time/part-time status") }} as "Full_Time_Part_Time_Status",
-        {{ adapter.quote("Student count") }} as "Student_Count",
+        REPLACE({{ adapter.quote("Student count") }}, ',', '')::DECIMAL(16, 2) as "Student_Count",
         {{ adapter.quote("Proportion of sector") }} as "Proportion_Of_Sector",
         {{ adapter.quote("Proportion of state") }} as "Proportion_Of_State",
         {{ adapter.quote("Proportion of school level") }} as "Proportion_Of_School_Level",

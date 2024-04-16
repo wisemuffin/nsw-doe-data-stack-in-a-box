@@ -1,0 +1,82 @@
+
+metrics:
+  - name: funding_aud_post_adjustments
+    label: funding aud post adjustments
+    type: simple
+    type_params:
+      measure: funding_aud_post_adjustments
+  - name: funding_aud_post_adjustments_prev_year
+    label: funding aud post adjustments prev year
+    type: derived
+    type_params:
+      expr: funding_aud_post_adjustments_prev_year
+      metrics: 
+        - name: funding_aud_post_adjustments
+          offset_window: 1 year
+          alias: funding_aud_post_adjustments_prev_year
+  - name: funding_aud_post_adjustments_yoy
+    label: funding aud post adjustments yoy
+    type: derived
+    type_params:
+      expr: funding_aud_post_adjustments / funding_aud_post_adjustments_prev_year -1
+      metrics: 
+        - name: funding_aud_post_adjustments
+        - name: funding_aud_post_adjustments
+          offset_window: 1 year
+          alias: funding_aud_post_adjustments_prev_year
+  - name: funding_aud_original
+    label: funding aud original
+    type: simple
+    type_params:
+      measure: funding_aud_original
+
+  - name: staff_count
+    label: count of staff
+    type: simple
+    type_params:
+      measure: staff_count
+  # - name: staff_count_latest
+  #   label: count of staff latest
+  #   type: derived
+  #   type_params:
+  #     metrics: 
+  #       - name: staff_count
+  #       - name: staff_year_max
+  #   filter: |
+  #       {{TimeDimension('staff__staff_year','year')}} = staff_year_max
+
+  - name: student_count
+    label: count of student
+    type: simple
+    type_params:
+      measure: student_count
+
+
+saved_queries:
+  - name: metrics_by_year_saved_query
+    description: test desc
+    label: Test saved query
+    query_params:
+        metrics:
+            - funding_aud_post_adjustments
+            - funding_aud_original
+            - funding_aud_post_adjustments_prev_year
+            - funding_aud_post_adjustments_yoy
+            - staff_count
+            - student_count
+        group_by:
+            - TimeDimension('metric_time', 'year')
+  - name: metrics_by_year_school_saved_query
+    description: test desc
+    label: Test saved query
+    query_params:
+        metrics:
+            - funding_aud_post_adjustments
+            - funding_aud_original
+            - funding_aud_post_adjustments_prev_year
+            - funding_aud_post_adjustments_yoy
+        group_by:
+            - Dimension('school__school_name')
+            - TimeDimension('metric_time', 'year')
+#         where:
+#             - "{{ Dimension('funding__status') }} != 'Dave'"

@@ -1,0 +1,22 @@
+semantic_models:
+  - name: student
+    defaults:
+      agg_time_dimension: student_year
+    description: |
+      TBC 🚧
+    model: ref('fct__student')
+    entities:
+      - name: student
+        type: primary
+        expr: _meta__fct__student__sk
+    dimensions:
+      - name: student_year
+        expr: student_date
+        type: time
+        type_params:
+          time_granularity: year
+    measures:
+      - name: student_count
+        description: tbc
+        agg: sum
+        

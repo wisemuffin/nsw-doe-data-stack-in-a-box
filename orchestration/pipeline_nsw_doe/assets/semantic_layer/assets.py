@@ -10,7 +10,19 @@ from ...constants import dbt_project_dir
 from ..transformation import jaffle_shop_dbt_assets
 
 
-@asset(compute_kind="python",io_manager_key="io_manager_dw", key_prefix=["analytics"], group_name="semantic_layer", deps=[get_asset_key_for_model([jaffle_shop_dbt_assets],'fct__resource_allocation'), get_asset_key_for_model([jaffle_shop_dbt_assets],'fct__staff')])
+@asset(
+        compute_kind="python",
+        io_manager_key="io_manager_dw", 
+        key_prefix=["analytics"], 
+        group_name="semantic_layer", 
+        deps=[
+            get_asset_key_for_model([jaffle_shop_dbt_assets],'fct__resource_allocation'), 
+            get_asset_key_for_model([jaffle_shop_dbt_assets],'fct__staff'),
+            get_asset_key_for_model([jaffle_shop_dbt_assets],'fct__student'),
+            get_asset_key_for_model([jaffle_shop_dbt_assets],'fct__school'),
+            get_asset_key_for_model([jaffle_shop_dbt_assets],'dim__date')
+            ]
+        )
 def metrics_by_year_saved_query() -> pd.DataFrame:
 
     csv_location = os.path.join(dbt_project_dir, "exports","sq-metrics-by-year-saved-query.csv")
@@ -29,7 +41,18 @@ def metrics_by_year_saved_query() -> pd.DataFrame:
     # print(df.dtypes)
     return df
 
-@asset(compute_kind="python",io_manager_key="io_manager_dw", key_prefix=["analytics"], group_name="semantic_layer", deps=[get_asset_key_for_model([jaffle_shop_dbt_assets],'fct__resource_allocation'),get_asset_key_for_model([jaffle_shop_dbt_assets],'dim__school')])
+@asset(
+        compute_kind="python",
+        io_manager_key="io_manager_dw", 
+        key_prefix=["analytics"], 
+        group_name="semantic_layer", 
+        deps=[
+            get_asset_key_for_model([jaffle_shop_dbt_assets],'fct__resource_allocation'),
+            get_asset_key_for_model([jaffle_shop_dbt_assets],'dim__school'),
+            get_asset_key_for_model([jaffle_shop_dbt_assets],'dim__date')
+            
+            ]
+)
 def metrics_by_year_school_saved_query() -> pd.DataFrame:
 
     csv_location = os.path.join(dbt_project_dir, "exports","sq-metrics-by-year-school-saved-query.csv")

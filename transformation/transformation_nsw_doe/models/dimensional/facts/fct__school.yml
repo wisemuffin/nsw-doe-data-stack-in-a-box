@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: fct__school
+    columns:
+      - name: _meta__dim__school__sk
+        tests:
+          - relationships:
+              to: ref('dim__school')
+              field: _meta__dim__school__sk

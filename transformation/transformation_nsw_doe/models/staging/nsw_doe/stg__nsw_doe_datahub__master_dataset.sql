@@ -46,7 +46,7 @@ renamed as (
         {{ adapter.quote("Longitude") }} as "Longitude",
         {{ adapter.quote("Assets unit") }} as "Assets_Unit",
         {{ adapter.quote("SA4") }} as "SA4",
-        {{ adapter.quote("Date_extracted") }} as _meta__load_source_timestamp,
+        {{ adapter.quote("Date_extracted") }}::date as _meta__load_source_timestamp,
         {{ adapter.quote("_source") }}
 
     from source

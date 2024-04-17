@@ -1,0 +1,25 @@
+semantic_models:
+  - name: school_number
+    defaults:
+      agg_time_dimension: school_date
+    description: |
+      TBC 🚧
+    model: ref('fct__school')
+    entities:
+      - name: school_number
+        type: primary
+        expr: _meta__fct__school__sk
+      - name: school
+        type: foreign
+        expr: _meta__dim__school__sk
+    dimensions:
+      - name: school_date
+        expr: school_date
+        type: time
+        type_params:
+          time_granularity: day
+    measures:
+      - name: school_count
+        expr: school_cnt
+        description: tbc
+        agg: sum

@@ -171,6 +171,12 @@ piplines should master metadata including tests...
 ### 🚧working on
 - DOE data
   - 🚧 facts and dims
+  - fct school
+- evidence
+  - theme for doe https://docs.evidence.dev/reference/themes-and-layouts/
+  - replace evidence logo
+  - leaflet map of schools - see experimental
+  - [echarts](https://echarts.apache.org/en/index.html)
 - check out scd_latest_state and scd_type 2 macros from gitlab
 - pandera
 - use snapshots?

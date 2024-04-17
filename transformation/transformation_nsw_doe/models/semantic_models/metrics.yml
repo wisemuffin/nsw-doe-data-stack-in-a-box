@@ -14,16 +14,16 @@ metrics:
         - name: funding_aud_post_adjustments
           offset_window: 1 year
           alias: funding_aud_post_adjustments_prev_year
-  - name: funding_aud_post_adjustments_yoy
-    label: funding aud post adjustments yoy
-    type: derived
-    type_params:
-      expr: funding_aud_post_adjustments / funding_aud_post_adjustments_prev_year -1
-      metrics: 
-        - name: funding_aud_post_adjustments
-        - name: funding_aud_post_adjustments
-          offset_window: 1 year
-          alias: funding_aud_post_adjustments_prev_year
+  # - name: funding_aud_post_adjustments_yoy
+  #   label: funding aud post adjustments yoy
+  #   type: derived
+  #   type_params:
+  #     expr: funding_aud_post_adjustments / funding_aud_post_adjustments_prev_year -1
+  #     metrics: 
+  #       - name: funding_aud_post_adjustments
+  #       - name: funding_aud_post_adjustments
+  #         offset_window: 1 year
+  #         alias: funding_aud_post_adjustments_prev_year
   - name: funding_aud_original
     label: funding aud original
     type: simple
@@ -51,8 +51,28 @@ metrics:
     type_params:
       measure: student_count
 
+  - name: school_count
+    label: count of school
+    type: simple
+    type_params:
+      measure: school_count
+
 
 saved_queries:
+  - name: metrics_saved_query
+    description: test desc
+    label: Test saved query
+    query_params:
+        metrics:
+            - funding_aud_post_adjustments
+            - funding_aud_original
+            - funding_aud_post_adjustments_prev_year
+            # - funding_aud_post_adjustments_yoy
+            - staff_count
+            - student_count
+            - school_count
+        group_by:
+            - TimeDimension('metric_time', 'year')
   - name: metrics_by_year_saved_query
     description: test desc
     label: Test saved query
@@ -61,9 +81,10 @@ saved_queries:
             - funding_aud_post_adjustments
             - funding_aud_original
             - funding_aud_post_adjustments_prev_year
-            - funding_aud_post_adjustments_yoy
+            # - funding_aud_post_adjustments_yoy
             - staff_count
             - student_count
+            - school_count
         group_by:
             - TimeDimension('metric_time', 'year')
   - name: metrics_by_year_school_saved_query
@@ -74,7 +95,7 @@ saved_queries:
             - funding_aud_post_adjustments
             - funding_aud_original
             - funding_aud_post_adjustments_prev_year
-            - funding_aud_post_adjustments_yoy
+            # - funding_aud_post_adjustments_yoy
         group_by:
             - Dimension('school__school_name')
             - TimeDimension('metric_time', 'year')

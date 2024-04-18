@@ -1,4 +1,3 @@
-
 metrics:
   - name: funding_aud_post_adjustments
     label: funding aud post adjustments

@@ -10,7 +10,6 @@ prep as (
     where 1=1
         and State_Territory = 'New South Wales'
         and School_Sector = 'Government'
-        and Full_Time_Part_Time_Status = 'All'
     group by all
 ),
 

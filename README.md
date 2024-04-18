@@ -14,17 +14,21 @@ This is an data-stack-in-a-box based data from [NSW Education Data Hub](https://
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/wisemuffin/nsw-doe-data-stack-in-a-box?quickstart=1)
 
 ## Objectives
-[NSW Department of Education](https://education.nsw.gov.au/) data stack in a box has two objectives:
-1)	Getting humans excited about the data within the NSW Department of Education.
-2)	Level up our data stack by demoing features in the data stack that we are lacking or need to improve in [NSW Department of Education](https://education.nsw.gov.au/). These demos will start the conversation on what features we want to prioritise.
 
-## Principals
-Simple one button click, that sets you up with your own blazingly fast data stack
-`completely free` 💲💲💲. 
+### Main quests
+[NSW Department of Education](https://education.nsw.gov.au/) data stack in a box has two objectives:
+1)	Getting humans excited about the publically available data curated by NSW Department of Education and our partners.
+2)	Simple one click totaly free 💲 datastack, aiding in learning and proof of concepts.
+
+
+### Side quests
+- Level up our data stack by demoing features in the data stack that we are lacking or need to improve in [NSW Department of Education](https://education.nsw.gov.au/). These demos will start the conversation on what features we want to prioritise.
+- Help identify engineering talent during the interview phase by using the project as a case study
+
 
 ## Audience
 The project is designed to be very simple but allow you the flexibility for you to go as deep you like!
-- **I want to analyse and gain insights into the data.** With the infrastructure free and deployed in one click you don’t need to worry about any implementation details. You can skip straight to analysing and training models on top of your own local warehouse.
+- **I want to analyse and gain insights into the data.** With the infrastructure free and deployed in one click you don’t need to worry about any implementation details. You can skip straight to analysing and training ML models on top of your own local warehouse.
 - **Interested in modelling via SQL?** We got you covered with a environment setup for DBT.
 - **Love DevOps and platform engineering?** Check out our Orchestration, CICD pipelines, and automation such as linting, data diffs ect.
 
@@ -169,17 +173,15 @@ piplines should master metadata including tests...
 ## Todo
 
 ### 🚧working on
+- migrate to new cese data hub
 - DOE data
-  - 🚧 facts and dims
-  - fct school
+
 - evidence
   - theme for doe https://docs.evidence.dev/reference/themes-and-layouts/
   - replace evidence logo
   - leaflet map of schools - see experimental
   - [echarts](https://echarts.apache.org/en/index.html)
 - check out scd_latest_state and scd_type 2 macros from gitlab
-- pandera
-- use snapshots?
 - tests
   - ✅ relationship tests from fact to dims
   - For dimensions, we can test for the existence of the MD5('-1') (missing) dimension_id, and total row counts.
@@ -192,6 +194,7 @@ piplines should master metadata including tests...
 
 
 ### 🧱 Blocked
+- fix erd automation. Broken as manifest.json produced by dbt-core isnt matching [v11](https://schemas.getdbt.com/dbt/manifest/v11) thus dbt-parser is failing.
 - using jupyter notebooks as upstream data transformations in dagster as assets (all good if they are the last part of the dag). Keen an eye on this [thread](https://github.com/dagster-io/dagster/issues/10557). Also note its possible to do with Ops just not Assets yet for example `AssetsDefinition.from_op(my_asset_name)`
 - asset checks - anomily detection 🌿 feature/asset-checks
   - working on anomily detection. asset check in defintion file not supported yet in dagster
@@ -206,6 +209,17 @@ piplines should master metadata including tests...
 
 ### 🔙🪵backlog
 - change all gif to be NSW based
+- move to dagster+ 
+  - for catalog [dagster+](https://www.youtube.com/watch?v=_Z4xxZYEQNs&t=5s)
+    - do this instead of openmetadata
+  - demos catalog and data reliability (insights) - asset checks. 
+  - for orgs using data mesh architecture asset checks enable data contracts
+  - freshness checks
+  - schema changes
+  - demo - have this setup to run each day and show the issues you found over a month
+  - demo - branch deployments
+    - change tracking 
+  - demo insights for operation observability allow all of us to understand and optimise reliability, cost and freshness
 - python package manager uv is so much faster but cant use in taskfile. Explore this some more
   - speed up codespace by using uv as a python package manager
 - Motherduck upgrade to 0.10.X eta end of march
@@ -213,7 +227,7 @@ piplines should master metadata including tests...
   - backwards compatability
 - dbt unit tests (in preview in dbt core 1.8) want to add these soon but dont want to use 1.8 yet until duckdb and mother duck have been updated.
 - limitation, when dbt model fails all downstream fails (i.e. if have depency on any other dbt table). To investigate.
-- deployment CICD
+- deployment CICD (dagster+ makes this easy)
   - generate docs on merge for ERDs
   - check metricflow config see `task mf_check`
   - dbt data tests
@@ -222,6 +236,7 @@ piplines should master metadata including tests...
   - data diffs
   - sqlfluff
   - that python rust package for python linting ect
+  - dagster teams integration
 - devcontainer load optimisation, could remove ipywidgets and pandas profiling
 - docs on taskfile
 - sqlfluff
@@ -252,6 +267,8 @@ piplines should master metadata including tests...
     - need to setup dagster test suite
 
 ### Done
+- dagster add compute kind of jupyter, scikit learn, pandas
+- dbt add exposure for evidence report ontop of saved query. doesnt appear in dagster
 - [DBT ERDs](https://github.com/datnguye/dbterd), The Mermaid integration is the best of all IMO and can be automated for diagram generation.
   - ✅ duckdb doesnt support merge so missing_member_column is failing (hook in dim__school)
   - ✅ TODO relationship tests allow multiple to go to ....

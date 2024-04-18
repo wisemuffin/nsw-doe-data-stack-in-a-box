@@ -19,6 +19,13 @@ renamed as (
 final as (
     select *
     from renamed
+    where 1=1
+        -- removing aggregates from files
+        and School_Sector != 'All non-government'
+        and School_Level != 'All'
+        and Staff_Function != 'All staff'
+        and Sex_Gender != 'All'
+        and Staff_Function != 'All non-teaching staff'
 )
 
 {{ dbt_audit(

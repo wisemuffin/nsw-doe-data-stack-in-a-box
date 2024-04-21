@@ -1,2 +1,22 @@
+# Use the Python 3.10 base image
 FROM mcr.microsoft.com/devcontainers/python:3.10
-RUN apt-get update && bash ./.devcontainer/postCreateCommand.sh
+
+# Install uv (Python package installer and resolver)
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Create a virtual environment named .venv
+RUN uv venv
+
+# Set the working directory
+WORKDIR /workspaces/nsw-doe-data-stack-in-a-box
+
+# Copy your requirements.txt file into the container
+COPY requirements.txt .
+
+# Install dependencies from requirements.txt
+RUN uv pip sync requirements.txt
+
+# Add any other necessary steps or commands here
+
+# Set the entry point (customize as needed)
+# CMD ["task", "app.py"]

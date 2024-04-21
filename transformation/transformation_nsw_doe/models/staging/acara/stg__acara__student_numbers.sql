@@ -25,10 +25,11 @@ final as (
     where 1=1
         -- removing aggregates from files
         and School_Sector != 'All'
-        and School_Level != 'All'
+        and School_Level in ('Primary', 'Secondary')
         and Sex_Gender != 'All'
         and Aboriginal_Or_Torres_Strait_Islander_Status != 'All'
         and Full_Time_Part_Time_Status != 'All'
+        and Full_Time_Part_Time_Status != 'Full-time equivalent'
 )
 
   {{ dbt_audit(

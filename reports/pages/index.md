@@ -1,146 +1,111 @@
 ---
-title: Welcome to Evidence
+title: NSW Public Schools
 ---
 
-## NSW Public Schools Overview
+## Overview
 
 <Alert status="info">
-Note about visuals below: Evidence's card visuals are a bit limited. So have had to use 2 cards to show the latest refresh date for each metric.
+This data comes from a mix of New South Wales Department of Education and ACARA. This is a work in progress 🚧 data quality issues being investigated
 </Alert>
 
-### Staff
+<Alert status="warning">
+Warning for Developer: Visuals update when sql in evidence is changed. But source cache doesnt get notified when data changes in database. 🚧 Figure out longer term fix.
+</Alert>
 
 <BigValue 
     data={staff_count} 
-    title="Staff count"
-    value="metric_value__latest_year" 
-    comparison=metric_value__comp
-    comparisonTitle="prior year growth" 
-    comparisonFmt="pct"
-  />
-
-  <BigValue 
-    data={staff_count} 
-    title="Latest Refresh"
-    value="metric_time__year__latest_year" 
-    fmt="id"
-    comparison=metric_time__year__prior_year
-    comparisonTitle="prior year" 
-    comparisonDelta=false
+    title="Staff"
+    value="metric_value__latest_year"
+    fmt="num0" 
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh" 
     comparisonFmt="id"
+    comparisonDelta=false
   />
+<LinkButton  url='/staff'>
+  More Details on Staff
+</LinkButton >
+<LineBreak/>
 
+<BigValue 
+    data={student_count} 
+    title="Students"
+    value="metric_value__latest_year"
+    fnt="num0"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh" 
+    comparisonFmt="id"
+    comparisonDelta=false
+  />
+<LinkButton  url='/student'>
+  More Details on students
+</LinkButton >
+<LineBreak/>
 
-Value of metric_value__latest_year: 
-<Value 
-    data={staff_count}
-    column=metric_value__latest_year 
-    row=0
-/>
+<BigValue 
+    data={school_count} 
+    title="Schools"
+    value="metric_value__latest_year" 
+    fnt="num0"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh" 
+    comparisonFmt="id"
+    comparisonDelta=false
+  />
+<LinkButton  url='/school'>
+  More Details on schools
+</LinkButton >
+<LineBreak/>
 
-<!-- <Delta data={staff_count} column=metric_value__comp fmt=pct1 /> -->
-
-
-<Details title="Definitions">
-    
-    Definition of metrics in Solutions Targets
-
-    ### Time to Proposal
-
-    Average number of days it takes to create a proposal for a customer
-
-    *Calculation:*
-    Sum of the number of days it took to create each proposal, divided by the number of proposals created
-
-    *Source:*
-    Hubspot
-
-</Details>
-
-
+<BigValue 
+    data={funding_aud_post_adjustments} 
+    title="Funding"
+    value="metric_value__latest_year" 
+    fnt="num0"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh" 
+    comparisonFmt="id"
+    comparisonDelta=false
+  />
+<LinkButton  url='/funding'>
+  More Details on funding
+</LinkButton >
+<LineBreak/>
 
 <BigLink href='/staff'>
   More Details 🚧
 </BigLink>
 
-<BarChart 
-  data={metrics_by_year_saved_query} 
-  x=metric_time__year
-  y=staff_count 
-  fillColor="#488f96"
->
-  <ReferenceArea xMin="2020-03-15" xMax="2021-05-15" label="COVID Impacted" color=red/>
-</BarChart>
+
+## Metrics Consolidated Refference
+
+### Summary
+<DataTable data="{metrics_by_year_saved_query_latest}" search="true" />
+
+### Detail by Year
+
+<DataTable data="{metrics_by_year_saved_query}" search="true" />
+
+
 
 ```sql staff_count
 select * from ${metrics_by_year_saved_query_latest} where metric_name = 'staff_count'
 ```
 
-<BigValue 
-    data={student_count} 
-    title="Student count"
-    value="metric_value__latest_year"
-    fnt="num0"
-    comparison=metric_value__comp
-    comparisonTitle="prior year growth" 
-    comparisonFmt="pct"
-  />
-
-  <BigValue 
-    data={student_count} 
-    title="Latest Refresh"
-    value="metric_time__year__latest_year" 
-    fmt="id"
-    comparison=metric_time__year__prior_year
-    comparisonTitle="prior year" 
-    comparisonDelta=false
-    comparisonFmt="id"
-  />
-
 ```sql student_count
 select * from ${metrics_by_year_saved_query_latest} where metric_name = 'student_count'
 ```
 
-<BigValue 
-    data={school_count} 
-    title="School count"
-    value="metric_value__latest_year" 
-    fnt="num0"
-    comparison=metric_value__comp
-    comparisonTitle="prior year growth" 
-    comparisonFmt="pct"
-  />
-
-  <BigValue 
-    data={school_count} 
-    title="Latest Refresh"
-    value="metric_time__year__latest_year" 
-    fmt="id"
-    comparison=metric_time__year__prior_year
-    comparisonTitle="prior year" 
-    comparisonDelta=false
-    comparisonFmt="id"
-  />
 
 ```sql school_count
 select * from ${metrics_by_year_saved_query_latest} where metric_name = 'school_count'
 ```
 
 
+```sql funding_aud_post_adjustments
+select * from ${metrics_by_year_saved_query_latest} where metric_name = 'funding_aud_post_adjustments'
+```
 
-<Alert status="warning">
-This is a warning alert
-</Alert>
-
-<BigValue data={metrics_by_year_saved_query} value="funding_aud_post_adjustments"/>
-<BigValue data={metrics_by_year_saved_query} value="funding_aud_original"/>
-<BigValue data={metrics_by_year_saved_query} value="staff_count"/>
-<BigValue data={metrics_by_year_saved_query} value="student_count"/>
-
-## Metrics Consolidated Ref
-<DataTable data="{metrics_by_year_saved_query_latest}" search="true" />
-
-## Data
 ```sql metrics_by_year_saved_query
 select * from metrics_by_year_saved_query
 ```

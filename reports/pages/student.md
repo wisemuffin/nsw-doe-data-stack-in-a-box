@@ -1,9 +1,10 @@
 
 # Overview
 
+
 <BigValue 
-    data={staff_count} 
-    title="Staff count"
+    data={student_count} 
+    title="Student count"
     value="metric_value__latest_year"
     fnt="num0"
     comparison=metric_value__comp
@@ -12,7 +13,7 @@
   />
 
   <BigValue 
-    data={staff_count} 
+    data={student_count} 
     title="Latest Refresh"
     value="metric_time__year__latest_year" 
     fmt="id"
@@ -43,14 +44,14 @@
 <BarChart 
   data={metrics_by_year_saved_query} 
   x=metric_time__year
-  y=staff_count 
+  y=student_count 
   fillColor="#488f96"
 >
   <ReferenceArea xMin="2020-03-15" xMax="2021-05-15" label="COVID Impacted" color=red/>
 </BarChart>
 
-```sql staff_count
-select * from ${metrics_by_year_saved_query_latest} where metric_name = 'staff_count'
+```sql student_count
+select * from ${metrics_by_year_saved_query_latest} where metric_name = 'student_count'
 ```
 
 ```sql metrics_by_year_saved_query

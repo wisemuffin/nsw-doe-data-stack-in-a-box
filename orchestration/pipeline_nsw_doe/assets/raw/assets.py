@@ -35,7 +35,7 @@ def raw__nsw_doe_datahub__ram():
     url_dict["2021"] = "https://data.cese.nsw.gov.au/data/dataset/e354d699-2b59-3ef0-9477-ee63289d7466/resource/2ac4e49f-6da4-4bcf-910a-5e08e7dff5f2/download/data-hub-2021-approved-ram.csv"
     url_dict["2020"] = "https://data.cese.nsw.gov.au/data/dataset/e354d699-2b59-3ef0-9477-ee63289d7466/resource/882e5421-0e40-418b-a3b6-db25c1b8f004/download/data-hub-2020-approved-ram.csv"
     url_dict["2019"] = "https://data.cese.nsw.gov.au/data/dataset/e354d699-2b59-3ef0-9477-ee63289d7466/resource/b2a2b1de-3e46-43a6-929e-2ba65ab3fad5/download/data-hub-2019-approved.csv"
-
+    
     df_ram_all_years = pd.DataFrame({})
 
     for year in url_dict.keys():

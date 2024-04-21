@@ -1,9 +1,0 @@
-SELECT
-  	TABLE_NAME,
-    COLUMN_NAME,
-    DATA_TYPE
-,*
-FROM
-  	INFORMATION_SCHEMA.COLUMNS
-WHERE
-	TABLE_NAME = 'sq__resource_allocation'

@@ -220,7 +220,7 @@ piplines should master metadata including tests...
   - demo - branch deployments
     - change tracking 
   - demo insights for operation observability allow all of us to understand and optimise reliability, cost and freshness
-- python package manager uv is so much faster but cant use in taskfile. Explore this some more
+- python package manager uv is so much faster but cant use in taskfile. Explore this some more (branch `feature/speeding-up-with-uv`)
   - speed up codespace by using uv as a python package manager
 - Motherduck upgrade to 0.10.X eta end of march
   - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
@@ -285,6 +285,8 @@ piplines should master metadata including tests...
 - ✅ example metrics layer - saved queries vs exports
 
 ## Learnings 🚧
+- uv running in ci add `--system` [see](https://github.com/gwenwindflower/octocatalog/blob/main/.github/workflows/ci.yml)
+  - cant get it to work with codespaces
 - dbt merge duckdb - duckdb doesnt have merge. The default [get_merge_sql](https://github.com/dbt-labs/dbt-core/blob/7eb6cdbbfbb239f1d9af24d256df228733a4c2df/core/dbt/include/global_project/macros/materializations/models/incremental/merge.sql#L35-L50) wont work for duckdb. dbt-duckdb doesnt have a `duckdb__get_merge_sql`.
   - work around for now macro `duckdb__get_delete_insert_merge_sql` in dbt-duckdb.
 - dbt-core macros are stored in `.venv/lib/<py version>/site-pacakages/dbt/global_project/macros`

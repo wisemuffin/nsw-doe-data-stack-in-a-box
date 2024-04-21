@@ -24,7 +24,10 @@ tasks:
   python_deps_devcontainer:
     desc: Limitation with taskfile cant use vertial envs. So cant use UV
     cmds:
-      - pip install -r requirements.txt 
+      # - source .venv/bin/activate 
+      # - python3 -m pip install uv && uv venv
+      - source .venv/bin/activate && uv pip sync --system requirements.txt
+      # - pip install -r requirements.txt 
       - cd transformation/transformation_nsw_doe && dbt deps
       # workaround as cant get dynamic manifest.json to build
       - cd transformation/transformation_nsw_doe && dbt parse 
@@ -55,7 +58,7 @@ tasks:
 
   setup:
     cmds:
-      - task temp_limitation
+      # - task temp_limitation # can remove this now?
       - task python_deps_devcontainer
       - task git
       - task znap # already exists in devcontainer
@@ -67,7 +70,7 @@ tasks:
 
   setup_local:
     cmds:
-      - task temp_limitation
+      # - task temp_limitation # can remove this now?
       - task python_deps
       - task node_deps
       - task git
@@ -126,7 +129,7 @@ tasks:
       - cd orchestration && uv pip install -e ".[dev]"
   orchestration_setup_devcontainer:
     cmds:
-      - cd orchestration && pip install -e ".[dev]"
+      - cd orchestration && source .venv/bin/activate && uv pip install -e ".[dev]"
   dag_server:
     cmds:
       - cd orchestration && dagster dev -h 0.0.0.0 -p 3000

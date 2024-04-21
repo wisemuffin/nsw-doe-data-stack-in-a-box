@@ -16,6 +16,8 @@
   // cant get evidence to start in seperate process yet! cuyrrently stops when running dagit
   // "postCreateCommand": "task setup && task dag && task evidence_setup && task evidence ",
   "postCreateCommand": "task setup && task dag ",
+  "postStartCommand": ". .venv/bin/activate",
+  // "postAttachCommand": ". .venv/bin/activate",
   "runArgs": [
     "--env-file", "${localWorkspaceFolder}/.env.dev"
     ],
@@ -31,7 +33,9 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "zsh"
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "python.terminal.activateEnvInCurrentTerminal": true,
+        "python.defaultInterpreterPath": ".venv/bin/python"
       },
       "extensions": [
         "GitHub.codespaces",

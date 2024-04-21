@@ -55,7 +55,7 @@ tasks:
 
   setup:
     cmds:
-      - task temp_limitation
+      # - task temp_limitation # can remove this now?
       - task python_deps_devcontainer
       - task git
       - task znap # already exists in devcontainer
@@ -67,7 +67,7 @@ tasks:
 
   setup_local:
     cmds:
-      - task temp_limitation
+      # - task temp_limitation # can remove this now?
       - task python_deps
       - task node_deps
       - task git

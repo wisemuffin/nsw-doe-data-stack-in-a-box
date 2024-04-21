@@ -1,9 +1,6 @@
 {
   "name": "Python 3",
   "image": "mcr.microsoft.com/devcontainers/python:3.10",
-  // "build": {
-  //   "dockerfile": "Dockerfile"
-  // },
   "features": {
     "ghcr.io/devcontainers-contrib/features/black:1": {},
     "ghcr.io/devcontainers/features/node:1": {},
@@ -20,8 +17,8 @@
   // "postCreateCommand": "task setup && task dag && task evidence_setup && task evidence ",
   // "postCreateCommand": "task setup",
   "postCreateCommand": "bash ./.devcontainer/postCreateCommand.sh && . .venv/bin/activate &&  task setup",
-  // "postStartCommand": ". .venv/bin/activate", // runs after postCreateCommand
-  "postAttachCommand": ". .venv/bin/activate && task dag", // runs after postStartCommand
+  "postStartCommand": "source .venv/bin/activate", // runs after postCreateCommand
+  "postAttachCommand": "task dag", // runs after postStartCommand
   "runArgs": [
     "--env-file", "${localWorkspaceFolder}/.env.dev"
     ],

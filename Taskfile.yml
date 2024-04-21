@@ -24,7 +24,7 @@ tasks:
   python_deps_devcontainer:
     desc: Limitation with taskfile cant use vertial envs. So cant use UV
     cmds:
-      - pip install -r requirements.txt 
+      # - pip install -r requirements.txt 
       - cd transformation/transformation_nsw_doe && dbt deps
       # workaround as cant get dynamic manifest.json to build
       - cd transformation/transformation_nsw_doe && dbt parse 
@@ -60,7 +60,7 @@ tasks:
       - task git
       - task znap # already exists in devcontainer
       - task zsh_plugins
-      - task orchestration_setup_devcontainer
+      # - task orchestration_setup_devcontainer
       - task setup_sqltools
       # - task airbyte
       # - task octavia_setup

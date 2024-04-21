@@ -176,11 +176,7 @@ piplines should master metadata including tests...
 - migrate to new cese data hub
 - DOE data
 
-- evidence
-  - theme for doe https://docs.evidence.dev/reference/themes-and-layouts/
-  - replace evidence logo
-  - leaflet map of schools - see experimental
-  - [echarts](https://echarts.apache.org/en/index.html)
+
 - check out scd_latest_state and scd_type 2 macros from gitlab
 - tests
   - ✅ relationship tests from fact to dims
@@ -248,6 +244,7 @@ piplines should master metadata including tests...
 
 
 💩 Limitations / hard to do 😢😭
+- `simple-browser show http://localhost:3000/` doesnt automatically open a browser
 - DuckDBPandasIOManager doesnt handle drop and recreate table so when schema changes get errors like: `duckdb.duckdb.BinderException: Binder Error: table sq__resource_allocation has 4 columns but 5 values were supplied`. For now just drop and recreate entire duckdb. Will need to implement schema via https://docs.dagster.io/_apidocs/libraries/dagster-duckdb-pandas
 - dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this. Can use Pandera
 - dynamic data masking policies in duckdb/motherduck?
@@ -267,6 +264,11 @@ piplines should master metadata including tests...
     - need to setup dagster test suite
 
 ### Done
+- evidence
+  - theme for doe https://docs.evidence.dev/reference/themes-and-layouts/
+  - replace evidence logo
+  - leaflet map of schools - see experimental
+  - [echarts](https://echarts.apache.org/en/index.html)
 - dagster add compute kind of jupyter, scikit learn, pandas
 - dbt add exposure for evidence report ontop of saved query. doesnt appear in dagster
 - [DBT ERDs](https://github.com/datnguye/dbterd), The Mermaid integration is the best of all IMO and can be automated for diagram generation.

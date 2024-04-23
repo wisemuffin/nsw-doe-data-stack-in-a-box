@@ -177,10 +177,6 @@ piplines should master metadata including tests...
 
 - 🧱 migrate to new cese data hub - links still going to https://data.cese.nsw.gov.au
 
-<<<<<<< HEAD
-
-=======
->>>>>>> d3f75b2 (data quality fixes and trying to fix ERD  automation)
 - check out scd_latest_state and scd_type 2 macros from gitlab
 - tests
   - ✅ relationship tests from fact to dims
@@ -245,14 +241,11 @@ piplines should master metadata including tests...
 
 
 💩 Limitations / hard to do 😢😭
-<<<<<<< HEAD
 - `simple-browser show http://localhost:3000/` doesnt automatically open a browser
-=======
 - evidence
   - error when evidence and etl going at same time: `IO Error: Could not set lock on file "/home/dave/data-engineering/nsw-doe-data-stack-in-a-box/reports/sources/nsw_doe_data_stack_in_a_box__dev/nsw_doe_data_stack_in_a_box__dev.duckdb": Conflicting lock is held in /home/dave/.config/nvm/versions/node/v20.11.1/bin/node (PID 1516344). However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/connect/concurrency` 
     - Evidence connection to duckdb doesnt close. Have to wait for this to be fixed via this [issue](https://github.com/evidence-dev/evidence/issues/1060)
     - Temp work around is to connect tell engineers to stop the evidence proccess? or could force this with a task?
->>>>>>> d3f75b2 (data quality fixes and trying to fix ERD  automation)
 - DuckDBPandasIOManager doesnt handle drop and recreate table so when schema changes get errors like: `duckdb.duckdb.BinderException: Binder Error: table sq__resource_allocation has 4 columns but 5 values were supplied`. For now just drop and recreate entire duckdb. Will need to implement schema via https://docs.dagster.io/_apidocs/libraries/dagster-duckdb-pandas
 - dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this. Can use Pandera
 - dynamic data masking policies in duckdb/motherduck?
@@ -273,17 +266,10 @@ piplines should master metadata including tests...
 
 ### Done
 - evidence
-<<<<<<< HEAD
-  - theme for doe https://docs.evidence.dev/reference/themes-and-layouts/
-  - replace evidence logo
-  - leaflet map of schools - see experimental
-  - [echarts](https://echarts.apache.org/en/index.html)
-=======
   - ❌ theme for doe https://docs.evidence.dev/reference/themes-and-layouts/
   - ❌ replace evidence logo - cant do for some reason, dont want to learn svelt!
   - ✅ leaflet map of schools - see experimental
   - ❌ [echarts](https://echarts.apache.org/en/index.html)
->>>>>>> d3f75b2 (data quality fixes and trying to fix ERD  automation)
 - dagster add compute kind of jupyter, scikit learn, pandas
 - dbt add exposure for evidence report ontop of saved query. doesnt appear in dagster
 - [DBT ERDs](https://github.com/datnguye/dbterd), The Mermaid integration is the best of all IMO and can be automated for diagram generation.

@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-from dagster import Definitions, FilesystemIOManager, load_assets_from_package_module
+from dagster import Definitions, FilesystemIOManager, ScheduleDefinition, define_asset_job, load_assets_from_package_module
 from dagster_dbt import DbtCliResource
 from dagstermill import ConfigurableLocalOutputNotebookIOManager
 
@@ -14,7 +14,6 @@ from dagster_duckdb_pandas import duckdb_pandas_io_manager, DuckDBPandasIOManage
 # from .assets import iris,raw,transformation,machine_learning
 from . import assets
 from .constants import dbt_project_dir, duckdb_project_dir
-from .schedules import schedules
 
 load_dotenv()
 
@@ -48,8 +47,32 @@ resources_by_env = {
 # all_assets = [*load_assets_from_package_module(raw, group_name="jaffle_shop"), *load_assets_from_package_module(transformation, group_name="jaffle_shop"), *load_assets_from_package_module(iris, group_name="other"), *load_assets_from_package_module(machine_learning, group_name="jaffle_shop")]
 all_assets=load_assets_from_package_module(assets)
 
+all_assets_job = define_asset_job(
+    name="etl_job",
+    # selection=all_assets,
+    config={
+        "execution": {
+            "config": {
+                "multiprocess": {
+                    "max_concurrent": 4,
+                },
+            }
+        }
+    },
+)
+
+schedule_all_asset_job = ScheduleDefinition(job=all_assets_job, cron_schedule="0 0 * * *")
+
+# schedule_dbt_assets =  build_schedule_from_dbt_selection(
+#         [jaffle_shop_dbt_assets],
+#         job_name="materialize_dbt_models",
+#         cron_schedule="0 0 * * *",
+#         dbt_select="fqn:*",
+#     )
+
 defs = Definitions(
     assets=all_assets,
-    schedules=schedules,
     resources=resources_by_env[os.getenv("NSW_DOE_DATA_STACK_IN_A_BOX__ENV", "dev")],
+    jobs=[all_assets_job],
+    schedules=[schedule_all_asset_job]
 )

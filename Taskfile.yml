@@ -101,7 +101,14 @@ tasks:
     cmds:
       - npm --prefix ./reports install
       - npm --prefix ./reports run sources
+
+  evidence_prod_build:
+    desc: static site generation for evidence
+    cmds:
+      - npm --prefix ./reports run build 
+      - npm --prefix ./reports run preview -- --port 4000    
   evidence:
+    desc: for local development we dont need to build the static site
     cmds:
       - npm --prefix ./reports run dev && simple-browser show http://localhost:3001/
 

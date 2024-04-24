@@ -60,7 +60,7 @@
         "GitHub.copilot-labs",
         "innoverio.vscode-dbt-power-user",
         "bastienboutonnet.vscode-dbt",
-        "eamodio.gitlens",
+        // "eamodio.gitlens", // this dude pops up when start for now will hide
         "Evidence.sqltools-duckdb-driver",
         "Evidence.evidence-vscode",
         "ms-toolsai.datawrangler"

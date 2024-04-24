@@ -7,7 +7,7 @@ from dagster import AssetIn, asset, file_relative_path, Field, Int, load_assets_
 from metricflow.cli.main import cli as mf
 
 from ...constants import dbt_project_dir
-from ..transformation import jaffle_shop_dbt_assets
+from ..transformation import nsw_doe_dbt_assets
 
 
 @asset(
@@ -16,11 +16,11 @@ from ..transformation import jaffle_shop_dbt_assets
         key_prefix=["analytics"], 
         group_name="semantic_layer", 
         deps=[
-            get_asset_key_for_model([jaffle_shop_dbt_assets],'fct__resource_allocation'), 
-            get_asset_key_for_model([jaffle_shop_dbt_assets],'fct__staff'),
-            get_asset_key_for_model([jaffle_shop_dbt_assets],'fct__student'),
-            get_asset_key_for_model([jaffle_shop_dbt_assets],'fct__school'),
-            get_asset_key_for_model([jaffle_shop_dbt_assets],'dim__date')
+            get_asset_key_for_model([nsw_doe_dbt_assets],'fct__resource_allocation'), 
+            get_asset_key_for_model([nsw_doe_dbt_assets],'fct__staff'),
+            get_asset_key_for_model([nsw_doe_dbt_assets],'fct__student'),
+            get_asset_key_for_model([nsw_doe_dbt_assets],'fct__school'),
+            get_asset_key_for_model([nsw_doe_dbt_assets],'dim__date')
             ]
         )
 def metrics_by_year_saved_query() -> pd.DataFrame:
@@ -47,9 +47,9 @@ def metrics_by_year_saved_query() -> pd.DataFrame:
         key_prefix=["analytics"], 
         group_name="semantic_layer", 
         deps=[
-            get_asset_key_for_model([jaffle_shop_dbt_assets],'fct__resource_allocation'),
-            get_asset_key_for_model([jaffle_shop_dbt_assets],'dim__school'),
-            get_asset_key_for_model([jaffle_shop_dbt_assets],'dim__date')
+            get_asset_key_for_model([nsw_doe_dbt_assets],'fct__resource_allocation'),
+            get_asset_key_for_model([nsw_doe_dbt_assets],'dim__school'),
+            get_asset_key_for_model([nsw_doe_dbt_assets],'dim__date')
             
             ]
 )

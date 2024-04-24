@@ -173,9 +173,9 @@ piplines should master metadata including tests...
 ## Todo
 
 ### 🚧working on
-- test code spaces with all changes
 
-- 🧱 migrate to new cese data hub - links still going to https://data.cese.nsw.gov.au
+- dagster ml example
+
 
 - check out scd_latest_state and scd_type 2 macros from gitlab
 - tests
@@ -187,6 +187,14 @@ piplines should master metadata including tests...
 
 
 ### 🧱 Blocked
+- 🧱 migrate to new cese data hub - links still going to https://data.cese.nsw.gov.au
+- Motherduck upgrade to 0.10.X eta end of April
+  - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
+  - backwards compatability
+  - evidence can then point to production and can serve and CICD so everyone can see the results.
+- evidence build site and host on static site (need to wait for mother duck) 
+  - [fixed] currently getting heap out of memory error. [Issue raised](https://github.com/evidence-dev/evidence/issues/1507)
+  - note when deploying to evidence cloud need to put relative path as `/reports`
 - fix erd automation. Broken as manifest.json produced by dbt-core isnt matching [v11](https://schemas.getdbt.com/dbt/manifest/v11) thus dbt-parser is failing.
 - using jupyter notebooks as upstream data transformations in dagster as assets (all good if they are the last part of the dag). Keen an eye on this [thread](https://github.com/dagster-io/dagster/issues/10557). Also note its possible to do with Ops just not Assets yet for example `AssetsDefinition.from_op(my_asset_name)`
 - asset checks - anomily detection 🌿 feature/asset-checks
@@ -201,6 +209,8 @@ piplines should master metadata including tests...
 - sql tools for duckdb locks database [issue](https://github.com/evidence-dev/sqltools-duckdb-driver/issues/5).
 
 ### 🔙🪵backlog
+
+
 - change all gif to be NSW based
 - move to dagster+ 
   - for catalog [dagster+](https://www.youtube.com/watch?v=_Z4xxZYEQNs&t=5s)
@@ -215,9 +225,6 @@ piplines should master metadata including tests...
   - demo insights for operation observability allow all of us to understand and optimise reliability, cost and freshness
 - python package manager uv is so much faster but cant use in taskfile. Explore this some more
   - speed up codespace by using uv as a python package manager
-- Motherduck upgrade to 0.10.X eta end of march
-  - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
-  - backwards compatability
 - dbt unit tests (in preview in dbt core 1.8) want to add these soon but dont want to use 1.8 yet until duckdb and mother duck have been updated.
 - limitation, when dbt model fails all downstream fails (i.e. if have depency on any other dbt table). To investigate.
 - deployment CICD (dagster+ makes this easy)
@@ -241,6 +248,9 @@ piplines should master metadata including tests...
 
 
 💩 Limitations / hard to do 😢😭
+- UX - change all build to docker rather than having to wait for additional steps to execute
+- semantic layers full features (cube.dev and dbt) require min spend $100 per month so hard to demo.
+  - work around cache dbt semantic layer as a table
 - `simple-browser show http://localhost:3000/` doesnt automatically open a browser
 - evidence
   - error when evidence and etl going at same time: `IO Error: Could not set lock on file "/home/dave/data-engineering/nsw-doe-data-stack-in-a-box/reports/sources/nsw_doe_data_stack_in_a_box__dev/nsw_doe_data_stack_in_a_box__dev.duckdb": Conflicting lock is held in /home/dave/.config/nvm/versions/node/v20.11.1/bin/node (PID 1516344). However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/connect/concurrency` 

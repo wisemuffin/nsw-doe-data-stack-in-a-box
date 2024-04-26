@@ -6,7 +6,7 @@
     "sqlfluff.dialect": "duckdb",
     "sqlfluff.executablePath": "/home/vscode/.local/bin/sqlfluff",
     // "sqlfluff.executablePath": ".venv/bin/sqlfluff",
-    // "python.defaultInterpreterPath": ".venv/bin/python",
+    "python.defaultInterpreterPath": ".venv/bin/python",
     "sqlfluff.experimental.format.executeInTerminal": true,
 
     "[jinja-sql]": {

@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 from dagster import Definitions, FilesystemIOManager, ScheduleDefinition, define_asset_job, load_assets_from_package_module
 from dagster_dbt import DbtCliResource
 from dagstermill import ConfigurableLocalOutputNotebookIOManager
+from dagster_embedded_elt.dlt import DagsterDltResource
+
 
 from dagster_dbt import dbt_cli_resource
 from dagster_duckdb_pandas import duckdb_pandas_io_manager, DuckDBPandasIOManager
@@ -30,6 +32,7 @@ resources_by_env = {
         ),
         "io_manager": FilesystemIOManager(),
         "dbt": DbtCliResource(project_dir=os.fspath(dbt_project_dir)),
+        "dlt": DagsterDltResource(),
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager()
     },
     "dev": {
@@ -40,6 +43,7 @@ resources_by_env = {
         ),
         "io_manager": FilesystemIOManager(),
         "dbt": DbtCliResource(project_dir=os.fspath(dbt_project_dir)),
+        "dlt": DagsterDltResource(),
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager()
     },
 }

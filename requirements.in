@@ -32,3 +32,5 @@ dbterd
 # Exploritory data analysis
 ydata_profiling
 ipywidgets
+
+dagster-embedded-elt

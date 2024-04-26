@@ -5,9 +5,9 @@ from dagster_dbt import DbtCliResource, dbt_assets, DagsterDbtTranslator, Dagste
 
 from ...constants import dbt_manifest_path
 
+                    
 class CustomDagsterDbtTranslator(DagsterDbtTranslator):
-    @classmethod
-    def get_asset_key(cls, dbt_resource_props: Mapping[str, Any]) -> AssetKey:
+    def get_asset_key(self, dbt_resource_props: Mapping[str, Any]) -> AssetKey:
         asset_key = super().get_asset_key(dbt_resource_props)
 
         if dbt_resource_props["resource_type"] == "source":
@@ -22,6 +22,12 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
     ) -> Optional[str]:
         return "transformation"
     
-@dbt_assets(manifest=dbt_manifest_path, dagster_dbt_translator=CustomDagsterDbtTranslator(settings=DagsterDbtTranslatorSettings(enable_asset_checks=True)),io_manager_key="io_manager_dw",exclude="*_saved_query")
+@dbt_assets(
+        manifest=dbt_manifest_path, 
+        dagster_dbt_translator=CustomDagsterDbtTranslator(settings=DagsterDbtTranslatorSettings(enable_asset_checks=True)),
+        io_manager_key="io_manager_dw",
+        exclude="saved_query:*",
+        select="fqn:*"
+        )
 def nsw_doe_dbt_assets(context: AssetExecutionContext, dbt: DbtCliResource):
     yield from dbt.cli(["build"], context=context ).stream()

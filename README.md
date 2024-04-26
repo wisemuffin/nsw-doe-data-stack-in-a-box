@@ -372,3 +372,11 @@ Differences to gitlab's data team's handbook:
 dbt docs generate
 .venv/bin/python ERD_generation.py
 ```
+
+To submit your code, fork the repository, create a [new branch](https://docs.github.com/en/desktop/making-changes-in-a-branch/managing-branches-in-github-desktop) on your fork, and open a [Pull Request (PR)](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) once your work is ready for review.
+
+In the PR template, please describe the change, including the motivation/context, test coverage, and any other relevant information. Please note if the PR is a breaking change or if it is related to an open GitHub issue.
+
+A Core reviewer will review your PR in around five business days and provide feedback on any changes it requires to be approved. Once approved and all the tests pass, the reviewer will click the Squash and merge button in Github 🥳.
+
+Your PR is now merged into Dagster! We’ll shout out your contribution in the release notes.

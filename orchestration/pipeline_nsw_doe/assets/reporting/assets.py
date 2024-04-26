@@ -4,7 +4,13 @@ import subprocess
 from ..semantic_layer.assets import metrics_by_year_saved_query,metrics_by_year_school_saved_query
 
 
-@asset(compute_kind="evidence", group_name="reporting", deps=[metrics_by_year_saved_query,metrics_by_year_school_saved_query])
+@asset(
+        compute_kind="evidence", 
+        group_name="reporting", 
+        deps=[metrics_by_year_saved_query,
+              metrics_by_year_school_saved_query
+              ]
+        )
 def evidence_dashboard__experimental():
     """
         Dashboard built using Evidence showing Duck metrics.

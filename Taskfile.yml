@@ -110,7 +110,7 @@ tasks:
   evidence:
     desc: for local development we dont need to build the static site
     cmds:
-      - npm --prefix ./reports run dev && simple-browser show http://localhost:3001/
+      - npm --prefix ./reports run dev # && simple-browser show http://localhost:3001/
 
   dbtdoc:
     cmds:

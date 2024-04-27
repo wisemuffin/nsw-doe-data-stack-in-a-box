@@ -15,7 +15,7 @@ from dagster_embedded_elt.dlt import (
 )
 from dlt import pipeline
 from dlt.extract.resource import DltResource
-from ...dlt_sources.github import github_reactions
+from ...dlt_sources.github import github_reactions, github_repo_events
 
 
 # dlt_configuration_path = file_relative_path(__file__, "../../dlt_sources/dlt_configuration.yaml")
@@ -28,7 +28,6 @@ class GithubDagsterDltTranslator(DagsterDltTranslator):
         return AutoMaterializePolicy.eager().with_rules(
             AutoMaterializeRule.materialize_on_cron("0 0 * * *")
         )
-    
 
 
 @dlt_assets(
@@ -40,7 +39,9 @@ class GithubDagsterDltTranslator(DagsterDltTranslator):
         # access_token = "", #dlt.secrets.value,
         items_per_page=100,
         max_items=10
-    ).with_resources("issues"),
+    )
+    # .with_resources("issues")
+    ,
     dlt_pipeline=pipeline(
         pipeline_name="github_issues",
         dataset_name="raw_github", # schema
@@ -52,4 +53,31 @@ class GithubDagsterDltTranslator(DagsterDltTranslator):
     dlt_dagster_translator=GithubDagsterDltTranslator()
 )
 def github_reactions_dagster_assets(context: AssetExecutionContext, dlt: DagsterDltResource):
+    yield from dlt.run(context=context)
+
+
+
+@dlt_assets(
+    dlt_source=github_repo_events(
+        # owner= "wisemuffin",
+        # name="nsw-doe-data-stack-in-a-box",
+        owner="dagster-io", 
+        name="dagster", 
+        # access_token = "", #dlt.secrets.value,
+        # items_per_page=100,
+        # max_items=10
+    )
+    # .with_resources("issues")
+    ,
+    dlt_pipeline=pipeline(
+        pipeline_name="github_issues",
+        dataset_name="raw_github", # schema
+        destination="duckdb"
+    ),
+    name="github_evt",
+    # key_prefix=["raw"], # TODO: no prefixing yet
+    group_name="raw_github",
+    dlt_dagster_translator=GithubDagsterDltTranslator()
+)
+def github_repo_events_dagster_assets(context: AssetExecutionContext, dlt: DagsterDltResource):
     yield from dlt.run(context=context)

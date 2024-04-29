@@ -1,5 +1,5 @@
 with source as (
-      select * from {{ source('raw_github', 'issues__reactions') }}
+      select * from {{ source('raw', 'raw_github_reactions_issues_comments_reactions') }}
 ),
 renamed as (
     select
@@ -15,4 +15,3 @@ renamed as (
     from source
 )
 select * from renamed
-  

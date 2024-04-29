@@ -3,6 +3,7 @@ from typing import Optional
 import yaml
 from dagster import (
     AssetExecutionContext,
+    AssetKey,
     AutoMaterializePolicy,
     AutoMaterializeRule,
     file_relative_path,
@@ -29,6 +30,18 @@ class GithubDagsterDltTranslator(DagsterDltTranslator):
         return AutoMaterializePolicy.eager().with_rules(
             AutoMaterializeRule.materialize_on_cron("0 0 * * *")
         )
+    @public
+    def get_asset_key(self, resource: DltResource) -> AssetKey:
+        """Defines asset key for a given dlt resource key and dataset name.
+
+        Args:
+            resource (DltResource): dlt resource / transformer
+
+        Returns:
+            AssetKey of Dagster asset derived from dlt resource
+
+        """
+        return AssetKey(f"{resource.name}")
 
 
 @dlt_assets(
@@ -41,11 +54,11 @@ class GithubDagsterDltTranslator(DagsterDltTranslator):
         items_per_page=100,
         max_items=10
     )
-    .with_resources("issues")
+    # .with_resources("issues")
     ,
     dlt_pipeline=pipeline(
         pipeline_name="github_github_reactions",
-        dataset_name="raw_github", # schema
+        dataset_name="raw", # schema
         destination="duckdb"
     ),
     name="github",
@@ -58,30 +71,30 @@ def github_reactions_dagster_assets(context: AssetExecutionContext, dlt: Dagster
 
 
 
-# @dlt_assets(
-#     dlt_source=github_repo_events(
-#         # owner= "wisemuffin",
-#         # name="nsw-doe-data-stack-in-a-box",
-#         owner="dagster-io", 
-#         name="dagster", 
-#         # access_token = "", #dlt.secrets.value,
-#         # items_per_page=100,
-#         # max_items=10
-#     )
-#     # .with_resources("repo_events")
-#     ,
-#     dlt_pipeline=pipeline(
-#         pipeline_name="github_repo_events",
-#         dataset_name="raw_github", # schema
-#         destination="duckdb"
-#     ),
-#     name="github_evt",
-#     # key_prefix=["raw"], # TODO: no prefixing yet
-#     group_name="raw_github",
-#     dlt_dagster_translator=GithubDagsterDltTranslator()
-# )
-# def github_repo_events_dagster_assets(context: AssetExecutionContext, dlt: DagsterDltResource):
-#     yield from dlt.run(context=context)
+@dlt_assets(
+    dlt_source=github_repo_events(
+        # owner= "wisemuffin",
+        # name="nsw-doe-data-stack-in-a-box",
+        owner="dagster-io", 
+        name="dagster", 
+        # access_token = "", #dlt.secrets.value,
+        # items_per_page=100,
+        # max_items=10
+    )
+    # .with_resources("repo_events")
+    ,
+    dlt_pipeline=pipeline(
+        pipeline_name="github_repo_events",
+        dataset_name="raw_github", # schema
+        destination="duckdb"
+    ),
+    name="github_evt",
+    # key_prefix=["raw"], # TODO: no prefixing yet
+    group_name="raw_github",
+    dlt_dagster_translator=GithubDagsterDltTranslator()
+)
+def github_repo_events_dagster_assets(context: AssetExecutionContext, dlt: DagsterDltResource):
+    yield from dlt.run(context=context)
 
 
 class GoogleAnalyticsDagsterDltTranslator(DagsterDltTranslator):
@@ -90,16 +103,28 @@ class GoogleAnalyticsDagsterDltTranslator(DagsterDltTranslator):
         return AutoMaterializePolicy.eager().with_rules(
             AutoMaterializeRule.materialize_on_cron("0 0 * * *")
         )
+    @public
+    def get_asset_key(self, resource: DltResource) -> AssetKey:
+        """Defines asset key for a given dlt resource key and dataset name.
+
+        Args:
+            resource (DltResource): dlt resource / transformer
+
+        Returns:
+            AssetKey of Dagster asset derived from dlt resource
+
+        """
+        return AssetKey(f"{resource.name}")
 
 
 GA_QUERIES = [
     {
-        "resource_name": "sample_analytics_data1",
+        "resource_name": "raw__google_analytics__sample_analytics_data1",
         "dimensions": ["browser", "city"],
         "metrics": ["totalUsers", "transactions"],
     },
     {
-        "resource_name": "sample_analytics_data2",
+        "resource_name": "raw__google_analytics__sample_analytics_data2",
         "dimensions": ["browser", "city", "dateHour"],
         "metrics": ["totalUsers"],
     },
@@ -112,7 +137,7 @@ GA_QUERIES = [
     ,
     dlt_pipeline=pipeline(
         pipeline_name="github_github_reactions",
-        dataset_name="raw_github", # schema
+        dataset_name="raw", # schema
         destination="duckdb"
     ),
     name="google_analytics",

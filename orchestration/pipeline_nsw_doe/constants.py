@@ -25,6 +25,7 @@ dbt_manifest_path_temp = dbt_project_dir.joinpath("target", "manifest.json")
 if os.getenv("DAGSTER_DBT_PARSE_PROJECT_ON_LOAD") or not os.path.exists(dbt_manifest_path_temp):
     dbt_parse_invocation = dbt.cli(["parse"]).wait()
     # dbt_manifest_path = dbt_parse_invocation.target_path.joinpath("manifest.json")
-    dbt_manifest_path = dbt_project_dir.joinpath("target", "manifest.json")
+    dbt_manifest_path = dbt_parse_invocation.target_path.joinpath( "manifest.json")
+    # dbt_manifest_path = dbt_project_dir.joinpath("target", "manifest.json")
 else:
     dbt_manifest_path = dbt_project_dir.joinpath("target", "manifest.json")

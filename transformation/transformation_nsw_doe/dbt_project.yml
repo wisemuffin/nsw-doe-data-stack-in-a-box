@@ -25,6 +25,8 @@ clean-targets:
 require-dbt-version: [">=1.0.0", "<2.0.0"]
 
 models:
+  +tags:
+    - "all"
   nsw_doe_data_stack_in_a_box:
     +materialized: table
     # +schema: common
@@ -34,3 +36,9 @@ models:
         # +pre_hook: ["select 4;"] # was going to apply missing_member_column as a hook to all dimensions, but for now defining in model config
     staging:
       materialized: view
+      github:
+        +tags:
+          - "api" # tagging api so i know which models require API keys
+      google_analytics:
+        +tags:
+          - "api" # tagging api so i know which models require API keys

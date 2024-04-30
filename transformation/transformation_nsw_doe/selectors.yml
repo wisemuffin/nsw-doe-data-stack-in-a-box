@@ -1,0 +1,16 @@
+selectors:
+  - name: no_api_keys_required
+    definition:
+      method: fqn
+      value: "*"
+      default: true
+      exclude:
+        - method: tag
+          value: api
+  # - name: api_keys_required
+  #   # method: tag
+  #   # value: api
+  #   default: true
+  #   # exclude:
+  #   #   - method: tag
+  #   #     value: api

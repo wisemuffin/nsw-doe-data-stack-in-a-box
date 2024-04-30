@@ -107,7 +107,7 @@ def get_metadata(client: Resource, property_id: int) -> Iterator[Metadata]:
     yield metadata
 
 
-@dlt.transformer(data_from=get_metadata, write_disposition="replace", name="raw__google_analytics__metrics")
+@dlt.transformer(data_from=get_metadata, write_disposition="replace", name="raw_google_analytics_metrics")
 def metrics_table(metadata: Metadata) -> Iterator[TDataItem]:
     """
     Loads data for metrics.
@@ -122,7 +122,7 @@ def metrics_table(metadata: Metadata) -> Iterator[TDataItem]:
         yield to_dict(metric)
 
 
-@dlt.transformer(data_from=get_metadata, write_disposition="replace", name="raw__google_analytics__dimensions")
+@dlt.transformer(data_from=get_metadata, write_disposition="replace", name="raw_google_analytics_dimensions")
 def dimensions_table(metadata: Metadata) -> Iterator[TDataItem]:
     """
     Loads data for dimensions.

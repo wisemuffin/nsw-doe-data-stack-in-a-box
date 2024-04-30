@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Iterable, Optional
 
 import yaml
 from dagster import (
@@ -42,6 +42,22 @@ class GithubDagsterDltTranslator(DagsterDltTranslator):
 
         """
         return AssetKey(f"{resource.name}")
+    
+    @public
+    def get_deps_asset_keys(self, resource: DltResource): # -> Iterable[AssetKey]:
+        """Defines upstream asset dependencies given a dlt resource.
+
+        Defaults to a concatenation of `resource.source_name` and `resource.name`.
+
+        Args:
+            resource (DltResource): dlt resource / transformer
+
+        Returns:
+            # Iterable[AssetKey]: The Dagster asset keys upstream of `dlt_resource_key`.
+            have set this to none, as DLT is usually the source, and dont want to complicate graph
+
+        """
+        # return [AssetKey(f"{resource.source_name}")] #[AssetKey(f"{resource.source_name}_{resource.name}")]
 
 
 @dlt_assets(
@@ -115,16 +131,32 @@ class GoogleAnalyticsDagsterDltTranslator(DagsterDltTranslator):
 
         """
         return AssetKey(f"{resource.name}")
+    
+    @public
+    def get_deps_asset_keys(self, resource: DltResource): # -> Iterable[AssetKey]:
+        """Defines upstream asset dependencies given a dlt resource.
+
+        Defaults to a concatenation of `resource.source_name` and `resource.name`.
+
+        Args:
+            resource (DltResource): dlt resource / transformer
+
+        Returns:
+            # Iterable[AssetKey]: The Dagster asset keys upstream of `dlt_resource_key`.
+            have set this to none, as DLT is usually the source, and dont want to complicate graph
+
+        """
+        # return [AssetKey(f"{resource.source_name}")] #[AssetKey(f"{resource.source_name}_{resource.name}")]
 
 
 GA_QUERIES = [
     {
-        "resource_name": "raw__google_analytics__sample_analytics_data1",
+        "resource_name": "raw_google_analytics_sample_analytics_data1",
         "dimensions": ["browser", "city"],
         "metrics": ["totalUsers", "transactions"],
     },
     {
-        "resource_name": "raw__google_analytics__sample_analytics_data2",
+        "resource_name": "raw_google_analytics_sample_analytics_data2",
         "dimensions": ["browser", "city", "dateHour"],
         "metrics": ["totalUsers"],
     },

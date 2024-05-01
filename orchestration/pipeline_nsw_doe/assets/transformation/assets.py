@@ -26,13 +26,13 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
         manifest=dbt_manifest_path, 
         dagster_dbt_translator=CustomDagsterDbtTranslator(settings=DagsterDbtTranslatorSettings(enable_asset_checks=True, enable_duplicate_source_asset_keys=True)),
         io_manager_key="io_manager_dw",
-        exclude="saved_query:* *google* *github*",
+        exclude="saved_query:* *google* *github* *web_analytics* *repo*",
         select="fqn:*"
         # select="fqn:* fqn:*" # works
         # select="fqn:* tag:api" # not working
         # select="tag:api" # not working
         # select="tag:all" # not working
-        # select="*google* *github*" # works
+        # select="*google* *github* *web_analytics* *repo*" # works
         # select="nsw_doe_data_stack_in_a_box.staging* nsw_doe_data_stack_in_a_box.dimensional*"
         )
 def nsw_doe_dbt_assets(context: AssetExecutionContext, dbt: DbtCliResource):
@@ -62,12 +62,12 @@ class CustomDagsterDbtTranslatorAPIRequired(DagsterDbtTranslator):
         dagster_dbt_translator=CustomDagsterDbtTranslatorAPIRequired(settings=DagsterDbtTranslatorSettings(enable_asset_checks=True, enable_duplicate_source_asset_keys=True)),
         io_manager_key="io_manager_dw",
         exclude="saved_query:*",
-        select="*google* *github*"
+        select="*google* *github* *web_analytics* *repo*"
         # select="fqn:* fqn:*" # works
         # select="fqn:* tag:api" # not working
         # select="tag:api" # not working
         # select="tag:all" # not working
-        # select="*google* *github*" # works
+        # select="*google* *github* *web_analytics* *repo*" # works
         # select="nsw_doe_data_stack_in_a_box.staging* nsw_doe_data_stack_in_a_box.dimensional*"
         )
 def nsw_doe_dbt_assets_requires_api(context: AssetExecutionContext, dbt: DbtCliResource):

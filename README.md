@@ -175,6 +175,8 @@ piplines should master metadata including tests...
 ### 🚧working on
 
 - dagster ml example
+- dlt google analytics and github
+- report on usage - heat map for contributions and reporting on report ga data
 
 
 - check out scd_latest_state and scd_type 2 macros from gitlab
@@ -182,6 +184,7 @@ piplines should master metadata including tests...
   - ✅ relationship tests from fact to dims
   - ✅ For dimensions, we can test for the existence of the MD5('-1') (missing) dimension_id, and total row counts.
   - For facts, we can test to ensure the number of records/rows is not expanded due to incorrect granularity joins.
+- pytest
 
 
 

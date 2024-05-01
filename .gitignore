@@ -20,3 +20,15 @@ transformation/transformation_nsw_doe/exports/*.csv
 transformation/transformation_nsw_doe/_local_queries/*.sql
 
 secrets.toml
+
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/

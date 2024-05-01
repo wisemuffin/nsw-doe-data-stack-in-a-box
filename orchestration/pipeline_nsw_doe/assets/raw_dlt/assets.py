@@ -160,6 +160,11 @@ GA_QUERIES = [
         "dimensions": ["browser", "city", "dateHour"],
         "metrics": ["totalUsers"],
     },
+    {
+        "resource_name": "raw_google_analytics_user_metrics_date",
+        "dimensions": ["country", "city", "date"],
+        "metrics": ["totalUsers","newUsers","userEngagementDuration"],
+    },
 ]
 
 @dlt_assets(

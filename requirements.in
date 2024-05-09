@@ -13,6 +13,8 @@ dagster-duckdb-pandas
 
 dagstermill
 papermill-origami>=0.0.8
+pandera
+pandera[io]
 
 # required for pandas to read excel for acara data
 openpyxl

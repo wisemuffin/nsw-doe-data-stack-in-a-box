@@ -133,15 +133,44 @@ Dont need to memorise Pandas API. Drag and dops converts to Pandas 🐼
 ![Data Wangler](.github/static/data-wrangler.gif)
 
 
-**testing**
+**testing, validation, and data quality**
 
-dagster asset checks
-dbt tests
-piplines should master metadata including tests...
+🚧 TODO
 
-🚧 anomily detection
-🚧 schema validation
-🚧 dbt unit tests
+testing data is `complex`! 🧠
+
+Types of testing and when do we test:
+
+testing during development
+- `type annotations` - to improve developer productivity
+- `schema validation` - 
+- `unit testing` - quick tests limited to just one part of your code. Supports test as documentation.
+  - 🚧 pytest - used to unit test pipeline logic
+  - 🚧 dbt unit test - used to test sql functions used in dbt data models
+
+testing during code review
+- `integration testing`
+- `unit testing` see notes from development.
+- `data quality`
+  - dbt tests
+  - 🚧 data diff
+- `schema validation`
+- `end to end testing`
+- `acceptance testing`
+
+testing during pipeline execution (we want to alert)
+- `schema validation` - 
+- `data quality`
+  - ✅ dagster asset checks
+  - dbt data tests
+    - ✅ relationship tests from fact to dims
+    - ✅ For dimensions, we can test for the existence of the MD5('-1') (missing) dimension_id, and total row counts.
+    - 🚧 For facts, we can test to ensure the number of records/rows is not expanded due to incorrect granularity joins.
+
+operations after testing (also done during pipeline execution)
+  - 🚧 dagster+ `alerts` from annomily detection (this isnt free so wont be available in this soloution)
+  - 🚧 `anomily detection`
+
 
 **debugging**
 
@@ -170,19 +199,43 @@ piplines should master metadata including tests...
 🚧 AI metrics e.g. tableau
 
 
+**data science**
+
+- explain that you need to move away from jupyter notebooks to scripts so:
+  - write unit tests
+  - debugging
+  - configuration for CICD. Not really an issue can just import env variables with dot env.
+  - lint code
+  - version control code better. For example, notebook code may not change but if notebook cells change due to upstream changes then this results in a git diff...cicd issues, ect...
+  - code reuse
+  - i love notebooks for inital exploriory analysis. Scripts can also be used for exploritory analysis too with VScode's “Python Interactive Window” where you have Jupyter-esque code blocks. The blocks are separated by a special comment (“# %%”) so the end result is still a script you can version control, unit test, debug, etc. It’s available through the Python extension. Or leave out the "#%%" and just highlight the section I need to run while building and testing so that I clean script when I am finished.
+
+
+
 ## Todo
 
 ### 🚧working on
 
+- linting - black / ruff
+- dbt unit tests waiting for 1.8 release
+- pytest
+
+
+- move to dagster+ 
+  - for catalog [dagster+](https://www.youtube.com/watch?v=_Z4xxZYEQNs&t=5s)
+    - do this instead of openmetadata
+  - demos catalog and data reliability (insights) - asset checks. 
+  - for orgs using data mesh architecture asset checks enable data contracts
+  - freshness checks
+  - schema changes
+  - demo - have this setup to run each day and show the issues you found over a month
+  - demo - branch deployments
+    - change tracking 
+  - demo insights for operation observability allow all of us to understand and optimise reliability, cost and freshness
+
 - dagster ml example
-
-
-- check out scd_latest_state and scd_type 2 macros from gitlab
-- tests
-  - ✅ relationship tests from fact to dims
-  - ✅ For dimensions, we can test for the existence of the MD5('-1') (missing) dimension_id, and total row counts.
-  - For facts, we can test to ensure the number of records/rows is not expanded due to incorrect granularity joins.
-
+  - also create functions and assets e.g. for pre process, train test split of data,  fit, model evaluation
+  - example of ml pipeline for churn: via `taipy`: https://github.com/Avaiga/demo-churn-classification/tree/develop?tab=readme-ov-file already seen its lineage
 
 
 
@@ -210,19 +263,8 @@ piplines should master metadata including tests...
 
 ### 🔙🪵backlog
 
-
+- check out scd_latest_state and scd_type 2 macros from gitlab
 - change all gif to be NSW based
-- move to dagster+ 
-  - for catalog [dagster+](https://www.youtube.com/watch?v=_Z4xxZYEQNs&t=5s)
-    - do this instead of openmetadata
-  - demos catalog and data reliability (insights) - asset checks. 
-  - for orgs using data mesh architecture asset checks enable data contracts
-  - freshness checks
-  - schema changes
-  - demo - have this setup to run each day and show the issues you found over a month
-  - demo - branch deployments
-    - change tracking 
-  - demo insights for operation observability allow all of us to understand and optimise reliability, cost and freshness
 - python package manager uv is so much faster but cant use in taskfile. Explore this some more
   - speed up codespace by using uv as a python package manager
 - dbt unit tests (in preview in dbt core 1.8) want to add these soon but dont want to use 1.8 yet until duckdb and mother duck have been updated.
@@ -257,7 +299,6 @@ piplines should master metadata including tests...
     - Evidence connection to duckdb doesnt close. Have to wait for this to be fixed via this [issue](https://github.com/evidence-dev/evidence/issues/1060)
     - Temp work around is to connect tell engineers to stop the evidence proccess? or could force this with a task?
 - DuckDBPandasIOManager doesnt handle drop and recreate table so when schema changes get errors like: `duckdb.duckdb.BinderException: Binder Error: table sq__resource_allocation has 4 columns but 5 values were supplied`. For now just drop and recreate entire duckdb. Will need to implement schema via https://docs.dagster.io/_apidocs/libraries/dagster-duckdb-pandas
-- dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this. Can use Pandera
 - dynamic data masking policies in duckdb/motherduck?
 - auto start dagster in codespace and popup webserver but also want evidence-dev to also pop up?
   - "postStartCommand": "task dag" does this mean the codesandbox wont closed down?
@@ -275,6 +316,24 @@ piplines should master metadata including tests...
     - need to setup dagster test suite
 
 ### Done
+
+- tests
+  - build time
+    - unit tests
+    - integration tests
+    - QA/UAT - manual checking
+  - run time (focusing on the data quality)
+    - ✅ relationship tests from fact to dims
+    - ✅ For dimensions, we can test for the existence of the MD5('-1') (missing) dimension_id, and total row counts.
+    - 🚧 For facts, we can test to ensure the number of records/rows is not expanded due to incorrect granularity joins.
+    - schema validation
+      - 🚧 do this in dlt? yes https://dlthub.com/docs/general-usage/schema-contracts 
+        - can dlt use dagster dlt checks?
+      - ✅ dagster too: https://dagster.io/blog/ensuring-reliable-data-dagster-plus
+        - demo: https://github.com/tacastillo/asset-checks-demo
+        - good example: https://github.com/dagster-io/dagster/discussions/17162
+      - ❌or pydantic check data in dagster see https://www.youtube.com/watch?v=502XOB0u8OY i want to throw an error if the returned data doesnt match the contract
+      - ✅ dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this. Can use Pandera when using pandas
 - evidence
   - ❌ theme for doe https://docs.evidence.dev/reference/themes-and-layouts/
   - ❌ replace evidence logo - cant do for some reason, dont want to learn svelt!

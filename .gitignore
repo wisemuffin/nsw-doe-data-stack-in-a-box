@@ -1,6 +1,7 @@
 .venv
 .env
 .env.secret
+.coverage
 # .vscode
 dbt_packages
 target/
@@ -20,3 +21,5 @@ transformation/transformation_nsw_doe/exports/*.csv
 transformation/transformation_nsw_doe/_local_queries/*.sql
 
 secrets.toml
+
+__pycache__

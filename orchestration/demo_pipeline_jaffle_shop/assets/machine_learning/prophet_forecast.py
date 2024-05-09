@@ -1,36 +1,29 @@
-import pandas as pd
 import datetime
-
 from typing import Any
+
+import pandas as pd
 from dagster import AssetIn, FreshnessPolicy, MetadataValue, asset, file_relative_path
 from prophet import Prophet
-from prophet.plot import plot_plotly, plot_components_plotly
+from prophet.plot import plot_components_plotly, plot_plotly
 
-from dagster_dbt import get_asset_key_for_model
-
-from demo_pipeline_jaffle_shop.assets import transformation
 
 @asset(
     ins={"orders": AssetIn(key_prefix=["analytics"])},
     compute_kind="python",
     # group_name="machine_learning_prophet_forecast",
-    io_manager_key="io_manager_dw"
+    io_manager_key="io_manager_dw",
 )
 def prophet_forecast_transform(context, orders: pd.DataFrame) -> Any:
     """Model parameters that best fit the observed data"""
     df = orders
     df["order_date"] = pd.to_datetime(df["order_date"]).dt.date
     df_grouped = (
-        df[["order_date", "amount"]]
-        .groupby(by="order_date", as_index=False)
-        .sum()
+        df[["order_date", "amount"]].groupby(by="order_date", as_index=False).sum()
     )
     # print(df_grouped.head())
 
     # rename columns to be used by prophet
-    df_grouped.rename(
-        columns={"order_date": "ds", "amount": "y"}, inplace=True
-    )
+    df_grouped.rename(columns={"order_date": "ds", "amount": "y"}, inplace=True)
 
     return df_grouped
 
@@ -38,7 +31,7 @@ def prophet_forecast_transform(context, orders: pd.DataFrame) -> Any:
 @asset(
     compute_kind="python",
     # group_name="machine_learning_prophet_forecast",
-    io_manager_key="io_manager"
+    io_manager_key="io_manager",
 )
 def prophet_forecast_model(
     context, prophet_forecast_transform: pd.DataFrame
@@ -52,7 +45,7 @@ def prophet_forecast_model(
     compute_kind="python",
     # group_name="machine_learning_prophet_forecast",
     freshness_policy=FreshnessPolicy(maximum_lag_minutes=120),
-    io_manager_key="io_manager"
+    io_manager_key="io_manager",
 )
 def prophet_forecast_predict(
     context, prophet_forecast_model: Prophet, prophet_forecast_transform: pd.DataFrame
@@ -73,7 +66,7 @@ def prophet_forecast_predict(
 @asset(
     compute_kind="python",
     # group_name="machine_learning_prophet_forecast",
-    io_manager_key="io_manager"
+    io_manager_key="io_manager",
 )
 def prophet_forecast_model_plot(
     context, prophet_forecast_predict: pd.DataFrame, prophet_forecast_model: Prophet
@@ -100,7 +93,7 @@ def prophet_forecast_model_plot(
 @asset(
     compute_kind="python",
     # group_name="machine_learning_prophet_forecast",
-    io_manager_key="io_manager"
+    io_manager_key="io_manager",
 )
 def prophet_forecast_model_plot_components(
     context, prophet_forecast_predict: pd.DataFrame, prophet_forecast_model: Prophet

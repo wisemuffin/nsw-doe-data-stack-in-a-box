@@ -1,7 +1,6 @@
 dbt-duckdb
 dbt-metricflow[duckdb]
 
-dagster-webserver
 ipykernel
 
 duckdb==0.10.1 #currently not supported duckdb version for motherduck
@@ -10,15 +9,18 @@ duckdb==0.10.1 #currently not supported duckdb version for motherduck
 dagster-dbt
 dagster-duckdb
 dagster-duckdb-pandas
-
+dagster-webserver
 dagstermill
 papermill-origami>=0.0.8
+
+# data schema validation
 pandera
 pandera[io]
 
 # required for pandas to read excel for acara data
 openpyxl
 
+# ML
 prophet
 scipy
 plotly
@@ -34,3 +36,7 @@ dbterd
 # Exploritory data analysis
 ydata_profiling
 ipywidgets
+
+# development
+pytest
+ruff

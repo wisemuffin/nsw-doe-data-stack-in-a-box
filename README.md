@@ -2,9 +2,12 @@
 
 <img src=".github/static/nsw-doe.png" width="150" >
 
+
 # Welcome to New South Wales Department of Education (NSW DOE) data stack in a box
 
 🚧 ![CI Checks](https://github.com/gwenwindflower/octocatalog/actions/workflows/ci.yml/badge.svg) 
+
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 This is an data-stack-in-a-box based data from [NSW Education Data Hub](https://data.cese.nsw.gov.au/). With the push of one button you can have your own data stack!
 
@@ -219,7 +222,7 @@ operations after testing (also done during pipeline execution)
 - linting - black / ruff
 - dbt unit tests waiting for 1.8 release
 - pytest
-
+- waiting on dagster release my pull request to fix issue
 
 - move to dagster+ 
   - for catalog [dagster+](https://www.youtube.com/watch?v=_Z4xxZYEQNs&t=5s)

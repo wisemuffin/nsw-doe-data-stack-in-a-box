@@ -2,11 +2,10 @@
     "dbt.queryLimit": 500,
     "dbt.enableNewLineagePanel": true,
     "dbt.profilesDirOverride": ".",
-    "python.analysis.typeCheckingMode": "basic",
     "sqlfluff.dialect": "duckdb",
+
     "sqlfluff.executablePath": "/home/vscode/.local/bin/sqlfluff",
     // "sqlfluff.executablePath": ".venv/bin/sqlfluff",
-    // "python.defaultInterpreterPath": ".venv/bin/python",
     "sqlfluff.experimental.format.executeInTerminal": true,
 
     "[jinja-sql]": {
@@ -19,7 +18,20 @@
         // optional: don't format models in `target/` dir
         "**/target/**": ""
     },
+
+    "python.analysis.typeCheckingMode": "basic",
+    // "python.defaultInterpreterPath": ".venv/bin/python",
+
     "python.envFile": "${workspaceFolder}/.env",
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll": "explicit",
+          "source.organizeImports": "explicit"
+        },
+        "editor.defaultFormatter": "charliermarsh.ruff"
+      },
+      
     "sqltools.useNodeRuntime": true,
     "sqltools.connections": [
         {

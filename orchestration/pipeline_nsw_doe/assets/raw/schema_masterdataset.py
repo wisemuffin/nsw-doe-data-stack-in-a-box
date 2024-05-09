@@ -1,5 +1,5 @@
 from pandas import Timestamp
-from pandera import DataFrameSchema, Column, Check, Index, MultiIndex
+from pandera import Check, Column, DataFrameSchema, Index
 
 schema = DataFrameSchema(
     columns={

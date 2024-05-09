@@ -1,11 +1,11 @@
-import pandas as pd
-from dagster import AssetIn, asset, file_relative_path, Field, Int
+from dagster import AssetIn, Field, Int, file_relative_path
 from dagstermill import define_dagstermill_asset
-
 
 metrics_by_year_school_saved_query = define_dagstermill_asset(
     name="forecasting",
-    notebook_path=file_relative_path(__file__, "../../notebooks/data-science-example.ipynb"),
+    notebook_path=file_relative_path(
+        __file__, "../../notebooks/data-science-example.ipynb"
+    ),
     ins={"metrics_by_year_school_saved_query": AssetIn(key_prefix=["analytics"])},
     group_name="machine_learning",
     # group_name="ML",

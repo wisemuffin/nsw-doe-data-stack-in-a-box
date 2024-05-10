@@ -9,6 +9,7 @@ from dagster import (
 )
 from dagster_dbt import DbtCliResource
 from dagster_duckdb_pandas import DuckDBPandasIOManager
+from dagster_msteams import make_teams_on_run_failure_sensor
 from dagstermill import ConfigurableLocalOutputNotebookIOManager
 from dotenv import load_dotenv
 
@@ -66,6 +67,11 @@ all_assets_job = define_asset_job(
     },
 )
 
+msteams_on_run_failure = make_teams_on_run_failure_sensor(
+    hook_url="",
+    monitored_jobs=([all_assets_job]),
+)
+
 schedule_all_asset_job = ScheduleDefinition(
     job=all_assets_job, cron_schedule="0 0 * * *"
 )
@@ -82,4 +88,5 @@ defs = Definitions(
     resources=resources_by_env[os.getenv("NSW_DOE_DATA_STACK_IN_A_BOX__ENV", "dev")],
     jobs=[all_assets_job],
     schedules=[schedule_all_asset_job],
+    sensors=[msteams_on_run_failure],
 )

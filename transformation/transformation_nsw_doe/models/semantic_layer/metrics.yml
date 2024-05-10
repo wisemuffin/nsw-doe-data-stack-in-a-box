@@ -97,6 +97,12 @@ saved_queries:
             # - funding_aud_post_adjustments_yoy
         group_by:
             - Dimension('school__school_name')
+            - Dimension('school__latest_year_enrolment_fte')
+            - Dimension('school__level_of_schooling')
+            - Dimension('school__icsea_value')
+            - Dimension('school__indigenous_pct')
+            - Dimension('school__selective_school')
+            - Dimension('school__school_specialty_type')
             - TimeDimension('metric_time', 'year')
 #         where:
 #             - "{{ Dimension('funding__status') }} != 'Dave'"

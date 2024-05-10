@@ -28,6 +28,8 @@ plotly
 seaborn
 scikit-learn
 
+# alerting
+dagster-msteams
 
 # For Documentation
 dbterd
@@ -40,3 +42,6 @@ ipywidgets
 # development
 pytest
 ruff
+sqlfluff
+sqlfluff-templater-dbt
+pre-commit

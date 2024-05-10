@@ -3,16 +3,17 @@
     ('prep__resource_allocation','prep__resource_allocation')
 ]) }},
 
-final AS (
+final as (
 
-    SELECT 
+    select
         --Primary Key
-        {{dbt_utils.generate_surrogate_key(['prep__resource_allocation.School_Code','prep__resource_allocation.year'])}} as _meta__fct__resource_allocation__sk,
+        {{ dbt_utils.generate_surrogate_key(['prep__resource_allocation.School_Code','prep__resource_allocation.year']) }}
+            as _meta__fct__resource_allocation__sk,
 
         --Natural Key
         {# prep__resource_allocation.School_Code || '|' || prep__resource_allocation.year as ram_school_code_by_year, #}
 
-        prep__resource_allocation.School_Code,
+        prep__resource_allocation.school_code,
         prep__resource_allocation.year,
 
         --Foreign Keys
@@ -22,16 +23,21 @@ final AS (
 
         ----Local Dimensions
 
-        (prep__resource_allocation.year || '-01-01')::date as resource_allocation_date,
+        cast((prep__resource_allocation.year || '-01-01') as date)
+            as resource_allocation_date,
 
 
         -- Measures
-        prep__resource_allocation.Original_RAM_Funding_AUD as Funding_AUD_Original,
-        prep__resource_allocation.RAM_Funding_post_Adjustments_AUD as Funding_AUD_post_Adjustments
+        prep__resource_allocation.original_ram_funding_aud
+            as funding_aud_original,
+        prep__resource_allocation.ram_funding_post_adjustments_aud
+            as funding_aud_post_adjustments,
 
 
-    FROM prep__resource_allocation
-    left join dim__school on prep__resource_allocation.School_Code = dim__school.School_Code
+    from prep__resource_allocation
+    left join
+        dim__school
+        on prep__resource_allocation.school_code = dim__school.school_code
     {# left join dim__date on prep__resource_allocation.year || '-01-01' = dim__date. #}
 )
 

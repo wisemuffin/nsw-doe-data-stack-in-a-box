@@ -136,7 +136,7 @@ Dont need to memorise Pandas API. Drag and dops converts to Pandas 🐼
 ![Data Wangler](.github/static/data-wrangler.gif)
 
 
-**testing, validation, and data quality**
+**testing, validation, code, and data quality**
 
 🚧 TODO
 
@@ -150,6 +150,9 @@ testing during development
 - `unit testing` - quick tests limited to just one part of your code. Supports test as documentation.
   - 🚧 pytest - used to unit test pipeline logic
   - 🚧 dbt unit test - used to test sql functions used in dbt data models
+- `code quality` we use `ruff` for python and `sqlfluff` for sql during our PRs. please run `ruff check` to check before creating a pull reuqest
+  - `linting` 
+  - `imports`
 
 testing during code review
 - `integration testing`
@@ -219,9 +222,19 @@ operations after testing (also done during pipeline execution)
 
 ### 🚧working on
 
-- linting - black / ruff
-- dbt unit tests waiting for 1.8 release
 - pytest
+- linting - black / ruff
+
+- pre commit
+
+- data diff 🧱 by no prod due to motheduck not using 10.1 yet
+- dbt defer 🧱 by no prod due to motheduck not using 10.1 yet
+
+- msteams sensor on failure of job need to setup webhook somewhere
+
+
+- dbt unit tests 🧱 waiting for 1.8 release and how if i need to wait for mother duck
+
 - waiting on dagster release my pull request to fix issue
 
 - move to dagster+ 
@@ -433,4 +446,10 @@ Differences to gitlab's data team's handbook:
 ```bash
 dbt docs generate
 .venv/bin/python ERD_generation.py
+```
+
+make sure you lint your code with `sqlfluff`:
+```bash
+sqlfluff lint
+sqlfluff fix
 ```

@@ -3,29 +3,30 @@
     ('prep__school','prep__school')
 ]) }},
 
-final AS (
+final as (
 
-    SELECT 
+    select
         --Primary Key
-        {{dbt_utils.generate_surrogate_key(['prep__school.School_Code'])}} as _meta__fct__school__sk,
+        {{ dbt_utils.generate_surrogate_key(['prep__school.School_Code']) }}
+            as _meta__fct__school__sk,
 
         --Natural Key
-        prep__school.School_Code,
+        prep__school.school_code,
 
         --Foreign Keys
         ----Conformed Dimensions
         {{ get_keyed_nulls('dim__school._meta__dim__school__sk') }} as _meta__dim__school__sk,
 
-        _meta__load_source_timestamp as school_date,
+        prep__school._meta__load_source_timestamp as school_date,
 
         ----Local Dimensions
 
         -- Measures
-        1 as school_cnt
+        1 as school_cnt,
 
 
-    FROM prep__school
-    left join dim__school on prep__school.School_Code = dim__school.School_Code
+    from prep__school
+    left join dim__school on prep__school.school_code = dim__school.school_code
 )
 
 {{ dbt_audit(

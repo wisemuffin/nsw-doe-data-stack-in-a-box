@@ -1,52 +1,56 @@
 {
-    "dbt.queryLimit": 500,
-    "dbt.enableNewLineagePanel": true,
-    "dbt.profilesDirOverride": ".",
-    "sqlfluff.dialect": "duckdb",
-
-    "sqlfluff.executablePath": "/home/vscode/.local/bin/sqlfluff",
-    // "sqlfluff.executablePath": ".venv/bin/sqlfluff",
-    "sqlfluff.experimental.format.executeInTerminal": true,
-
-    "[jinja-sql]": {
-        "editor.defaultFormatter": "dorzey.vscode-sqlfluff",
-        "editor.formatOnSave": false
+  "dbt.queryLimit": 500,
+  "dbt.enableNewLineagePanel": true,
+  // "dbt.profilesDirOverride": ".",
+  "sqlfluff.dialect": "duckdb",
+  "sqlfluff.executablePath": ".venv/bin/sqlfluff",
+  // "sqlfluff.executablePath": ".venv/bin/sqlfluff",
+  "sqlfluff.config": "${workspaceFolder}.sqlfluff",
+  "sqlfluff.format.enabled": true,
+  // sql fluff required for vscode extention
+  "sqlfluff.experimental.format.executeInTerminal": true,
+  "sqlfluff.linter.run": "onSave",
+  "editor.formatOnSave": false,
+  "[jinja-sql]": {
+      "editor.defaultFormatter": "dorzey.vscode-sqlfluff"
+  },
+  "files.associations": {
+      "*.sql": "jinja-sql", // all .sql files
+      // optional: don't format models in `target/` dir
+      "**/target/**": ""
+  },
+  "python.analysis.typeCheckingMode": "basic",
+  // "python.defaultInterpreterPath": ".venv/bin/python",
+  "python.envFile": "${workspaceFolder}/.env",
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
     },
-    "files.associations": {
-        "*.sql": "jinja-sql", // all .sql files
-
-        // optional: don't format models in `target/` dir
-        "**/target/**": ""
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "sqltools.useNodeRuntime": true,
+  "sqltools.connections": [
+    {
+      "name": "MotherDuck Prod",
+      "accessMode": "Read/Write",
+      "previewLimit": 50,
+      "driver": "DuckDB",
+      "databaseFilePath": "md:nsw_doe_data_stack_in_a_box__prod"
     },
-
-    "python.analysis.typeCheckingMode": "basic",
-    // "python.defaultInterpreterPath": ".venv/bin/python",
-
-    "python.envFile": "${workspaceFolder}/.env",
-    "[python]": {
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-          "source.fixAll": "explicit",
-          "source.organizeImports": "explicit"
-        },
-        "editor.defaultFormatter": "charliermarsh.ruff"
-      },
-      
-    "sqltools.useNodeRuntime": true,
-    "sqltools.connections": [
-        {
-            "name": "MotherDuck Prod",
-            "accessMode": "Read/Write",
-            "previewLimit": 50,
-            "driver": "DuckDB",
-            "databaseFilePath": "md:nsw_doe_data_stack_in_a_box__prod"
-        },
-        {
-            "name": "DuckDB",
-            "accessMode": "Read Only",
-            "previewLimit": 50,
-            "driver": "DuckDB",
-            "databaseFilePath": "./reports/sources/nsw_doe_data_stack_in_a_box__dev/nsw_doe_data_stack_in_a_box__dev.duckdb"        }
-    ],
-    "files.autoSave": "off"
+    {
+      "name": "DuckDB",
+      "accessMode": "Read Only",
+      "previewLimit": 50,
+      "driver": "DuckDB",
+      "databaseFilePath": "./reports/sources/nsw_doe_data_stack_in_a_box__dev/nsw_doe_data_stack_in_a_box__dev.duckdb"
+    }
+  ],
+  "files.autoSave": "off",
+  "python.testing.pytestArgs": [
+    "orchestration"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
 }

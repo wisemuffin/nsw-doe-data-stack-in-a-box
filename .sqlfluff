@@ -1,0 +1,19 @@
+[sqlfluff]
+dialect = duckdb
+templater = dbt
+exclude_rules = LT05, RF05
+
+[sqlfluff:templater:dbt]
+project_dir = transformation/transformation_nsw_doe
+profiles_dir = transformation/transformation_nsw_doe
+
+[sqlfluff:indentation]
+tab_space_size = 4
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = lower
+
+[sqlfluff:rules:convention.select_trailing_comma]
+select_clause_trailing_comma = require
+
+

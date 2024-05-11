@@ -1,11 +1,11 @@
 import pandas as pd
 import pandera as pa
-
 from dagster import DagsterType, TypeCheck
 
 
 def pandera_schema_to_dagster_type(schema, name, description):
     """https://docs.dagster.io/guides/dagster/dagster_type_factories"""
+
     def type_check_fn(_context, value):
         if not isinstance(value, pd.DataFrame):
             return TypeCheck(

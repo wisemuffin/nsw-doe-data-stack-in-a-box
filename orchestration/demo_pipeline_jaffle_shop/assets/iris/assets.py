@@ -1,8 +1,9 @@
 import pandas as pd
-from dagster import AssetIn, asset, file_relative_path, Field, Int
+from dagster import AssetIn, Field, Int, asset, file_relative_path
 from dagstermill import define_dagstermill_asset
 
-@asset(compute_kind="python",io_manager_key="io_manager_dw", group_name="Iris")
+
+@asset(compute_kind="python", io_manager_key="io_manager_dw", group_name="Iris")
 def iris_dataset() -> pd.DataFrame:
     return pd.read_csv(
         "https://docs.dagster.io/assets/iris.csv",

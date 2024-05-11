@@ -10,12 +10,7 @@ setup(
         "dagster-dbt",
         "dagstermill",
         "papermill-origami>=0.0.8",
-        "pandas"
+        "pandas",
     ],
-    extras_require={
-        "dev": [
-            "dagster-webserver",
-            "pytest"
-        ]
-    },
+    extras_require={"dev": ["dagster-webserver", "pytest"]},
 )

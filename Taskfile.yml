@@ -2,32 +2,32 @@ version: "3"
 
 tasks:
   temp_limitation:
-    cmds: 
+    cmds:
       - bash -c 'if [ -d "./models/semantic_models" ]; then mv ./models/semantic_models ./semantic_models_removed_see_dagster_limitation/; else echo "No, the semantic_models folder does not exist."; fi'
       - bash -c 'if [ -d "./target" ]; then rm ./target -r; else echo "No, the targets folder does not exist."; fi'
   temp_limitation_undo:
-    cmds: 
+    cmds:
       - bash -c 'if [ -d "./semantic_models_removed_see_dagster_limitation" ]; then mv ./semantic_models_removed_see_dagster_limitation/ ./models/semantic_models; else echo "No, the semantic_models folder does not exist."; fi'
   python_deps:
     desc: setting up env with uv package manager for python and installing requirements. TODO still a bit of a mess with UV and taskfile
     cmds:
       - python3 -m pip install uv
-      # - uv venv  # Create a virtual environment at .venv. # limitation cant create venv with make file due to limitation: ask runs as a subprocess of your current shell, so it can't change the environment of the shell that started it. 
+      # - uv venv  # Create a virtual environment at .venv. # limitation cant create venv with make file due to limitation: ask runs as a subprocess of your current shell, so it can't change the environment of the shell that started it.
       # - source .venv/bin/activate
       # - uv pip install -r requirements.txt
-      # - uv venv && source .venv/bin/activate && uv pip sync requirements.txt 
-      - uv venv && source .venv/bin/activate && uv pip install -r requirements.txt 
+      # - uv venv && source .venv/bin/activate && uv pip sync requirements.txt
+      - uv venv && source .venv/bin/activate && uv pip install -r requirements.txt
       # - python -m pip install --progress-bar off -r requirements.txt
-      # - pip install -r requirements.txt 
+      # - pip install -r requirements.txt
       - cd transformation/transformation_nsw_doe && dbt deps
       - cd transformation/demo_transformation_jaffle_shop && dbt deps
   python_deps_devcontainer:
     desc: Limitation with taskfile cant use vertial envs. So cant use UV
     cmds:
-      # - pip install -r requirements.txt 
+      # - pip install -r requirements.txt
       - cd transformation/transformation_nsw_doe && dbt deps
       # workaround as cant get dynamic manifest.json to build
-      - cd transformation/transformation_nsw_doe && dbt parse 
+      - cd transformation/transformation_nsw_doe && dbt parse
 
       - cd transformation/demo_transformation_jaffle_shop && dbt deps
       - cd transformation/demo_transformation_jaffle_shop && dbt parse
@@ -36,15 +36,16 @@ tasks:
   node_deps:
     cmds:
       - npm install --prefix ./reports
-      
+
   git:
     cmds:
       - git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
       - git config --global user.name "example user"
       - git config --global user.email username@example.com
+      - pre-commit install
   znap:
     cmds:
-      - export ZSH=~/.oh-my-zsh/ 
+      - export ZSH=~/.oh-my-zsh/
       - git clone --depth 1 https://github.com/marlonrichert/zsh-snap.git ~/.oh-my-zsh/custom/plugins/znap
       - echo "source ~/.oh-my-zsh/custom/plugins/znap/znap.zsh" >> ~/.zshrc
       - zsh ~/.zshrc
@@ -76,7 +77,7 @@ tasks:
       - task orchestration_setup
       # - task airbyte
       # - task octavia_setup
-  
+
   # airbyte:
   #   desc: "install airbyte"
   #   cmds:
@@ -105,8 +106,8 @@ tasks:
   evidence_prod_build:
     desc: static site generation for evidence
     cmds:
-      - npm --prefix ./reports run build 
-      - npm --prefix ./reports run preview -- --port 4000    
+      - npm --prefix ./reports run build
+      - npm --prefix ./reports run preview -- --port 4000
   evidence:
     desc: for local development we dont need to build the static site
     cmds:
@@ -139,15 +140,15 @@ tasks:
   dag_server:
     cmds:
       - cd orchestration && dagster dev -h 0.0.0.0 -p 3000
-  
+
   docs:
     desc: documentation static site generator with mkdocs 💣 Warning doesnt work with taskfile 🚧 TODO
-    cmds: 
+    cmds:
       - mkdocs serve
 
   mf_check:
     desc: compiles dbt code then runs the metric flow checker
-    cmds: 
+    cmds:
       - cd transformation/transformation_nsw_doe && dbt compile && mf validate-configs'
   mf:
     cmds:

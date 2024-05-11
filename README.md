@@ -150,9 +150,17 @@ testing during development
 - `unit testing` - quick tests limited to just one part of your code. Supports test as documentation.
   - 🚧 pytest - used to unit test pipeline logic
   - 🚧 dbt unit test - used to test sql functions used in dbt data models
-- `code quality` we use `ruff` for python and `sqlfluff` for sql during our PRs. please run `ruff check` to check before creating a pull reuqest
+
+testing code quality
+- we use `ruff` for python and `sqlfluff` for sql during our PRs. 
+- code quality is assessed at 3 points in time (at each point we are trying to give you feedback as early as possible):
+  - when we save code `ruff` will format `.py` files on save. Currently cant do this with `sql-fluff` on `.sql` files when using dbt.
+  - when we commit we can run code quality test locally with `pre-commit`.
+  - when we make a pull request. This allows us to run all automated tests including code quality.
+- code quality covers:
   - `linting` 
   - `imports`
+  - `formatting` for file types `.sql`, `.py`, `.yaml`
 
 testing during code review
 - `integration testing`

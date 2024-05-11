@@ -22,14 +22,14 @@
   "python.analysis.typeCheckingMode": "basic",
   // "python.defaultInterpreterPath": ".venv/bin/python",
   "python.envFile": "${workspaceFolder}/.env",
-  "[python]": {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll": "explicit",
-      "source.organizeImports": "explicit"
-    },
-    "editor.defaultFormatter": "charliermarsh.ruff"
-  },
+  // "[python]": {
+  //   "editor.formatOnSave": true,
+  //   "editor.codeActionsOnSave": {
+  //     "source.fixAll": "explicit",
+  //     "source.organizeImports": "explicit"
+  //   },
+  //   "editor.defaultFormatter": "charliermarsh.ruff"
+  // },
   "sqltools.useNodeRuntime": true,
   "sqltools.connections": [
     {

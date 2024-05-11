@@ -50,10 +50,10 @@ jobs:
       - name: Install Python requirements
         run: uv pip install --system -r requirements.txt
       - name: pytest
-        run: cd ../../orchestration && pytest
+        run: cd orchestration && pytest
       - name: Dbt checks
         run: |
-          cd ./transformation/transformation_nsw_doe
+          cd transformation/transformation_nsw_doe
           dbt deps
           dbt parse
           mf validate-configs

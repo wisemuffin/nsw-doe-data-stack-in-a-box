@@ -49,16 +49,16 @@ jobs:
         run: python3 -m pip install uv
       - name: Install Python requirements
         run: uv pip install --system -r requirements.txt
-      - name: pytest
-        run: cd orchestration && pytest
       - name: Dbt checks
         run: |
-          cd transformation/transformation_nsw_doe
+          cd ${{github.workspace}}/transformation/transformation_nsw_doe
           dbt deps
           dbt parse
           mf validate-configs
       - name: Lint SQL
         run: sqlfluff lint --format github-annotation-native
+      - name: pytest
+        run: cd ${{github.workspace}}/orchestration && pytest
       # - name: Build Evidence
       #   env:
       #     EVIDENCE_DATABASE: "duckdb"

@@ -2,6 +2,21 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Dagster: Debug Dagit UI",
+      "type": "python",
+      "request": "launch",
+      "module": "dagster",
+      "justMyCode": false,
+      "cwd": "${workspaceFolder}/orchestration",
+      "args": [
+        "dev",
+      ],
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        "DAGSTER_DBT_PARSE_PROJECT_ON_LOAD": "YES"
+      }
+    },
+    {
       "name": "Python Debugger: Current File",
       "type": "debugpy",
       "request": "launch",
@@ -21,20 +36,5 @@
         "DAGSTER_DBT_PARSE_PROJECT_ON_LOAD": "YES"
       }
     },
-    {
-      "name": "Dagster: Debug Dagit UI",
-      "type": "python",
-      "request": "launch",
-      "module": "dagster",
-      "justMyCode": false,
-      "cwd": "${workspaceFolder}/orchestration",
-      "args": [
-        "dev",
-      ],
-      "envFile": "${workspaceFolder}/.env",
-      "env": {
-        "DAGSTER_DBT_PARSE_PROJECT_ON_LOAD": "YES"
-      }
-    }
   ]
 }

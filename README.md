@@ -460,3 +460,25 @@ make sure you lint your code with `sqlfluff`:
 sqlfluff lint
 sqlfluff fix
 ```
+
+
+#### Contributing - Pipeline Code / Ingestion / ML
+
+To develop on dagster you should run `dagster dev` in debug mod. This allows you to set breakpoints in vs code. Simply hit `F5` in vscode (just check that your debug config is set to `Dagster: Debug Dagit UI`).
+
+Behind the scenes VSCode is using `launch.json` with the following args to run dagster in debug mode. Then just select the assets in dagster UI to materialise. If you set breakpoints they will be
+
+```json
+{
+    "name": "dagster dev",
+    "type": "python",
+    "request": "launch",
+    "module": "dagster",
+    "args": [
+        "dev",
+    ],
+    "subProcess": true
+}
+```
+
+This is one of the first things i wish i knew when learning dagster!

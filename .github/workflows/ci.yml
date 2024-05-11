@@ -7,10 +7,10 @@ jobs:
   ci:
     env:
       NSW_DOE_DATA_STACK_IN_A_BOX__ENV: dev
-      NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR: /workspaces/nsw-doe-data-stack-in-a-box/transformation/transformation_nsw_doe
+      NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR: ${GITHUB_WORKSPACE}/nsw-doe-data-stack-in-a-box/transformation/transformation_nsw_doe
 
-      NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH__DEV: /workspaces/nsw-doe-data-stack-in-a-box/reports/sources/nsw_doe_data_stack_in_a_box__dev
-      NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB__DEV: /workspaces/nsw-doe-data-stack-in-a-box/reports/sources/nsw_doe_data_stack_in_a_box__dev/nsw_doe_data_stack_in_a_box__dev.duckdb
+      NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH__DEV: ${GITHUB_WORKSPACE}/nsw-doe-data-stack-in-a-box/reports/sources/nsw_doe_data_stack_in_a_box__dev
+      NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB__DEV: ${GITHUB_WORKSPACE}/nsw-doe-data-stack-in-a-box/reports/sources/nsw_doe_data_stack_in_a_box__dev/nsw_doe_data_stack_in_a_box__dev.duckdb
       NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__DEV: nsw_doe_data_stack_in_a_box__dev
       NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA__DEV: analytics
 
@@ -20,10 +20,10 @@ jobs:
 
 
       # DEMO_JAFFLE_SHOP__ENV: dev
-      # DEMO_JAFFLE_SHOP_DBT_PROJECT_DIR: /workspaces/nsw-doe-data-stack-in-a-box/transformation/demo_transformation_jaffle_shop
+      # DEMO_JAFFLE_SHOP_DBT_PROJECT_DIR: ${GITHUB_WORKSPACE}/nsw-doe-data-stack-in-a-box/transformation/demo_transformation_jaffle_shop
 
-      # DEMO_JAFFLE_SHOP_DB_PATH__DEV: /workspaces/nsw-doe-data-stack-in-a-box/reports/sources/demo_jaffle_shop__dev
-      # DEMO_JAFFLE_SHOP_DB_PATH_AND_DB__DEV: /workspaces/nsw-doe-data-stack-in-a-box/reports/sources/demo_jaffle_shop__dev/demo_jaffle_shop__dev.duckdb
+      # DEMO_JAFFLE_SHOP_DB_PATH__DEV: ${GITHUB_WORKSPACE}/nsw-doe-data-stack-in-a-box/reports/sources/demo_jaffle_shop__dev
+      # DEMO_JAFFLE_SHOP_DB_PATH_AND_DB__DEV: ${GITHUB_WORKSPACE}/nsw-doe-data-stack-in-a-box/reports/sources/demo_jaffle_shop__dev/demo_jaffle_shop__dev.duckdb
       # DEMO_JAFFLE_SHOP_DB_NAME__DEV: demo_jaffle_shop__dev
       # DEMO_JAFFLE_SHOP_TARGET_SCHEMA__DEV: analytics
 

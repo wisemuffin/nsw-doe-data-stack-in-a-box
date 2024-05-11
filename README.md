@@ -5,13 +5,12 @@
 
 # Welcome to New South Wales Department of Education (NSW DOE) data stack in a box
 
-🚧 ![CI Checks](https://github.com/gwenwindflower/octocatalog/actions/workflows/ci.yml/badge.svg) 
-
+![CI Checks](https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/actions/workflows/ci.yml/badge.svg)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 This is an data-stack-in-a-box based data from [NSW Education Data Hub](https://data.cese.nsw.gov.au/). With the push of one button you can have your own data stack!
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > Click below 👇🏼 to setup your own free data stack packed with [NSW Department of Education](https://education.nsw.gov.au/) data.
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/wisemuffin/nsw-doe-data-stack-in-a-box?quickstart=1)
@@ -46,7 +45,7 @@ The project is designed to be very simple but allow you the flexibility for you 
 > ![Info] We are simply going to extract data from the [NSW Education Data Hub](https://data.cese.nsw.gov.au/) and load it into our in memory data warehouse 🦆, model, clean, and analyse our data.
 
 
-> [!WARNING]  
+> [!WARNING]
 > The datasets from ACARA and NSW DOE are based on static urls. These URLs will break 💣 in the future. I will try to keep an eye out for this every few months. 🚧 TODO setup discussion on limitations with public datasets.
 
 
@@ -58,7 +57,7 @@ The project is designed to be very simple but allow you the flexibility for you 
   - ai monitoring
 - Power BI
 - Open Metadata
-- DBT Cloud 
+- DBT Cloud
   - semantic layer
   - column level linage
 -->
@@ -109,7 +108,7 @@ The project is designed to be very simple but allow you the flexibility for you 
 
 📓 some additional features below that use AI features require a API key from [Accelerate](https://www.altimate.ai/) but in this project just using the open source free version:
 
-<!-- > [!NOTE]  
+<!-- > [!NOTE]
 > some additional features below that use AI features require a API key from [Accelerate](https://www.altimate.ai/) but in this project just using the open source free version: -->
 
 | :memo:        | some additional features below that use AI features require a API key from [Accelerate](https://www.altimate.ai/) but in this project just using the open source free version:       |
@@ -124,13 +123,13 @@ The project is designed to be very simple but allow you the flexibility for you 
 
 Just create a python pandas dataframe and put that logic into the orchistrator dagster
 
-> [!WARNING]  
+> [!WARNING]
 > Pandas will only scale so far. But for +95% of the work we do at NSW DOE analytics its probably enough.
 
 
 Data Wrangler
 Exploritory analysis
-cleaning - string from example 
+cleaning - string from example
 Dont need to memorise Pandas API. Drag and dops converts to Pandas 🐼
 
 ![Data Wangler](.github/static/data-wrangler.gif)
@@ -146,19 +145,19 @@ Types of testing and when do we test:
 
 testing during development
 - `type annotations` - to improve developer productivity
-- `schema validation` - 
+- `schema validation` -
 - `unit testing` - quick tests limited to just one part of your code. Supports test as documentation.
   - 🚧 pytest - used to unit test pipeline logic
   - 🚧 dbt unit test - used to test sql functions used in dbt data models
 
 testing code quality
-- we use `ruff` for python and `sqlfluff` for sql during our PRs. 
+- we use `ruff` for python and `sqlfluff` for sql during our PRs.
 - code quality is assessed at 3 points in time (at each point we are trying to give you feedback as early as possible):
   - when we save code `ruff` will format `.py` files on save. Currently cant do this with `sql-fluff` on `.sql` files when using dbt.
   - when we commit we can run code quality test locally with `pre-commit`.
   - when we make a pull request. This allows us to run all automated tests including code quality.
 - code quality covers:
-  - `linting` 
+  - `linting`
   - `imports`
   - `formatting` for file types `.sql`, `.py`, `.yaml`
 
@@ -173,7 +172,7 @@ testing during code review
 - `acceptance testing`
 
 testing during pipeline execution (we want to alert)
-- `schema validation` - 
+- `schema validation` -
 - `data quality`
   - ✅ dagster asset checks
   - dbt data tests
@@ -245,16 +244,16 @@ operations after testing (also done during pipeline execution)
 
 - waiting on dagster release my pull request to fix issue
 
-- move to dagster+ 
+- move to dagster+
   - for catalog [dagster+](https://www.youtube.com/watch?v=_Z4xxZYEQNs&t=5s)
     - do this instead of openmetadata
-  - demos catalog and data reliability (insights) - asset checks. 
+  - demos catalog and data reliability (insights) - asset checks.
   - for orgs using data mesh architecture asset checks enable data contracts
   - freshness checks
   - schema changes
   - demo - have this setup to run each day and show the issues you found over a month
   - demo - branch deployments
-    - change tracking 
+    - change tracking
   - demo insights for operation observability allow all of us to understand and optimise reliability, cost and freshness
 
 - dagster ml example
@@ -269,7 +268,7 @@ operations after testing (also done during pipeline execution)
   - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
   - backwards compatability
   - evidence can then point to production and can serve and CICD so everyone can see the results.
-- evidence build site and host on static site (need to wait for mother duck) 
+- evidence build site and host on static site (need to wait for mother duck)
   - [fixed] currently getting heap out of memory error. [Issue raised](https://github.com/evidence-dev/evidence/issues/1507)
   - note when deploying to evidence cloud need to put relative path as `/reports`
 - fix erd automation. Broken as manifest.json produced by dbt-core isnt matching [v11](https://schemas.getdbt.com/dbt/manifest/v11) thus dbt-parser is failing.
@@ -319,7 +318,7 @@ operations after testing (also done during pipeline execution)
   - work around cache dbt semantic layer as a table
 - `simple-browser show http://localhost:3000/` doesnt automatically open a browser
 - evidence
-  - error when evidence and etl going at same time: `IO Error: Could not set lock on file "/home/dave/data-engineering/nsw-doe-data-stack-in-a-box/reports/sources/nsw_doe_data_stack_in_a_box__dev/nsw_doe_data_stack_in_a_box__dev.duckdb": Conflicting lock is held in /home/dave/.config/nvm/versions/node/v20.11.1/bin/node (PID 1516344). However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/connect/concurrency` 
+  - error when evidence and etl going at same time: `IO Error: Could not set lock on file "/home/dave/data-engineering/nsw-doe-data-stack-in-a-box/reports/sources/nsw_doe_data_stack_in_a_box__dev/nsw_doe_data_stack_in_a_box__dev.duckdb": Conflicting lock is held in /home/dave/.config/nvm/versions/node/v20.11.1/bin/node (PID 1516344). However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/connect/concurrency`
     - Evidence connection to duckdb doesnt close. Have to wait for this to be fixed via this [issue](https://github.com/evidence-dev/evidence/issues/1060)
     - Temp work around is to connect tell engineers to stop the evidence proccess? or could force this with a task?
 - DuckDBPandasIOManager doesnt handle drop and recreate table so when schema changes get errors like: `duckdb.duckdb.BinderException: Binder Error: table sq__resource_allocation has 4 columns but 5 values were supplied`. For now just drop and recreate entire duckdb. Will need to implement schema via https://docs.dagster.io/_apidocs/libraries/dagster-duckdb-pandas
@@ -351,7 +350,7 @@ operations after testing (also done during pipeline execution)
     - ✅ For dimensions, we can test for the existence of the MD5('-1') (missing) dimension_id, and total row counts.
     - 🚧 For facts, we can test to ensure the number of records/rows is not expanded due to incorrect granularity joins.
     - schema validation
-      - 🚧 do this in dlt? yes https://dlthub.com/docs/general-usage/schema-contracts 
+      - 🚧 do this in dlt? yes https://dlthub.com/docs/general-usage/schema-contracts
         - can dlt use dagster dlt checks?
       - ✅ dagster too: https://dagster.io/blog/ensuring-reliable-data-dagster-plus
         - demo: https://github.com/tacastillo/asset-checks-demo
@@ -401,8 +400,8 @@ operations after testing (also done during pipeline execution)
     echo \`\`\` >> ./target/ERD.md
   ```
 - dbt power users vscode extension missing [auto completion for columns issue](https://github.com/AltimateAI/vscode-dbt-power-user/issues/79)
-- Use [Scaffold tables](https://handbook.gitlab.com/handbook/business-technology/data-team/platform/edw/#common-mart) are useful when tools like Tableau which may necessitate a full dataset for relationships  
-  - [scaffold example sql](https://gitlab.com/gitlab-data/analytics/-/blob/master/transform/snowflake-dbt/models/common_mart_sales/reports/rpt_scaffold_sales_funnel.sql) 
+- Use [Scaffold tables](https://handbook.gitlab.com/handbook/business-technology/data-team/platform/edw/#common-mart) are useful when tools like Tableau which may necessitate a full dataset for relationships
+  - [scaffold example sql](https://gitlab.com/gitlab-data/analytics/-/blob/master/transform/snowflake-dbt/models/common_mart_sales/reports/rpt_scaffold_sales_funnel.sql)
 - can use mermaid diagrams in markdown for github and gitlab
 - dynamic data masking possible in warehouse using tags (see snowflake dynamic data masking)
 - microsoft clipchap and my phone works really well. Also integrates with sniping tool
@@ -431,7 +430,7 @@ Due to the evolving nature of school information and local enrolment areas, no r
 
 ### Contributing - Data Modeling
 
-I have been following the gitlab's data team's handbook for modeling, naming convetions and testing. 
+I have been following the gitlab's data team's handbook for modeling, naming convetions and testing.
 
 I am pretty relaxed with standards in this project. But please read through these before developing to help standise the modeling:
 

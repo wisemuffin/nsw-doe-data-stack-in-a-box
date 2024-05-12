@@ -54,7 +54,7 @@ jobs:
           cd ${{github.workspace}}/transformation/transformation_nsw_doe
           dbt deps
           dbt parse
-          mf validate-configs
+      # mf validate-configs # hold off until figure out how to run dagster to generate source data then dbt build ect...
       - name: Lint SQL
         run: sqlfluff lint --format github-annotation-native
       - name: pytest

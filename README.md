@@ -229,10 +229,6 @@ operations after testing (also done during pipeline execution)
 
 ### 🚧working on
 
-- pytest
-- linting - black / ruff
-
-- pre commit
 
 - data diff 🧱 by no prod due to motheduck not using 10.1 yet
 - dbt defer 🧱 by no prod due to motheduck not using 10.1 yet
@@ -257,6 +253,7 @@ operations after testing (also done during pipeline execution)
   - demo insights for operation observability allow all of us to understand and optimise reliability, cost and freshness
 
 - dagster ml example
+  - do a lgoistic regression example too. follow along with https://github.com/Avaiga/demo-churn-classification/blob/develop/src/algos/algos.py
   - also create functions and assets e.g. for pre process, train test split of data,  fit, model evaluation
   - example of ml pipeline for churn: via `taipy`: https://github.com/Avaiga/demo-churn-classification/tree/develop?tab=readme-ov-file already seen its lineage
 
@@ -339,7 +336,9 @@ operations after testing (also done during pipeline execution)
     - need to setup dagster test suite
 
 ### Done
-
+- pytest
+- linting - black / ruff
+- pre commit
 - tests
   - build time
     - unit tests

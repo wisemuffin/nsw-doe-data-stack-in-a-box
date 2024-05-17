@@ -2,6 +2,7 @@ import sys
 from pprint import pprint
 
 from dagster import AssetKey
+import pandas as pd
 
 from orchestration.pipeline_nsw_doe import defs
 
@@ -11,8 +12,8 @@ pprint(sys.path)
 # import orchestration
 
 
-df = defs.load_asset_value(
+df: pd.DataFrame = defs.load_asset_value(
     AssetKey(["analytics", "metrics_by_year_school_saved_query"])
-)
+)  # type: ignore
 
-print(df.head())
+df.head()

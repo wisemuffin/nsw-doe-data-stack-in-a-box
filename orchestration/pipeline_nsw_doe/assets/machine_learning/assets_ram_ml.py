@@ -1,17 +1,31 @@
-import pandas as pd
-from dagster import AssetExecutionContext, AssetIn, AssetOut, asset, multi_asset
-from sklearn.model_selection import train_test_split
+import base64
+from io import BytesIO
 
+import pandas as pd
+from dagster import (
+    AssetExecutionContext,
+    AssetIn,
+    AssetOut,
+    MetadataValue,
+    Output,
+    asset,
+    multi_asset,
+)
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import (
+    mean_absolute_error,
+    mean_squared_error,
+    r2_score,
+    PredictionErrorDisplay,
+)
 from sklearn.linear_model import LinearRegression
-# from sklearn.linear_model import LogisticRegression
-# from sklearn.ensemble import RandomForestClassifier
-# from sklearn.metrics import roc_auc_score
 
 
 import numpy as np
 
 
-# # example of getting dagster asset when developing locally
+# example of getting dagster asset when developing locally
+# from dagster import AssetKey
 # from orchestration.pipeline_nsw_doe import defs
 # metrics_by_year_school_saved_query = defs.load_asset_value(AssetKey(['analytics','metrics_by_year_school_saved_query']))
 
@@ -69,6 +83,8 @@ def preprocess_dataset(
 
     preprocess_dataset = preprocess_dataset.dropna()  # yolo
 
+    # ideally should also do more preprocessing ... scaling, getdummies ect. # lazy
+
     return preprocess_dataset
 
 
@@ -111,9 +127,11 @@ def train_model_baseline(
         model (LinearRegression): the fitted model
     """
 
+    # model training
     context.log.info("     Training the model...\n")
     X, y = training_data.iloc[:, :-1], training_data.iloc[:, -1]
     train_model_baseline = LinearRegression().fit(X, y)
+
     context.log.info(f"\n    {train_model_baseline}, is trained!")
 
     importance_dict = {
@@ -124,7 +142,9 @@ def train_model_baseline(
     importance = pd.DataFrame(importance_dict).sort_values(
         by="Importance", ascending=True
     )
-    return train_model_baseline, importance
+
+    yield Output(train_model_baseline, output_name="train_model_baseline")
+    yield Output(importance, output_name="importance")
 
 
 # @asset(group_name="ml_dg")
@@ -152,28 +172,40 @@ def predictions(test_data: pd.DataFrame, train_model_baseline: LinearRegression)
     return predictions
 
 
-# @asset(group_name="ml_dg")
-# def create_metrics(predictions:np.array, test_data:np.array, auc_score):
-#     print("     Creating the metrics...")
-#     threshold = 0.5
-#     threshold_vector = np.greater_equal(predictions, threshold).astype(int)
+@asset(group_name="ml_dg")
+def create_metrics(
+    predictions, test_data: pd.DataFrame, train_model_baseline: LinearRegression
+):
+    print("     Creating the metrics...")
 
-#     y_test = test_data.iloc[:,-1]
+    # test the model
+    _X_test, y_test = test_data.iloc[:, :-1], test_data.iloc[:, -1]
+    # r_squared = train_model_baseline.score(X_test,y_test)
 
-#     mae = mean_absolute_error(y_test,y_pred)
-#     mape = mean_absolute_percentage_error(y_test,y_pred)
-#     mse = mean_squared_error(y_test,y_pred)
+    # y_pred = train_model_baseline.predict(X_test)
+    y_pred = predictions
 
+    # plot predictions - should refactor
+    plot = PredictionErrorDisplay.from_predictions(
+        y_test,
+        y_pred,
+        kind="actual_vs_predicted",
+        # ax=ax0,
+        scatter_kwargs={"alpha": 0.5},
+    )
+    buffer = BytesIO()
+    plot.figure_.savefig(buffer)
+    image_data = base64.b64encode(buffer.getvalue())
+    pred_vs_test_graph = MetadataValue.md(
+        f"![img](data:image/png;base64,{image_data.decode()})"
+    )
 
-#     dict_ftpn = {"tp": true_positive, "tn": true_negative, "fp": false_positive, "fn": false_negative}
+    metadata = {}
+    metadata["score (mean_absolute_error)"] = float(mean_absolute_error(y_test, y_pred))
+    metadata["score (mean_squared_error)"] = float(mean_squared_error(y_test, y_pred))
+    metadata["score (r2_score)"] = float(r2_score(y_test, y_pred))
+    metadata["pred vs test plot"] = pred_vs_test_graph
 
+    metrics = {"score (mean_absolute_error)": metadata["score (mean_absolute_error)"]}
 
-#     metrics = {"f1_score": f1_score,
-#                "accuracy": accuracy,
-#                "auc_score": auc_score,
-#                "dict_ftpn": dict_ftpn,
-#                'number_of_predictions': len(predictions),
-#                'number_of_good_predictions':number_of_good_predictions,
-#                'number_of_false_predictions':number_of_false_predictions}
-
-#     return metrics
+    return Output(metrics, metadata=metadata)

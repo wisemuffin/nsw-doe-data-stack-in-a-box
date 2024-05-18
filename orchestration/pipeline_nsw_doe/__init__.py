@@ -27,6 +27,9 @@ NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__DEV = os.getenv(
 NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD = os.getenv(
     "NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD"
 )
+NSW_DOE_DATA_STACK_IN_A_BOX_DB_TOKEN__PROD = os.getenv(
+    "NSW_DOE_DATA_STACK_IN_A_BOX_DB_TOKEN__PROD"
+)
 
 DB_NAME__DEV = f"{NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__DEV}.duckdb"
 DB_NAME__PROD = f"{NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD}.duckdb"
@@ -34,7 +37,7 @@ DB_NAME__PROD = f"{NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD}.duckdb"
 resources_by_env = {
     "prod": {
         "io_manager_dw": DuckDBPandasIOManager(
-            database=f"md:{NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD}",
+            database=f"md:{NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD}?motherduck_token={NSW_DOE_DATA_STACK_IN_A_BOX_DB_TOKEN__PROD}",
         ),
         "io_manager": FilesystemIOManager(),
         "dbt": DbtCliResource(project_dir=os.fspath(dbt_project_dir)),

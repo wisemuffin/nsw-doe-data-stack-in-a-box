@@ -16,6 +16,7 @@ jobs:
 
       NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH__PROD:  # not needed "/reports/nsw_doe_data_stack_in_a_box__prod.duckdb"
       NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD: nsw_doe_data_stack_in_a_box__prod
+      NSW_DOE_DATA_STACK_IN_A_BOX_DB_TOKEN__PROD: <token>
       NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA__PROD: analytics
 
 

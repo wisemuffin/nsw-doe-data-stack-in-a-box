@@ -229,6 +229,10 @@ operations after testing (also done during pipeline execution)
 
 ### 🚧working on
 
+- Motherduck upgrade to 0.10.X eta end of April
+  - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
+  - backwards compatability
+  - evidence can then point to production and can serve and CICD so everyone can see the results.
 
 - data diff 🧱 by no prod due to motheduck not using 10.1 yet
 - dbt defer 🧱 by no prod due to motheduck not using 10.1 yet
@@ -252,19 +256,12 @@ operations after testing (also done during pipeline execution)
     - change tracking
   - demo insights for operation observability allow all of us to understand and optimise reliability, cost and freshness
 
-- dagster ml example
-  - do a lgoistic regression example too. follow along with https://github.com/Avaiga/demo-churn-classification/blob/develop/src/algos/algos.py
-  - also create functions and assets e.g. for pre process, train test split of data,  fit, model evaluation
-  - example of ml pipeline for churn: via `taipy`: https://github.com/Avaiga/demo-churn-classification/tree/develop?tab=readme-ov-file already seen its lineage
+
 
 
 
 ### 🧱 Blocked
 - 🧱 migrate to new cese data hub - links still going to https://data.cese.nsw.gov.au
-- Motherduck upgrade to 0.10.X eta end of April
-  - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
-  - backwards compatability
-  - evidence can then point to production and can serve and CICD so everyone can see the results.
 - evidence build site and host on static site (need to wait for mother duck)
   - [fixed] currently getting heap out of memory error. [Issue raised](https://github.com/evidence-dev/evidence/issues/1507)
   - note when deploying to evidence cloud need to put relative path as `/reports`
@@ -336,6 +333,10 @@ operations after testing (also done during pipeline execution)
     - need to setup dagster test suite
 
 ### Done
+- dagster ml example
+  - do a lgoistic regression example too. follow along with https://github.com/Avaiga/demo-churn-classification/blob/develop/src/algos/algos.py
+  - also create functions and assets e.g. for pre process, train test split of data,  fit, model evaluation
+  - example of ml pipeline for churn: via `taipy`: https://github.com/Avaiga/demo-churn-classification/tree/develop?tab=readme-ov-file already seen its lineage
 - pytest
 - linting - black / ruff
 - pre commit

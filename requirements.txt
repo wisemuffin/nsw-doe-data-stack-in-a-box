@@ -148,7 +148,7 @@ distlib==0.3.8
     # via virtualenv
 docstring-parser==0.15
     # via dagster
-duckdb==0.10.1
+duckdb==0.10.2
     # via
     #   dagster-duckdb
     #   dbt-duckdb

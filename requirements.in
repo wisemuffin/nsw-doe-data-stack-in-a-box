@@ -3,7 +3,7 @@ dbt-metricflow[duckdb]
 
 ipykernel
 
-duckdb==0.10.1 #currently not supported duckdb version for motherduck
+duckdb==0.10.2 #latest version for mother duck
 
 # dagster deps
 dagster-dbt

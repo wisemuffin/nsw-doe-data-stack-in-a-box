@@ -19,6 +19,8 @@ jobs:
       NSW_DOE_DATA_STACK_IN_A_BOX_DB_TOKEN__PROD: <token>
       NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA__PROD: analytics
 
+      EVIDENCE_SOURCE__nsw_doe_data_stack_in_a_box__prod__filename: <contains motherduck token> # maybe dont do vis yet for CICD
+
 
       # DEMO_JAFFLE_SHOP__ENV: dev
       # DEMO_JAFFLE_SHOP_DBT_PROJECT_DIR: ${{github.workspace}}/transformation/demo_transformation_jaffle_shop

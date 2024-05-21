@@ -1,13 +1,6 @@
 version: "3"
 
 tasks:
-  temp_limitation:
-    cmds:
-      - bash -c 'if [ -d "./models/semantic_models" ]; then mv ./models/semantic_models ./semantic_models_removed_see_dagster_limitation/; else echo "No, the semantic_models folder does not exist."; fi'
-      - bash -c 'if [ -d "./target" ]; then rm ./target -r; else echo "No, the targets folder does not exist."; fi'
-  temp_limitation_undo:
-    cmds:
-      - bash -c 'if [ -d "./semantic_models_removed_see_dagster_limitation" ]; then mv ./semantic_models_removed_see_dagster_limitation/ ./models/semantic_models; else echo "No, the semantic_models folder does not exist."; fi'
   python_deps:
     desc: setting up env with uv package manager for python and installing requirements. TODO still a bit of a mess with UV and taskfile
     cmds:
@@ -147,3 +140,8 @@ tasks:
     cmds:
       - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt compile && mf query --saved-query metrics_by_year_saved_query --csv ./exports/sq-metrics-by-year-saved-query-non-dag.csv
       - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt compile && mf query --saved-query metrics_by_year_school_saved_query --csv ./exports/sq-metrics-by-year-school-saved-query-non-dag.csv
+
+  dbt_manifest_prod:
+    desc: load the manifest from local if you run prod from local.
+    cmds:
+      - aws s3 cp ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR}/target/manifest.json s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json

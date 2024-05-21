@@ -1,5 +1,3 @@
-name: Production deployment from main
-
 on:
   push:
     branches:
@@ -53,12 +51,13 @@ jobs:
       run: |
         aws s3 ls
         echo s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json
-        test -f "$file" || echo "$file"
-        aws s3api head-object --bucket $S3_BUCKET_METADATA --key prod/manifest/manifest.json || not_exist=true
-        [ ! "$not_exist" ] && aws s3 cp s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest/manifest.json
+        aws s3 cp s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest/manifest.json
 
     - name: Deploy
       run: |
+        echo ${{github.workspace}}
+        cd ${{github.workspace}}/tansformation/transformation_nsw_doe
+        echo pwd
         dbt build --models state:modified+ --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
 
     - name: Upload manifest.json from s3

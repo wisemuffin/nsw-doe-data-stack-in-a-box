@@ -55,6 +55,9 @@ jobs:
 
     - name: Deploy
       run: |
+        ls ${{github.workspace}}
+        echo hello
+        ls ${{github.workspace}}/tansformation/transformation_nsw_doe
         echo ${{github.workspace}}
         cd ${{github.workspace}}/tansformation/transformation_nsw_doe && ls
         echo pwd

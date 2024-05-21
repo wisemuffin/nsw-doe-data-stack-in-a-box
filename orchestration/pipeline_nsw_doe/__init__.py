@@ -17,36 +17,29 @@ from dotenv import load_dotenv
 # from .assets import jaffle_shop_dbt_assets,raw_customers_py,raw_orders_py,raw_payments_py,iris_dataset,iris_dataset_test_to_remove #,csv_to_onelake_asset
 # from .assets import iris,raw,transformation,machine_learning
 from . import assets
-from .constants import dbt_project_dir, duckdb_project_dir
+from .constants import dbt_project_dir
 
 load_dotenv()
 
-NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__DEV = os.getenv(
-    "NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__DEV"
+NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB = os.getenv(
+    "NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB"
 )
-NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD = os.getenv(
-    "NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD"
+DUCKDB_PROJECT_DIR = os.path.join(
+    os.environ["GITHUB_WORKSPACE"],
+    os.environ["NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB"],
 )
-NSW_DOE_DATA_STACK_IN_A_BOX_DB_TOKEN__PROD = os.getenv(
-    "NSW_DOE_DATA_STACK_IN_A_BOX_DB_TOKEN__PROD"
-)
-
-DB_NAME__DEV = f"{NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__DEV}.duckdb"
-DB_NAME__PROD = f"{NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD}.duckdb"
 
 resources_by_env = {
     "prod": {
         "io_manager_dw": DuckDBPandasIOManager(
-            database=f"md:{NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD}?motherduck_token={NSW_DOE_DATA_STACK_IN_A_BOX_DB_TOKEN__PROD}",
+            database=f"{NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB}",
         ),
         "io_manager": FilesystemIOManager(),
         "dbt": DbtCliResource(project_dir=os.fspath(dbt_project_dir)),
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),
     },
     "dev": {
-        "io_manager_dw": DuckDBPandasIOManager(
-            database=os.path.join(duckdb_project_dir, DB_NAME__DEV)
-        ),
+        "io_manager_dw": DuckDBPandasIOManager(database=DUCKDB_PROJECT_DIR),
         "io_manager": FilesystemIOManager(),
         "dbt": DbtCliResource(project_dir=os.fspath(dbt_project_dir)),
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),

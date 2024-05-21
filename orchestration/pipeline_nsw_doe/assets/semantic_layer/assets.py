@@ -28,6 +28,10 @@ def metrics_by_year_saved_query() -> pd.DataFrame:
     )
 
     working_dir = dbt_project_dir
+
+    command = ["dbt", "docs", "generate"]
+    subprocess.check_call(command, cwd=working_dir)
+
     command = [
         "mf",
         "query",
@@ -68,6 +72,10 @@ def metrics_by_year_school_saved_query() -> pd.DataFrame:
     )
 
     working_dir = dbt_project_dir
+
+    command = ["dbt", "docs", "generate"]
+    subprocess.check_call(command, cwd=working_dir)
+
     command = [
         "mf",
         "query",

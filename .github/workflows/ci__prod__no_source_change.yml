@@ -1,0 +1,68 @@
+name: Production deployment from main
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+    DATAFOLD_APIKEY:                                    ${{ secrets.DATAFOLD_APIKEY }}
+    S3_BUCKET_METADATA:                                 ${{ secrets.S3_BUCKET_METADATA }}
+
+jobs:
+  ci__prod__no_source_change:
+    name: Prod deployment with no source changes
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+    - name: Checkout branch
+      uses: actions/checkout@v2
+
+    - name: Install Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+
+    - name: Install DBT
+      run: |
+        python -m pip install --upgrade pip
+        pip install dbt-snowflake==1.0.0
+        pip install datafold-sdk==0.0.7
+        dbt deps
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        # bucket is public so no need for creds
+        # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-southeast-2
+        # role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+        # role-external-id: ${{ secrets.AWS_ROLE_EXTERNAL_ID }}
+        # role-duration-seconds: 1200
+        # role-session-name: MySessionName
+
+    - name: Get the last manifest.json from s3
+      run: |
+        aws s3 cp s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest/manifest.json
+
+    - name: Deploy
+      run: |
+        dbt build --models state:modified+ --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
+
+    - name: Upload manifest.json from s3
+      run: |
+        aws s3 cp ${{github.workspace}}/transformation/transformation_nsw_doe/target/manifest.json s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json
+
+    - name: Generate Docs
+      run: dbt docs generate --no-version-check --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
+
+    - name: Publish Docs
+      run: |
+        aws s3 cp ${{github.workspace}}/transformation/transformation_nsw_doe/target/index.html s3://$S3_BUCKET_METADATA/
+        aws s3 cp ${{github.workspace}}/transformation/transformation_nsw_doe/target/catalog.json s3://$S3_BUCKET_METADATA/
+        aws s3 cp ${{github.workspace}}/transformation/transformation_nsw_doe/target/manifest.json s3://$S3_BUCKET_METADATA/
+
+    - name: Datafold dbt upload
+      run: |
+       datafold dbt upload --ci-config-id 40 --run-type production --target-folder ${{github.workspace}}/transformation/transformation_nsw_doe/target

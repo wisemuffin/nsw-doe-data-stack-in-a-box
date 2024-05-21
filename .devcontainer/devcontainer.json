@@ -22,12 +22,38 @@
   "postCreateCommand": "bash ./.devcontainer/postCreateCommand.sh && . .venv/bin/activate &&  task setup",
   // "postStartCommand": ". .venv/bin/activate", // runs after postCreateCommand
   "postAttachCommand": ". .venv/bin/activate && task dag", // runs after postStartCommand
-  "runArgs": [
-    "--env-file", "${localWorkspaceFolder}/.env.dev"
-    ],
+  // "runArgs": [
+  //   "--env-file", "${localWorkspaceFolder}/.env.dev"
+  //   ],
+  "secrets": {
+    "MOTHERDUCK_TOKEN": {
+      "description": "used for production data warehouse",
+      // "documentationUrl": ""
+    },
+    "DATAFOLD_APIKEY": {
+      "description": "used for cicd",
+      // "documentationUrl": ""
+    }
+  },
 	"containerEnv": {
-		// use a .env file outside of source control to store secrets
-		// "AIRBYTE_LOCAL_PASSWORD": "password" // only for local development!!!
+		// use a .env file outside of source control to store secrets or via repo secrets
+		// TODO 🚧 PYTHONPATH currently adds to PYTHONPATH for debugging. Need to sort this out in dev container
+    //PYTHONPATH: /home/dave/data-engineering/nsw-doe-data-stack-in-a-box
+
+    "NSW_DOE_DATA_STACK_IN_A_BOX__ENV": "dev",
+    "NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR":  "orchestration",
+    "NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR": "transformation/transformation_nsw_doe",
+
+    "NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB": "reports/sources/nsw_doe_data_stack_in_a_box/nsw_doe_data_stack_in_a_box__dev.duckdb",
+    "NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME": "nsw_doe_data_stack_in_a_box__dev",
+    "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA": "analytics",
+
+    "DAGSTER_HOME": "orchestration/dagster-local-file-store",
+
+    "EVIDENCE_SOURCE__nsw_doe_data_stack_in_a_box__filename": "nsw_doe_data_stack_in_a_box__dev.duckdb",
+
+    "NODE_OPTIONS":"--max-old-space-size=8192"
+
 	},
 	"remoteEnv": {
 		// "DATABASE": "duckdb",

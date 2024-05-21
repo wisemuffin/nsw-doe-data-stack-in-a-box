@@ -3,11 +3,8 @@ version: 2
 sources:
   - name: raw
     database: |
-      {%- if  target.name == "dev" -%} {{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__DEV') }}
-      {%- elif target.name == "prod"  -%} {{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD') }}
-      {%- else -%} invalid_database
-      {%- endif -%}
-    schema: raw  
+      {{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME') }}
+    schema: raw
     tables:
       - name: raw__acara__staff_numbers
         # meta:

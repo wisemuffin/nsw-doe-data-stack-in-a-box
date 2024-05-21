@@ -31,3 +31,27 @@ def evidence_dashboard__experimental():
     subprocess.run(["npm", "--prefix", evidence_project_path, "run", "sources"])
     # dont waste time building static site, just do this in CICD step and host on static website
     # subprocess.run(["npm", "--prefix", evidence_project_path, "run", "build"])
+
+
+@asset(
+    compute_kind="tableau",
+    group_name="reporting",
+    deps=[metrics_by_year_saved_query, metrics_by_year_school_saved_query],
+)
+def tableau_dashboard__experimental():
+    """
+    🚧 to work on setting up automated refresh of cache on tableau public
+    """
+    pass
+
+
+@asset(
+    compute_kind="powerbi",
+    group_name="reporting",
+    deps=[metrics_by_year_saved_query, metrics_by_year_school_saved_query],
+)
+def powerbi_dashboard__experimental():
+    """
+    🚧 to work on setting up automated refresh of cache on power bi
+    """
+    pass

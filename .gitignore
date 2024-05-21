@@ -1,5 +1,5 @@
 .venv
-.env
+.env*
 .env.secret
 .coverage
 # .vscode

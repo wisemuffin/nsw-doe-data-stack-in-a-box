@@ -19,15 +19,15 @@ tasks:
       - uv venv && source .venv/bin/activate && uv pip install -r requirements.txt
       # - python -m pip install --progress-bar off -r requirements.txt
       # - pip install -r requirements.txt
-      - cd transformation/transformation_nsw_doe && dbt deps
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt deps
       - cd transformation/demo_transformation_jaffle_shop && dbt deps
   python_deps_devcontainer:
     desc: Limitation with taskfile cant use vertial envs. So cant use UV
     cmds:
       # - pip install -r requirements.txt
-      - cd transformation/transformation_nsw_doe && dbt deps
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt deps
       # workaround as cant get dynamic manifest.json to build
-      - cd transformation/transformation_nsw_doe && dbt parse
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt parse
 
       - cd transformation/demo_transformation_jaffle_shop && dbt deps
       - cd transformation/demo_transformation_jaffle_shop && dbt parse
@@ -35,7 +35,7 @@ tasks:
 
   node_deps:
     cmds:
-      - npm install --prefix ./reports
+      - npm install --prefix ${GITHUB_WORKSPACE}/reports
 
   git:
     cmds:
@@ -93,25 +93,25 @@ tasks:
   #     - task octavia
   duck:
     cmds:
-      - duckdb $NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB__DEV
+      - duckdb ${GITHUB_WORKSPACE}/$NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB
   setup_sqltools:
     cmds:
       - cd ~/.local/share/vscode-sqltools && npm install duckdb-async@0.10.0 && exit 0
   evidence_setup:
     desc: dont need this now was just for inital setup just run node_deps
     cmds:
-      - npm --prefix ./reports install
-      - npm --prefix ./reports run sources
+      - npm --prefix ${GITHUB_WORKSPACE}/reports install
+      - npm --prefix ${GITHUB_WORKSPACE}/reports run sources
 
   evidence_prod_build:
     desc: static site generation for evidence
     cmds:
-      - npm --prefix ./reports run build
-      - npm --prefix ./reports run preview -- --port 4000
+      - npm --prefix ${GITHUB_WORKSPACE}/reports run build
+      - npm --prefix ${GITHUB_WORKSPACE}/reports run preview -- --port 4000
   evidence:
     desc: for local development we dont need to build the static site
     cmds:
-      - npm --prefix ./reports run dev # && simple-browser show http://localhost:3001/
+      - npm --prefix ${GITHUB_WORKSPACE}/reports run dev # && simple-browser show http://localhost:3001/
 
   dbtdoc:
     cmds:
@@ -123,23 +123,16 @@ tasks:
 
   dag:
     cmds:
-      - cd orchestration && DAGSTER_DBT_PARSE_PROJECT_ON_LOAD=1 && export DAGSTER_HOME="/workspaces/nsw-doe-data-stack-in-a-box/orchestration/dagster-local-file-store/"$NSW_DOE_DATA_STACK_IN_A_BOX__ENV && dagster dev && simple-browser show http://localhost:3000/
-  da:
-    cmds:
-      - simple-browser show http://localhost:3000/
-  dag_local:
-    desc: limitation DAGSTER_HOME cant be dynamic 🥹
-    cmds:
-      - cd orchestration && DAGSTER_DBT_PARSE_PROJECT_ON_LOAD=1 && export DAGSTER_HOME="/home/dave/data-engineering/nsw-doe-data-stack-in-a-box/orchestration/dagster-local-file-store/"$NSW_DOE_DATA_STACK_IN_A_BOX__ENV  && dagster dev
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR} && DAGSTER_DBT_PARSE_PROJECT_ON_LOAD=1 && export DAGSTER_HOME=$GITHUB_WORKSPACE"/"$DAGSTER_HOME"/"$NSW_DOE_DATA_STACK_IN_A_BOX__ENV && dagster dev && simple-browser show http://localhost:3000/
   orchestration_setup:
     cmds:
-      - cd orchestration && uv pip install -e ".[dev]"
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR} && uv pip install -e ".[dev]"
   orchestration_setup_devcontainer:
     cmds:
-      - cd orchestration && pip install -e ".[dev]"
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR} && pip install -e ".[dev]"
   dag_server:
     cmds:
-      - cd orchestration && dagster dev -h 0.0.0.0 -p 3000
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR} && dagster dev -h 0.0.0.0 -p 3000
 
   docs:
     desc: documentation static site generator with mkdocs 💣 Warning doesnt work with taskfile 🚧 TODO
@@ -149,8 +142,8 @@ tasks:
   mf_check:
     desc: compiles dbt code then runs the metric flow checker
     cmds:
-      - cd transformation/transformation_nsw_doe && dbt compile && mf validate-configs'
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt compile && mf validate-configs'
   mf:
     cmds:
-      - cd transformation/transformation_nsw_doe && dbt compile && mf query --saved-query metrics_by_year_saved_query --csv ./exports/sq-metrics-by-year-saved-query-non-dag.csv
-      - cd transformation/transformation_nsw_doe && dbt compile && mf query --saved-query metrics_by_year_school_saved_query --csv ./exports/sq-metrics-by-year-school-saved-query-non-dag.csv
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt compile && mf query --saved-query metrics_by_year_saved_query --csv ./exports/sq-metrics-by-year-saved-query-non-dag.csv
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt compile && mf query --saved-query metrics_by_year_school_saved_query --csv ./exports/sq-metrics-by-year-school-saved-query-non-dag.csv

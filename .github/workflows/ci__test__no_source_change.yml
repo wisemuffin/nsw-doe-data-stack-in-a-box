@@ -1,0 +1,85 @@
+on:
+    workflow_dispatch:
+    pull_request:
+      branches:
+        - main
+env:
+    DATAFOLD_APIKEY:                                    ${{ secrets.DATAFOLD_APIKEY }}
+    S3_BUCKET_METADATA:                                 ${{ secrets.S3_BUCKET_METADATA }}
+
+    NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA:          analytics
+    NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB:         md:nsw_doe_data_stack_in_a_box__pr_$(date +%s)?motherduck_token=${{ secrets.MOTHERDUCK_TOKEN }}
+    NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME:                nsw_doe_data_stack_in_a_box__pr_$(date +%s)
+
+jobs:
+  ci__test__no_source_change:
+        name: Test deployment from a PR with no source changes
+        environment: test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4.1.1
+            - name: Setup Python
+              uses: actions/setup-python@v5.0.0
+              with:
+                    python-version: "3.11.x"
+            - name: Install uv
+              run: python3 -m pip install uv
+            - name: Install Python requirements
+              run: uv pip install --system -r requirements.txt
+            - name: Dbt checks
+              run: |
+                cd ${{github.workspace}}/transformation/transformation_nsw_doe
+                dbt deps
+                dbt parse
+
+            - name: Configure AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                # bucket is public so no need for creds
+                # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                aws-region: ap-southeast-2
+                # role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+                # role-external-id: ${{ secrets.AWS_ROLE_EXTERNAL_ID }}
+                # role-duration-seconds: 1200
+                # role-session-name: MySessionName
+
+            - name: Get the last manifest.json from s3
+              run: |
+                    aws s3 cp s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest/manifest.json
+
+            - name: Check if manifest exists
+              run : |
+                    pwd
+                    cd ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest
+                    ls
+                    cd ${{github.workspace}}/transformation/transformation_nsw_doe
+
+            - name: Deploy
+              run: |
+                dbt build --models state:modified+ --defer --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
+
+            - name: Datafold dbt upload check manifest
+              run: |
+                echo $DATAFOLD_APIKEY
+
+            - name: Datafold dbt upload check manifest
+              run: |
+                echo $DATAFOLD_APIKEY
+                ls ${{github.workspace}}/transformation/transformation_nsw_doe/target
+                cat ${{github.workspace}}/transformation/transformation_nsw_doe/target/manifest.json
+
+
+            - name: Datafold dbt upload check run_results.json
+              run: |
+                pwd
+                cat ${{github.workspace}}/transformation/transformation_nsw_doe/target/run_results.json
+
+            - name: Submit artifacts to datafold
+              run: |
+                PR_HEAD_SHA=$(cat $GITHUB_EVENT_PATH | jq -r .pull_request.head.sha)
+                echo $PR_HEAD_SHA $GITHUB_SHA
+                datafold dbt upload --ci-config-id 40 --run-type pull_request \
+                    --target-folder ${{github.workspace}}/transformation/transformation_nsw_doe/target/ \
+                    --commit-sha $PR_HEAD_SHA

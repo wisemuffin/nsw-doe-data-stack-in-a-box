@@ -10,11 +10,13 @@ from dagster_dbt import DbtCliResource
 
 
 # dbt_project_dir = Path(__file__).joinpath("..", "..", "..", "transformation","transformation_nsw_doe").resolve()
-dbt_project_dir = Path(os.environ["NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR"])
-duckdb_project_dir = Path(os.environ["NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH__DEV"])
-dbt = DbtCliResource(project_dir=os.fspath(dbt_project_dir))
+dbt_project_dir = os.path.join(
+    os.environ["GITHUB_WORKSPACE"],
+    os.environ["NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR"],
+)
+dbt = DbtCliResource(project_dir=dbt_project_dir)
 
-dbt_manifest_path_temp = dbt_project_dir.joinpath("target", "manifest.json")
+dbt_manifest_path_temp = os.path.join(dbt_project_dir, "target", "manifest.json")
 
 
 # If DAGSTER_DBT_PARSE_PROJECT_ON_LOAD is set, a manifest will be created at run time.
@@ -41,4 +43,4 @@ if os.getenv("DAGSTER_DBT_PARSE_PROJECT_ON_LOAD") or not os.path.exists(
         .target_path.joinpath("manifest.json")
     )
 else:
-    dbt_manifest_path = dbt_project_dir.joinpath("target", "manifest.json")
+    dbt_manifest_path = os.path.join(dbt_project_dir, "target", "manifest.json")

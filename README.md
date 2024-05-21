@@ -15,6 +15,11 @@ This is an data-stack-in-a-box based data from [NSW Education Data Hub](https://
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/wisemuffin/nsw-doe-data-stack-in-a-box?quickstart=1)
 
+
+Reports 🚧
+
+[evidence.dev](https://nsw-doe-data-stack-in-a-box-prod.evidence.app/)
+
 ## Objectives
 
 ### Main quests
@@ -229,13 +234,9 @@ operations after testing (also done during pipeline execution)
 
 ### 🚧working on
 
-- Motherduck upgrade to 0.10.X eta end of April
-  - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
-  - backwards compatability
-  - evidence can then point to production and can serve and CICD so everyone can see the results.
 
-- data diff 🧱 by no prod due to motheduck not using 10.1 yet
-- dbt defer 🧱 by no prod due to motheduck not using 10.1 yet
+- data diff 🧱 by no prod due to motheduck not using 10.1 yet NO longer open source!
+
 
 - msteams sensor on failure of job need to setup webhook somewhere
 
@@ -280,6 +281,7 @@ operations after testing (also done during pipeline execution)
 
 ### 🔙🪵backlog
 
+- tableau to motherduck - https://motherduck.com/docs/integrations/bi-tools/tableau/
 - check out scd_latest_state and scd_type 2 macros from gitlab
 - change all gif to be NSW based
 - python package manager uv is so much faster but cant use in taskfile. Explore this some more
@@ -304,6 +306,7 @@ operations after testing (also done during pipeline execution)
 - sensitive data demo [example](https://handbook.gitlab.com/handbook/business-technology/data-team/platform/dbt-guide/#sensitive-data)
 - demo [gdpr delete dbt macro](https://gitlab.com/gitlab-data/analytics/-/blob/master/transform/snowflake-dbt/macros/warehouse/gdpr_delete.sql)
 - integrated the mermaid diagram output with dbt docs and served it with repo pages
+- dbt defer - could do this with dbt cloud or altion
 
 
 💩 Limitations / hard to do 😢😭
@@ -333,6 +336,10 @@ operations after testing (also done during pipeline execution)
     - need to setup dagster test suite
 
 ### Done
+- Motherduck upgrade to 0.10.X eta end of April
+  - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
+  - backwards compatability
+  - evidence can then point to production and can serve and CICD so everyone can see the results.
 - dagster ml example
   - do a lgoistic regression example too. follow along with https://github.com/Avaiga/demo-churn-classification/blob/develop/src/algos/algos.py
   - also create functions and assets e.g. for pre process, train test split of data,  fit, model evaluation
@@ -424,9 +431,13 @@ Due to the evolving nature of school information and local enrolment areas, no r
 
 ## Contributing
 
-### Contributing - Data Analyses & Science
+### Contributing - Data Analyses & Reporting
 
 🚧 TODO
+
+### Contributing - Data Science
+
+🚧 TODO - currently data scientists need to know how to work with pipelines. Still experimenting with this. But you can have a go with the examples that already exist in dagster.
 
 ### Contributing - Data Modeling
 
@@ -462,7 +473,7 @@ sqlfluff fix
 ```
 
 
-#### Contributing - Pipeline Code / Ingestion / ML
+#### Contributing - Pipeline Code / Ingestion
 
 To develop on dagster you should run `dagster dev` in debug mod. This allows you to set breakpoints in vs code. Simply hit `F5` in vscode (just check that your debug config is set to `Dagster: Debug Dagit UI`).
 

@@ -1,6 +1,6 @@
 -- apply window logic to get latest value
 with prep as (
-    UNPIVOT nsw_doe_data_stack_in_a_box__prod.analytics.metrics_by_year_saved_query
+    UNPIVOT analytics.metrics_by_year_saved_query
     ON * EXCLUDE (metric_time__year)
     INTO
         NAME metric_name

@@ -72,12 +72,7 @@ jobs:
 
     - name: Deploy
       run: |
-        ls ${{github.workspace}}
-        echo hello
-        ls ${{github.workspace}}/transformation/transformation_nsw_doe
-        echo ${{github.workspace}}
-        cd ${{github.workspace}}/transformation/transformation_nsw_doe && ls
-        echo pwd
+        cd ${{github.workspace}}/transformation/transformation_nsw_doe
         dbt build --models state:modified+ --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
 
     - name: Upload manifest.json from s3
@@ -85,7 +80,9 @@ jobs:
         aws s3 cp ${{github.workspace}}/transformation/transformation_nsw_doe/target/manifest.json s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json
 
     - name: Generate Docs
-      run: dbt docs generate --no-version-check --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
+      run: |
+        cd ${{github.workspace}}/transformation/transformation_nsw_doe
+        dbt docs generate --no-version-check --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
 
     - name: Publish Docs
       run: |

@@ -106,14 +106,6 @@ tasks:
     cmds:
       - npm --prefix ${GITHUB_WORKSPACE}/reports run dev # && simple-browser show http://localhost:3001/
 
-  dbtdoc:
-    cmds:
-      - dbt docs generate
-      - dbt docs serve
-  dbtdoc_serv:
-    cmds:
-      - dbt docs serve
-
   dag:
     cmds:
       - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR} && DAGSTER_DBT_PARSE_PROJECT_ON_LOAD=1 && export DAGSTER_HOME=$GITHUB_WORKSPACE"/"$DAGSTER_HOME"/"$NSW_DOE_DATA_STACK_IN_A_BOX__ENV && dagster dev && simple-browser show http://localhost:3000/
@@ -141,7 +133,22 @@ tasks:
       - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt compile && mf query --saved-query metrics_by_year_saved_query --csv ./exports/sq-metrics-by-year-saved-query-non-dag.csv
       - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt compile && mf query --saved-query metrics_by_year_school_saved_query --csv ./exports/sq-metrics-by-year-school-saved-query-non-dag.csv
 
+
   dbt_manifest_prod:
     desc: load the manifest from local if you run prod from local.
     cmds:
       - aws s3 cp ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR}/target/manifest.json s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json
+  dbt_prod_defer:
+    desc: load the manifest from local if you run prod from local.
+    cmds:
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR}
+      - aws s3 cp s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json ./target/last_manifest/manifest.json
+      - dbt build --models state:modified+ --state ./target/last_manifest --profiles-dir .
+
+  dbtdoc:
+    cmds:
+      - dbt docs generate
+      - dbt docs serve
+  dbtdoc_serv:
+    cmds:
+      - dbt docs serve

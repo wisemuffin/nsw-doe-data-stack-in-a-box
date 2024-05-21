@@ -65,39 +65,20 @@ jobs:
 
             - name: Get the last manifest.json from s3
               run: |
-                    aws s3 cp s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest/manifest.json
-
-            - name: Check if manifest exists
-              run : |
-                    pwd
-                    cd ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest
-                    ls
-                    cd ${{github.workspace}}/transformation/transformation_nsw_doe
+                echo s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json
+                aws s3 cp s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest/manifest.json
 
             - name: Deploy
               run: |
+                cd ${{github.workspace}}/transformation/transformation_nsw_doe
                 dbt build --models state:modified+ --defer --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
 
-            - name: Datafold dbt upload check manifest
-              run: |
-                echo $DATAFOLD_APIKEY
 
-            - name: Datafold dbt upload check manifest
-              run: |
-                echo $DATAFOLD_APIKEY
-                ls ${{github.workspace}}/transformation/transformation_nsw_doe/target
-                cat ${{github.workspace}}/transformation/transformation_nsw_doe/target/manifest.json
-
-
-            - name: Datafold dbt upload check run_results.json
-              run: |
-                pwd
-                cat ${{github.workspace}}/transformation/transformation_nsw_doe/target/run_results.json
-
-            - name: Submit artifacts to datafold
-              run: |
-                PR_HEAD_SHA=$(cat $GITHUB_EVENT_PATH | jq -r .pull_request.head.sha)
-                echo $PR_HEAD_SHA $GITHUB_SHA
-                datafold dbt upload --ci-config-id 40 --run-type pull_request \
-                    --target-folder ${{github.workspace}}/transformation/transformation_nsw_doe/target/ \
-                    --commit-sha $PR_HEAD_SHA
+            # reoving datafold until we get a motherduck connection
+            # - name: Submit artifacts to datafold
+            #   run: |
+            #     PR_HEAD_SHA=$(cat $GITHUB_EVENT_PATH | jq -r .pull_request.head.sha)
+            #     echo $PR_HEAD_SHA $GITHUB_SHA
+            #     datafold dbt upload --ci-config-id 40 --run-type pull_request \
+            #         --target-folder ${{github.workspace}}/transformation/transformation_nsw_doe/target/ \
+            #         --commit-sha $PR_HEAD_SHA

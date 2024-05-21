@@ -4,12 +4,25 @@ on:
       branches:
         - main
 env:
-    DATAFOLD_APIKEY:                                    ${{ secrets.DATAFOLD_APIKEY }}
-    S3_BUCKET_METADATA:                                 ${{ secrets.S3_BUCKET_METADATA }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR:    ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR:        ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR }}
 
-    NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA:          analytics
-    NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB:         md:nsw_doe_data_stack_in_a_box__pr_$(date +%s)?motherduck_token=${{ secrets.MOTHERDUCK_TOKEN }}
-    NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME:                nsw_doe_data_stack_in_a_box__pr_$(date +%s)
+  NSW_DOE_DATA_STACK_IN_A_BOX__ENV:                   ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX__ENV }}
+
+  NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB:         ${{ secrets.NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME:                nsw_doe_data_stack_in_a_box__pr_$(date +%s)
+  NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA:          ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }}
+
+  MOTHERDUCK_TOKEN:                                   ${{ secrets.MOTHERDUCK_TOKEN }}
+  DATAFOLD_APIKEY:                                    ${{ secrets.DATAFOLD_APIKEY }}
+
+  DAGSTER_HOME:                                       ${{ vars.DAGSTER_HOME }}
+
+  AWS_ROLE_TO_ASSUME:                                 ${{ secrets.AWS_ROLE_TO_ASSUME }}
+  S3_BUCKET_METADATA:                                 ${{ secrets.S3_BUCKET_METADATA }}
+
+  # EVIDENCE_SOURCE__nsw_doe_data_stack_in_a_box__filename: ${{ vars.EVIDENCE_SOURCE__nsw_doe_data_stack_in_a_box__filename }}
+
 
 # required for aws github OICD security
 permissions:

@@ -11,6 +11,11 @@ env:
     NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB:         md:nsw_doe_data_stack_in_a_box__pr_$(date +%s)?motherduck_token=${{ secrets.MOTHERDUCK_TOKEN }}
     NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME:                nsw_doe_data_stack_in_a_box__pr_$(date +%s)
 
+# required for aws github OICD security
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   ci__test__no_source_change:
         name: Test deployment from a PR with no source changes
@@ -34,16 +39,16 @@ jobs:
                 dbt parse
 
             - name: Configure AWS Credentials
-              uses: aws-actions/configure-aws-credentials@v1
+              uses: aws-actions/configure-aws-credentials@v4
               with:
                 # bucket is public so no need for creds
                 # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
                 # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 aws-region: ap-southeast-2
-                # role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+                role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
                 # role-external-id: ${{ secrets.AWS_ROLE_EXTERNAL_ID }}
                 # role-duration-seconds: 1200
-                # role-session-name: MySessionName
+                role-session-name: MySessionName
 
             - name: Get the last manifest.json from s3
               run: |

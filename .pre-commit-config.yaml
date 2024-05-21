@@ -6,6 +6,7 @@ repos:
         exclude: |
           (?x)(
             ^.devcontainer/|
+            infra_as_code/ |
             reports/evidence.plugins.yaml
           )
       - id: end-of-file-fixer

@@ -51,6 +51,8 @@ jobs:
 
     - name: Get the last manifest.json from s3
       run: |
+        aws s3 ls
+        echo s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json
         aws s3 cp s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest/manifest.json
 
     - name: Deploy

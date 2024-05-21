@@ -57,9 +57,9 @@ jobs:
       run: |
         ls ${{github.workspace}}
         echo hello
-        ls ${{github.workspace}}/tansformation/transformation_nsw_doe
+        ls ${{github.workspace}}/transformation/transformation_nsw_doe
         echo ${{github.workspace}}
-        cd ${{github.workspace}}/tansformation/transformation_nsw_doe && ls
+        cd ${{github.workspace}}/transformation/transformation_nsw_doe && ls
         echo pwd
         dbt build --models state:modified+ --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
 

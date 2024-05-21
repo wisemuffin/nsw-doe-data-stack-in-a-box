@@ -53,7 +53,9 @@ jobs:
       run: |
         aws s3 ls
         echo s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json
-        aws s3 cp s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest/manifest.json
+        test -f "$file" || echo "$file"
+        aws s3api head-object --bucket $S3_BUCKET_METADATA --key prod/manifest/manifest.json || not_exist=true
+        [ ! "$not_exist" ] && aws s3 cp s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest/manifest.json
 
     - name: Deploy
       run: |

@@ -1,4 +1,4 @@
-""" Loads the pipeline for Google Analytics V4. """
+"""Loads the pipeline for Google Analytics V4."""
 
 import time
 from typing import Any
@@ -33,7 +33,7 @@ def simple_load() -> Any:
     # FULL PIPELINE RUN
     pipeline = dlt.pipeline(
         pipeline_name="dlt_google_analytics_pipeline",
-        destination='duckdb',
+        destination="duckdb",
         full_refresh=False,
         dataset_name="sample_analytics_data",
     )
@@ -56,7 +56,7 @@ def simple_load_config() -> Any:
     # FULL PIPELINE RUN
     pipeline = dlt.pipeline(
         pipeline_name="dlt_google_analytics_pipeline",
-        destination='duckdb',
+        destination="duckdb",
         full_refresh=False,
         dataset_name="sample_analytics_data",
     )
@@ -81,7 +81,7 @@ def chose_date_first_load(start_date: str = "2000-01-01") -> Any:
     # FULL PIPELINE RUN
     pipeline = dlt.pipeline(
         pipeline_name="dlt_google_analytics_pipeline",
-        destination='duckdb',
+        destination="duckdb",
         full_refresh=False,
         dataset_name="sample_analytics_data",
     )

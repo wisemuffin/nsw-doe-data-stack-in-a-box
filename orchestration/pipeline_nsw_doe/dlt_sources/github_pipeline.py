@@ -7,7 +7,7 @@ def load_duckdb_repo_reactions_issues_only() -> None:
     """Loads issues, their comments and reactions for duckdb"""
     pipeline = dlt.pipeline(
         "github_reactions",
-        destination='duckdb',
+        destination="duckdb",
         dataset_name="duckdb_issues",
         full_refresh=True,
     )
@@ -21,7 +21,7 @@ def load_duckdb_repo_reactions_issues_only() -> None:
 def load_airflow_events() -> None:
     """Loads airflow events. Shows incremental loading. Forces anonymous access token"""
     pipeline = dlt.pipeline(
-        "github_events", destination='duckdb', dataset_name="airflow_events"
+        "github_events", destination="duckdb", dataset_name="airflow_events"
     )
     data = github_repo_events("apache", "airflow", access_token="")
     print(pipeline.run(data))
@@ -34,7 +34,7 @@ def load_dlthub_dlt_all_data() -> None:
     """Loads all issues, pull requests and comments for dlthub dlt repo"""
     pipeline = dlt.pipeline(
         "github_reactions",
-        destination='duckdb',
+        destination="duckdb",
         dataset_name="dlthub_reactions",
         full_refresh=True,
     )

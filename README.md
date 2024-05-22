@@ -258,9 +258,10 @@ operations after testing (also done during pipeline execution)
 
 ### 🧱 Blocked
 - 🧱 migrate to new cese data hub - links still going to https://data.cese.nsw.gov.au
-- dlt hub
+- 🧱 dlt hub
   - works in dev
   - but in prod the dlt[motherduck] python lib only allows <0.10 after that need to change the pipeline param in the asset to mother duck depending on env.
+  - also excluding google and github dlt sources from dbt ci via `--exclude "+*github*+ +*google*+"`
 - 🧱 datafold cant connect to mother duck
 - evidence build site and host on static site (need to wait for mother duck)
   - [fixed] currently getting heap out of memory error. [Issue raised](https://github.com/evidence-dev/evidence/issues/1507)

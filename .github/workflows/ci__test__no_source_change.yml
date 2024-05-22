@@ -1,0 +1,84 @@
+on:
+    workflow_dispatch:
+    pull_request:
+      branches:
+        - main
+env:
+  NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR:    ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR:        ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR }}
+
+  NSW_DOE_DATA_STACK_IN_A_BOX__ENV:                   ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX__ENV }}
+
+  NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB:         ${{ secrets.NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME:                nsw_doe_data_stack_in_a_box__pr_$(date +%s)
+  NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA:          ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }}
+
+  MOTHERDUCK_TOKEN:                                   ${{ secrets.MOTHERDUCK_TOKEN }}
+  DATAFOLD_APIKEY:                                    ${{ secrets.DATAFOLD_APIKEY }}
+
+  DAGSTER_HOME:                                       ${{ vars.DAGSTER_HOME }}
+
+  AWS_ROLE_TO_ASSUME:                                 ${{ secrets.AWS_ROLE_TO_ASSUME }}
+  S3_BUCKET_METADATA:                                 ${{ secrets.S3_BUCKET_METADATA }}
+
+  # EVIDENCE_SOURCE__nsw_doe_data_stack_in_a_box__filename: ${{ vars.EVIDENCE_SOURCE__nsw_doe_data_stack_in_a_box__filename }}
+
+
+# required for aws github OICD security
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  ci__test__no_source_change:
+        name: Test deployment from a PR with no source changes
+        environment: test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4.1.1
+            - name: Setup Python
+              uses: actions/setup-python@v5.0.0
+              with:
+                    python-version: "3.11.x"
+            - name: Install uv
+              run: python3 -m pip install uv
+            - name: Install Python requirements
+              run: uv pip install --system -r requirements.txt
+            - name: Dbt checks
+              run: |
+                cd ${{github.workspace}}/transformation/transformation_nsw_doe
+                dbt deps
+                dbt parse
+
+            - name: Configure AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                # bucket is public so no need for creds
+                # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                aws-region: ap-southeast-2
+                role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+                # role-external-id: ${{ secrets.AWS_ROLE_EXTERNAL_ID }}
+                # role-duration-seconds: 1200
+                role-session-name: MySessionName
+
+            - name: Get the last manifest.json from s3
+              run: |
+                echo s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json
+                aws s3 cp s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest/manifest.json
+
+            - name: Deploy
+              run: |
+                cd ${{github.workspace}}/transformation/transformation_nsw_doe
+                dbt build --models state:modified+ --defer --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
+
+
+            # reoving datafold until we get a motherduck connection
+            # - name: Submit artifacts to datafold
+            #   run: |
+            #     PR_HEAD_SHA=$(cat $GITHUB_EVENT_PATH | jq -r .pull_request.head.sha)
+            #     echo $PR_HEAD_SHA $GITHUB_SHA
+            #     datafold dbt upload --ci-config-id 40 --run-type pull_request \
+            #         --target-folder ${{github.workspace}}/transformation/transformation_nsw_doe/target/ \
+            #         --commit-sha $PR_HEAD_SHA

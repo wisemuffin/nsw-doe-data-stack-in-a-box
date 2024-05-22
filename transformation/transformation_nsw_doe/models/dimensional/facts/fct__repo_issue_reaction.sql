@@ -3,18 +3,17 @@
     ('stg__github_reactions__issues', 'stg__github_reactions__issues')
 ]) }},
 prep as (
-    select content, sum(1)
+    select content, created_at::date as date, sum(1) as cnt_reaction
     from stg__github_reactions__issues_reactions
     where 1=1
-    group by content
+    group by all
 ),
-
 final AS (
 
-    SELECT 
-        
+    SELECT
+
         --Primary Key
-        {{dbt_utils.generate_surrogate_key(['prep.date'])}} as _meta__fct__web_analytics__sk,
+        {{dbt_utils.generate_surrogate_key(['prep.date', 'prep.content'])}} as _meta__fct__repo_issue_reaction__sk,
 
         --Natural Key
 
@@ -22,12 +21,12 @@ final AS (
         ----Conformed Dimensions
 
         ----Local Dimensions
+        prep.content,
+        prep.date,
 
 
         -- Measures
-        total_users_integer as total_users,
-        new_users_integer as new_users,
-        user_engagement_duration_seconds
+        prep.cnt_reaction
 
 
     FROM prep
@@ -40,4 +39,3 @@ final AS (
     created_date="2024-04-30",
     updated_date="2024-04-30"
 ) }}
-

@@ -12,3 +12,15 @@ semantic_models:
     dimensions:
       - name: school_name
         type: categorical
+      - name: latest_year_enrolment_fte
+        type: categorical
+      - name: level_of_schooling
+        type: categorical
+      - name: icsea_value
+        type: categorical
+      - name: indigenous_pct
+        type: categorical
+      - name: selective_school
+        type: categorical
+      - name: school_specialty_type
+        type: categorical

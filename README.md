@@ -2,16 +2,23 @@
 
 <img src=".github/static/nsw-doe.png" width="150" >
 
+
 # Welcome to New South Wales Department of Education (NSW DOE) data stack in a box
 
-🚧 ![CI Checks](https://github.com/gwenwindflower/octocatalog/actions/workflows/ci.yml/badge.svg) 
+![CI Checks](https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/actions/workflows/ci__prod__no_source_change.yml/badge.svg)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 This is an data-stack-in-a-box based data from [NSW Education Data Hub](https://data.cese.nsw.gov.au/). With the push of one button you can have your own data stack!
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > Click below 👇🏼 to setup your own free data stack packed with [NSW Department of Education](https://education.nsw.gov.au/) data.
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/wisemuffin/nsw-doe-data-stack-in-a-box?quickstart=1)
+
+
+Reports 🚧
+
+[evidence.dev](https://nsw-doe-data-stack-in-a-box-prod.evidence.app/)
 
 ## Objectives
 
@@ -43,7 +50,7 @@ The project is designed to be very simple but allow you the flexibility for you 
 > ![Info] We are simply going to extract data from the [NSW Education Data Hub](https://data.cese.nsw.gov.au/) and load it into our in memory data warehouse 🦆, model, clean, and analyse our data.
 
 
-> [!WARNING]  
+> [!WARNING]
 > The datasets from ACARA and NSW DOE are based on static urls. These URLs will break 💣 in the future. I will try to keep an eye out for this every few months. 🚧 TODO setup discussion on limitations with public datasets.
 
 
@@ -55,7 +62,7 @@ The project is designed to be very simple but allow you the flexibility for you 
   - ai monitoring
 - Power BI
 - Open Metadata
-- DBT Cloud 
+- DBT Cloud
   - semantic layer
   - column level linage
 -->
@@ -106,7 +113,7 @@ The project is designed to be very simple but allow you the flexibility for you 
 
 📓 some additional features below that use AI features require a API key from [Accelerate](https://www.altimate.ai/) but in this project just using the open source free version:
 
-<!-- > [!NOTE]  
+<!-- > [!NOTE]
 > some additional features below that use AI features require a API key from [Accelerate](https://www.altimate.ai/) but in this project just using the open source free version: -->
 
 | :memo:        | some additional features below that use AI features require a API key from [Accelerate](https://www.altimate.ai/) but in this project just using the open source free version:       |
@@ -121,27 +128,67 @@ The project is designed to be very simple but allow you the flexibility for you 
 
 Just create a python pandas dataframe and put that logic into the orchistrator dagster
 
-> [!WARNING]  
+> [!WARNING]
 > Pandas will only scale so far. But for +95% of the work we do at NSW DOE analytics its probably enough.
 
 
 Data Wrangler
 Exploritory analysis
-cleaning - string from example 
+cleaning - string from example
 Dont need to memorise Pandas API. Drag and dops converts to Pandas 🐼
 
 ![Data Wangler](.github/static/data-wrangler.gif)
 
 
-**testing**
+**testing, validation, code, and data quality**
 
-dagster asset checks
-dbt tests
-piplines should master metadata including tests...
+🚧 TODO
 
-🚧 anomily detection
-🚧 schema validation
-🚧 dbt unit tests
+testing data is `complex`! 🧠
+
+Types of testing and when do we test:
+
+testing during development
+- `type annotations` - to improve developer productivity
+- `schema validation` -
+- `unit testing` - quick tests limited to just one part of your code. Supports test as documentation.
+  - 🚧 pytest - used to unit test pipeline logic
+  - 🚧 dbt unit test - used to test sql functions used in dbt data models
+
+testing code quality
+- we use `ruff` for python and `sqlfluff` for sql during our PRs.
+- code quality is assessed at 3 points in time (at each point we are trying to give you feedback as early as possible):
+  - when we save code `ruff` will format `.py` files on save. Currently cant do this with `sql-fluff` on `.sql` files when using dbt.
+  - when we commit we can run code quality test locally with `pre-commit`.
+  - when we make a pull request. This allows us to run all automated tests including code quality.
+- code quality covers:
+  - `linting`
+  - `imports`
+  - `formatting` for file types `.sql`, `.py`, `.yaml`
+
+testing during code review
+- `integration testing`
+- `unit testing` see notes from development.
+- `data quality`
+  - dbt tests
+  - 🚧 data diff
+- `schema validation`
+- `end to end testing`
+- `acceptance testing`
+
+testing during pipeline execution (we want to alert)
+- `schema validation` -
+- `data quality`
+  - ✅ dagster asset checks
+  - dbt data tests
+    - ✅ relationship tests from fact to dims
+    - ✅ For dimensions, we can test for the existence of the MD5('-1') (missing) dimension_id, and total row counts.
+    - 🚧 For facts, we can test to ensure the number of records/rows is not expanded due to incorrect granularity joins.
+
+operations after testing (also done during pipeline execution)
+  - 🚧 dagster+ `alerts` from annomily detection (this isnt free so wont be available in this soloution)
+  - 🚧 `anomily detection`
+
 
 **debugging**
 
@@ -170,32 +217,52 @@ piplines should master metadata including tests...
 🚧 AI metrics e.g. tableau
 
 
+**data science**
+
+- explain that you need to move away from jupyter notebooks to scripts so:
+  - write unit tests
+  - debugging
+  - configuration for CICD. Not really an issue can just import env variables with dot env.
+  - lint code
+  - version control code better. For example, notebook code may not change but if notebook cells change due to upstream changes then this results in a git diff...cicd issues, ect...
+  - code reuse
+  - i love notebooks for inital exploriory analysis. Scripts can also be used for exploritory analysis too with VScode's “Python Interactive Window” where you have Jupyter-esque code blocks. The blocks are separated by a special comment (“# %%”) so the end result is still a script you can version control, unit test, debug, etc. It’s available through the Python extension. Or leave out the "#%%" and just highlight the section I need to run while building and testing so that I clean script when I am finished.
+
+
+
 ## Todo
 
 ### 🚧working on
 
-- dagster ml example
-- dlt google analytics and github
-- report on usage - heat map for contributions and reporting on report ga data
+- msteams sensor on failure of job need to setup webhook somewhere
 
 
-- check out scd_latest_state and scd_type 2 macros from gitlab
-- tests
-  - ✅ relationship tests from fact to dims
-  - ✅ For dimensions, we can test for the existence of the MD5('-1') (missing) dimension_id, and total row counts.
-  - For facts, we can test to ensure the number of records/rows is not expanded due to incorrect granularity joins.
-- pytest
+- dbt unit tests 🧱 waiting for 1.8 release and how if i need to wait for mother duck
+
+
+- move to dagster+
+  - for catalog [dagster+](https://www.youtube.com/watch?v=_Z4xxZYEQNs&t=5s)
+    - do this instead of openmetadata
+  - demos catalog and data reliability (insights) - asset checks.
+  - for orgs using data mesh architecture asset checks enable data contracts
+  - freshness checks
+  - schema changes
+  - demo - have this setup to run each day and show the issues you found over a month
+  - demo - branch deployments
+    - change tracking
+  - demo insights for operation observability allow all of us to understand and optimise reliability, cost and freshness
+
 
 
 
 
 ### 🧱 Blocked
 - 🧱 migrate to new cese data hub - links still going to https://data.cese.nsw.gov.au
-- Motherduck upgrade to 0.10.X eta end of April
-  - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
-  - backwards compatability
-  - evidence can then point to production and can serve and CICD so everyone can see the results.
-- evidence build site and host on static site (need to wait for mother duck) 
+- dlt hub
+  - works in dev
+  - but in prod the dlt[motherduck] python lib only allows <0.10 after that need to change the pipeline param in the asset to mother duck depending on env.
+- 🧱 datafold cant connect to mother duck
+- evidence build site and host on static site (need to wait for mother duck)
   - [fixed] currently getting heap out of memory error. [Issue raised](https://github.com/evidence-dev/evidence/issues/1507)
   - note when deploying to evidence cloud need to put relative path as `/reports`
 - fix erd automation. Broken as manifest.json produced by dbt-core isnt matching [v11](https://schemas.getdbt.com/dbt/manifest/v11) thus dbt-parser is failing.
@@ -213,19 +280,9 @@ piplines should master metadata including tests...
 
 ### 🔙🪵backlog
 
-
+- tableau to motherduck - https://motherduck.com/docs/integrations/bi-tools/tableau/
+- check out scd_latest_state and scd_type 2 macros from gitlab
 - change all gif to be NSW based
-- move to dagster+ 
-  - for catalog [dagster+](https://www.youtube.com/watch?v=_Z4xxZYEQNs&t=5s)
-    - do this instead of openmetadata
-  - demos catalog and data reliability (insights) - asset checks. 
-  - for orgs using data mesh architecture asset checks enable data contracts
-  - freshness checks
-  - schema changes
-  - demo - have this setup to run each day and show the issues you found over a month
-  - demo - branch deployments
-    - change tracking 
-  - demo insights for operation observability allow all of us to understand and optimise reliability, cost and freshness
 - python package manager uv is so much faster but cant use in taskfile. Explore this some more
   - speed up codespace by using uv as a python package manager
 - dbt unit tests (in preview in dbt core 1.8) want to add these soon but dont want to use 1.8 yet until duckdb and mother duck have been updated.
@@ -248,19 +305,19 @@ piplines should master metadata including tests...
 - sensitive data demo [example](https://handbook.gitlab.com/handbook/business-technology/data-team/platform/dbt-guide/#sensitive-data)
 - demo [gdpr delete dbt macro](https://gitlab.com/gitlab-data/analytics/-/blob/master/transform/snowflake-dbt/macros/warehouse/gdpr_delete.sql)
 - integrated the mermaid diagram output with dbt docs and served it with repo pages
+- dbt defer - could do this with dbt cloud or altion
 
 
-💩 Limitations / hard to do 😢😭
+### 💩 Limitations / hard to do 😢😭
 - UX - change all build to docker rather than having to wait for additional steps to execute
 - semantic layers full features (cube.dev and dbt) require min spend $100 per month so hard to demo.
   - work around cache dbt semantic layer as a table
 - `simple-browser show http://localhost:3000/` doesnt automatically open a browser
 - evidence
-  - error when evidence and etl going at same time: `IO Error: Could not set lock on file "/home/dave/data-engineering/nsw-doe-data-stack-in-a-box/reports/sources/nsw_doe_data_stack_in_a_box__dev/nsw_doe_data_stack_in_a_box__dev.duckdb": Conflicting lock is held in /home/dave/.config/nvm/versions/node/v20.11.1/bin/node (PID 1516344). However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/connect/concurrency` 
+  - error when evidence and etl going at same time: `IO Error: Could not set lock on file "/home/dave/data-engineering/nsw-doe-data-stack-in-a-box/reports/sources/nsw_doe_data_stack_in_a_box__dev/nsw_doe_data_stack_in_a_box__dev.duckdb": Conflicting lock is held in /home/dave/.config/nvm/versions/node/v20.11.1/bin/node (PID 1516344). However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/connect/concurrency`
     - Evidence connection to duckdb doesnt close. Have to wait for this to be fixed via this [issue](https://github.com/evidence-dev/evidence/issues/1060)
     - Temp work around is to connect tell engineers to stop the evidence proccess? or could force this with a task?
 - DuckDBPandasIOManager doesnt handle drop and recreate table so when schema changes get errors like: `duckdb.duckdb.BinderException: Binder Error: table sq__resource_allocation has 4 columns but 5 values were supplied`. For now just drop and recreate entire duckdb. Will need to implement schema via https://docs.dagster.io/_apidocs/libraries/dagster-duckdb-pandas
-- dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this. Can use Pandera
 - dynamic data masking policies in duckdb/motherduck?
 - auto start dagster in codespace and popup webserver but also want evidence-dev to also pop up?
   - "postStartCommand": "task dag" does this mean the codesandbox wont closed down?
@@ -278,6 +335,35 @@ piplines should master metadata including tests...
     - need to setup dagster test suite
 
 ### Done
+- waiting on dagster release my pull request to fix issue
+- Motherduck upgrade to 0.10.X eta end of April
+  - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
+  - backwards compatability
+  - evidence can then point to production and can serve and CICD so everyone can see the results.
+- dagster ml example
+  - do a lgoistic regression example too. follow along with https://github.com/Avaiga/demo-churn-classification/blob/develop/src/algos/algos.py
+  - also create functions and assets e.g. for pre process, train test split of data,  fit, model evaluation
+  - example of ml pipeline for churn: via `taipy`: https://github.com/Avaiga/demo-churn-classification/tree/develop?tab=readme-ov-file already seen its lineage
+- pytest
+- linting - black / ruff
+- pre commit
+- tests
+  - build time
+    - unit tests
+    - integration tests
+    - QA/UAT - manual checking
+  - run time (focusing on the data quality)
+    - ✅ relationship tests from fact to dims
+    - ✅ For dimensions, we can test for the existence of the MD5('-1') (missing) dimension_id, and total row counts.
+    - 🚧 For facts, we can test to ensure the number of records/rows is not expanded due to incorrect granularity joins.
+    - schema validation
+      - 🚧 do this in dlt? yes https://dlthub.com/docs/general-usage/schema-contracts
+        - can dlt use dagster dlt checks?
+      - ✅ dagster too: https://dagster.io/blog/ensuring-reliable-data-dagster-plus
+        - demo: https://github.com/tacastillo/asset-checks-demo
+        - good example: https://github.com/dagster-io/dagster/discussions/17162
+      - ❌or pydantic check data in dagster see https://www.youtube.com/watch?v=502XOB0u8OY i want to throw an error if the returned data doesnt match the contract
+      - ✅ dont have a great way to check schema of incoming data. e.g. dlthub would be a geat framework to use for this. Can use Pandera when using pandas
 - evidence
   - ❌ theme for doe https://docs.evidence.dev/reference/themes-and-layouts/
   - ❌ replace evidence logo - cant do for some reason, dont want to learn svelt!
@@ -321,8 +407,8 @@ piplines should master metadata including tests...
     echo \`\`\` >> ./target/ERD.md
   ```
 - dbt power users vscode extension missing [auto completion for columns issue](https://github.com/AltimateAI/vscode-dbt-power-user/issues/79)
-- Use [Scaffold tables](https://handbook.gitlab.com/handbook/business-technology/data-team/platform/edw/#common-mart) are useful when tools like Tableau which may necessitate a full dataset for relationships  
-  - [scaffold example sql](https://gitlab.com/gitlab-data/analytics/-/blob/master/transform/snowflake-dbt/models/common_mart_sales/reports/rpt_scaffold_sales_funnel.sql) 
+- Use [Scaffold tables](https://handbook.gitlab.com/handbook/business-technology/data-team/platform/edw/#common-mart) are useful when tools like Tableau which may necessitate a full dataset for relationships
+  - [scaffold example sql](https://gitlab.com/gitlab-data/analytics/-/blob/master/transform/snowflake-dbt/models/common_mart_sales/reports/rpt_scaffold_sales_funnel.sql)
 - can use mermaid diagrams in markdown for github and gitlab
 - dynamic data masking possible in warehouse using tags (see snowflake dynamic data masking)
 - microsoft clipchap and my phone works really well. Also integrates with sniping tool
@@ -345,13 +431,17 @@ Due to the evolving nature of school information and local enrolment areas, no r
 
 ## Contributing
 
-### Contributing - Data Analyses & Science
+### Contributing - Data Analyses & Reporting
 
 🚧 TODO
 
+### Contributing - Data Science
+
+🚧 TODO - currently data scientists need to know how to work with pipelines. Still experimenting with this. But you can have a go with the examples that already exist in dagster.
+
 ### Contributing - Data Modeling
 
-I have been following the gitlab's data team's handbook for modeling, naming convetions and testing. 
+I have been following the gitlab's data team's handbook for modeling, naming convetions and testing.
 
 I am pretty relaxed with standards in this project. But please read through these before developing to help standise the modeling:
 
@@ -383,3 +473,30 @@ In the PR template, please describe the change, including the motivation/context
 A Core reviewer will review your PR in around five business days and provide feedback on any changes it requires to be approved. Once approved and all the tests pass, the reviewer will click the Squash and merge button in Github 🥳.
 
 Your PR is now merged into Dagster! We’ll shout out your contribution in the release notes.
+make sure you lint your code with `sqlfluff`:
+```bash
+sqlfluff lint
+sqlfluff fix
+```
+
+
+#### Contributing - Pipeline Code / Ingestion
+
+To develop on dagster you should run `dagster dev` in debug mod. This allows you to set breakpoints in vs code. Simply hit `F5` in vscode (just check that your debug config is set to `Dagster: Debug Dagit UI`).
+
+Behind the scenes VSCode is using `launch.json` with the following args to run dagster in debug mode. Then just select the assets in dagster UI to materialise. If you set breakpoints they will be
+
+```json
+{
+    "name": "dagster dev",
+    "type": "python",
+    "request": "launch",
+    "module": "dagster",
+    "args": [
+        "dev",
+    ],
+    "subProcess": true
+}
+```
+
+This is one of the first things i wish i knew when learning dagster!

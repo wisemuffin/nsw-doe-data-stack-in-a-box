@@ -4,7 +4,7 @@ Defines all the sources and resources needed for Google Analytics V4
 from typing import Iterator, List, Optional, Union
 
 import dlt
-from googleapiclient .discovery import Resource
+from googleapiclient.discovery import Resource
 from dlt.common.typing import DictStrAny, TDataItem
 from dlt.sources import DltResource
 from dlt.sources.credentials import GcpOAuthCredentials, GcpServiceAccountCredentials
@@ -61,7 +61,9 @@ def google_analytics(
         credentials.auth("https://www.googleapis.com/auth/analytics.readonly")
 
     # Build the service object for Google Analytics api.
-    client = BetaAnalyticsDataClient(credentials=credentials.to_native_credentials())
+    creds = credentials.to_native_credentials()
+
+    client = BetaAnalyticsDataClient(credentials=creds)
     # get metadata needed for some resources
     metadata = get_metadata(client=client, property_id=property_id)
     resource_list = [metadata | metrics_table, metadata | dimensions_table]
@@ -107,7 +109,11 @@ def get_metadata(client: Resource, property_id: int) -> Iterator[Metadata]:
     yield metadata
 
 
-@dlt.transformer(data_from=get_metadata, write_disposition="replace", name="raw_google_analytics_metrics")
+@dlt.transformer(
+    data_from=get_metadata,
+    write_disposition="replace",
+    name="raw_google_analytics_metrics",
+)
 def metrics_table(metadata: Metadata) -> Iterator[TDataItem]:
     """
     Loads data for metrics.
@@ -122,7 +128,11 @@ def metrics_table(metadata: Metadata) -> Iterator[TDataItem]:
         yield to_dict(metric)
 
 
-@dlt.transformer(data_from=get_metadata, write_disposition="replace", name="raw_google_analytics_dimensions")
+@dlt.transformer(
+    data_from=get_metadata,
+    write_disposition="replace",
+    name="raw_google_analytics_dimensions",
+)
 def dimensions_table(metadata: Metadata) -> Iterator[TDataItem]:
     """
     Loads data for dimensions.

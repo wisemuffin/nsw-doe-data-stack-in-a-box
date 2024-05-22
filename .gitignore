@@ -1,6 +1,7 @@
 .venv
-.env
+.env*
 .env.secret
+.coverage
 # .vscode
 dbt_packages
 target/
@@ -32,3 +33,4 @@ nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/
+__pycache__

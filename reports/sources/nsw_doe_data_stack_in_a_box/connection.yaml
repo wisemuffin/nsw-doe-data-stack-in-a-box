@@ -1,0 +1,6 @@
+# This file was automatically generated
+name: nsw_doe_data_stack_in_a_box
+type: duckdb
+options:
+  # set by env
+  # filename:

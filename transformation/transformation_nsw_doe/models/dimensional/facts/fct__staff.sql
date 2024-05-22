@@ -1,25 +1,29 @@
 {{ simple_cte([
     ('stg__acara__staff_numbers', 'stg__acara__staff_numbers')
 ]) }},
+
 prep as (
-    select Calendar_Year, 
-        Staff_Function, 
-        Sex_Gender, 
-        FTE_Status, 
-        Sum(Staff_Count) as Staff_Count
+    select
+        calendar_year,
+        staff_function,
+        sex_gender,
+        fte_status,
+        Sum(staff_count) as staff_count,
     from stg__acara__staff_numbers
-    where 1=1
-        and State_Territory = 'New South Wales'
-        and School_Sector = 'Government'
+    where
+        1 = 1
+        and state_territory = 'New South Wales'
+        and school_sector = 'Government'
     group by all
 ),
 
-final AS (
+final as (
 
-    SELECT 
-        
+    select
+
         --Primary Key
-        {{dbt_utils.generate_surrogate_key(['prep.Calendar_Year', 'prep.Staff_Function', 'prep.Sex_Gender', 'prep.FTE_Status'])}} as _meta__fct__staff__sk,
+        {{ dbt_utils.generate_surrogate_key(['prep.Calendar_Year', 'prep.Staff_Function', 'prep.Sex_Gender', 'prep.FTE_Status']) }}
+            as _meta__fct__staff__sk,
 
         --Natural Key
 
@@ -28,19 +32,19 @@ final AS (
         {# prep__resource_allocation.year || '-01-01' as _meta__dim__date__sk, -- dont love this. 🚧 TODO - if only one date in fact this works...also doesnt force  #}
 
         ----Local Dimensions
-        Calendar_Year, 
-        Staff_Function, 
-        Sex_Gender, 
-        FTE_Status,
-        
-        (Calendar_Year || '-01-01')::date as staff_date,
+        prep.calendar_year,
+        prep.staff_function,
+        prep.sex_gender,
+        prep.fte_status,
+
+        Cast((prep.calendar_year || '-01-01') as date) as staff_date,
 
 
         -- Measures
-        Staff_Count
+        prep.staff_count,
 
 
-    FROM prep
+    from prep
 )
 
 {{ dbt_audit(
@@ -50,4 +54,3 @@ final AS (
     created_date="2024-04-06",
     updated_date="2024-04-06"
 ) }}
-

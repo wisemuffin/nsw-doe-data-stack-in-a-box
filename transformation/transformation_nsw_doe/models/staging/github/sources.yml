@@ -3,10 +3,7 @@ version: 2
 sources:
   - name: raw
     database: |
-      {%- if  target.name == "dev" -%} {{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__DEV') }}
-      {%- elif target.name == "prod"  -%} {{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME__PROD') }}
-      {%- else -%} invalid_database
-      {%- endif -%}
+      {{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME') }}
     schema: raw
     tables:
       - name: raw_github_reactions_issues
@@ -21,6 +18,6 @@ sources:
         meta:
           dagster:
             asset_key: ["raw_github_reactions_issues"] # This metadata specifies the corresponding Dagster asset for this dbt source.
-      
+
       # - name: raw_github_reactions_pull_requests
       # - name: raw_github_reactions_pull_requests_reactions

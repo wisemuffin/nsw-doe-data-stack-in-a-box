@@ -12,21 +12,21 @@ prep_rank_period as (
     from prep
 ),
 latest_year as (
-    select metric_name, 
-        metric_value as metric_value__latest_year, 
+    select metric_name,
+        metric_value as metric_value__latest_year,
         year(metric_time__year) as metric_time__year__latest_year,
     from prep_rank_period where period_rank=1
 ),
 prior_year as (
-    select metric_name, 
-        metric_value as metric_value__prior_year, 
+    select metric_name,
+        metric_value as metric_value__prior_year,
         year(metric_time__year) as metric_time__year__prior_year
     from prep_rank_period where period_rank=2
 ),
 final as (
-    select latest_year.metric_name, 
-        latest_year.metric_value__latest_year, 
-        prior_year.metric_value__prior_year, 
+    select latest_year.metric_name,
+        latest_year.metric_value__latest_year,
+        prior_year.metric_value__prior_year,
         latest_year.metric_time__year__latest_year,
         prior_year.metric_time__year__prior_year,
         latest_year.metric_value__latest_year / prior_year.metric_value__prior_year - 1 as metric_value__comp

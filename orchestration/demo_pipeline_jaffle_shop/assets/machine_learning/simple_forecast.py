@@ -1,15 +1,10 @@
-import os
 from typing import Any, Tuple
 
 import numpy as np
 import pandas as pd
-
-from dagster import FreshnessPolicy, asset, AssetIn
+from dagster import AssetIn, FreshnessPolicy, asset
 from scipy import optimize
 
-from dagster_dbt import get_asset_key_for_model
-
-from demo_pipeline_jaffle_shop.assets import transformation
 
 def model_func(x, a, b):
     return a * np.exp(b * (x / 10**18 - 1.6095))
@@ -20,7 +15,6 @@ def model_func(x, a, b):
     # group_name="machine_learning_simple_forecast",
     io_manager_key="io_manager",
     ins={"orders": AssetIn(key_prefix=["analytics"])},
-
 )
 # @asset(compute_kind="python")
 def simple_forecast_order_model(context, orders: pd.DataFrame) -> Any:
@@ -41,7 +35,7 @@ def simple_forecast_order_model(context, orders: pd.DataFrame) -> Any:
     # group_name="machine_learning_simple_forecast",
     ins={"orders": AssetIn(key_prefix=["analytics"])},
     freshness_policy=FreshnessPolicy(maximum_lag_minutes=60),
-    io_manager_key="io_manager"
+    io_manager_key="io_manager",
 )
 # @asset(compute_kind="python")
 def simple_forecast_predicted_orders(

@@ -6,64 +6,65 @@
 
 
 
-WITH final AS (
+with final as (
 
-    SELECT 
+    select
         --Surrogate Key
-        {{dbt_utils.generate_surrogate_key(['School_Code'])}} as _meta__dim__school__sk,
+        {{ dbt_utils.generate_surrogate_key(['School_Code']) }}
+            as _meta__dim__school__sk,
 
 
         --Natural Key
-        "School_Code",
+        school_code,
 
         --School Information
-        "Age_ID",
-        "School_Name",
-        "Street",
-        "Town_Suburb",
-        "Postcode",
-        "Phone",
-        "School_Email",
-        "Website",
-        "Fax",
-        "Latest_Year_Enrolment_FTE",
-        "Indigenous_pct",
-        "LBOTE_pct",
-        "ICSEA_value",
-        "Level_of_Schooling",
-        "Selective_school",
-        "Opportunity_class",
-        "School_specialty_type",
-        "School_Subtype",
-        "Support_Classes",
-        "Preschool_ind",
-        "Distance_Education",
-        "Intensive_English_Centre",
-        "School_Gender",
-        "Late_Opening_School",
-        "Date_1st_Teacher",
-        "LGA",
-        "Electorate_from_2023",
-        "Electorate_2015_2022",
-        "Fed_electorate",
-        "Operational_directorate",
-        "Principal_network",
-        "Operational_directorate_office",
-        "Operational_directorate_office_phone",
-        "Operational_directorate_office_address",
-        "FACS_district",
-        "Local_health_district",
-        "AECG_Region",
-        "ASGS_Remoteness",
-        "Latitude",
-        "Longitude",
-        "Assets_Unit",
-        "SA4"
-        {# "Date_Extracted", #}
-        {# "_load_source_timestamp", #}
-        {# "_source", #}
+        age_id,
+        school_name,
+        street,
+        town_suburb,
+        postcode,
+        phone,
+        school_email,
+        website,
+        fax,
+        latest_year_enrolment_fte,
+        indigenous_pct,
+        lbote_pct,
+        icsea_value,
+        level_of_schooling,
+        selective_school,
+        opportunity_class,
+        school_specialty_type,
+        school_subtype,
+        support_classes,
+        preschool_ind,
+        distance_education,
+        intensive_english_centre,
+        school_gender,
+        late_opening_school,
+        date_1st_teacher,
+        lga,
+        electorate_from_2023,
+        electorate_2015_2022,
+        fed_electorate,
+        operational_directorate,
+        principal_network,
+        operational_directorate_office,
+        operational_directorate_office_phone,
+        operational_directorate_office_address,
+        facs_district,
+        local_health_district,
+        aecg_region,
+        asgs_remoteness,
+        latitude,
+        longitude,
+        assets_unit,
+        sa4,
+    {# "Date_Extracted", #}
+    {# "_load_source_timestamp", #}
+    {# "_source", #}
 
-    FROM {{ ref('prep__school') }}
+    from {{ ref('prep__school') }}
 
 )
 

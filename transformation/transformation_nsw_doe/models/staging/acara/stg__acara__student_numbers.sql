@@ -1,35 +1,41 @@
 with source as (
-      select * from {{ source('raw', 'raw__acara__student_numbers') }}
+    select *, from {{ source('raw', 'raw__acara__student_numbers') }}
 ),
+
 renamed as (
     select
-        {{ adapter.quote("Calendar Year") }} as "Calendar_Year",
-        {{ adapter.quote("State/territory") }} as "State_Territory",
-        {{ adapter.quote("School sector") }} as "School_Sector",
-        {{ adapter.quote("School level") }} as "School_Level",
-        {{ adapter.quote("Sex/gender") }} as "Sex_Gender",
-        {{ adapter.quote("Aboriginal or Torres Strait Islander status") }} as "Aboriginal_Or_Torres_Strait_Islander_Status",
-        {{ adapter.quote("Full-time/part-time status") }} as "Full_Time_Part_Time_Status",
-        REPLACE({{ adapter.quote("Student count") }}, ',', '')::DECIMAL(16, 2) as "Student_Count",
-        {{ adapter.quote("Proportion of sector") }} as "Proportion_Of_Sector",
-        {{ adapter.quote("Proportion of state") }} as "Proportion_Of_State",
-        {{ adapter.quote("Proportion of school level") }} as "Proportion_Of_School_Level",
+        {{ adapter.quote("Calendar Year") }} as calendar_year,
+        {{ adapter.quote("State/territory") }} as state_territory,
+        {{ adapter.quote("School sector") }} as school_sector,
+        {{ adapter.quote("School level") }} as school_level,
+        {{ adapter.quote("Sex/gender") }} as sex_gender,
+        {{ adapter.quote("Aboriginal or Torres Strait Islander status") }}
+            as aboriginal_or_torres_strait_islander_status,
+        {{ adapter.quote("Full-time/part-time status") }}
+            as full_time_part_time_status,
+        REPLACE({{ adapter.quote("Student count") }}, ',', '')::DECIMAL(16, 2)
+            as student_count,
+        {{ adapter.quote("Proportion of sector") }} as proportion_of_sector,
+        {{ adapter.quote("Proportion of state") }} as proportion_of_state,
+        {{ adapter.quote("Proportion of school level") }}
+            as proportion_of_school_level,
         {{ adapter.quote("_load_timestamp") }} as _meta__load_source_timestamp,
         {{ adapter.quote("_source") }}
 
     from source
 ),
+
 final as (
-    select *
+    select *,
     from renamed
-    where 1=1
-        -- removing aggregates from files
-        and School_Sector != 'All'
-        and School_Level in ('Primary', 'Secondary')
-        and Sex_Gender != 'All'
-        and Aboriginal_Or_Torres_Strait_Islander_Status != 'All'
-        and Full_Time_Part_Time_Status != 'All'
-        and Full_Time_Part_Time_Status != 'Full-time equivalent'
+    where 1 = 1
+    -- removing aggregates from files
+    and school_sector != 'All'
+    and school_level in ('Primary', 'Secondary')
+    and sex_gender != 'All'
+    and aboriginal_or_torres_strait_islander_status != 'All'
+    and full_time_part_time_status != 'All'
+    and full_time_part_time_status != 'Full-time equivalent'
 )
 
   {{ dbt_audit(
@@ -39,4 +45,3 @@ final as (
     created_date="2024-04-06",
     updated_date="2024-04-06"
 ) }}
-  

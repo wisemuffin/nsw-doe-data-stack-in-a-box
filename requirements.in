@@ -1,22 +1,26 @@
 dbt-duckdb
 dbt-metricflow[duckdb]
 
-dagster-webserver
 ipykernel
 
-duckdb==0.10.1 #currently not supported duckdb version for motherduck
+duckdb==0.10.2 #latest version for mother duck
 
 # dagster deps
 dagster-dbt
 dagster-duckdb
 dagster-duckdb-pandas
-
+dagster-webserver
 dagstermill
 papermill-origami>=0.0.8
+
+# data schema validation
+pandera
+pandera[io]
 
 # required for pandas to read excel for acara data
 openpyxl
 
+# ML
 prophet
 scipy
 plotly
@@ -24,6 +28,8 @@ plotly
 seaborn
 scikit-learn
 
+# alerting
+dagster-msteams
 
 # For Documentation
 dbterd
@@ -35,7 +41,14 @@ ipywidgets
 
 # dlt
 dagster-embedded-elt
+# dlt[motherduck] # cant use motherduck yet with dlt if duckdb > 0.10
 google-analytics-data
 google-api-python-client
 google-auth-oauthlib
 requests_oauthlib
+# development
+pytest
+ruff
+sqlfluff
+sqlfluff-templater-dbt
+pre-commit

@@ -1,23 +1,52 @@
 with source as (
-      select * from {{ source('raw', 'raw__nsw_doe_datahub__ram') }}
+    select *, from {{ source('raw', 'raw__nsw_doe_datahub__ram') }}
 ),
+
 renamed as (
     select
-        {{ adapter.quote("School Code") }} as "School_Code",
-        {{ adapter.quote("School Full Name") }} as "School_Full_Name",
-        TRY_CAST(REPLACE(REPLACE({{ adapter.quote("Original RAM Funding $ ") }} , '$', ''), ',', '') AS INTEGER) as "Original_RAM_Funding_AUD",
-        {{ adapter.quote("year") }} as "year",
-        TRY_CAST(REPLACE(REPLACE({{ adapter.quote("RAM Funding - post Adjustments $") }} , '$', ''), ',', '') AS INTEGER) as "RAM_Funding_post_Adjustments_AUD",
-        TRY_CAST(REPLACE(REPLACE({{ adapter.quote("Original RAM Funding $") }} , '$', ''), ',', '') AS INTEGER) as "Original_RAM_Funding_AUD",
-        TRY_CAST(REPLACE(REPLACE({{ adapter.quote("Sum of RAM Funding (incl oncosts) $") }} , '$', ''), ',', '') AS INTEGER) as "Sum_of_RAM_Funding_incl_oncosts_AUD",
-        TRY_CAST(REPLACE(REPLACE({{ adapter.quote(" Sum of RAM Funding (incl oncosts) $ ") }} , '$', ''), ',', '') AS INTEGER) as "_Sum_of_RAM_Funding_incl_oncosts_AUD",
+        {{ adapter.quote("School Code") }} as school_code,
+        {{ adapter.quote("School Full Name") }} as school_full_name,
+        {{ adapter.quote("year") }},
+        TRY_CAST(REPLACE(REPLACE({{ adapter.quote("RAM Funding - post Adjustments $") }}, '$', ''), ',', '') as INTEGER) as ram_funding_post_adjustments_aud,
+        TRY_CAST(
+            REPLACE(
+                REPLACE(
+                    {{ adapter.quote("Original RAM Funding $ ") }}, '$', ''
+                ),
+                ',',
+                ''
+            ) as INTEGER
+        ) as original_ram_funding_aud,
+        TRY_CAST(
+            REPLACE(
+                REPLACE(
+                    {{ adapter.quote("Sum of RAM Funding (incl oncosts) $") }},
+                    '$',
+                    ''
+                ),
+                ',',
+                ''
+            ) as INTEGER
+        ) as sum_of_ram_funding_incl_oncosts_aud,
+        TRY_CAST(
+            REPLACE(
+                REPLACE(
+                    {{ adapter.quote(" Sum of RAM Funding (incl oncosts) $ ") }},
+                    '$',
+                    ''
+                ),
+                ',',
+                ''
+            ) as INTEGER
+        ) as _sum_of_ram_funding_incl_oncosts_aud,
         {{ adapter.quote("_load_timestamp") }} as _meta__load_source_timestamp,
         {{ adapter.quote("_source") }}
 
     from source
 ),
+
 final as (
-    select *
+    select *,
     from renamed
 )
 

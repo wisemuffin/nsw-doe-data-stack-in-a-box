@@ -1,31 +1,34 @@
 with source as (
-      select * from {{ source('raw', 'raw__acara__staff_numbers') }}
+    select *, from {{ source('raw', 'raw__acara__staff_numbers') }}
 ),
+
 renamed as (
     select
-        {{ adapter.quote("Calendar Year") }} as "Calendar_Year",
-        {{ adapter.quote("State/territory") }} as "State_Territory",
-        {{ adapter.quote("School sector") }} as "School_Sector",
-        {{ adapter.quote("School level") }} as "School_Level",
-        {{ adapter.quote("Staff function") }} as "Staff_Function",
-        {{ adapter.quote("Sex/gender") }} as "Sex_Gender",
-        {{ adapter.quote("FTE Status") }} as "FTE_Status",
-        REPLACE({{ adapter.quote("Staff count") }}, ',', '')::DECIMAL(16, 2) as "Staff_Count",
+        {{ adapter.quote("Calendar Year") }} as calendar_year,
+        {{ adapter.quote("State/territory") }} as state_territory,
+        {{ adapter.quote("School sector") }} as school_sector,
+        {{ adapter.quote("School level") }} as school_level,
+        {{ adapter.quote("Staff function") }} as staff_function,
+        {{ adapter.quote("Sex/gender") }} as sex_gender,
+        {{ adapter.quote("FTE Status") }} as fte_status,
+        REPLACE({{ adapter.quote("Staff count") }}, ',', '')::DECIMAL(16, 2)
+            as staff_count,
         {{ adapter.quote("_load_timestamp") }} as _meta__load_source_timestamp,
         {{ adapter.quote("_source") }}
 
     from source
 ),
+
 final as (
-    select *
+    select *,
     from renamed
-    where 1=1
-        -- removing aggregates from files
-        and School_Sector != 'All non-government'
-        and School_Level != 'All'
-        and Staff_Function != 'All staff'
-        and Sex_Gender != 'All'
-        and Staff_Function != 'All non-teaching staff'
+    where 1 = 1
+    -- removing aggregates from files
+    and school_sector != 'All non-government'
+    and school_level != 'All'
+    and staff_function != 'All staff'
+    and sex_gender != 'All'
+    and staff_function != 'All non-teaching staff'
 )
 
 {{ dbt_audit(

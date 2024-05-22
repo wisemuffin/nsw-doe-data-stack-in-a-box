@@ -1,33 +1,26 @@
 version: "3"
 
 tasks:
-  temp_limitation:
-    cmds: 
-      - bash -c 'if [ -d "./models/semantic_models" ]; then mv ./models/semantic_models ./semantic_models_removed_see_dagster_limitation/; else echo "No, the semantic_models folder does not exist."; fi'
-      - bash -c 'if [ -d "./target" ]; then rm ./target -r; else echo "No, the targets folder does not exist."; fi'
-  temp_limitation_undo:
-    cmds: 
-      - bash -c 'if [ -d "./semantic_models_removed_see_dagster_limitation" ]; then mv ./semantic_models_removed_see_dagster_limitation/ ./models/semantic_models; else echo "No, the semantic_models folder does not exist."; fi'
   python_deps:
     desc: setting up env with uv package manager for python and installing requirements. TODO still a bit of a mess with UV and taskfile
     cmds:
       - python3 -m pip install uv
-      # - uv venv  # Create a virtual environment at .venv. # limitation cant create venv with make file due to limitation: ask runs as a subprocess of your current shell, so it can't change the environment of the shell that started it. 
+      # - uv venv  # Create a virtual environment at .venv. # limitation cant create venv with make file due to limitation: ask runs as a subprocess of your current shell, so it can't change the environment of the shell that started it.
       # - source .venv/bin/activate
       # - uv pip install -r requirements.txt
-      # - uv venv && source .venv/bin/activate && uv pip sync requirements.txt 
-      - uv venv && source .venv/bin/activate && uv pip install -r requirements.txt 
+      # - uv venv && source .venv/bin/activate && uv pip sync requirements.txt
+      - uv venv && source .venv/bin/activate && uv pip install -r requirements.txt
       # - python -m pip install --progress-bar off -r requirements.txt
-      # - pip install -r requirements.txt 
-      - cd transformation/transformation_nsw_doe && dbt deps
+      # - pip install -r requirements.txt
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt deps
       - cd transformation/demo_transformation_jaffle_shop && dbt deps
   python_deps_devcontainer:
     desc: Limitation with taskfile cant use vertial envs. So cant use UV
     cmds:
-      # - pip install -r requirements.txt 
-      - cd transformation/transformation_nsw_doe && dbt deps
+      # - pip install -r requirements.txt
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt deps
       # workaround as cant get dynamic manifest.json to build
-      - cd transformation/transformation_nsw_doe && dbt parse 
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt parse
 
       - cd transformation/demo_transformation_jaffle_shop && dbt deps
       - cd transformation/demo_transformation_jaffle_shop && dbt parse
@@ -35,16 +28,17 @@ tasks:
 
   node_deps:
     cmds:
-      - npm install --prefix ./reports
-      
+      - npm install --prefix ${GITHUB_WORKSPACE}/reports
+
   git:
     cmds:
       - git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
       - git config --global user.name "example user"
       - git config --global user.email username@example.com
+      - pre-commit install
   znap:
     cmds:
-      - export ZSH=~/.oh-my-zsh/ 
+      - export ZSH=~/.oh-my-zsh/
       - git clone --depth 1 https://github.com/marlonrichert/zsh-snap.git ~/.oh-my-zsh/custom/plugins/znap
       - echo "source ~/.oh-my-zsh/custom/plugins/znap/znap.zsh" >> ~/.zshrc
       - zsh ~/.zshrc
@@ -76,7 +70,7 @@ tasks:
       - task orchestration_setup
       # - task airbyte
       # - task octavia_setup
-  
+
   # airbyte:
   #   desc: "install airbyte"
   #   cmds:
@@ -92,25 +86,64 @@ tasks:
   #     - task octavia
   duck:
     cmds:
-      - duckdb $NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB__DEV
+      - duckdb ${GITHUB_WORKSPACE}/$NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB
   setup_sqltools:
     cmds:
       - cd ~/.local/share/vscode-sqltools && npm install duckdb-async@0.10.0 && exit 0
   evidence_setup:
     desc: dont need this now was just for inital setup just run node_deps
     cmds:
-      - npm --prefix ./reports install
-      - npm --prefix ./reports run sources
+      - npm --prefix ${GITHUB_WORKSPACE}/reports install
+      - npm --prefix ${GITHUB_WORKSPACE}/reports run sources
 
   evidence_prod_build:
     desc: static site generation for evidence
     cmds:
-      - npm --prefix ./reports run build 
-      - npm --prefix ./reports run preview -- --port 4000    
+      - npm --prefix ${GITHUB_WORKSPACE}/reports run build
+      - npm --prefix ${GITHUB_WORKSPACE}/reports run preview -- --port 4000
   evidence:
     desc: for local development we dont need to build the static site
     cmds:
-      - npm --prefix ./reports run dev # && simple-browser show http://localhost:3001/
+      - npm --prefix ${GITHUB_WORKSPACE}/reports run dev # && simple-browser show http://localhost:3001/
+
+  dag:
+    cmds:
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR} && DAGSTER_DBT_PARSE_PROJECT_ON_LOAD=1 && export DAGSTER_HOME=$GITHUB_WORKSPACE"/"$DAGSTER_HOME"/"$NSW_DOE_DATA_STACK_IN_A_BOX__ENV && dagster dev
+  orchestration_setup:
+    cmds:
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR} && uv pip install -e ".[dev]"
+  orchestration_setup_devcontainer:
+    cmds:
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR} && pip install -e ".[dev]"
+  dag_server:
+    cmds:
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR} && dagster dev -h 0.0.0.0 -p 3000
+
+  docs:
+    desc: documentation static site generator with mkdocs 💣 Warning doesnt work with taskfile 🚧 TODO
+    cmds:
+      - mkdocs serve
+
+  mf_check:
+    desc: compiles dbt code then runs the metric flow checker
+    cmds:
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt compile && mf validate-configs'
+  mf:
+    cmds:
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt compile && mf query --saved-query metrics_by_year_saved_query --csv ./exports/sq-metrics-by-year-saved-query-non-dag.csv
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt compile && mf query --saved-query metrics_by_year_school_saved_query --csv ./exports/sq-metrics-by-year-school-saved-query-non-dag.csv
+
+
+  dbt_manifest_prod:
+    desc: load the manifest from local if you run prod from local.
+    cmds:
+      - aws s3 cp ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR}/target/manifest.json s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json
+  dbt_prod_defer:
+    desc: load the manifest from local if you run prod from local.
+    cmds:
+      - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR}
+      - aws s3 cp s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json ./target/last_manifest/manifest.json
+      - dbt build --models state:modified+ --state ./target/last_manifest --profiles-dir .
 
   dbtdoc:
     cmds:
@@ -119,37 +152,3 @@ tasks:
   dbtdoc_serv:
     cmds:
       - dbt docs serve
-
-  dag:
-    cmds:
-      - cd orchestration && DAGSTER_DBT_PARSE_PROJECT_ON_LOAD=1 && export DAGSTER_HOME="/workspaces/nsw-doe-data-stack-in-a-box/orchestration/dagster-local-file-store/"$NSW_DOE_DATA_STACK_IN_A_BOX__ENV && dagster dev && simple-browser show http://localhost:3000/
-  da:
-    cmds:
-      - simple-browser show http://localhost:3000/
-  dag_local:
-    desc: limitation DAGSTER_HOME cant be dynamic 🥹
-    cmds:
-      - cd orchestration && DAGSTER_DBT_PARSE_PROJECT_ON_LOAD=1 && export DAGSTER_HOME="/home/dave/data-engineering/nsw-doe-data-stack-in-a-box/orchestration/dagster-local-file-store/"$NSW_DOE_DATA_STACK_IN_A_BOX__ENV  && dagster dev
-  orchestration_setup:
-    cmds:
-      - cd orchestration && uv pip install -e ".[dev]"
-  orchestration_setup_devcontainer:
-    cmds:
-      - cd orchestration && pip install -e ".[dev]"
-  dag_server:
-    cmds:
-      - cd orchestration && dagster dev -h 0.0.0.0 -p 3000
-  
-  docs:
-    desc: documentation static site generator with mkdocs 💣 Warning doesnt work with taskfile 🚧 TODO
-    cmds: 
-      - mkdocs serve
-
-  mf_check:
-    desc: compiles dbt code then runs the metric flow checker
-    cmds: 
-      - cd transformation/transformation_nsw_doe && dbt compile && mf validate-configs'
-  mf:
-    cmds:
-      - cd transformation/transformation_nsw_doe && dbt compile && mf query --saved-query metrics_by_year_saved_query --csv ./exports/sq-metrics-by-year-saved-query-non-dag.csv
-      - cd transformation/transformation_nsw_doe && dbt compile && mf query --saved-query metrics_by_year_school_saved_query --csv ./exports/sq-metrics-by-year-school-saved-query-non-dag.csv

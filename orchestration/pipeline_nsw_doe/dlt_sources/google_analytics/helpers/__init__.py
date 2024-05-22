@@ -5,7 +5,7 @@ from pendulum.datetime import DateTime
 
 import dlt
 from googleapiclient.discovery import Resource
-from dlt.common import logger, pendulum
+from dlt.common import logger
 from dlt.common.typing import TDataItem
 
 from ..settings import START_DATE
@@ -67,6 +67,6 @@ def basic_report(
         limit=rows_per_page,
         start_date=start_date,
         # configure end_date to yesterday as a date string
-        end_date=pendulum.yesterday().to_date_string(),
+        end_date="today",  # pendulum.yesterday().to_date_string(),
     )
     yield from processed_response

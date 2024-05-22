@@ -1,9 +1,10 @@
 # %%
 from dbterd.api import DbtErd
 
+
 def filter_lines(input_string):
     # Split the input string into lines
-    lines = input_string.split('\n')
+    lines = input_string.split("\n")
 
     # Initialize a flag to keep track of whether we are inside curly brackets
     inside_brackets = False
@@ -21,15 +22,19 @@ def filter_lines(input_string):
             filtered_lines.append(line)
 
     # Join the filtered lines back together
-    result = '\n'.join(filtered_lines)
+    result = "\n".join(filtered_lines)
 
     return result
- 
-erd = DbtErd(select=["wildcard:*fct_*" , "wildcard:*dim_*"], target="mermaid", artifacts_dir="./transformation/transformation_nsw_doe").get_erd()
+
+
+erd = DbtErd(
+    select=["wildcard:*fct_*", "wildcard:*dim_*"],
+    target="mermaid",
+    artifacts_dir="./transformation/transformation_nsw_doe",
+).get_erd()
 # %%
 filtered_result = filter_lines(erd)
-final = filtered_result.replace("MODEL.NSW_DOE_DATA_STACK_IN_A_BOX.","")
-
+final = filtered_result.replace("MODEL.NSW_DOE_DATA_STACK_IN_A_BOX.", "")
 
 
 erd_prep = f"""

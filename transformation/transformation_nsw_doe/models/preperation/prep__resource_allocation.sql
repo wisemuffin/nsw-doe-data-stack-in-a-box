@@ -1,12 +1,20 @@
 with final as (
     select
-    year,
-    School_Code::int as School_Code,
-    coalesce(Original_RAM_Funding_AUD, Original_RAM_Funding_AUD_1, Sum_of_RAM_Funding_incl_oncosts_AUD,_Sum_of_RAM_Funding_incl_oncosts_AUD)::integer as Original_RAM_Funding_AUD,
-    coalesce(RAM_Funding_post_Adjustments_AUD, Sum_of_RAM_Funding_incl_oncosts_AUD,_Sum_of_RAM_Funding_incl_oncosts_AUD)::integer as RAM_Funding_post_Adjustments_AUD
-    
+        year,
+        school_code::int as school_code,
+        coalesce(
+            original_ram_funding_aud,
+            sum_of_ram_funding_incl_oncosts_aud,
+            _sum_of_ram_funding_incl_oncosts_aud
+        )::integer as original_ram_funding_aud,
+        coalesce(
+            ram_funding_post_adjustments_aud,
+            sum_of_ram_funding_incl_oncosts_aud,
+            _sum_of_ram_funding_incl_oncosts_aud
+        )::integer as ram_funding_post_adjustments_aud,
+
     from {{ ref("stg__nsw_doe_datahub__ram") }}
-    where School_Code not like '%Total%' -- files contain totals 💩
+    where school_code not like '%Total%' -- files contain totals 💩
 )
 
 
@@ -17,8 +25,6 @@ with final as (
     created_date="2024-04-06",
     updated_date="2024-04-06"
 ) }}
-
-
 {# 
 -- figuring out RAM mapping, confusing huh? - part 1
 select year, 

@@ -6,12 +6,16 @@ alembic==1.13.1
     # via dagster
 aniso8601==9.0.1
     # via graphene
+ansicolors==1.1.8
+    # via papermill
 anyio==4.3.0
     # via
     #   gql
     #   httpx
     #   starlette
     #   watchfiles
+appdirs==1.4.4
+    # via sqlfluff
 asttokens==2.4.1
     # via stack-data
 astunparse==1.6.3
@@ -21,7 +25,7 @@ attrs==23.2.0
     #   jsonschema
     #   referencing
     #   visions
-babel==2.14.0
+babel==2.15.0
     # via agate
 backoff==2.2.1
     # via
@@ -31,6 +35,8 @@ beautifulsoup4==4.12.3
     # via nbconvert
 bitmath==1.3.3.1
     # via noteable-origami
+black==24.4.2
+    # via pandera
 bleach==6.1.0
     # via nbconvert
 cachetools==5.3.3
@@ -44,10 +50,18 @@ cffi==1.16.0
     # via
     #   cryptography
     #   dbt-core
+cfgv==3.4.0
+    # via pre-commit
+chardet==5.2.0
+    # via
+    #   diff-cover
+    #   frictionless
+    #   sqlfluff
 charset-normalizer==3.3.2
     # via requests
 click==8.1.7
     # via
+    #   black
     #   dagster
     #   dagster-webserver
     #   dbt-core
@@ -56,6 +70,7 @@ click==8.1.7
     #   dlt
     #   metricflow
     #   papermill
+    #   sqlfluff
     #   typer
     #   uvicorn
 cloudpickle==2.2.1
@@ -67,6 +82,7 @@ colorama==0.4.6
     #   dbt-core
     #   halo
     #   log-symbols
+    #   sqlfluff
 coloredlogs==14.0
     # via dagster
 comm==0.2.2
@@ -77,7 +93,7 @@ contourpy==1.2.1
     # via matplotlib
 croniter==2.0.5
     # via dagster
-cryptography==42.0.5
+cryptography==42.0.7
     # via
     #   jwt
     #   noteable-origami
@@ -85,35 +101,38 @@ cycler==0.12.1
     # via matplotlib
 dacite==1.8.1
     # via ydata-profiling
-dagster==1.7.3
+dagster==1.7.6
     # via
     #   dagster-dbt
     #   dagster-duckdb
     #   dagster-duckdb-pandas
     #   dagster-embedded-elt
     #   dagster-graphql
+    #   dagster-msteams
     #   dagster-webserver
     #   dagstermill
-dagster-dbt==0.23.3
-dagster-duckdb==0.23.3
+dagster-dbt==0.23.6
+dagster-duckdb==0.23.6
     # via dagster-duckdb-pandas
-dagster-duckdb-pandas==0.23.3
-dagster-embedded-elt==0.23.3
-dagster-graphql==1.7.3
+dagster-duckdb-pandas==0.23.6
+dagster-embedded-elt==0.23.6
+dagster-graphql==1.7.6
     # via dagster-webserver
-dagster-pipes==1.7.3
+dagster-msteams==0.23.6
+dagster-pipes==1.7.6
     # via dagster
-dagster-webserver==1.7.3
-dagstermill==0.23.3
-dbt-artifacts-parser==0.5.1
+dagster-webserver==1.7.6
+dagstermill==0.23.6
+dbt-artifacts-parser==0.6.0
     # via dbterd
-dbt-core==1.7.13
+dbt-core==1.7.14
     # via
     #   dagster-dbt
     #   dbt-duckdb
     #   dbt-metricflow
     #   metricflow
-dbt-duckdb==1.7.4
+    #   sqlfluff-templater-dbt
+dbt-duckdb==1.7.5
     # via dbt-metricflow
 dbt-extractor==0.5.1
     # via dbt-core
@@ -122,20 +141,24 @@ dbt-semantic-interfaces==0.4.4
     # via
     #   dbt-core
     #   metricflow
-dbterd==1.13.2
+dbterd==1.13.5
 debugpy==1.8.1
     # via ipykernel
 decorator==5.1.1
     # via ipython
 defusedxml==0.7.1
     # via nbconvert
+diff-cover==9.0.0
+    # via sqlfluff
 diff-match-patch==20200713
     # via noteable-origami
+distlib==0.3.8
+    # via virtualenv
 dlt==0.4.3
     # via dagster-embedded-elt
 docstring-parser==0.16
     # via dagster
-duckdb==0.10.1
+duckdb==0.10.2
     # via
     #   dagster-duckdb
     #   dbt-duckdb
@@ -149,9 +172,15 @@ executing==2.0.1
     # via stack-data
 fastjsonschema==2.19.1
     # via nbformat
+filelock==3.14.0
+    # via
+    #   dagster
+    #   virtualenv
 fonttools==4.51.0
     # via matplotlib
-fsspec==2024.3.1
+frictionless==4.40.8
+    # via pandera
+fsspec==2024.5.0
     # via
     #   dlt
     #   universal-pathlib
@@ -162,7 +191,7 @@ gitpython==3.1.43
 giturlparse==0.12.0
     # via dlt
 google-analytics-data==0.18.7
-google-api-core==2.18.0
+google-api-core==2.19.0
     # via
     #   google-analytics-data
     #   google-api-python-client
@@ -196,7 +225,7 @@ graphviz==0.20.3
     # via metricflow
 greenlet==3.0.3
     # via sqlalchemy
-grpcio==1.62.2
+grpcio==1.64.0
     # via
     #   dagster
     #   google-api-core
@@ -214,7 +243,7 @@ halo==0.0.31
     # via metricflow
 hexbytes==1.2.0
     # via dlt
-holidays==0.47
+holidays==0.49
     # via prophet
 htmlmin==0.1.12
     # via ydata-profiling
@@ -232,6 +261,8 @@ humanfriendly==10.0
     # via coloredlogs
 humanize==4.9.0
     # via dlt
+identify==2.5.36
+    # via pre-commit
 idna==3.7
     # via
     #   anyio
@@ -247,9 +278,11 @@ importlib-metadata==6.11.0
     # via dbt-semantic-interfaces
 importlib-resources==6.4.0
     # via prophet
+iniconfig==2.0.0
+    # via pytest
 ipykernel==6.29.4
     # via dagstermill
-ipython==8.23.0
+ipython==8.24.0
     # via
     #   ipykernel
     #   ipywidgets
@@ -261,27 +294,35 @@ isodate==0.6.1
     # via
     #   agate
     #   dbt-core
+    #   frictionless
 jedi==0.19.1
     # via ipython
-jinja2==3.1.3
+jinja2==3.1.4
     # via
     #   dagster
     #   dagster-dbt
     #   dbt-core
     #   dbt-semantic-interfaces
+    #   diff-cover
+    #   frictionless
+    #   jinja2-simple-tags
     #   metricflow
     #   nbconvert
+    #   sqlfluff
     #   ydata-profiling
-joblib==1.4.0
+jinja2-simple-tags==0.6.1
+    # via sqlfluff-templater-dbt
+joblib==1.4.2
     # via
     #   phik
     #   scikit-learn
 jsonpath-ng==1.6.1
     # via dlt
-jsonschema==4.21.1
+jsonschema==4.22.0
     # via
     #   dbt-core
     #   dbt-semantic-interfaces
+    #   frictionless
     #   nbformat
     #   scrapbook
 jsonschema-specifications==2023.12.1
@@ -316,16 +357,19 @@ logbook==1.5.3
     # via dbt-core
 makefun==1.15.2
     # via dlt
-mako==1.3.3
+mako==1.3.5
     # via alembic
 markdown-it-py==3.0.0
     # via rich
+marko==2.0.3
+    # via frictionless
 markupsafe==2.1.5
     # via
     #   jinja2
     #   mako
     #   nbconvert
-mashumaro==3.12
+    #   sqlfluff-templater-dbt
+mashumaro==3.13
     # via dbt-core
 matplotlib==3.7.3
     # via
@@ -354,15 +398,20 @@ msgpack==1.0.8
     # via mashumaro
 multidict==6.0.5
     # via yarl
-multimethod==1.11.2
+multimethod==1.10
     # via
+    #   pandera
     #   visions
     #   ydata-profiling
+mypy-extensions==1.0.0
+    # via
+    #   black
+    #   typing-inspect
 nbclient==0.10.0
     # via
     #   nbconvert
     #   papermill
-nbconvert==7.16.3
+nbconvert==7.16.4
     # via dagstermill
 nbformat==5.10.4
     # via
@@ -379,6 +428,8 @@ networkx==3.3
     #   dagster-dbt
     #   dbt-core
     #   visions
+nodeenv==1.8.0
+    # via pre-commit
 noteable-origami==0.0.35
     # via papermill-origami
 numba==0.58.1
@@ -391,6 +442,7 @@ numpy==1.25.2
     #   matplotlib
     #   numba
     #   pandas
+    #   pandera
     #   patsy
     #   phik
     #   prophet
@@ -407,13 +459,14 @@ numpy==1.25.2
 oauthlib==3.2.2
     # via requests-oauthlib
 openpyxl==3.1.2
-orjson==3.10.1
+orjson==3.10.3
     # via
     #   dagster-dbt
     #   dlt
     #   noteable-origami
 packaging==24.0
     # via
+    #   black
     #   dagster
     #   dagster-dbt
     #   dagstermill
@@ -422,13 +475,16 @@ packaging==24.0
     #   ipykernel
     #   matplotlib
     #   nbconvert
+    #   pandera
     #   plotly
+    #   pytest
     #   statsmodels
 pandas==1.5.3
     # via
     #   cmdstanpy
     #   dagster-duckdb-pandas
     #   metricflow
+    #   pandera
     #   phik
     #   prophet
     #   scrapbook
@@ -436,9 +492,10 @@ pandas==1.5.3
     #   statsmodels
     #   visions
     #   ydata-profiling
+pandera==0.19.3
 pandocfilters==1.5.1
     # via nbconvert
-papermill==2.5.0
+papermill==2.6.0
     # via
     #   dagstermill
     #   papermill-origami
@@ -449,7 +506,10 @@ parsedatetime==2.6
 parso==0.8.4
     # via jedi
 pathspec==0.11.2
-    # via dbt-core
+    # via
+    #   black
+    #   dbt-core
+    #   sqlfluff
 pathvalidate==3.2.0
     # via dlt
 patsy==0.5.6
@@ -458,6 +518,8 @@ pendulum==3.0.0
     # via
     #   dagster
     #   dlt
+petl==1.7.15
+    # via frictionless
 pexpect==4.9.0
     # via ipython
 phik==0.12.4
@@ -468,11 +530,19 @@ pillow==10.3.0
     #   matplotlib
     #   visions
     #   wordcloud
-platformdirs==4.2.1
-    # via jupyter-core
-plotly==5.21.0
+platformdirs==4.2.2
+    # via
+    #   black
+    #   jupyter-core
+    #   virtualenv
+plotly==5.22.0
+pluggy==1.5.0
+    # via
+    #   diff-cover
+    #   pytest
 ply==3.11
     # via jsonpath-ng
+pre-commit==3.7.1
 prompt-toolkit==3.0.43
     # via ipython
 prophet==1.1.5
@@ -496,7 +566,7 @@ ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.2
     # via stack-data
-pyarrow==16.0.0
+pyarrow==16.1.0
     # via scrapbook
 pyasn1==0.6.0
     # via
@@ -513,9 +583,12 @@ pydantic==1.10.15
     #   dbt-semantic-interfaces
     #   metricflow
     #   noteable-origami
+    #   pandera
+    #   sqlfluff-templater-dbt
     #   ydata-profiling
-pygments==2.17.2
+pygments==2.18.0
     # via
+    #   diff-cover
     #   ipython
     #   nbconvert
     #   rich
@@ -523,11 +596,14 @@ pyparsing==3.1.2
     # via
     #   httplib2
     #   matplotlib
+pytest==8.2.1
+    # via sqlfluff
 python-dateutil==2.8.2
     # via
     #   croniter
     #   dagster
     #   dbt-semantic-interfaces
+    #   frictionless
     #   holidays
     #   jupyter-client
     #   matplotlib
@@ -540,7 +616,9 @@ python-dotenv==1.0.1
     #   dagster
     #   uvicorn
 python-slugify==8.0.4
-    # via agate
+    # via
+    #   agate
+    #   frictionless
 pytimeparse==1.1.8
     # via agate
 pytz==2024.1
@@ -558,28 +636,36 @@ pyyaml==6.0.1
     #   dbt-core
     #   dbt-semantic-interfaces
     #   dlt
+    #   frictionless
     #   metricflow
+    #   pandera
     #   papermill
+    #   pre-commit
+    #   sqlfluff
     #   uvicorn
     #   ydata-profiling
-pyzmq==26.0.2
+pyzmq==26.0.3
     # via
     #   ipykernel
     #   jupyter-client
-rapidfuzz==3.8.1
+rapidfuzz==3.9.1
     # via metricflow
-referencing==0.35.0
+referencing==0.35.1
     # via
     #   jsonschema
     #   jsonschema-specifications
-requests==2.31.0
+regex==2024.5.15
+    # via sqlfluff
+requests==2.32.2
     # via
     #   dagster
     #   dagster-dbt
     #   dagster-graphql
+    #   dagster-msteams
     #   dbt-core
     #   dbterd
     #   dlt
+    #   frictionless
     #   google-api-core
     #   gql
     #   minimal-snowplow-tracker
@@ -594,22 +680,28 @@ requests-toolbelt==1.0.0
     # via gql
 requirements-parser==0.9.0
     # via dlt
+rfc3986==2.0.0
+    # via frictionless
 rich==13.7.1
     # via
     #   dagster
     #   dagster-dbt
+    #   sqlfluff-templater-dbt
     #   typer
-rpds-py==0.18.0
+rpds-py==0.18.1
     # via
     #   jsonschema
     #   referencing
 rsa==4.9
     # via google-auth
 ruamel-yaml==0.17.40
-    # via metricflow
+    # via
+    #   metricflow
+    #   sqlfluff-templater-dbt
 ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
-scikit-learn==1.4.2
+ruff==0.4.4
+scikit-learn==1.5.0
 scipy==1.11.4
     # via
     #   imagehash
@@ -625,12 +717,15 @@ semver==3.0.2
     # via dlt
 sending==0.3.0
     # via noteable-origami
-setuptools==69.5.1
+setuptools==70.0.0
     # via
     #   dagster
     #   dlt
+    #   nodeenv
 shellingham==1.5.4
     # via typer
+simpleeval==0.9.13
+    # via frictionless
 simplejson==3.19.2
     # via dlt
 six==1.16.0
@@ -643,9 +738,9 @@ six==1.16.0
     #   minimal-snowplow-tracker
     #   patsy
     #   python-dateutil
-sling==1.2.6
+sling==1.2.10
     # via dagster-embedded-elt
-sling-linux-amd64==1.2.6
+sling-linux-amd64==1.2.10
     # via sling
 smmap==5.0.1
     # via gitdb
@@ -657,14 +752,17 @@ soupsieve==2.5
     # via beautifulsoup4
 spinners==0.0.24
     # via halo
-sqlalchemy==2.0.29
+sqlalchemy==2.0.30
     # via
     #   alembic
     #   dagster
     #   dlt
-sqlglot==23.12.1
+sqlfluff==3.0.6
+    # via sqlfluff-templater-dbt
+sqlfluff-templater-dbt==3.0.6
+sqlglot==24.0.0
     # via dagster-dbt
-sqlglotrs==0.2.0
+sqlglotrs==0.2.5
     # via sqlglot
 sqlparse==0.5.0
     # via dbt-core
@@ -678,6 +776,8 @@ starlette==0.37.2
     #   dagster-webserver
 statsmodels==0.14.2
     # via ydata-profiling
+stringcase==1.2.0
+    # via frictionless
 structlog==22.3.0
     # via
     #   dagster
@@ -685,10 +785,13 @@ structlog==22.3.0
 tabulate==0.9.0
     # via
     #   dagster
+    #   frictionless
     #   metricflow
 tangled-up-in-unicode==0.2.0
     # via visions
-tenacity==8.2.3
+tblib==3.0.0
+    # via sqlfluff
+tenacity==8.3.0
     # via
     #   dlt
     #   papermill
@@ -697,7 +800,7 @@ termcolor==2.4.0
     # via halo
 text-unidecode==1.3
     # via python-slugify
-threadpoolctl==3.4.0
+threadpoolctl==3.5.0
     # via scikit-learn
 time-machine==2.14.1
     # via pendulum
@@ -705,7 +808,7 @@ tinycss2==1.3.0
     # via nbconvert
 tomli==2.0.1
     # via dagster
-tomlkit==0.12.4
+tomlkit==0.12.5
     # via dlt
 toposort==1.10
     # via dagster
@@ -713,12 +816,13 @@ tornado==6.4
     # via
     #   ipykernel
     #   jupyter-client
-tqdm==4.66.2
+tqdm==4.66.4
     # via
     #   cmdstanpy
     #   dagster
     #   papermill
     #   prophet
+    #   sqlfluff
     #   ydata-profiling
 traitlets==5.14.3
     # via
@@ -733,10 +837,14 @@ traitlets==5.14.3
     #   nbconvert
     #   nbformat
 typeguard==4.2.1
-    # via ydata-profiling
+    # via
+    #   pandera
+    #   ydata-profiling
 typer==0.12.3
-    # via dagster-dbt
-types-setuptools==69.5.0.20240423
+    # via
+    #   dagster-dbt
+    #   frictionless
+types-setuptools==69.5.0.20240519
     # via requirements-parser
 typing-extensions==4.11.0
     # via
@@ -750,8 +858,12 @@ typing-extensions==4.11.0
     #   metricflow
     #   pydantic
     #   sqlalchemy
+    #   sqlfluff
     #   typeguard
     #   typer
+    #   typing-inspect
+typing-inspect==0.9.0
+    # via pandera
 tzdata==2024.1
     # via
     #   dlt
@@ -770,6 +882,10 @@ uvicorn==0.29.0
     # via dagster-webserver
 uvloop==0.19.0
     # via uvicorn
+validators==0.28.1
+    # via frictionless
+virtualenv==20.26.2
+    # via pre-commit
 visions==0.7.5
     # via ydata-profiling
 watchdog==4.0.0
@@ -792,8 +908,10 @@ widgetsnbextension==4.0.10
     # via ipywidgets
 wordcloud==1.9.3
     # via ydata-profiling
+wrapt==1.16.0
+    # via pandera
 yarl==1.9.4
     # via gql
 ydata-profiling==4.6.0
-zipp==3.18.1
+zipp==3.18.2
     # via importlib-metadata

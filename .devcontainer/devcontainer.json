@@ -72,7 +72,7 @@
 		// use a .env file outside of source control to store secrets or via repo secrets
 		// TODO 🚧 PYTHONPATH currently adds to PYTHONPATH for debugging. Need to sort this out in dev container
     //PYTHONPATH: /home/dave/data-engineering/nsw-doe-data-stack-in-a-box
-
+    "GITHUB_WORKSPACE":                 "/workspaces/nsw-doe-data-stack-in-a-box",
     "NSW_DOE_DATA_STACK_IN_A_BOX__ENV": "dev",
     "NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR":  "orchestration",
     "NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR": "transformation/transformation_nsw_doe",

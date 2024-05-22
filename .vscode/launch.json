@@ -13,7 +13,8 @@
       ],
       "envFile": "${workspaceFolder}/.env",
       "env": {
-        "DAGSTER_DBT_PARSE_PROJECT_ON_LOAD": "YES"
+        "DAGSTER_DBT_PARSE_PROJECT_ON_LOAD": "YES",
+        "DAGSTER_HOME": ""
       }
     },
     {

@@ -3,6 +3,34 @@ on:
   pull_request:
     branches:
       - main
+
+env:
+  NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR:    ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR:        ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR }}
+
+  NSW_DOE_DATA_STACK_IN_A_BOX__ENV:                   ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX__ENV }}
+
+  NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB:         ${{ secrets.NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME:                ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA:          ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }}__pr_$(date +%s)
+
+  MOTHERDUCK_TOKEN:                                   ${{ secrets.MOTHERDUCK_TOKEN }}
+  DATAFOLD_APIKEY:                                    ${{ secrets.DATAFOLD_APIKEY }}
+
+  DAGSTER_HOME:                                       ${{ vars.DAGSTER_HOME }}
+
+  AWS_ROLE_TO_ASSUME:                                 ${{ secrets.AWS_ROLE_TO_ASSUME }}
+  S3_BUCKET_METADATA:                                 ${{ secrets.S3_BUCKET_METADATA }}
+
+  DESTINATION__DUCKDB__CREDENTIALS:                   ${{ secrets.DESTINATION__DUCKDB__CREDENTIALS }}
+
+  SOURCES__GITHUB__ACCESS_TOKEN:                      ${{ secrets.SOURCES__GITHUB__ACCESS_TOKEN }}
+
+  SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PROJECT_ID: ${{ secrets.SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PROJECT_ID }}
+  SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__CLIENT_EMAIL: ${{ secrets.SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__CLIENT_EMAIL }}
+  SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PRIVATE_KEY:  ${{ secrets.SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PRIVATE_KEY }}
+  SOURCES__GOOGLE_ANALYTICS__PROPERTY_ID:             ${{ secrets.SOURCES__GOOGLE_ANALYTICS__PROPERTY_ID }}
+
 jobs:
   ci_dev:
     name: CI Quick Check - Linting, Formatting, and unit tests. Doesnt build anything in any databases.
@@ -33,6 +61,10 @@ jobs:
       # mf validate-configs # hold off until figure out how to run dagster to generate source data then dbt build ect...
       - name: Lint SQL
         run: sqlfluff lint --format github-annotation-native
+      # required to set path for pytest
+      - name: set pythonpath
+        run: |
+          echo "PYTHONPATH="$GITHUB_WORKSPACE >> $GITHUB_ENV
       - name: pytest
         run: cd ${{github.workspace}}/orchestration && pytest
       # - name: Build Evidence

@@ -234,16 +234,11 @@ operations after testing (also done during pipeline execution)
 
 ### 🚧working on
 
-
-- data diff 🧱 by no prod due to motheduck not using 10.1 yet NO longer open source!
-
-
 - msteams sensor on failure of job need to setup webhook somewhere
 
 
 - dbt unit tests 🧱 waiting for 1.8 release and how if i need to wait for mother duck
 
-- waiting on dagster release my pull request to fix issue
 
 - move to dagster+
   - for catalog [dagster+](https://www.youtube.com/watch?v=_Z4xxZYEQNs&t=5s)
@@ -263,6 +258,11 @@ operations after testing (also done during pipeline execution)
 
 ### 🧱 Blocked
 - 🧱 migrate to new cese data hub - links still going to https://data.cese.nsw.gov.au
+- 🧱 dlt hub
+  - works in dev
+  - but in prod the dlt[motherduck] python lib only allows <0.10 after that need to change the pipeline param in the asset to mother duck depending on env.
+  - also excluding google and github dlt sources from dbt ci via `--exclude "+*github*+ +*google*+"`
+- 🧱 datafold cant connect to mother duck
 - evidence build site and host on static site (need to wait for mother duck)
   - [fixed] currently getting heap out of memory error. [Issue raised](https://github.com/evidence-dev/evidence/issues/1507)
   - note when deploying to evidence cloud need to put relative path as `/reports`
@@ -309,7 +309,7 @@ operations after testing (also done during pipeline execution)
 - dbt defer - could do this with dbt cloud or altion
 
 
-💩 Limitations / hard to do 😢😭
+### 💩 Limitations / hard to do 😢😭
 - UX - change all build to docker rather than having to wait for additional steps to execute
 - semantic layers full features (cube.dev and dbt) require min spend $100 per month so hard to demo.
   - work around cache dbt semantic layer as a table
@@ -336,6 +336,7 @@ operations after testing (also done during pipeline execution)
     - need to setup dagster test suite
 
 ### Done
+- waiting on dagster release my pull request to fix issue
 - Motherduck upgrade to 0.10.X eta end of April
   - waiting on motherduck to 0.10.0 to get sql tools to work & backwards compatability of duckdb versions
   - backwards compatability
@@ -466,6 +467,13 @@ dbt docs generate
 .venv/bin/python ERD_generation.py
 ```
 
+To submit your code, fork the repository, create a [new branch](https://docs.github.com/en/desktop/making-changes-in-a-branch/managing-branches-in-github-desktop) on your fork, and open a [Pull Request (PR)](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) once your work is ready for review.
+
+In the PR template, please describe the change, including the motivation/context, test coverage, and any other relevant information. Please note if the PR is a breaking change or if it is related to an open GitHub issue.
+
+A Core reviewer will review your PR in around five business days and provide feedback on any changes it requires to be approved. Once approved and all the tests pass, the reviewer will click the Squash and merge button in Github 🥳.
+
+Your PR is now merged into Dagster! We’ll shout out your contribution in the release notes.
 make sure you lint your code with `sqlfluff`:
 ```bash
 sqlfluff lint

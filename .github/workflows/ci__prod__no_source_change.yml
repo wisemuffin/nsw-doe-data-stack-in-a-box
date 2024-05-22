@@ -72,7 +72,7 @@ jobs:
     - name: Deploy
       run: |
         cd ${{github.workspace}}/transformation/transformation_nsw_doe
-        dbt build --models state:modified+ --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
+        dbt build --exclude "+*github*+ +*google*+" --models state:modified+ --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
 
     - name: Upload manifest.json from s3
       run: |

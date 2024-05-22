@@ -71,7 +71,7 @@ jobs:
             - name: Deploy
               run: |
                 cd ${{github.workspace}}/transformation/transformation_nsw_doe
-                dbt build --models state:modified+ --defer --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
+                dbt build --exclude "+*github*+ +*google*+" --models state:modified+ --defer --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
 
 
             # reoving datafold until we get a motherduck connection

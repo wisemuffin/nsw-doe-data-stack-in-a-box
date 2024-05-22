@@ -39,6 +39,13 @@ dbterd
 ydata_profiling
 ipywidgets
 
+# dlt
+dagster-embedded-elt
+# dlt[motherduck] # cant use motherduck yet with dlt if duckdb > 0.10
+google-analytics-data
+google-api-python-client
+google-auth-oauthlib
+requests_oauthlib
 # development
 pytest
 ruff

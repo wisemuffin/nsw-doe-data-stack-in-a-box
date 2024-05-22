@@ -1,6 +1,7 @@
 import os
 
 from dagster import (
+    AssetSelection,
     Definitions,
     FilesystemIOManager,
     ScheduleDefinition,
@@ -12,6 +13,9 @@ from dagster_duckdb_pandas import DuckDBPandasIOManager
 from dagster_msteams import make_teams_on_run_failure_sensor
 from dagstermill import ConfigurableLocalOutputNotebookIOManager
 from dotenv import load_dotenv
+
+from dagster_embedded_elt.dlt import DagsterDltResource
+
 
 # from dagster_airbyte import airbyte_resource
 # from .assets import jaffle_shop_dbt_assets,raw_customers_py,raw_orders_py,raw_payments_py,iris_dataset,iris_dataset_test_to_remove #,csv_to_onelake_asset
@@ -36,22 +40,47 @@ resources_by_env = {
         ),
         "io_manager": FilesystemIOManager(),
         "dbt": DbtCliResource(project_dir=os.fspath(dbt_project_dir)),
+        "dlt": DagsterDltResource(),
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),
     },
     "dev": {
         "io_manager_dw": DuckDBPandasIOManager(database=DUCKDB_PROJECT_DIR),
         "io_manager": FilesystemIOManager(),
         "dbt": DbtCliResource(project_dir=os.fspath(dbt_project_dir)),
+        "dlt": DagsterDltResource(),
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),
     },
 }
 
-# all_assets = [*load_assets_from_package_module(raw, group_name="jaffle_shop"), *load_assets_from_package_module(transformation, group_name="jaffle_shop"), *load_assets_from_package_module(iris, group_name="other"), *load_assets_from_package_module(machine_learning, group_name="jaffle_shop")]
 all_assets = load_assets_from_package_module(assets)
 
-all_assets_job = define_asset_job(
-    name="etl_job",
-    # selection=all_assets,
+
+# filtered_assets = [asset for asset in all_assets if ((isinstance(asset, AssetsDefinition) and ("raw" in asset.get_attributes_dict().get("group_names_by_key", {})))) ]# and ("raw_google" in asset.group_names_by_key or "raw_github" in asset.group_names_by_key or "requires_api" in asset.group_names_by_key)))]
+
+assets_requiring_apis = (
+    AssetSelection.groups("raw_google_analytics")
+    | AssetSelection.groups("raw_github")
+    | AssetSelection.groups("transformation_requires_api")
+)
+assets_not_requiring_apis = AssetSelection.all() - assets_requiring_apis
+
+etl_not_requiring_apis = define_asset_job(
+    name="etl_not_requiring_apis",
+    selection=assets_not_requiring_apis,
+    config={
+        "execution": {
+            "config": {
+                "multiprocess": {
+                    "max_concurrent": 4,
+                },
+            }
+        }
+    },
+)
+
+etl_requiring_apis = define_asset_job(
+    name="etl_requiring_apis",
+    selection=assets_requiring_apis,
     config={
         "execution": {
             "config": {
@@ -65,12 +94,17 @@ all_assets_job = define_asset_job(
 
 msteams_on_run_failure = make_teams_on_run_failure_sensor(
     hook_url="",
-    monitored_jobs=([all_assets_job]),
+    monitored_jobs=([etl_requiring_apis]),
 )
 
-schedule_all_asset_job = ScheduleDefinition(
-    job=all_assets_job, cron_schedule="0 0 * * *"
+schedule_etl_requiring_apis = ScheduleDefinition(
+    job=etl_requiring_apis, cron_schedule="0 0 * * *"
 )
+
+schedule_etl_not_requiring_apis = ScheduleDefinition(
+    job=etl_not_requiring_apis, cron_schedule="0 1 * * *"
+)
+
 
 # schedule_dbt_assets =  build_schedule_from_dbt_selection(
 #         [jaffle_shop_dbt_assets],
@@ -82,7 +116,7 @@ schedule_all_asset_job = ScheduleDefinition(
 defs = Definitions(
     assets=all_assets,
     resources=resources_by_env[os.getenv("NSW_DOE_DATA_STACK_IN_A_BOX__ENV", "dev")],
-    jobs=[all_assets_job],
-    schedules=[schedule_all_asset_job],
+    jobs=[etl_requiring_apis, etl_not_requiring_apis],
+    schedules=[schedule_etl_requiring_apis, schedule_etl_not_requiring_apis],
     sensors=[msteams_on_run_failure],
 )

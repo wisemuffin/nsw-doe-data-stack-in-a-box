@@ -78,24 +78,24 @@ DatahubRamDagsterType = pandera_schema_to_dagster_type(
 )
 def raw__nsw_doe_datahub__ram():
     url_dict = {}
-    url_dict[
-        "2024"
-    ] = "https://data.cese.nsw.gov.au/data/dataset/e354d699-2b59-3ef0-9477-ee63289d7466/resource/2776c893-71d5-4fc5-a64a-848507c22cc5/download/data-hub-2024-sbar-1.csv"
-    url_dict[
-        "2023"
-    ] = "https://data.cese.nsw.gov.au/data/dataset/e354d699-2b59-3ef0-9477-ee63289d7466/resource/649adcc8-221d-47a7-924e-499c16b416c3/download/data-hub-2023-approved-ram.csv"
-    url_dict[
-        "2022"
-    ] = "https://data.cese.nsw.gov.au/data/dataset/e354d699-2b59-3ef0-9477-ee63289d7466/resource/a7efba8f-fb18-4442-8ddd-f98fd330b997/download/data-hub-2022-approved-ram.csv"
-    url_dict[
-        "2021"
-    ] = "https://data.cese.nsw.gov.au/data/dataset/e354d699-2b59-3ef0-9477-ee63289d7466/resource/2ac4e49f-6da4-4bcf-910a-5e08e7dff5f2/download/data-hub-2021-approved-ram.csv"
-    url_dict[
-        "2020"
-    ] = "https://data.cese.nsw.gov.au/data/dataset/e354d699-2b59-3ef0-9477-ee63289d7466/resource/882e5421-0e40-418b-a3b6-db25c1b8f004/download/data-hub-2020-approved-ram.csv"
-    url_dict[
-        "2019"
-    ] = "https://data.cese.nsw.gov.au/data/dataset/e354d699-2b59-3ef0-9477-ee63289d7466/resource/b2a2b1de-3e46-43a6-929e-2ba65ab3fad5/download/data-hub-2019-approved.csv"
+    url_dict["2024"] = (
+        "https://data.cese.nsw.gov.au/data/dataset/e354d699-2b59-3ef0-9477-ee63289d7466/resource/2776c893-71d5-4fc5-a64a-848507c22cc5/download/data-hub-2024-sbar-1.csv"
+    )
+    url_dict["2023"] = (
+        "https://data.cese.nsw.gov.au/data/dataset/e354d699-2b59-3ef0-9477-ee63289d7466/resource/649adcc8-221d-47a7-924e-499c16b416c3/download/data-hub-2023-approved-ram.csv"
+    )
+    url_dict["2022"] = (
+        "https://data.cese.nsw.gov.au/data/dataset/e354d699-2b59-3ef0-9477-ee63289d7466/resource/a7efba8f-fb18-4442-8ddd-f98fd330b997/download/data-hub-2022-approved-ram.csv"
+    )
+    url_dict["2021"] = (
+        "https://data.cese.nsw.gov.au/data/dataset/e354d699-2b59-3ef0-9477-ee63289d7466/resource/2ac4e49f-6da4-4bcf-910a-5e08e7dff5f2/download/data-hub-2021-approved-ram.csv"
+    )
+    url_dict["2020"] = (
+        "https://data.cese.nsw.gov.au/data/dataset/e354d699-2b59-3ef0-9477-ee63289d7466/resource/882e5421-0e40-418b-a3b6-db25c1b8f004/download/data-hub-2020-approved-ram.csv"
+    )
+    url_dict["2019"] = (
+        "https://data.cese.nsw.gov.au/data/dataset/e354d699-2b59-3ef0-9477-ee63289d7466/resource/b2a2b1de-3e46-43a6-929e-2ba65ab3fad5/download/data-hub-2019-approved.csv"
+    )
 
     df_ram_all_years = pd.DataFrame({})
 

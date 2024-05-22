@@ -81,7 +81,7 @@
     "NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME": "nsw_doe_data_stack_in_a_box__dev",
     "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA": "analytics",
 
-    "": "orchestration/dagster-local-file-store",
+    "DAGSTER_HOME": "orchestration/dagster-local-file-store",
 
     "EVIDENCE_SOURCE__nsw_doe_data_stack_in_a_box__filename": "nsw_doe_data_stack_in_a_box__dev.duckdb",
 

@@ -252,7 +252,18 @@ operations after testing (also done during pipeline execution)
     - change tracking
   - demo insights for operation observability allow all of us to understand and optimise reliability, cost and freshness
 
-
+- deployment CICD (dagster+ makes this easy)
+  - generate docs on merge for ERDs
+  - check metricflow config see `task mf_check`
+  - ✅ dbt data tests
+  - dbt unit tests
+  - dbt data freshness
+  - data diffs
+  - ✅ pytest
+  - ✅ sqlfluff
+  - ✅ that python rust package for python linting ect
+  - end to end test orchistration
+  - dagster teams integration
 
 
 
@@ -288,16 +299,6 @@ operations after testing (also done during pipeline execution)
   - speed up codespace by using uv as a python package manager
 - dbt unit tests (in preview in dbt core 1.8) want to add these soon but dont want to use 1.8 yet until duckdb and mother duck have been updated.
 - limitation, when dbt model fails all downstream fails (i.e. if have depency on any other dbt table). To investigate.
-- deployment CICD (dagster+ makes this easy)
-  - generate docs on merge for ERDs
-  - check metricflow config see `task mf_check`
-  - dbt data tests
-  - dbt unit tests
-  - dbt data freshness
-  - data diffs
-  - sqlfluff
-  - that python rust package for python linting ect
-  - dagster teams integration
 - devcontainer load optimisation, could remove ipywidgets and pandas profiling
 - docs on taskfile
 - sqlfluff

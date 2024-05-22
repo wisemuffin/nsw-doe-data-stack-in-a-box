@@ -2,18 +2,23 @@
     ('stg__github_reactions__issues_reactions', 'stg__github_reactions__issues_reactions'),
     ('stg__github_reactions__issues', 'stg__github_reactions__issues')
 ]) }},
+
 prep as (
-    select content, created_at::date as date, sum(1) as cnt_reaction
+    select
+        content,
+        created_at::date as created_at_date,
+        sum(1) as cnt_reaction,
     from stg__github_reactions__issues_reactions
-    where 1=1
+    where 1 = 1
     group by all
 ),
-final AS (
 
-    SELECT
+final as (
+
+    select
 
         --Primary Key
-        {{dbt_utils.generate_surrogate_key(['prep.date', 'prep.content'])}} as _meta__fct__repo_issue_reaction__sk,
+        {{ dbt_utils.generate_surrogate_key(['prep.created_at_date', 'prep.content']) }} as _meta__fct__repo_issue_reaction__sk,
 
         --Natural Key
 
@@ -22,14 +27,14 @@ final AS (
 
         ----Local Dimensions
         prep.content,
-        prep.date,
+        prep.created_at_date,
 
 
         -- Measures
-        prep.cnt_reaction
+        prep.cnt_reaction,
 
 
-    FROM prep
+    from prep
 )
 
 {{ dbt_audit(

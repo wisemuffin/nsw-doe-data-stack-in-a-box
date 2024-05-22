@@ -1,18 +1,19 @@
 {{ simple_cte([
     ('stg__google_analytics__user_metrics_date', 'stg__google_analytics__user_metrics_date')
 ]) }},
+
 prep as (
-    select *
+    select *,
     from stg__google_analytics__user_metrics_date
-    where 1=1
+    where 1 = 1
 ),
 
-final AS (
+final as (
 
-    SELECT 
-        
+    select
+
         --Primary Key
-        {{dbt_utils.generate_surrogate_key(['prep.date'])}} as _meta__fct__web_analytics__sk,
+        {{ dbt_utils.generate_surrogate_key(['prep.date']) }} as _meta__fct__web_analytics__sk,
 
         --Natural Key
 
@@ -20,18 +21,18 @@ final AS (
         ----Conformed Dimensions
 
         ----Local Dimensions
-        country, 
-        city, 
-        date, 
+        prep.country,
+        prep.city,
+        prep.date as event_date,
 
 
         -- Measures
-        total_users_integer as total_users,
-        new_users_integer as new_users,
-        user_engagement_duration_seconds
+        prep.total_users_integer as total_users,
+        prep.new_users_integer as new_users,
+        prep.user_engagement_duration_seconds,
 
 
-    FROM prep
+    from prep
 )
 
 {{ dbt_audit(
@@ -41,4 +42,3 @@ final AS (
     created_date="2024-04-30",
     updated_date="2024-04-30"
 ) }}
-

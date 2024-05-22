@@ -1,6 +1,7 @@
 with source as (
-      select * from {{ source('raw', 'raw_google_analytics_metrics') }}
+    select *, from {{ source('raw', 'raw_google_analytics_metrics') }}
 ),
+
 renamed as (
     select
         {{ adapter.quote("api_name") }},
@@ -13,5 +14,5 @@ renamed as (
 
     from source
 )
-select * from renamed
-  
+
+select *, from renamed

@@ -1,6 +1,7 @@
 with source as (
-      select * from {{ source('raw', 'raw_google_analytics_sample_analytics_data2') }}
+    select *, from {{ source('raw', 'raw_google_analytics_sample_analytics_data2') }}
 ),
+
 renamed as (
     select
         {{ adapter.quote("browser") }},
@@ -13,5 +14,5 @@ renamed as (
 
     from source
 )
-select * from renamed
-  
+
+select *, from renamed

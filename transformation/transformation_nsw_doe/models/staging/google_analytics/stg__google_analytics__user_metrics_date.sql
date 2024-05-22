@@ -1,6 +1,7 @@
 with source as (
-      select * from {{ source('raw', 'raw_google_analytics_user_metrics_date') }}
+    select *, from {{ source('raw', 'raw_google_analytics_user_metrics_date') }}
 ),
+
 renamed as (
     select
         {{ adapter.quote("country") }},
@@ -14,5 +15,5 @@ renamed as (
 
     from source
 )
-select * from renamed
-  
+
+select *, from renamed

@@ -1,6 +1,7 @@
 with source as (
-      select * from {{ source('raw', 'raw_github_reactions_issues__reactions') }}
+    select *, from {{ source('raw', 'raw_github_reactions_issues__reactions') }}
 ),
+
 renamed as (
     select
         {{ adapter.quote("user__login") }},
@@ -14,5 +15,5 @@ renamed as (
 
     from source
 )
-select * from renamed
-  
+
+select *, from renamed

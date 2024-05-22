@@ -22,6 +22,15 @@ env:
   AWS_ROLE_TO_ASSUME:                                 ${{ secrets.AWS_ROLE_TO_ASSUME }}
   S3_BUCKET_METADATA:                                 ${{ secrets.S3_BUCKET_METADATA }}
 
+  DESTINATION__DUCKDB__CREDENTIALS:                   ${{ secrets.DESTINATION__DUCKDB__CREDENTIALS }}
+
+  SOURCES__GITHUB__ACCESS_TOKEN:                      ${{ secrets.SOURCES__GITHUB__ACCESS_TOKEN }}
+
+  SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PROJECT_ID: ${{ secrets.SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PROJECT_ID }}
+  SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__CLIENT_EMAIL: ${{ secrets.SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__CLIENT_EMAIL }}
+  SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PRIVATE_KEY:  ${{ secrets.SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PRIVATE_KEY }}
+  SOURCES__GOOGLE_ANALYTICS__PROPERTY_ID:             ${{ secrets.SOURCES__GOOGLE_ANALYTICS__PROPERTY_ID }}
+
 jobs:
   ci_dev:
     name: CI Quick Check - Linting, Formatting, and unit tests. Doesnt build anything in any databases.

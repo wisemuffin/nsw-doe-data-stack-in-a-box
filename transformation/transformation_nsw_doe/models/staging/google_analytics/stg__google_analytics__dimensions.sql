@@ -8,8 +8,7 @@ renamed as (
         {{ adapter.quote("ui_name") }},
         {{ adapter.quote("description") }},
         {{ adapter.quote("category") }},
-        {{ adapter.quote("_dlt_load_id") }},
-        {{ adapter.quote("_dlt_id") }}
+        {{ adapter.quote("_dlt_load_id") }},{{ adapter.quote("_dlt_id") }}
 
     from source
 )

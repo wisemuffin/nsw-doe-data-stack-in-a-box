@@ -1,0 +1,11 @@
+unit_tests:
+  - name: test_type_conversions
+    description: "Check type conversions."
+    model: stg__nsw_doe_datahub__ram
+    given:
+      - input: source('raw', 'raw__nsw_doe_datahub__ram')
+        rows:
+          - {"RAM Funding - post Adjustments $": "$367,074",    "Original RAM Funding $ ": "$367,074"}
+    expect:
+      rows:
+        - {ram_funding_post_adjustments_aud: "367074",    original_ram_funding_aud: "367074"}

@@ -1,5 +1,11 @@
-# %%
+import os
+
 from dbterd.api import DbtErd
+
+GITHUB_WORKSPACE = os.getenv("GITHUB_WORKSPACE")
+NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR = os.getenv(
+    "NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR"
+)
 
 
 def filter_lines(input_string):
@@ -30,7 +36,7 @@ def filter_lines(input_string):
 erd = DbtErd(
     select=["wildcard:*fct_*", "wildcard:*dim_*"],
     target="mermaid",
-    artifacts_dir="./transformation/transformation_nsw_doe",
+    artifacts_dir=f"{GITHUB_WORKSPACE}/{NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR}",
 ).get_erd()
 # %%
 filtered_result = filter_lines(erd)

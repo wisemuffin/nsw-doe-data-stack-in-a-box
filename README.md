@@ -154,6 +154,8 @@ testing during development
 - `unit testing` - quick tests limited to just one part of your code. Supports test as documentation.
   - 🚧 pytest - used to unit test pipeline logic
   - 🚧 dbt unit test - used to test sql functions used in dbt data models
+  - 🧱 this pr is waiting on metric flow to use dbt 1.8. Keep checking https://github.com/dbt-labs/metricflow/releases **need to addback dbt-metricflow into requirements.in**
+  - 🧱 this pr is waiting on dagster-dbt to allow for dbt 1.8 : https://github.com/dagster-io/dagster/blob/master/python_modules/libraries/dagster-dbt/dagster_dbt/version.py **need to addback dagster-dbt into requirements.in**
 
 testing code quality
 - we use `ruff` for python and `sqlfluff` for sql during our PRs.
@@ -236,8 +238,10 @@ operations after testing (also done during pipeline execution)
 
 - msteams sensor on failure of job need to setup webhook somewhere
 
-
+- 🧱 dbt altion not working with 1.8 yet. getting error when running sql: `"message": "Error: There is a problem in your dbt project. Compilation failed: Internal Error\n  Calculated a <class 'dbt.contracts.graph.model_config.ExposureConfig'> for an exposure, but expected an ExposureConfig",`
+- fixing erds - works with dbt 1.8 🧱
 - dbt unit tests 🧱 waiting for 1.8 release and how if i need to wait for mother duck
+- model contracts
 
 
 - move to dagster+
@@ -265,7 +269,9 @@ operations after testing (also done during pipeline execution)
   - end to end test orchistration
   - dagster teams integration
 
+- utilisation reporting
 
+- fixing ga - currently debug local and all type of remote not working with dagster due to ga. Cant seem to get service account to work due to issues with key not being correct in other env. Lets try swapping to oauth via: https://dlthub.com/docs/dlt-ecosystem/verified-sources/google_analytics#grab-google-oauth-credentials
 
 ### 🧱 Blocked
 - 🧱 migrate to new cese data hub - links still going to https://data.cese.nsw.gov.au
@@ -311,7 +317,8 @@ operations after testing (also done during pipeline execution)
 
 
 ### 💩 Limitations / hard to do 😢😭
-- UX - change all build to docker rather than having to wait for additional steps to execute
+
+- google analytics dlt works locally, but doesnt when using local debug. credentials `GcpServiceAccountCredentials` seem to be getting messed up whe `GcpServiceAccountCredentials.to_native_credentials()` in invoked. For now have commented out GA part to uncomment when running locally.
 - semantic layers full features (cube.dev and dbt) require min spend $100 per month so hard to demo.
   - work around cache dbt semantic layer as a table
 - `simple-browser show http://localhost:3000/` doesnt automatically open a browser

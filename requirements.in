@@ -1,5 +1,5 @@
-dbt-duckdb
-dbt-metricflow[duckdb]
+dbt-duckdb>=1.8.0
+#dbt-metricflow[duckdb] # removing for now to work with dbt 1.8
 
 ipykernel
 
@@ -42,8 +42,9 @@ ipywidgets
 # dlt
 dagster-embedded-elt
 # dlt[motherduck] # cant use motherduck yet with dlt if duckdb > 0.10
-google-analytics-data
 google-api-python-client
+google-auth
+google-analytics-data
 google-auth-oauthlib
 requests_oauthlib
 # development

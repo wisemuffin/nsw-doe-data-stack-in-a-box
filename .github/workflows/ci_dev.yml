@@ -3,6 +3,8 @@ on:
   pull_request:
     branches:
       - main
+    types:
+      - ready_for_review
 
 env:
   NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR:    ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}

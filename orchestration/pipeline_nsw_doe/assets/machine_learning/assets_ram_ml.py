@@ -33,6 +33,7 @@ import numpy as np
 @multi_asset(
     ins={"metrics_by_year_school_saved_query": AssetIn(key_prefix=["analytics"])},
     outs={"training_data_demo": AssetOut(), "test_data_demo": AssetOut()},
+    group_name="ml_demo",
 )
 def training_test_data(
     context: AssetExecutionContext, metrics_by_year_school_saved_query: pd.DataFrame

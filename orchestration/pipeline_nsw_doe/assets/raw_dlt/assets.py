@@ -15,7 +15,6 @@ from dagster_embedded_elt.dlt import (
 from dlt import pipeline
 from dlt.extract.resource import DltResource
 from ...dlt_sources.github import github_reactions, github_repo_events
-from ...dlt_sources.google_analytics import google_analytics
 
 
 # dlt_configuration_path = file_relative_path(__file__, "../../dlt_sources/dlt_configuration.yaml")
@@ -172,20 +171,21 @@ GA_QUERIES = [
     },
 ]
 
-
-@dlt_assets(
-    dlt_source=google_analytics(queries=GA_QUERIES),
-    dlt_pipeline=pipeline(
-        pipeline_name="github_github_reactions",
-        dataset_name="raw",  # schema
-        destination="duckdb",
-    ),
-    name="google_analytics",
-    # key_prefix=["raw"], # TODO: no prefixing yet
-    group_name="raw_google_analytics",
-    dlt_dagster_translator=GoogleAnalyticsDagsterDltTranslator(),
-)
-def google_analytics_dagster_assets(
-    context: AssetExecutionContext, dlt: DagsterDltResource
-):
-    yield from dlt.run(context=context)
+## credential issue when not using remote or when using debug. Have removed functionality for now
+# from ...dlt_sources.google_analytics import google_analytics
+# @dlt_assets(
+#     dlt_source=google_analytics(queries=GA_QUERIES),
+#     dlt_pipeline=pipeline(
+#         pipeline_name="github_github_reactions",
+#         dataset_name="raw",  # schema
+#         destination="duckdb",
+#     ),
+#     name="google_analytics",
+#     # key_prefix=["raw"], # TODO: no prefixing yet
+#     group_name="raw_google_analytics",
+#     dlt_dagster_translator=GoogleAnalyticsDagsterDltTranslator(),
+# )
+# def google_analytics_dagster_assets(
+#     context: AssetExecutionContext, dlt: DagsterDltResource
+# ):
+#     yield from dlt.run(context=context)

@@ -266,6 +266,12 @@ operations after testing (also done during pipeline execution)
   - dagster teams integration
 
 
+### Help Wanted
+
+- Slack LLM Chat Bot. As part of PR🚧 i have setup a LLM with open AI and an index that gets generated from the latest source documents on a schedule in Dagster. Currently the only way to message the chatbot is via a Dagster Sension 🚧. It would be really cool to get this chat bot integrated with our slack account.
+
+References:
+- [Slack Python Bolt](https://api.slack.com/tools/bolt-python) - shows how to setup Slack apps
 
 ### 🧱 Blocked
 - 🧱 migrate to new cese data hub - links still going to https://data.cese.nsw.gov.au

@@ -2,6 +2,12 @@
 #    uv pip compile requirements.in -o requirements.txt
 agate==1.7.1
     # via dbt-core
+aiohttp==3.9.5
+    # via
+    #   langchain
+    #   langchain-community
+aiosignal==1.3.1
+    # via aiohttp
 alembic==1.13.1
     # via dagster
 aniso8601==9.0.1
@@ -12,6 +18,7 @@ anyio==4.3.0
     # via
     #   gql
     #   httpx
+    #   openai
     #   starlette
     #   watchfiles
 appdirs==1.4.4
@@ -22,6 +29,7 @@ astunparse==1.6.3
     # via dlt
 attrs==23.2.0
     # via
+    #   aiohttp
     #   jsonschema
     #   referencing
     #   visions
@@ -109,6 +117,7 @@ dagster==1.7.6
     #   dagster-embedded-elt
     #   dagster-graphql
     #   dagster-msteams
+    #   dagster-openai
     #   dagster-webserver
     #   dagstermill
 dagster-dbt==0.23.6
@@ -119,10 +128,15 @@ dagster-embedded-elt==0.23.6
 dagster-graphql==1.7.6
     # via dagster-webserver
 dagster-msteams==0.23.6
+dagster-openai==0.23.6
 dagster-pipes==1.7.6
     # via dagster
 dagster-webserver==1.7.6
 dagstermill==0.23.6
+dataclasses-json==0.6.6
+    # via
+    #   langchain
+    #   langchain-community
 dbt-artifacts-parser==0.6.0
     # via dbterd
 dbt-core==1.7.14
@@ -154,6 +168,8 @@ diff-match-patch==20200713
     # via noteable-origami
 distlib==0.3.8
     # via virtualenv
+distro==1.9.0
+    # via openai
 dlt==0.4.3
     # via dagster-embedded-elt
 docstring-parser==0.16
@@ -170,6 +186,7 @@ et-xmlfile==1.1.0
     # via openpyxl
 executing==2.0.1
     # via stack-data
+faiss-cpu==1.8.0
 fastjsonschema==2.19.1
     # via nbformat
 filelock==3.14.0
@@ -180,6 +197,10 @@ fonttools==4.51.0
     # via matplotlib
 frictionless==4.40.8
     # via pandera
+frozenlist==1.4.1
+    # via
+    #   aiohttp
+    #   aiosignal
 fsspec==2024.5.0
     # via
     #   dlt
@@ -256,7 +277,9 @@ httplib2==0.22.0
 httptools==0.6.1
     # via uvicorn
 httpx==0.27.0
-    # via noteable-origami
+    # via
+    #   noteable-origami
+    #   openai
 humanfriendly==10.0
     # via coloredlogs
 humanize==4.9.0
@@ -316,8 +339,14 @@ joblib==1.4.2
     # via
     #   phik
     #   scikit-learn
+jsonpatch==1.33
+    # via
+    #   langchain
+    #   langchain-core
 jsonpath-ng==1.6.1
     # via dlt
+jsonpointer==2.4
+    # via jsonpatch
 jsonschema==4.22.0
     # via
     #   dbt-core
@@ -347,6 +376,21 @@ jwt==1.3.1
     # via noteable-origami
 kiwisolver==1.4.5
     # via matplotlib
+langchain==0.1.11
+langchain-community==0.0.38
+    # via langchain
+langchain-core==0.1.52
+    # via
+    #   langchain
+    #   langchain-community
+    #   langchain-text-splitters
+langchain-text-splitters==0.0.2
+    # via langchain
+langsmith==0.1.63
+    # via
+    #   langchain
+    #   langchain-community
+    #   langchain-core
 leather==0.4.0
     # via agate
 llvmlite==0.41.1
@@ -369,6 +413,8 @@ markupsafe==2.1.5
     #   mako
     #   nbconvert
     #   sqlfluff-templater-dbt
+marshmallow==3.21.2
+    # via dataclasses-json
 mashumaro==3.13
     # via dbt-core
 matplotlib==3.7.3
@@ -397,7 +443,9 @@ more-itertools==10.1.0
 msgpack==1.0.8
     # via mashumaro
 multidict==6.0.5
-    # via yarl
+    # via
+    #   aiohttp
+    #   yarl
 multimethod==1.10
     # via
     #   pandera
@@ -438,7 +486,10 @@ numpy==1.25.2
     # via
     #   cmdstanpy
     #   contourpy
+    #   faiss-cpu
     #   imagehash
+    #   langchain
+    #   langchain-community
     #   matplotlib
     #   numba
     #   pandas
@@ -458,13 +509,16 @@ numpy==1.25.2
     #   ydata-profiling
 oauthlib==3.2.2
     # via requests-oauthlib
+openai==1.30.3
+    # via dagster-openai
 openpyxl==3.1.2
 orjson==3.10.3
     # via
     #   dagster-dbt
     #   dlt
+    #   langsmith
     #   noteable-origami
-packaging==24.0
+packaging==23.2
     # via
     #   black
     #   dagster
@@ -473,6 +527,8 @@ packaging==24.0
     #   dbt-core
     #   dlt
     #   ipykernel
+    #   langchain-core
+    #   marshmallow
     #   matplotlib
     #   nbconvert
     #   pandera
@@ -581,8 +637,12 @@ pydantic==1.10.15
     #   dagster
     #   dbt-artifacts-parser
     #   dbt-semantic-interfaces
+    #   langchain
+    #   langchain-core
+    #   langsmith
     #   metricflow
     #   noteable-origami
+    #   openai
     #   pandera
     #   sqlfluff-templater-dbt
     #   ydata-profiling
@@ -637,6 +697,9 @@ pyyaml==6.0.1
     #   dbt-semantic-interfaces
     #   dlt
     #   frictionless
+    #   langchain
+    #   langchain-community
+    #   langchain-core
     #   metricflow
     #   pandera
     #   papermill
@@ -655,7 +718,9 @@ referencing==0.35.1
     #   jsonschema
     #   jsonschema-specifications
 regex==2024.5.15
-    # via sqlfluff
+    # via
+    #   sqlfluff
+    #   tiktoken
 requests==2.32.2
     # via
     #   dagster
@@ -668,10 +733,14 @@ requests==2.32.2
     #   frictionless
     #   google-api-core
     #   gql
+    #   langchain
+    #   langchain-community
+    #   langsmith
     #   minimal-snowplow-tracker
     #   papermill
     #   requests-oauthlib
     #   requests-toolbelt
+    #   tiktoken
     #   update-checker
     #   ydata-profiling
 requests-oauthlib==2.0.0
@@ -748,6 +817,7 @@ sniffio==1.3.1
     # via
     #   anyio
     #   httpx
+    #   openai
 soupsieve==2.5
     # via beautifulsoup4
 spinners==0.0.24
@@ -757,6 +827,8 @@ sqlalchemy==2.0.30
     #   alembic
     #   dagster
     #   dlt
+    #   langchain
+    #   langchain-community
 sqlfluff==3.0.6
     # via sqlfluff-templater-dbt
 sqlfluff-templater-dbt==3.0.6
@@ -794,6 +866,9 @@ tblib==3.0.0
 tenacity==8.3.0
     # via
     #   dlt
+    #   langchain
+    #   langchain-community
+    #   langchain-core
     #   papermill
     #   plotly
 termcolor==2.4.0
@@ -802,6 +877,7 @@ text-unidecode==1.3
     # via python-slugify
 threadpoolctl==3.5.0
     # via scikit-learn
+tiktoken==0.7.0
 time-machine==2.14.1
     # via pendulum
 tinycss2==1.3.0
@@ -820,6 +896,7 @@ tqdm==4.66.4
     # via
     #   cmdstanpy
     #   dagster
+    #   openai
     #   papermill
     #   prophet
     #   sqlfluff
@@ -856,6 +933,7 @@ typing-extensions==4.11.0
     #   ipython
     #   mashumaro
     #   metricflow
+    #   openai
     #   pydantic
     #   sqlalchemy
     #   sqlfluff
@@ -863,7 +941,9 @@ typing-extensions==4.11.0
     #   typer
     #   typing-inspect
 typing-inspect==0.9.0
-    # via pandera
+    # via
+    #   dataclasses-json
+    #   pandera
 tzdata==2024.1
     # via
     #   dlt
@@ -911,7 +991,9 @@ wordcloud==1.9.3
 wrapt==1.16.0
     # via pandera
 yarl==1.9.4
-    # via gql
+    # via
+    #   aiohttp
+    #   gql
 ydata-profiling==4.6.0
 zipp==3.18.2
     # via importlib-metadata

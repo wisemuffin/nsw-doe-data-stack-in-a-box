@@ -52,3 +52,10 @@ ruff
 sqlfluff
 sqlfluff-templater-dbt
 pre-commit
+
+# open ai
+dagster
+dagster-openai
+langchain==0.1.11
+tiktoken
+faiss-cpu

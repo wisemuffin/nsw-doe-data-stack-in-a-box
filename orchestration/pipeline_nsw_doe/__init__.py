@@ -7,12 +7,14 @@ from dagster import (
     ScheduleDefinition,
     define_asset_job,
     load_assets_from_package_module,
+    EnvVar,
 )
 from dagster_dbt import DbtCliResource
 from dagster_duckdb_pandas import DuckDBPandasIOManager
 from dagster_msteams import make_teams_on_run_failure_sensor
 from dagstermill import ConfigurableLocalOutputNotebookIOManager
 from dotenv import load_dotenv
+from dagster_openai import OpenAIResource
 
 from dagster_embedded_elt.dlt import DagsterDltResource
 
@@ -22,6 +24,7 @@ from dagster_embedded_elt.dlt import DagsterDltResource
 # from .assets import iris,raw,transformation,machine_learning
 from . import assets
 from .constants import dbt_project_dir
+from . import sensors
 
 load_dotenv()
 
@@ -42,6 +45,7 @@ resources_by_env = {
         "dbt": DbtCliResource(project_dir=os.fspath(dbt_project_dir)),
         "dlt": DagsterDltResource(),
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),
+        "openai": OpenAIResource(api_key=EnvVar("OPENAI_API_KEY")),
     },
     "dev": {
         "io_manager_dw": DuckDBPandasIOManager(database=DUCKDB_PROJECT_DIR),
@@ -49,6 +53,7 @@ resources_by_env = {
         "dbt": DbtCliResource(project_dir=os.fspath(dbt_project_dir)),
         "dlt": DagsterDltResource(),
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),
+        "openai": OpenAIResource(api_key=EnvVar("OPENAI_API_KEY")),
     },
 }
 
@@ -97,6 +102,7 @@ msteams_on_run_failure = make_teams_on_run_failure_sensor(
     monitored_jobs=([etl_requiring_apis]),
 )
 
+
 schedule_etl_requiring_apis = ScheduleDefinition(
     job=etl_requiring_apis, cron_schedule="0 0 * * *"
 )
@@ -118,5 +124,5 @@ defs = Definitions(
     resources=resources_by_env[os.getenv("NSW_DOE_DATA_STACK_IN_A_BOX__ENV", "dev")],
     jobs=[etl_requiring_apis, etl_not_requiring_apis],
     schedules=[schedule_etl_requiring_apis, schedule_etl_not_requiring_apis],
-    sensors=[msteams_on_run_failure],
+    sensors=[msteams_on_run_failure, sensors.question_sensor],
 )

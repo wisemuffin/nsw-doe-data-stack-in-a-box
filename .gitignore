@@ -11,7 +11,7 @@ logs/
 TD_DIA_Lakehouse*/
 tmp*/
 README-secret.md
-
+*.pickle
 *.duckdb*
 
 transformation/demo_transformation_jaffle_shop/exports/*.csv

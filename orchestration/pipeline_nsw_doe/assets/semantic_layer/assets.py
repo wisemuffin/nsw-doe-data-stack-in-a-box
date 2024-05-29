@@ -5,7 +5,7 @@ import pandas as pd
 from dagster import asset
 from dagster_dbt import get_asset_key_for_model
 
-from ...constants import dbt_project_dir
+from ...project import nsw_doe_data_stack_in_a_box_project
 from ..transformation import nsw_doe_dbt_assets
 
 
@@ -24,10 +24,12 @@ from ..transformation import nsw_doe_dbt_assets
 )
 def metrics_by_year_saved_query() -> pd.DataFrame:
     csv_location = os.path.join(
-        dbt_project_dir, "exports", "sq-metrics-by-year-saved-query.csv"
+        nsw_doe_data_stack_in_a_box_project.project_dir,
+        "exports",
+        "sq-metrics-by-year-saved-query.csv",
     )
 
-    working_dir = dbt_project_dir
+    working_dir = nsw_doe_data_stack_in_a_box_project.project_dir
 
     command = ["dbt", "docs", "generate"]
     subprocess.check_call(command, cwd=working_dir)
@@ -68,10 +70,12 @@ def metrics_by_year_saved_query() -> pd.DataFrame:
 )
 def metrics_by_year_school_saved_query() -> pd.DataFrame:
     csv_location = os.path.join(
-        dbt_project_dir, "exports", "sq-metrics-by-year-school-saved-query.csv"
+        nsw_doe_data_stack_in_a_box_project.project_dir,
+        "exports",
+        "sq-metrics-by-year-school-saved-query.csv",
     )
 
-    working_dir = dbt_project_dir
+    working_dir = nsw_doe_data_stack_in_a_box_project.project_dir
 
     command = ["dbt", "docs", "generate"]
     subprocess.check_call(command, cwd=working_dir)

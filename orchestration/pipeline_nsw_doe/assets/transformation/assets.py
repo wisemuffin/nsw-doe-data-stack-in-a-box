@@ -8,7 +8,7 @@ from dagster_dbt import (
     dbt_assets,
 )
 
-from ...constants import dbt_manifest_path
+from ...project import nsw_doe_data_stack_in_a_box_project
 
 
 class CustomDagsterDbtTranslator(DagsterDbtTranslator):
@@ -28,7 +28,7 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
 
 
 @dbt_assets(
-    manifest=dbt_manifest_path,
+    manifest=nsw_doe_data_stack_in_a_box_project.manifest_path,
     dagster_dbt_translator=CustomDagsterDbtTranslator(
         settings=DagsterDbtTranslatorSettings(
             enable_asset_checks=True, enable_duplicate_source_asset_keys=True
@@ -65,7 +65,7 @@ class CustomDagsterDbtTranslatorAPIRequired(DagsterDbtTranslator):
 
 
 @dbt_assets(
-    manifest=dbt_manifest_path,
+    manifest=nsw_doe_data_stack_in_a_box_project.manifest_path,
     dagster_dbt_translator=CustomDagsterDbtTranslatorAPIRequired(
         settings=DagsterDbtTranslatorSettings(
             enable_asset_checks=True, enable_duplicate_source_asset_keys=True

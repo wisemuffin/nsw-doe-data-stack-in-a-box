@@ -4,7 +4,7 @@ on:
     branches:
       - "main"
       - "master"
-    
+
 concurrency:
   # Cancel in-progress deploys to same branch
   group: ${{ github.ref }}/deploy
@@ -13,8 +13,25 @@ env:
   DAGSTER_CLOUD_URL: "http://wisemuffin.dagster.cloud"
   DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}
   ENABLE_FAST_DEPLOYS: 'true'
-  PYTHON_VERSION: '3.8'
+  PYTHON_VERSION: '3.11'
   DAGSTER_CLOUD_FILE: 'dagster_cloud.yaml'
+
+  NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR:    ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR:        ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR }}
+
+  NSW_DOE_DATA_STACK_IN_A_BOX__ENV:                   ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX__ENV }}
+
+  NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB:         ${{ secrets.NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME:                ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA:          ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }}
+
+  MOTHERDUCK_TOKEN:                                   ${{ secrets.MOTHERDUCK_TOKEN }}
+  DATAFOLD_APIKEY:                                    ${{ secrets.DATAFOLD_APIKEY }}
+
+  DAGSTER_HOME:                                       ${{ vars.DAGSTER_HOME }}
+
+  AWS_ROLE_TO_ASSUME:                                 ${{ secrets.AWS_ROLE_TO_ASSUME }}
+  S3_BUCKET_METADATA:                                 ${{ secrets.S3_BUCKET_METADATA }}
 
 jobs:
   dagster_cloud_default_deploy:
@@ -22,7 +39,7 @@ jobs:
     runs-on: ubuntu-20.04
     outputs:
       build_info: ${{ steps.parse-workspace.outputs.build_info }}
-    
+
     steps:
       - name: Prerun Checks
         id: prerun
@@ -41,7 +58,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           path: project-repo
-          
+
       - name: Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/build_deploy_python_executable@v0.1
@@ -77,4 +94,3 @@ jobs:
           organization_id: ${{ secrets.ORGANIZATION_ID }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

@@ -39,7 +39,10 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           path: project-repo
-
+      - name: Dbt checks
+        run: |
+          cd ${{github.workspace}}/transformation/transformation_nsw_doe
+          dbt deps
       - name: Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/build_deploy_python_executable@v0.1

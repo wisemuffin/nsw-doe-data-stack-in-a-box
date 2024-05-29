@@ -25,6 +25,10 @@ jobs:
       build_info: ${{ steps.parse-workspace.outputs.build_info }}
 
     steps:
+      - name: Set ACTION_REPO
+        run: >
+          echo "ACTION_REPO=$GITHUB_ACTION_PATH/../../" >> $GITHUB_ENV
+        shell: bash
       - name: Prerun Checks
         id: prerun
         uses: dagster-io/dagster-cloud-action/actions/utils/prerun@v0.1
@@ -49,6 +53,10 @@ jobs:
           echo /n
           echo ${{ github.workspace }}
           cd ${{ github.workspace }}/transformation/transformation_nsw_doe
+          cd $ACTION_REPO//transformation/transformation_nsw_doe
+          pwd
+          ls
+          echo /n
           dbt deps
       - name: Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'

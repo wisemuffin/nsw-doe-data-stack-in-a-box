@@ -105,12 +105,15 @@ cryptography==42.0.7
     # via
     #   jwt
     #   noteable-origami
+    #   pyjwt
 cycler==0.12.1
     # via matplotlib
 dacite==1.8.1
     # via ydata-profiling
 dagster==1.7.6
     # via
+    #   dagster-cloud
+    #   dagster-cloud-cli
     #   dagster-dbt
     #   dagster-duckdb
     #   dagster-duckdb-pandas
@@ -120,6 +123,9 @@ dagster==1.7.6
     #   dagster-openai
     #   dagster-webserver
     #   dagstermill
+dagster-cloud==1.7.6
+dagster-cloud-cli==1.7.6
+    # via dagster-cloud
 dagster-dbt==0.23.6
 dagster-duckdb==0.23.6
     # via dagster-duckdb-pandas
@@ -207,6 +213,8 @@ fsspec==2024.5.0
     #   universal-pathlib
 gitdb==4.0.11
     # via gitpython
+github3-py==4.0.1
+    # via dagster-cloud-cli
 gitpython==3.1.43
     # via dlt
 giturlparse==0.12.0
@@ -522,6 +530,7 @@ packaging==23.2
     # via
     #   black
     #   dagster
+    #   dagster-cloud-cli
     #   dagster-dbt
     #   dagstermill
     #   dbt-core
@@ -576,6 +585,8 @@ pendulum==3.0.0
     #   dlt
 petl==1.7.15
     # via frictionless
+pex==2.3.1
+    # via dagster-cloud
 pexpect==4.9.0
     # via ipython
 phik==0.12.4
@@ -600,7 +611,9 @@ ply==3.11
     # via jsonpath-ng
 pre-commit==3.7.1
 prompt-toolkit==3.0.43
-    # via ipython
+    # via
+    #   ipython
+    #   questionary
 prophet==1.1.5
 proto-plus==1.23.0
     # via
@@ -652,6 +665,8 @@ pygments==2.18.0
     #   ipython
     #   nbconvert
     #   rich
+pyjwt==2.8.0
+    # via github3-py
 pyparsing==3.1.2
     # via
     #   httplib2
@@ -664,6 +679,7 @@ python-dateutil==2.8.2
     #   dagster
     #   dbt-semantic-interfaces
     #   frictionless
+    #   github3-py
     #   holidays
     #   jupyter-client
     #   matplotlib
@@ -693,6 +709,7 @@ pywavelets==1.6.0
 pyyaml==6.0.1
     # via
     #   dagster
+    #   dagster-cloud-cli
     #   dbt-core
     #   dbt-semantic-interfaces
     #   dlt
@@ -711,6 +728,10 @@ pyzmq==26.0.3
     # via
     #   ipykernel
     #   jupyter-client
+questionary==1.10.0
+    # via
+    #   dagster-cloud
+    #   dagster-cloud-cli
 rapidfuzz==3.9.1
     # via metricflow
 referencing==0.35.1
@@ -724,6 +745,8 @@ regex==2024.5.15
 requests==2.32.2
     # via
     #   dagster
+    #   dagster-cloud
+    #   dagster-cloud-cli
     #   dagster-dbt
     #   dagster-graphql
     #   dagster-msteams
@@ -731,6 +754,7 @@ requests==2.32.2
     #   dbterd
     #   dlt
     #   frictionless
+    #   github3-py
     #   google-api-core
     #   gql
     #   langchain
@@ -919,6 +943,8 @@ typeguard==4.2.1
     #   ydata-profiling
 typer==0.12.3
     # via
+    #   dagster-cloud
+    #   dagster-cloud-cli
     #   dagster-dbt
     #   frictionless
 types-setuptools==69.5.0.20240519
@@ -953,7 +979,9 @@ universal-pathlib==0.2.2
 update-checker==0.18.0
     # via metricflow
 uritemplate==4.1.1
-    # via google-api-python-client
+    # via
+    #   github3-py
+    #   google-api-python-client
 urllib3==1.26.18
     # via
     #   dbt-core

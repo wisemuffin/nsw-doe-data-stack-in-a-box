@@ -12,6 +12,7 @@ dagster-duckdb-pandas
 dagster-webserver
 dagstermill
 papermill-origami>=0.0.8
+dagster-cloud
 
 # data schema validation
 pandera

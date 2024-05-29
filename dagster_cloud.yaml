@@ -1,0 +1,7 @@
+locations:
+  - code_source:
+      package_name: pipeline_nsw_doe
+    location_name: nsw-doe-data-stack-in-a-box
+    build:
+        directory: .
+    working_directory: ./orchestration

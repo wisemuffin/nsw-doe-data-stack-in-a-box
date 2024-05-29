@@ -33,6 +33,8 @@ env:
   AWS_ROLE_TO_ASSUME:                                 ${{ secrets.AWS_ROLE_TO_ASSUME }}
   S3_BUCKET_METADATA:                                 ${{ secrets.S3_BUCKET_METADATA }}
 
+  GITHUB_WORKSPACE:                                   ${{ secrets.VIRTUAL_ENV }}"/lib/"${{ secrets.PYTHON_VERSION }}"/site-packages/working_directory/root"
+
 jobs:
   dagster_cloud_default_deploy:
     name: Dagster Serverless Deploy

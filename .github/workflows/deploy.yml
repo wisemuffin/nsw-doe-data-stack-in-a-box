@@ -44,7 +44,9 @@ jobs:
           path: project-repo
       - name: Dbt checks
         run: |
-          echo pwd
+          pwd
+          ls
+          echo /n
           echo ${{ github.workspace }}
           cd ${{ github.workspace }}/transformation/transformation_nsw_doe
           dbt deps

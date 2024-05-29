@@ -2,7 +2,7 @@ nsw_doe_data_stack_in_a_box_profile:
   outputs:
     dev:
       type: duckdb
-      path: "{{ env_var('GITHUB_WORKSPACE') }}/{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB') }}"
+      path: "../../{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB') }}"
       database: "{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME') }}"
       schema: "{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA') }}"
       threads: 4

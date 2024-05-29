@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 from dagster import (
     AssetSelection,
@@ -31,9 +32,10 @@ load_dotenv()
 NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB = os.getenv(
     "NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB"
 )
-DUCKDB_PROJECT_DIR = os.path.join(
-    os.environ["GITHUB_WORKSPACE"],
-    os.environ["NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB"],
+DUCKDB_PROJECT_DIR = str(
+    Path(__file__).parent.parent.parent.joinpath(
+        os.environ["NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB"]
+    )
 )
 
 resources_by_env = {

@@ -10,9 +10,10 @@ from dagster_dbt import DbtCliResource
 
 
 # dbt_project_dir = Path(__file__).joinpath("..", "..", "..", "transformation","transformation_nsw_doe").resolve()
-dbt_project_dir = os.path.join(
-    os.environ["GITHUB_WORKSPACE"],
-    os.environ["NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR"],
+dbt_project_dir = str(
+    Path(__file__).parent.parent.parent.joinpath(
+        os.environ["NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR"]
+    )
 )
 dbt = DbtCliResource(project_dir=dbt_project_dir)
 

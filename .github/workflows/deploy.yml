@@ -112,11 +112,17 @@ jobs:
 
       - name: dave test
         run: |
-          cd $ACTION_REPO
-          echo ls
+          echo GITHUB_ACTION_PATH
+          cd $GITHUB_ACTION_PATH
+          pwd
           ls
-          echo cd src
-          cd src
+          echo cd ..
+          pwd
+          cd ..
+          ls
+          echo cd ..
+          pwd
+          cd ..
           ls
           echo cat deploy_pex.py
           cat deploy_pex.py

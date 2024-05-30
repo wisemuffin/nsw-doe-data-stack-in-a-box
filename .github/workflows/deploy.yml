@@ -65,10 +65,15 @@ jobs:
       - name: Prepare DBT project for deployment
         if: steps.prerun.outputs.result == 'pex-deploy'
         # --upgrade-strategy eager picks up newer packages that are required for things to work
+        # pip install pip --upgrade
+        # cd ./${{ env.DAGSTER_PROJECT_NAME }}
+        # pip install . --upgrade --upgrade-strategy eager
+
         run: |
-          pip install pip --upgrade
+          python3 -m pip install uv
+          uv pip install requirements.txt
           cd ./${{ env.DAGSTER_PROJECT_NAME }}
-          pip install . --upgrade --upgrade-strategy eager
+          uv pip install .
           dagster-dbt project prepare-for-deployment --file ${{ env.DAGSTER_PROJECT_NAME }}/project.py
           # The cli command below can be used to manage syncing the prod manifest to branches if state_path is set on the DbtProject
           # dagster-cloud ci dagster-dbt project manage-state --file ${{ env.DAGSTER_PROJECT_NAME }}/project.py

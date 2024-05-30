@@ -14,14 +14,48 @@ env:
   PYTHON_VERSION: '3.11'
   DAGSTER_CLOUD_FILE: 'dagster_cloud.yaml'
 
+  DAGSTER_CLOUD_ORGANIZATION: "wisemuffin"
+  DAGSTER_PROJECT_NAME: pipeline_nsw_doe
+
+  NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR:    ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR:        ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR }}
+
+  NSW_DOE_DATA_STACK_IN_A_BOX__ENV:                   ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX__ENV }}
+
+  NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB:         ${{ secrets.NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME:                ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA:          ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }}__pr_$(date +%s)
+
+  MOTHERDUCK_TOKEN:                                   ${{ secrets.MOTHERDUCK_TOKEN }}
+  DATAFOLD_APIKEY:                                    ${{ secrets.DATAFOLD_APIKEY }}
+
+  DAGSTER_HOME:                                       ${{ vars.DAGSTER_HOME }}
+
+  AWS_ROLE_TO_ASSUME:                                 ${{ secrets.AWS_ROLE_TO_ASSUME }}
+  S3_BUCKET_METADATA:                                 ${{ secrets.S3_BUCKET_METADATA }}
+
+  DESTINATION__DUCKDB__CREDENTIALS:                   ${{ secrets.DESTINATION__DUCKDB__CREDENTIALS }}
+
+  SOURCES__GITHUB__ACCESS_TOKEN:                      ${{ secrets.SOURCES__GITHUB__ACCESS_TOKEN }}
+
+  SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PROJECT_ID: ${{ secrets.SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PROJECT_ID }}
+  SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__CLIENT_EMAIL: ${{ secrets.SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__CLIENT_EMAIL }}
+  SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PRIVATE_KEY:  ${{ secrets.SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PRIVATE_KEY }}
+  SOURCES__GOOGLE_ANALYTICS__PROPERTY_ID:             ${{ secrets.SOURCES__GOOGLE_ANALYTICS__PROPERTY_ID }}
+
 jobs:
   dagster_cloud_default_deploy:
     name: Dagster Serverless Deploy
     runs-on: ubuntu-20.04
+    environment: test
     outputs:
       build_info: ${{ steps.parse-workspace.outputs.build_info }}
 
     steps:
+      - name: Setup Python
+        uses: actions/setup-python@v5.0.0
+        with:
+          python-version: "3.11.x"
       - name: Prerun Checks
         id: prerun
         uses: dagster-io/dagster-cloud-action/actions/utils/prerun@v0.1
@@ -39,10 +73,34 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           path: project-repo
-      - name: Dbt checks
+
+      - name: Validate configuration
+        id: ci-validate
+        if: steps.prerun.outputs.result == 'pex-deploy'
+        uses: dagster-io/dagster-cloud-action/actions/utils/dagster-cloud-cli@v0.1
+        with:
+          command: "ci check --project-dir project-repo --dagster-cloud-yaml-path ${{ env.DAGSTER_CLOUD_FILE }}"
+
+      - name: Initialize build session
+        id: ci-init
+        if: steps.prerun.outputs.result == 'pex-deploy'
+        uses: dagster-io/dagster-cloud-action/actions/utils/ci-init@v0.1
+        with:
+          project_dir: project-repo
+          dagster_cloud_yaml_path: ${{ env.DAGSTER_CLOUD_FILE }}
+
+      - name: Prepare DBT project for deployment
+        if: steps.prerun.outputs.result == 'pex-deploy'
+        # --upgrade-strategy eager picks up newer packages that are required for things to work
         run: |
-          cd ${{github.workspace}}/transformation/transformation_nsw_doe
-          dbt deps
+          pip install pip --upgrade
+          cd project-repo/${{ env.DAGSTER_PROJECT_NAME }}
+          pip install . --upgrade --upgrade-strategy eager
+          dagster-dbt project prepare-for-deployment --file ${{ env.DAGSTER_PROJECT_NAME }}/project.py
+          # The cli command below can be used to manage syncing the prod manifest to branches if state_path is set on the DbtProject
+          # dagster-cloud ci dagster-dbt project manage-state --file ${{ env.DAGSTER_PROJECT_NAME }}/project.py
+        shell: bash
+
       - name: Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/build_deploy_python_executable@v0.1

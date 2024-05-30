@@ -17,7 +17,8 @@ env:
   DAGSTER_CLOUD_FILE: 'dagster_cloud.yaml'
 
   DAGSTER_CLOUD_ORGANIZATION: "wisemuffin"
-  DAGSTER_PROJECT_NAME: ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}/pipeline_nsw_doe
+  DAGSTER_TOP_LEVEL_PROJECT: ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}
+  DAGSTER_PROJECT_NAME: pipeline_nsw_doe
 
 
 jobs:
@@ -68,10 +69,6 @@ jobs:
 
       - name: Prepare DBT project for deployment
         if: steps.prerun.outputs.result == 'pex-deploy'
-        # --upgrade-strategy eager picks up newer packages that are required for things to work
-        # pip install pip --upgrade
-        # cd ./${{ env.DAGSTER_PROJECT_NAME }}
-        # pip install . --upgrade --upgrade-strategy eager
 
         run: |
           python -m pip install uv
@@ -79,12 +76,11 @@ jobs:
           source .venv/bin/activate
           # currently requirements.txt is stored at total project level one level above dagster project
           uv pip install -r requirements.txt
-          cd ./${{ env.DAGSTER_PROJECT_NAME }}
-          cd ..
+          cd ./${{ env.DAGSTER_TOP_LEVEL_PROJECT }}
           uv pip install .
-          dagster-dbt project prepare-for-deployment --file ${{ env.DAGSTER_PROJECT_NAME }}/project.py
+          dagster-dbt project prepare-for-deployment --file ./${{ env.DAGSTER_PROJECT_NAME }}/project.py
           # The cli command below can be used to manage syncing the prod manifest to branches if state_path is set on the DbtProject
-          # dagster-cloud ci dagster-dbt project manage-state --file ${{ env.DAGSTER_PROJECT_NAME }}/project.py
+          # dagster-cloud ci dagster-dbt project manage-state --file ./${{ env.DAGSTER_PROJECT_NAME }}/project.py
         shell: bash
 
       - name: Python Executable Deploy

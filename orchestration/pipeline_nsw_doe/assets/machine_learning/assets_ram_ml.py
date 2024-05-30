@@ -26,7 +26,7 @@ import numpy as np
 
 # example of getting dagster asset when developing locally
 # from dagster import AssetKey
-# from orchestration.pipeline_nsw_doe import defs
+# from pipeline_nsw_doe import defs
 # metrics_by_year_school_saved_query = defs.load_asset_value(AssetKey(['analytics','metrics_by_year_school_saved_query']))
 
 

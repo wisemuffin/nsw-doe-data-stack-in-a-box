@@ -70,7 +70,7 @@
 
 	"containerEnv": {
 		// use a .env file outside of source control to store secrets or via repo secrets
-    "PYTHONPATH": "/workspaces/nsw-doe-data-stack-in-a-box",
+    "PYTHONPATH": "/workspaces/nsw-doe-data-stack-in-a-box/orchestration",
     "GITHUB_WORKSPACE":                 "/workspaces/nsw-doe-data-stack-in-a-box",
     "NSW_DOE_DATA_STACK_IN_A_BOX__ENV": "dev",
     "NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR":  "orchestration",

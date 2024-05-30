@@ -7,7 +7,7 @@ from dagster import (
     asset,
 )
 
-from orchestration.pipeline_nsw_doe.factory import pandera_schema_to_dagster_type
+from pipeline_nsw_doe.factory import pandera_schema_to_dagster_type
 
 from .schema_masterdataset import schema as schema_masterdataset
 from .schema_ram import schema as schema_ram

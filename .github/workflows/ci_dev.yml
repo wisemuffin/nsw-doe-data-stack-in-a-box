@@ -66,7 +66,7 @@ jobs:
       # required to set path for pytest
       - name: set pythonpath
         run: |
-          echo "PYTHONPATH="$GITHUB_WORKSPACE >> $GITHUB_ENV
+          echo "PYTHONPATH="$GITHUB_WORKSPACE/orchestration >> $GITHUB_ENV
       - name: pytest
         run: cd ${{github.workspace}}/orchestration && pytest
       # - name: Build Evidence

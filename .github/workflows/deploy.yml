@@ -97,7 +97,7 @@ jobs:
 
         # add project to python path to enable imports for dagster being in a child directory
         run: |
-          echo "PYTHONPATH="pwd >> $GITHUB_ENV
+          # echo "PYTHONPATH="pwd >> $GITHUB_ENV
           python -m pip install uv
           uv venv
           source .venv/bin/activate
@@ -110,22 +110,26 @@ jobs:
           # dagster-cloud ci dagster-dbt project manage-state --file ./${{ env.DAGSTER_PROJECT_NAME }}/project.py
         shell: bash
 
-      - name: dave test
-        run: |
-          echo GITHUB_ACTION_PATH
-          cd $GITHUB_ACTION_PATH
-          pwd
-          ls
-          echo cd ..
-          pwd
-          cd ..
-          ls
-          echo cd ..
-          pwd
-          cd ..
-          ls
-          echo cat deploy_pex.py
-          cat deploy_pex.py
+      # - name: dave test
+      #   run: |
+      #     echo "PYTHONPATH="$GITHUB_WORKSPACE >> $GITHUB_ENV
+
+      # - name: dave test
+      #   run: |
+      #     echo GITHUB_ACTION_PATH
+      #     cd $GITHUB_ACTION_PATH
+      #     pwd
+      #     ls
+      #     echo cd ..
+      #     pwd
+      #     cd ..
+      #     ls
+      #     echo cd ..
+      #     pwd
+      #     cd ..
+      #     ls
+      #     echo cat deploy_pex.py
+      #     cat deploy_pex.py
 
       - name: Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'

@@ -4,14 +4,13 @@ from pathlib import Path
 
 GITHUB_WORKSPACE = os.getenv("GITHUB_WORKSPACE")
 
-# if GITHUB_WORKSPACE:
-#     requirements = Path(GITHUB_WORKSPACE).joinpath("requirements.txt")
-# else:
-#     requirements = Path(__file__).parent.joinpath("..", "requirements.txt")
+if GITHUB_WORKSPACE:
+    requirements = Path(GITHUB_WORKSPACE).joinpath("requirements.txt")
+else:
+    requirements = Path(__file__).parent.joinpath("..", "requirements.txt")
 
 # print(requirements)
 
-requirements = Path(__file__).parent.joinpath("..", "requirements.txt")
 
 with open(requirements) as f:
     install_requires = f.read().splitlines()

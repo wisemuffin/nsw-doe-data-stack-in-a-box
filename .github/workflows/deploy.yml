@@ -70,7 +70,9 @@ jobs:
         # pip install . --upgrade --upgrade-strategy eager
 
         run: |
-          python3 -m pip install uv
+          python -m pip install uv
+          python3 --version
+          python --version
           uv venv
           source .venv/bin/activate
           uv pip install -r requirements.txt

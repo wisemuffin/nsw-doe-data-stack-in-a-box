@@ -17,7 +17,7 @@ env:
   DAGSTER_CLOUD_FILE: 'dagster_cloud.yaml'
 
   DAGSTER_CLOUD_ORGANIZATION: "wisemuffin"
-  DAGSTER_PROJECT_NAME: ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}
+  DAGSTER_PROJECT_NAME: ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}/pipeline_nsw_doe
 
 
 jobs:
@@ -75,12 +75,12 @@ jobs:
 
         run: |
           python -m pip install uv
-          python3 --version
-          python --version
           uv venv
           source .venv/bin/activate
+          # currently requirements.txt is stored at total project level one level above dagster project
           uv pip install -r requirements.txt
           cd ./${{ env.DAGSTER_PROJECT_NAME }}
+          cd ..
           uv pip install .
           dagster-dbt project prepare-for-deployment --file ${{ env.DAGSTER_PROJECT_NAME }}/project.py
           # The cli command below can be used to manage syncing the prod manifest to branches if state_path is set on the DbtProject

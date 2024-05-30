@@ -67,7 +67,17 @@ jobs:
         # --upgrade-strategy eager picks up newer packages that are required for things to work
         run: |
           pip install pip --upgrade
-          cd project-repo
+          cd project-repo/${{ env.DAGSTER_PROJECT_NAME }}
+          pwd
+          ls
+          cd ..
+          pwd
+          ls
+          echo $GITHUB_WORKSPACE
+          cd $GITHUB_WORKSPACE
+          pwd
+          ls
+          cd project-repo/${{ env.DAGSTER_PROJECT_NAME }}
           pip install . --upgrade --upgrade-strategy eager
           dagster-dbt project prepare-for-deployment --file ${{ env.DAGSTER_PROJECT_NAME }}/project.py
           # The cli command below can be used to manage syncing the prod manifest to branches if state_path is set on the DbtProject

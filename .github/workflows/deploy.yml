@@ -58,10 +58,6 @@ jobs:
         uses: actions/setup-python@v5.0.0
         with:
           python-version: "3.11.x"
-      - name: set pythonpath
-        # add project to python path to enable imports for dagster being in a child directory
-        run: |
-          echo "PYTHONPATH="$GITHUB_WORKSPACE >> $GITHUB_ENV
       - name: Prerun Checks
         id: prerun
         uses: dagster-io/dagster-cloud-action/actions/utils/prerun@v0.1
@@ -99,7 +95,9 @@ jobs:
       - name: Prepare DBT project for deployment
         if: steps.prerun.outputs.result == 'pex-deploy'
 
+        # add project to python path to enable imports for dagster being in a child directory
         run: |
+          echo "PYTHONPATH="pwd >> $GITHUB_ENV
           python -m pip install uv
           uv venv
           source .venv/bin/activate

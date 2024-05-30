@@ -28,6 +28,10 @@ jobs:
       build_info: ${{ steps.parse-workspace.outputs.build_info }}
 
     steps:
+      - name: Setup Python
+        uses: actions/setup-python@v5.0.0
+        with:
+          python-version: "3.11.x"
       - name: Prerun Checks
         id: prerun
         uses: dagster-io/dagster-cloud-action/actions/utils/prerun@v0.1

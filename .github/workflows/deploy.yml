@@ -68,6 +68,18 @@ jobs:
         run: |
           pip install pip --upgrade
           cd project-repo/${{ env.DAGSTER_PROJECT_NAME }}
+          pwd
+          ll
+          cd ..
+          pwd
+          ll
+          cd ..
+          pwd
+          ll
+          cd ..
+          pwd
+          ll
+          cd project-repo/${{ env.DAGSTER_PROJECT_NAME }}
           pip install . --upgrade --upgrade-strategy eager
           dagster-dbt project prepare-for-deployment --file ${{ env.DAGSTER_PROJECT_NAME }}/project.py
           # The cli command below can be used to manage syncing the prod manifest to branches if state_path is set on the DbtProject

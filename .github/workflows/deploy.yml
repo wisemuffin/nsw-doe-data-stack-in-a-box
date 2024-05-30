@@ -49,6 +49,7 @@ jobs:
   dagster_cloud_default_deploy:
     name: Dagster Serverless Deploy
     runs-on: ubuntu-20.04
+    environment: prod
     outputs:
       build_info: ${{ steps.parse-workspace.outputs.build_info }}
 

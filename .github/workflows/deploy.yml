@@ -69,16 +69,16 @@ jobs:
           pip install pip --upgrade
           cd project-repo/${{ env.DAGSTER_PROJECT_NAME }}
           pwd
-          ll
+          ls
           cd ..
           pwd
-          ll
+          ls
           cd ..
           pwd
-          ll
+          ls
           cd ..
           pwd
-          ll
+          ls
           cd project-repo/${{ env.DAGSTER_PROJECT_NAME }}
           pip install . --upgrade --upgrade-strategy eager
           dagster-dbt project prepare-for-deployment --file ${{ env.DAGSTER_PROJECT_NAME }}/project.py

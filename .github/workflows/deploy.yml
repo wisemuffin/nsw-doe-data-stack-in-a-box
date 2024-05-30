@@ -110,6 +110,17 @@ jobs:
           # dagster-cloud ci dagster-dbt project manage-state --file ./${{ env.DAGSTER_PROJECT_NAME }}/project.py
         shell: bash
 
+      - name: dave test
+        run: |
+          cd $ACTION_REPO
+          echo ls
+          ls
+          echo cd src
+          cd src
+          ls
+          echo cat deploy_pex.py
+          cat deploy_pex.py
+
       - name: Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/build_deploy_python_executable@v0.1

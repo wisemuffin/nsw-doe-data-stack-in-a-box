@@ -71,6 +71,9 @@ jobs:
 
         run: |
           python3 -m pip install uv
+          uv venv
+          source .venv/bin/activate
+          uv pip install -r requirements.txt
           cd ./${{ env.DAGSTER_PROJECT_NAME }}
           uv pip install .
           dagster-dbt project prepare-for-deployment --file ${{ env.DAGSTER_PROJECT_NAME }}/project.py

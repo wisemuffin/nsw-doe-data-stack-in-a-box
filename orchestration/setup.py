@@ -1,8 +1,11 @@
 from setuptools import find_packages, setup
+from pathlib import Path
 
-with open("../../requirements.txt") as f:
+
+requirements = Path(__file__).parent.joinpath("..", "requirements.txt")
+
+with open(requirements) as f:
     install_requires = f.read().splitlines()
-
 
 setup(
     name="cese_dia_dagster",

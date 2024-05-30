@@ -44,21 +44,21 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
-          path: project-repo
+          path: .
 
       - name: Validate configuration
         id: ci-validate
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/utils/dagster-cloud-cli@v0.1
         with:
-          command: "ci check --project-dir project-repo --dagster-cloud-yaml-path ${{ env.DAGSTER_CLOUD_FILE }}"
+          command: "ci check --project-dir . --dagster-cloud-yaml-path ${{ env.DAGSTER_CLOUD_FILE }}"
 
       - name: Initialize build session
         id: ci-init
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/utils/ci-init@v0.1
         with:
-          project_dir: project-repo
+          project_dir: .
           dagster_cloud_yaml_path: ${{ env.DAGSTER_CLOUD_FILE }}
           deployment: 'prod'
 
@@ -67,17 +67,7 @@ jobs:
         # --upgrade-strategy eager picks up newer packages that are required for things to work
         run: |
           pip install pip --upgrade
-          cd project-repo/${{ env.DAGSTER_PROJECT_NAME }}
-          pwd
-          ls
-          cd ..
-          pwd
-          ls
-          echo $GITHUB_WORKSPACE
-          cd $GITHUB_WORKSPACE
-          pwd
-          ls
-          cd project-repo/${{ env.DAGSTER_PROJECT_NAME }}
+          cd ./${{ env.DAGSTER_PROJECT_NAME }}
           pip install . --upgrade --upgrade-strategy eager
           dagster-dbt project prepare-for-deployment --file ${{ env.DAGSTER_PROJECT_NAME }}/project.py
           # The cli command below can be used to manage syncing the prod manifest to branches if state_path is set on the DbtProject
@@ -88,7 +78,7 @@ jobs:
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/build_deploy_python_executable@v0.1
         with:
-          dagster_cloud_file: "$GITHUB_WORKSPACE/project-repo/$DAGSTER_CLOUD_FILE"
+          dagster_cloud_file: "$GITHUB_WORKSPACE/$DAGSTER_CLOUD_FILE"
           build_output_dir: "$GITHUB_WORKSPACE/build"
           python_version: "${{ env.PYTHON_VERSION }}"
         env:

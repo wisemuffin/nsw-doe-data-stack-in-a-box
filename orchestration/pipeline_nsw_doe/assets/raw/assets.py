@@ -163,3 +163,9 @@ def raw__acara__student_numbers():
 
 
 # %%
+@asset(
+    compute_kind="python",
+    key_prefix=["raw"],
+)
+def raw_testing_dagster_plus_branch_deploy():
+    return [1, 2, 3]

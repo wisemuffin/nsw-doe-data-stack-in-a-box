@@ -79,33 +79,38 @@ jobs:
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/utils/dagster-cloud-cli@v0.1
         with:
-          command: "ci check --project-dir project-repo --dagster-cloud-yaml-path ${{ env.DAGSTER_CLOUD_FILE }}"
+          command: "ci check --project-dir . --dagster-cloud-yaml-path ${{ env.DAGSTER_CLOUD_FILE }}"
 
       - name: Initialize build session
         id: ci-init
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/utils/ci-init@v0.1
         with:
-          project_dir: project-repo
+          project_dir: .
           dagster_cloud_yaml_path: ${{ env.DAGSTER_CLOUD_FILE }}
 
       - name: Prepare DBT project for deployment
         if: steps.prerun.outputs.result == 'pex-deploy'
         # --upgrade-strategy eager picks up newer packages that are required for things to work
         run: |
-          pip install pip --upgrade
-          cd project-repo/${{ env.DAGSTER_PROJECT_NAME }}
-          pip install . --upgrade --upgrade-strategy eager
-          dagster-dbt project prepare-for-deployment --file ${{ env.DAGSTER_PROJECT_NAME }}/project.py
+          # echo "PYTHONPATH="pwd >> $GITHUB_ENV
+          python -m pip install uv
+          uv venv
+          source .venv/bin/activate
+          # currently requirements.txt is stored at total project level one level above dagster project
+          uv pip install -r requirements.txt
+          cd ./${{ env.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}
+          uv pip install .
+          dagster-dbt project prepare-for-deployment --file ./${{ env.DAGSTER_PROJECT_NAME }}/project.py
           # The cli command below can be used to manage syncing the prod manifest to branches if state_path is set on the DbtProject
-          # dagster-cloud ci dagster-dbt project manage-state --file ${{ env.DAGSTER_PROJECT_NAME }}/project.py
+          # dagster-cloud ci dagster-dbt project manage-state --file ./${{ env.DAGSTER_PROJECT_NAME }}/project.py
         shell: bash
 
       - name: Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/build_deploy_python_executable@v0.1
         with:
-          dagster_cloud_file: "$GITHUB_WORKSPACE/project-repo/$DAGSTER_CLOUD_FILE"
+          dagster_cloud_file: "$GITHUB_WORKSPACE/$DAGSTER_CLOUD_FILE"
           build_output_dir: "$GITHUB_WORKSPACE/build"
           python_version: "${{ env.PYTHON_VERSION }}"
         env:

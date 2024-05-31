@@ -160,6 +160,3 @@ def raw__acara__student_numbers():
     df["_source"] = url
 
     yield Output(df, metadata={"num_rows": df.shape[0]})
-
-
-# %%

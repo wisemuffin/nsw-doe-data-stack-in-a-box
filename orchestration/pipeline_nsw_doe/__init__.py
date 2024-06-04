@@ -19,6 +19,8 @@ from dagster_openai import OpenAIResource
 
 from dagster_embedded_elt.dlt import DagsterDltResource
 
+from dagster_aws.s3 import S3PickleIOManager, S3Resource
+
 
 # from dagster_airbyte import airbyte_resource
 # from .assets import jaffle_shop_dbt_assets,raw_customers_py,raw_orders_py,raw_payments_py,iris_dataset,iris_dataset_test_to_remove #,csv_to_onelake_asset
@@ -37,13 +39,36 @@ DUCKDB_PROJECT_DIR = str(
         os.environ["NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB"]
     )
 )
+NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA = os.getenv(
+    "NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB"
+)
+
+S3_BUCKET_METADATA = os.getenv("S3_BUCKET_METADATA")
 
 resources_by_env = {
     "prod": {
         "io_manager_dw": DuckDBPandasIOManager(
             database=f"{NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB}",
         ),
-        "io_manager": FilesystemIOManager(),
+        "io_manager": S3PickleIOManager(
+            s3_resource=S3Resource(),
+            s3_bucket=f"{S3_BUCKET_METADATA}",
+            s3_prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA}",
+        ),
+        "dbt": DbtCliResource(project_dir=nsw_doe_data_stack_in_a_box_project),
+        "dlt": DagsterDltResource(),
+        "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),
+        "openai": OpenAIResource(api_key=EnvVar("OPENAI_API_KEY")),
+    },
+    "test": {
+        "io_manager_dw": DuckDBPandasIOManager(
+            database=f"{NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB}",
+        ),
+        "io_manager": S3PickleIOManager(
+            s3_resource=S3Resource(),
+            s3_bucket=f"{S3_BUCKET_METADATA}",
+            s3_prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA}",
+        ),
         "dbt": DbtCliResource(project_dir=nsw_doe_data_stack_in_a_box_project),
         "dlt": DagsterDltResource(),
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),

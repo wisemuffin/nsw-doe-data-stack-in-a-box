@@ -68,6 +68,7 @@ assets_requiring_apis = (
     AssetSelection.groups("raw_google_analytics")
     | AssetSelection.groups("raw_github")
     | AssetSelection.groups("transformation_requires_api")
+    | AssetSelection.groups("OpenAI_Demo")
 )
 assets_not_requiring_apis = AssetSelection.all() - assets_requiring_apis
 
@@ -87,7 +88,7 @@ etl_not_requiring_apis = define_asset_job(
 
 etl_requiring_apis = define_asset_job(
     name="etl_requiring_apis",
-    selection=assets_requiring_apis,
+    selection=assets_requiring_apis - AssetSelection.groups("OpenAI_Demo"),
     config={
         "execution": {
             "config": {

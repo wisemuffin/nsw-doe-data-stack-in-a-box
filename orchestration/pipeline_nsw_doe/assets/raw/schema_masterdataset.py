@@ -100,17 +100,6 @@ schema = DataFrameSchema(
             description=None,
             title=None,
         ),
-        "Website": Column(
-            dtype="object",
-            checks=None,
-            nullable=False,
-            unique=False,
-            coerce=False,
-            required=True,
-            regex=False,
-            description=None,
-            title=None,
-        ),
         "Fax": Column(
             dtype="object",
             checks=None,

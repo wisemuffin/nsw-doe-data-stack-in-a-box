@@ -12,9 +12,8 @@ renamed as (
         {{ adapter.quote("Postcode") }},
         {{ adapter.quote("Phone") }},
         {{ adapter.quote("School_Email") }},
-        {{ adapter.quote("Website") }},
         {{ adapter.quote("Fax") }},
-        {{ adapter.quote("latest_year_enrolment_FTE") }},
+        {{ adapter.quote("Student_number") }} as latest_year_enrolment_fte,
         {{ adapter.quote("Indigenous_pct") }},
         {{ adapter.quote("LBOTE_pct") }},
         {{ adapter.quote("ICSEA_value") }},
@@ -45,9 +44,8 @@ renamed as (
         {{ adapter.quote("ASGS_remoteness") }},
         {{ adapter.quote("Latitude") }},
         {{ adapter.quote("Longitude") }},
-        {{ adapter.quote("Assets unit") }} as assets_unit,
-        {{ adapter.quote("SA4") }},
-        {{ adapter.quote("Date_extracted") }}::date
+        {{ adapter.quote("Assets_unit") }} as assets_unit,
+        strptime({{ adapter.quote("Date_extracted") }}, '%d/%m/%Y')
             as _meta__load_source_timestamp,
         {{ adapter.quote("_source") }}
 

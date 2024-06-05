@@ -25,6 +25,7 @@ with final as (
         postcode,
         phone,
         school_email,
+        website,
         fax,
         latest_year_enrolment_fte,
         indigenous_pct,
@@ -58,6 +59,7 @@ with final as (
         latitude,
         longitude,
         assets_unit,
+        sa4,
     {# "Date_Extracted", #}
     {# "_load_source_timestamp", #}
     {# "_source", #}

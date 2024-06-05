@@ -100,6 +100,17 @@ schema = DataFrameSchema(
             description=None,
             title=None,
         ),
+        "Website": Column(
+            dtype="object",
+            checks=None,
+            nullable=False,
+            unique=False,
+            coerce=False,
+            required=True,
+            regex=False,
+            description=None,
+            title=None,
+        ),
         "Fax": Column(
             dtype="object",
             checks=None,
@@ -111,7 +122,7 @@ schema = DataFrameSchema(
             description=None,
             title=None,
         ),
-        "Student_number": Column(
+        "latest_year_enrolment_FTE": Column(
             dtype="float64",
             checks=[
                 Check.greater_than_or_equal_to(min_value=2.0),
@@ -464,7 +475,7 @@ schema = DataFrameSchema(
             description=None,
             title=None,
         ),
-        "Assets_unit": Column(
+        "Assets unit": Column(
             dtype="object",
             checks=None,
             nullable=True,
@@ -475,7 +486,7 @@ schema = DataFrameSchema(
             description=None,
             title=None,
         ),
-        "HealthyCanteen": Column(
+        "Healthy canteen": Column(
             dtype="object",
             checks=None,
             nullable=True,

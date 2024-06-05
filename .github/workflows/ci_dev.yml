@@ -61,7 +61,9 @@ jobs:
           dbt parse
       # mf validate-configs # hold off until figure out how to run dagster to generate source data then dbt build ect...
       - name: Lint SQL
-        run: sqlfluff lint --format github-annotation-native
+        run: |
+          export NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)
+          sqlfluff lint --format github-annotation-native
       # required to set path for pytest
       - name: set pythonpath
         run: |

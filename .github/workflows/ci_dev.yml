@@ -56,6 +56,7 @@ jobs:
       - name: Dbt checks
         run: |
           export NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)
+          echo schema $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
           cd ${{github.workspace}}/transformation/transformation_nsw_doe
           dbt deps
           dbt parse
@@ -63,6 +64,7 @@ jobs:
       - name: Lint SQL
         run: |
           export NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)
+          echo schema $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
           sqlfluff lint --format github-annotation-native
       # required to set path for pytest
       - name: set pythonpath

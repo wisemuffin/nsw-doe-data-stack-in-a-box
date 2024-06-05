@@ -48,6 +48,7 @@ jobs:
             - name: Dbt checks
               run: |
                 export NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)
+                echo schema $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
                 cd ${{github.workspace}}/transformation/transformation_nsw_doe
                 dbt deps
                 dbt parse
@@ -72,6 +73,7 @@ jobs:
             - name: Deploy
               run: |
                 export NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)
+                echo schema $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
                 cd ${{github.workspace}}/transformation/transformation_nsw_doe
                 dbt build --exclude "+*github*+ +*google*+" --models state:modified+ --defer --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
 

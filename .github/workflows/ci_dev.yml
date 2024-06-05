@@ -55,7 +55,7 @@ jobs:
         run: uv pip install --system -r requirements.txt
       - name: Dbt checks
         run: |
-          export NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)
+          export NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)_$GITHUB_REF
           echo schema $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
           cd ${{github.workspace}}/transformation/transformation_nsw_doe
           dbt deps
@@ -63,7 +63,7 @@ jobs:
       # mf validate-configs # hold off until figure out how to run dagster to generate source data then dbt build ect...
       - name: Lint SQL
         run: |
-          export NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)
+          export NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)_$GITHUB_REF
           echo schema $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
           sqlfluff lint --format github-annotation-native
       # required to set path for pytest

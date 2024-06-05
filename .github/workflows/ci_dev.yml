@@ -40,7 +40,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.1
       - name: Set NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
-        run: echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)_$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
+        run: echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)_${GITHUB_REF##*/}" >> $GITHUB_ENV
       - name: Setup Python
         uses: actions/setup-python@v5.0.0
         with:

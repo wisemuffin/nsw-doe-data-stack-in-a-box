@@ -13,7 +13,6 @@ env:
 
   NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB:         ${{ secrets.NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB }}
   NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME:                ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME }}
-  NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA:          ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }}__pr_$(date +%s)
 
   MOTHERDUCK_TOKEN:                                   ${{ secrets.MOTHERDUCK_TOKEN }}
   DATAFOLD_APIKEY:                                    ${{ secrets.DATAFOLD_APIKEY }}
@@ -56,6 +55,7 @@ jobs:
         run: uv pip install --system -r requirements.txt
       - name: Dbt checks
         run: |
+          export NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)
           cd ${{github.workspace}}/transformation/transformation_nsw_doe
           dbt deps
           dbt parse

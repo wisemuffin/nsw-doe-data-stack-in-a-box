@@ -45,10 +45,9 @@ jobs:
               run: python3 -m pip install uv
             - name: Install Python requirements
               run: uv pip install --system -r requirements.txt
-            - name: setup env
-              run: export NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)
             - name: Dbt checks
               run: |
+                export NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)
                 cd ${{github.workspace}}/transformation/transformation_nsw_doe
                 dbt deps
                 dbt parse

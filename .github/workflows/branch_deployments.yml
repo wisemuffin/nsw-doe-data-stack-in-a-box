@@ -59,6 +59,9 @@ jobs:
         id: prerun
         uses: dagster-io/dagster-cloud-action/actions/utils/prerun@v0.1
 
+      - name: Set NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
+        run: echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)_$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
+
       - name: Launch Docker Deploy
         if: steps.prerun.outputs.result == 'docker-deploy'
         id: parse-workspace
@@ -92,7 +95,6 @@ jobs:
         if: steps.prerun.outputs.result == 'pex-deploy'
         # --upgrade-strategy eager picks up newer packages that are required for things to work
         run: |
-          export NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)
           # echo "PYTHONPATH="pwd >> $GITHUB_ENV
           python -m pip install uv
           uv venv
@@ -115,7 +117,7 @@ jobs:
           python_version: "${{ env.PYTHON_VERSION }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: pr_$(date +%s)
+          NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
 
   dagster_cloud_docker_deploy:
     name: Docker Deploy

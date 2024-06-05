@@ -39,6 +39,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
+      - name: Set NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
+        run: echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)_$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
       - name: Setup Python
         uses: actions/setup-python@v5.0.0
         with:
@@ -55,7 +57,6 @@ jobs:
         run: uv pip install --system -r requirements.txt
       - name: Dbt checks
         run: |
-          export NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)_$GITHUB_REF
           echo schema $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
           cd ${{github.workspace}}/transformation/transformation_nsw_doe
           dbt deps
@@ -63,7 +64,6 @@ jobs:
       # mf validate-configs # hold off until figure out how to run dagster to generate source data then dbt build ect...
       - name: Lint SQL
         run: |
-          export NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)_$GITHUB_REF
           echo schema $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
           sqlfluff lint --format github-annotation-native
       # required to set path for pytest

@@ -1,7 +1,9 @@
+name: Prod Deploy dbt only
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - main
 
 env:
     NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR:    ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}

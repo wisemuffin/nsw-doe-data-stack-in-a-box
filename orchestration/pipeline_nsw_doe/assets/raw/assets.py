@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 from dagster import (
     AssetCheckResult,
@@ -18,17 +20,26 @@ DatahubMasterDatasetDagsterType = pandera_schema_to_dagster_type(
     description="data frame DagsterType type for this dummy asset.",
 )
 
+NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: str = os.getenv(
+    "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA", "schema_not_set"
+)
+
 
 @asset(
     compute_kind="python",
-    key_prefix=["raw"],
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
     group_name="raw_datahub",
     io_manager_key="io_manager_dw",
     dagster_type=DatahubMasterDatasetDagsterType,
     check_specs=[
         AssetCheckSpec(
             name="raw__nsw_doe_datahub__master_dataset_id_has_no_nulls",
-            asset=AssetKey(["raw", "raw__nsw_doe_datahub__master_dataset"]),
+            asset=AssetKey(
+                [
+                    NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA,
+                    "raw__nsw_doe_datahub__master_dataset",
+                ]
+            ),
         )
     ],
 )
@@ -65,14 +76,16 @@ DatahubRamDagsterType = pandera_schema_to_dagster_type(
 
 @asset(
     compute_kind="python",
-    key_prefix=["raw"],
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
     io_manager_key="io_manager_dw",
     group_name="raw_datahub",
     dagster_type=DatahubRamDagsterType,
     check_specs=[
         AssetCheckSpec(
             name="raw__nsw_doe_datahub__ram_id_has_no_nulls",
-            asset=AssetKey(["raw", "raw__nsw_doe_datahub__ram"]),
+            asset=AssetKey(
+                [NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA, "raw__nsw_doe_datahub__ram"]
+            ),
         )
     ],
 )
@@ -128,7 +141,7 @@ def raw__nsw_doe_datahub__ram():
 
 @asset(
     compute_kind="python",
-    key_prefix=["raw"],
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
     group_name="raw_acara",
     io_manager_key="io_manager_dw",
 )
@@ -146,7 +159,7 @@ def raw__acara__staff_numbers():
 
 @asset(
     compute_kind="python",
-    key_prefix=["raw"],
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
     group_name="raw_acara",
     io_manager_key="io_manager_dw",
 )

@@ -1,4 +1,4 @@
-name: Serverless Branch Deployments
+name: Branch Deployments End to End
 on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
@@ -24,7 +24,6 @@ env:
 
   NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB:         ${{ secrets.NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB }}
   NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME:                ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME }}
-  NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA:          ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }}__pr_$(date +%s)
 
   MOTHERDUCK_TOKEN:                                   ${{ secrets.MOTHERDUCK_TOKEN }}
   DATAFOLD_APIKEY:                                    ${{ secrets.DATAFOLD_APIKEY }}
@@ -59,6 +58,11 @@ jobs:
       - name: Prerun Checks
         id: prerun
         uses: dagster-io/dagster-cloud-action/actions/utils/prerun@v0.1
+
+      - name: Set NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
+        run: |
+          echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_full_$(echo ${GITHUB_HEAD_REF} | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9]/_/g')" >> $GITHUB_ENV
+          echo schema = $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
 
       - name: Launch Docker Deploy
         if: steps.prerun.outputs.result == 'docker-deploy'
@@ -115,6 +119,7 @@ jobs:
           python_version: "${{ env.PYTHON_VERSION }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
 
   dagster_cloud_docker_deploy:
     name: Docker Deploy

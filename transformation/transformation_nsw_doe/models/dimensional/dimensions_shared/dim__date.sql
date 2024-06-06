@@ -18,13 +18,14 @@ date_prep as (
 final as (
     select
         -- Surrogate Key
-        -- its bit over kill to make every date in a fact table require a SK. 
+        -- its bit over kill to make every date in a fact table require a SK.
         -- Lets just join on the natural key yyyy-mm-dd?
         {{ dbt_utils.generate_surrogate_key(['date_day']) }} as _meta__dim__date__sk,
         {# date_day as _meta__dim__date__sk, #}
 
         --Date Information
         *,
+        1 as test,
     from date_prep
 )
 

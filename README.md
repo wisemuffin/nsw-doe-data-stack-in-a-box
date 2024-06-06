@@ -5,8 +5,10 @@
 
 # Welcome to New South Wales Department of Education (NSW DOE) data stack in a box
 
-![CI Checks](https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/actions/workflows/ci__prod__no_source_change.yml/badge.svg)
+![Prod CI Checks](https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/actions/workflows/ci_prod_deploy.yml/badge.svg)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+
+
 
 This is an data-stack-in-a-box based data from [NSW Education Data Hub](https://data.cese.nsw.gov.au/). With the push of one button you can have your own data stack!
 

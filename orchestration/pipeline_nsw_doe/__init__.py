@@ -35,7 +35,10 @@ from .project import nsw_doe_data_stack_in_a_box_project
 load_dotenv()
 
 # work around to set schema when in a branch deployment, DAGSTER_CLOUD_GIT_BRANCH is only present in branch deployments
-if "DAGSTER_CLOUD_GIT_BRANCH" in os.environ:
+if (
+    "DAGSTER_CLOUD_GIT_BRANCH" in os.environ
+    and os.getenv("NSW_DOE_DATA_STACK_IN_A_BOX__ENV") != "prod"
+):
     # Get the current timestamp
     timestamp = int(time.time())
     # pr_string = f"pr_{timestamp}_"

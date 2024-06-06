@@ -202,9 +202,8 @@ operations after testing (also done during pipeline execution)
 
 
 **CICD**
-🚧 branch deployments
-🚧 linting, sql fluff ect
-🚧 data quality test
+
+see CICD section
 
 ## Key Features - where we dont have a good open source option
 
@@ -229,6 +228,26 @@ operations after testing (also done during pipeline execution)
   - i love notebooks for inital exploriory analysis. Scripts can also be used for exploritory analysis too with VScode's “Python Interactive Window” where you have Jupyter-esque code blocks. The blocks are separated by a special comment (“# %%”) so the end result is still a script you can version control, unit test, debug, etc. It’s available through the Python extension. Or leave out the "#%%" and just highlight the section I need to run while building and testing so that I clean script when I am finished.
 
 
+
+# CICD does several things:
+CICD `.yml` files are located in `.github/workflow`
+## CICD before commit - `linting`
+- pre commit hooks: checks several things `formatting`,  `linting` for our SQL, Python and some YAML files.
+
+## CICD when pull request raised
+- `ci_dev_quick_checks.yml`: this checks `testing code quality` see docs for more info. This check is the quickest so will give developer feedback early.
+- `ci_test_branch_deployments_only_dbt.yml`: this checks `unit testing` will take a bit longer to run.
+- `ci_test_branch_deployments_end_to_end.yml` - deploys all artifacts to dagster plus when a PR is created and updated to enable end to end testing. This will take the longest time.
+
+## CICD Human in the middle review
+- Using dagster plus we have an environment isolated to only the changes we have made. It wont collide with other developers. This should make pull requests much easier.
+- We also use [dbt's defer to production](https://docs.getdbt.com/reference/node-selection/defer) to avoid extra compute and storage when referencing models that have not changed. No more having to sync prod and dev environments 🚀
+- 🚧 data quality overview - TODO
+- 🚧 CICD for data vis - TODO
+
+## CICD on merge into main branch aka Prod
+- `ci_prod_deploy_dbt_only.yml` - deploys strait into prod on merge to main for assets not requiring ingestion (**turned off for now**)
+- `ci_prod_deploy.yml` deploys onto dagster plus
 
 ## Todo
 

@@ -16,7 +16,6 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
         asset_key = super().get_asset_key(dbt_resource_props)
 
         if dbt_resource_props["resource_type"] == "source":
-            # asset_key = asset_key.with_prefix("raw")
             pass
         else:
             asset_key = asset_key.with_prefix("nsw_doe")

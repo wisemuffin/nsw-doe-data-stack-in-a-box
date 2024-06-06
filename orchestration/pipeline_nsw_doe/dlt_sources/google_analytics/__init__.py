@@ -15,6 +15,7 @@ from google.analytics.data_v1beta.types import GetMetadataRequest, Metadata
 from .helpers import basic_report
 from .helpers.data_processing import to_dict
 from .settings import START_DATE
+import pendulum
 
 
 @dlt.source(max_table_nesting=2)
@@ -85,7 +86,7 @@ def google_analytics(
                 resource_name=resource_name,
                 start_date=start_date,
                 last_date=dlt.sources.incremental(
-                    "date", primary_key=()
+                    "date", primary_key=(), initial_value=pendulum.datetime(2024, 4, 1)
                 ),  # pass empty primary key to avoid unique checks, a primary key defined by the resource will be used
             )
         )

@@ -41,7 +41,7 @@ jobs:
         uses: actions/checkout@v4.1.1
       - name: Set NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
         run: |
-          echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_$(date +%s)_$(echo ${GITHUB_HEAD_REF} | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9]/_/g')" >> $GITHUB_ENV
+          echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_dbt_only_$(date +%s)_$(echo ${GITHUB_HEAD_REF} | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9]/_/g')" >> $GITHUB_ENV
       - name: Setup Python
         uses: actions/setup-python@v5.0.0
         with:

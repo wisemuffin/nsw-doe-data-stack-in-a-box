@@ -38,7 +38,8 @@ load_dotenv()
 if "DAGSTER_CLOUD_GIT_BRANCH" in os.environ:
     # Get the current timestamp
     timestamp = int(time.time())
-    pr_string = f"pr_{timestamp}_"
+    # pr_string = f"pr_{timestamp}_"
+    pr_string = "pr_full_"
 
     # Get the Git branch (assuming it's an environment variable)
     git_branch = os.environ.get("DAGSTER_CLOUD_GIT_BRANCH", "")

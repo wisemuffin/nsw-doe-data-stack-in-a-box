@@ -1,3 +1,4 @@
+name: Test Branch Deployments only DBT
 on:
     workflow_dispatch:
     pull_request:

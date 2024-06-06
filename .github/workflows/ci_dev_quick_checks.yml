@@ -1,3 +1,4 @@
+name: Dev quick checks
 on:
   workflow_dispatch:
   pull_request:

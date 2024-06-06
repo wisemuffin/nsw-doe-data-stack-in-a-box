@@ -1,4 +1,4 @@
-name: Branch Deployments End to End
+name: Test Branch Deployments End to End
 on:
   pull_request:
     types: [opened, synchronize, reopened, closed]

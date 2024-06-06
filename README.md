@@ -239,6 +239,7 @@ operations after testing (also done during pipeline execution)
 
 - dbt unit tests 🧱 waiting for 1.8 release and how if i need to wait for mother duck
 
+- if a upstream dependancy for dbt breaks then the whole of the dbt run fails.
 
 - move to dagster+
   - for catalog [dagster+](https://www.youtube.com/watch?v=_Z4xxZYEQNs&t=5s)
@@ -262,7 +263,7 @@ operations after testing (also done during pipeline execution)
   - ✅ pytest
   - ✅ sqlfluff
   - ✅ that python rust package for python linting ect
-  - end to end test orchistration
+  - ✅ end to end test orchistration
   - dagster teams integration
 
 

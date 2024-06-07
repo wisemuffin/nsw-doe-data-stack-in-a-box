@@ -15,6 +15,10 @@ This is an data-stack-in-a-box based data from [NSW Education Data Hub](https://
 > [!IMPORTANT]
 > Click below 👇🏼 to setup your own free data stack packed with [NSW Department of Education](https://education.nsw.gov.au/) data.
 
+> [!WARNING]
+> Only 100 Schools will appear. Currently have a bug where master data set is malformed and cant get all shcools
+> to remove this filter when fixed `df = df.head(100)` in master data asset
+
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/wisemuffin/nsw-doe-data-stack-in-a-box?quickstart=1)
 
 

@@ -486,17 +486,6 @@ schema = DataFrameSchema(
             description=None,
             title=None,
         ),
-        "Healthy canteen": Column(
-            dtype="object",
-            checks=None,
-            nullable=True,
-            unique=False,
-            coerce=False,
-            required=True,
-            regex=False,
-            description=None,
-            title=None,
-        ),
         "FOEI_Value": Column(
             dtype="object",
             checks=None,

@@ -23,20 +23,17 @@ from ..transformation import nsw_doe_dbt_assets
     ],
 )
 def metrics_by_year_saved_query(context: AssetExecutionContext):
+    working_dir = "tmp"
     csv_location = os.path.join(
-        nsw_doe_data_stack_in_a_box_project.project_dir,
-        "exports",
+        working_dir,
         "sq-metrics-by-year-saved-query.csv",
     )
-
-    working_dir = nsw_doe_data_stack_in_a_box_project.project_dir
 
     context.log.info(f"working_dir: {working_dir}")
     context.log.info(f"csv_location: {csv_location}")
 
     file_path = os.path.join(
-        nsw_doe_data_stack_in_a_box_project.project_dir,
-        "exports",
+        working_dir,
         "testdg.txt",
     )
     with open(file_path, "w") as file:

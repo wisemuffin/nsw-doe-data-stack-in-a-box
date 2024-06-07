@@ -2,7 +2,7 @@ import os
 import subprocess
 
 import pandas as pd
-from dagster import asset
+from dagster import Output, asset, AssetExecutionContext
 from dagster_dbt import get_asset_key_for_model
 
 from ...project import nsw_doe_data_stack_in_a_box_project
@@ -22,7 +22,7 @@ from ..transformation import nsw_doe_dbt_assets
         get_asset_key_for_model([nsw_doe_dbt_assets], "dim__date"),
     ],
 )
-def metrics_by_year_saved_query() -> pd.DataFrame:
+def metrics_by_year_saved_query(context: AssetExecutionContext):
     csv_location = os.path.join(
         nsw_doe_data_stack_in_a_box_project.project_dir,
         "exports",
@@ -30,6 +30,9 @@ def metrics_by_year_saved_query() -> pd.DataFrame:
     )
 
     working_dir = nsw_doe_data_stack_in_a_box_project.project_dir
+
+    context.log.info(f"working_dir: {working_dir}")
+    context.log.info(f"csv_location: {csv_location}")
 
     command = ["dbt", "docs", "generate"]
     subprocess.check_call(command, cwd=working_dir)
@@ -54,7 +57,7 @@ def metrics_by_year_saved_query() -> pd.DataFrame:
     )
 
     # print(df.dtypes)
-    return df
+    yield Output(df, metadata={"num_rows": df.shape[0]})
 
 
 @asset(
@@ -68,7 +71,7 @@ def metrics_by_year_saved_query() -> pd.DataFrame:
         get_asset_key_for_model([nsw_doe_dbt_assets], "dim__date"),
     ],
 )
-def metrics_by_year_school_saved_query() -> pd.DataFrame:
+def metrics_by_year_school_saved_query(context: AssetExecutionContext):
     csv_location = os.path.join(
         nsw_doe_data_stack_in_a_box_project.project_dir,
         "exports",
@@ -76,6 +79,9 @@ def metrics_by_year_school_saved_query() -> pd.DataFrame:
     )
 
     working_dir = nsw_doe_data_stack_in_a_box_project.project_dir
+
+    context.log.info(f"working_dir: {working_dir}")
+    context.log.info(f"csv_location: {csv_location}")
 
     command = ["dbt", "docs", "generate"]
     subprocess.check_call(command, cwd=working_dir)
@@ -100,4 +106,4 @@ def metrics_by_year_school_saved_query() -> pd.DataFrame:
     )
 
     # print(df.dtypes)
-    return df
+    yield Output(df, metadata={"num_rows": df.shape[0]})

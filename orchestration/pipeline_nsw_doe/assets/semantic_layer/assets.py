@@ -34,6 +34,17 @@ def metrics_by_year_saved_query(context: AssetExecutionContext):
     context.log.info(f"working_dir: {working_dir}")
     context.log.info(f"csv_location: {csv_location}")
 
+    file_path = os.path.join(
+        nsw_doe_data_stack_in_a_box_project.project_dir,
+        "exports",
+        "testdg.txt",
+    )
+    with open(file_path, "w") as file:
+        file.write("Hello, this is a new text file!")
+    with open(file_path, "r") as file:
+        file_contents = file.read()
+        context.log.info(f"File contents: {file_contents}")
+
     command = ["dbt", "docs", "generate"]
     subprocess.check_call(command, cwd=working_dir)
 

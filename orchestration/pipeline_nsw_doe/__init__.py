@@ -76,6 +76,16 @@ resources_by_env = {
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),
         "openai": OpenAIResource(api_key=EnvVar("OPENAI_API_KEY")),
     },
+    "test": {
+        "io_manager_dw": DuckDBPandasIOManager(
+            database=f"{NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB}",
+        ),
+        "io_manager": FilesystemIOManager(),
+        "dbt": DbtCliResource(project_dir=nsw_doe_data_stack_in_a_box_project),
+        "dlt": DagsterDltResource(),
+        "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),
+        "openai": OpenAIResource(api_key=EnvVar("OPENAI_API_KEY")),
+    },
     "dev": {
         "io_manager_dw": DuckDBPandasIOManager(database=DUCKDB_PROJECT_DIR),
         "io_manager": FilesystemIOManager(),

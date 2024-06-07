@@ -1,6 +1,8 @@
 import os
 import subprocess
+from pathlib import Path
 
+import tempfile
 import pandas as pd
 from dagster import Output, asset, AssetExecutionContext
 from dagster_dbt import get_asset_key_for_model
@@ -23,14 +25,38 @@ from ..transformation import nsw_doe_dbt_assets
     ],
 )
 def metrics_by_year_saved_query(context: AssetExecutionContext):
+    # import re
+    # import sys
+    # from metricflow.cli.main import cli
+    # if __name__ == "__main__":
+    #     sys.argv[0] = re.sub(r"(-script\.pyw|\.exe)?$", "", sys.argv[0])
+    #     sys.exit(cli())
+
     working_dir = "tmp"
     csv_location = os.path.join(
         working_dir,
         "sq-metrics-by-year-saved-query.csv",
     )
 
+    context.log.info(f"cwd: {Path.cwd()}")
     context.log.info(f"working_dir: {working_dir}")
     context.log.info(f"csv_location: {csv_location}")
+
+    tmp = tempfile.NamedTemporaryFile()
+
+    context.log.info(f"tmp: {tmp}")
+
+    # Open the file for writing.
+    with open(tmp.name, "w") as f:
+        f.write("stuff")  # where `stuff` is, y'know... stuff to write (a string)
+
+    ...
+
+    # Open the file for reading.
+    with open(tmp.name) as f:
+        for line in f:
+            context.log.info(f"line: {line}")
+            ...  # more things here
 
     file_path = os.path.join(
         working_dir,

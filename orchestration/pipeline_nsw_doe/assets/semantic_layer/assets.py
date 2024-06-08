@@ -32,15 +32,10 @@ def metrics_by_year_saved_query(context: AssetExecutionContext):
     #     sys.argv[0] = re.sub(r"(-script\.pyw|\.exe)?$", "", sys.argv[0])
     #     sys.exit(cli())
 
-    working_dir = "tmp"
-    csv_location = os.path.join(
-        working_dir,
-        "sq-metrics-by-year-saved-query.csv",
-    )
+    working_dir = nsw_doe_data_stack_in_a_box_project.project_dir
 
     context.log.info(f"cwd: {Path.cwd()}")
     context.log.info(f"working_dir: {working_dir}")
-    context.log.info(f"csv_location: {csv_location}")
 
     tmp = tempfile.NamedTemporaryFile()
 
@@ -64,9 +59,10 @@ def metrics_by_year_saved_query(context: AssetExecutionContext):
             tmpdirname,
             "sq-metrics-by-year-saved-query.csv",
         )
+        context.log.info(f"csv_location: {csv_location}")
 
         command = ["dbt", "docs", "generate"]
-        subprocess.check_call(command, cwd=tmpdirname)
+        subprocess.check_call(command, cwd=working_dir)
 
         command = [
             "mf",
@@ -76,7 +72,7 @@ def metrics_by_year_saved_query(context: AssetExecutionContext):
             "--csv",
             csv_location,
         ]
-        subprocess.check_call(command, cwd=tmpdirname)
+        subprocess.check_call(command, cwd=working_dir)
 
         # TODO refactor variables
         df = pd.read_csv(csv_location, parse_dates=["metric_time__year"])

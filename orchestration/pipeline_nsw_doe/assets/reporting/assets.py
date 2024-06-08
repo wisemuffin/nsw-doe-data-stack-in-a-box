@@ -1,6 +1,4 @@
-import subprocess
-
-from dagster import asset, file_relative_path
+from dagster import asset
 
 from ..semantic_layer.assets import (
     metrics_by_year_saved_query,
@@ -25,12 +23,15 @@ def evidence_dashboard__experimental():
     For demos still using `npm run dev` instead of waiting for static files to be built (webpack budling ect)
 
     *TODO 🚧 also getting an error: `FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory` but succeeding in dagster.
+    Should do this as part of CICD rather than a pipeline in dagster. but refreshing cached data e.g. in a semantic layer makes sense in dagster.
     """
-    evidence_project_path = file_relative_path(__file__, "../../../../reports")
-    subprocess.run(["npm", "--prefix", evidence_project_path, "install"])
-    subprocess.run(["npm", "--prefix", evidence_project_path, "run", "sources"])
+    # evidence_project_path = file_relative_path(__file__, "../../../../reports")
+    # subprocess.run(["npm", "--prefix", evidence_project_path, "install"])
+    # subprocess.run(["npm", "--prefix", evidence_project_path, "run", "sources"])
     # dont waste time building static site, just do this in CICD step and host on static website
     # subprocess.run(["npm", "--prefix", evidence_project_path, "run", "build"])
+
+    pass
 
 
 @asset(

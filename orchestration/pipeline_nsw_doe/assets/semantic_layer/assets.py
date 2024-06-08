@@ -58,31 +58,28 @@ def metrics_by_year_saved_query(context: AssetExecutionContext):
             context.log.info(f"line: {line}")
             ...  # more things here
 
-    file_path = os.path.join(
-        working_dir,
-        "testdg.txt",
-    )
-    with open(file_path, "w") as file:
-        file.write("Hello, this is a new text file!")
-    with open(file_path, "r") as file:
-        file_contents = file.read()
-        context.log.info(f"File contents: {file_contents}")
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        context.log.info(f"created temporary directory: {tmpdirname}")
+        csv_location = os.path.join(
+            tmpdirname,
+            "sq-metrics-by-year-saved-query.csv",
+        )
 
-    command = ["dbt", "docs", "generate"]
-    subprocess.check_call(command, cwd=working_dir)
+        command = ["dbt", "docs", "generate"]
+        subprocess.check_call(command, cwd=tmpdirname)
 
-    command = [
-        "mf",
-        "query",
-        "--saved-query",
-        "metrics_by_year_saved_query",
-        "--csv",
-        csv_location,
-    ]
-    subprocess.check_call(command, cwd=working_dir)
+        command = [
+            "mf",
+            "query",
+            "--saved-query",
+            "metrics_by_year_saved_query",
+            "--csv",
+            csv_location,
+        ]
+        subprocess.check_call(command, cwd=tmpdirname)
 
-    # TODO refactor variables
-    df = pd.read_csv(csv_location, parse_dates=["metric_time__year"])
+        # TODO refactor variables
+        df = pd.read_csv(csv_location, parse_dates=["metric_time__year"])
 
     # 🚧 TODO: fixing data types manually. Dont like this but ok for demos
     # df['metric_time__year'] = pd.to_datetime(df['metric_time__year']).dt.strftime('%Y-%m-%d')

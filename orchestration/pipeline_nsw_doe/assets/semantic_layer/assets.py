@@ -34,6 +34,9 @@ def metrics_by_year_saved_query(context: AssetExecutionContext):
 
     working_dir = nsw_doe_data_stack_in_a_box_project.project_dir
 
+    command = ["dbt", "docs", "generate"]
+    subprocess.check_call(command, cwd=working_dir)
+
     context.log.info(f"cwd: {Path.cwd()}")
     context.log.info(f"working_dir: {working_dir}")
 
@@ -60,9 +63,6 @@ def metrics_by_year_saved_query(context: AssetExecutionContext):
             "sq-metrics-by-year-saved-query.csv",
         )
         context.log.info(f"csv_location: {csv_location}")
-
-        command = ["dbt", "docs", "generate"]
-        subprocess.check_call(command, cwd=working_dir)
 
         command = [
             "mf",

@@ -249,7 +249,12 @@ CICD `.yml` files are located in `.github/workflow`
 - Using dagster plus we have an environment isolated to only the changes we have made. It wont collide with other developers. This should make pull requests much easier.
 - We also use [dbt's defer to production](https://docs.getdbt.com/reference/node-selection/defer) to avoid extra compute and storage when referencing models that have not changed. No more having to sync prod and dev environments 🚀
 - 🚧 data quality overview - TODO
-- 🚧 CICD for data vis - TODO
+- 🚧 CICD for data vis
+  - ideally would spin up a vis for each branch. Need to wait for pipeline to run. If its only a subset (deffer rest to prod) then this is hard to handle on the vis side.
+  - could just rely on data contracts betweem vis and data layers?
+  - would need to param schema used by visuals and pass variables to vis to show which branch they are from.
+  - maybe use netlify branch deploys for vis: https://docs.netlify.com/site-deploys/overview/
+  - run dagster with `dagster-cloud --help`
 
 ## CICD on merge into main branch aka Prod
 - `ci_prod_deploy_dbt_only.yml` - deploys strait into prod on merge to main for assets not requiring ingestion (**turned off for now**)
@@ -468,6 +473,13 @@ Due to the evolving nature of school information and local enrolment areas, no r
 ### Contributing - Data Analyses & Reporting
 
 🚧 TODO
+
+to run the report locally simply run:
+
+```bash
+task evidence_setup
+task evidence
+```
 
 ### Contributing - Data Science
 

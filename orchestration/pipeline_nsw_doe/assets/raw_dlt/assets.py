@@ -67,10 +67,10 @@ class GithubDagsterDltTranslator(DagsterDltTranslator):
 
 @dlt_assets(
     dlt_source=github_reactions(
-        # owner= "wisemuffin",
-        # name="nsw-doe-data-stack-in-a-box",
-        owner="dagster-io",
-        name="dagster",
+        owner="wisemuffin",
+        name="nsw-doe-data-stack-in-a-box",
+        # owner="dagster-io",
+        # name="dagster",
         # access_token = "", #dlt.secrets.value,
         items_per_page=100,
         max_items=10,
@@ -96,10 +96,10 @@ def github_reactions_dagster_assets(
 
 @dlt_assets(
     dlt_source=github_repo_events(
-        # owner= "wisemuffin",
-        # name="nsw-doe-data-stack-in-a-box",
-        owner="dagster-io",
-        name="dagster",
+        owner="wisemuffin",
+        name="nsw-doe-data-stack-in-a-box",
+        # owner="dagster-io",
+        # name="dagster",
         # access_token = "", #dlt.secrets.value,
         # items_per_page=100,
         # max_items=10

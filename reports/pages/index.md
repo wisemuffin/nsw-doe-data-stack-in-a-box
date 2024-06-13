@@ -12,100 +12,84 @@ This data comes from a mix of New South Wales Department of Education and ACARA.
 Warning for Developer: Visuals update when sql in evidence is changed. But source cache doesnt get notified when data changes in database. 🚧 Figure out longer term fix.
 </Alert>
 
-<!-- <Grid cols=6> -->
-  <BigValue
-      data={staff_count}
-      title="Staff"
-      value="metric_value__latest_year"
-      fmt="num0"
-      comparison=metric_time__year__latest_year
-      comparisonTitle="Latest Refresh"
-      comparisonFmt="id"
-      comparisonDelta=false
-    />
-  <LinkButton  url='/staff'>
-    More Details on Staff
-  </LinkButton >
-
-
-  <LineBreak/>
-
-  <BigValue
-      data={student_count}
-      title="Students"
-      value="metric_value__latest_year"
-      fnt="num0"
-      comparison=metric_time__year__latest_year
-      comparisonTitle="Latest Refresh"
-      comparisonFmt="id"
-      comparisonDelta=false
-    />
-  <LinkButton  url='/student'>
-    More Details on students
-  </LinkButton >
-  <LineBreak/>
-
-  <BigValue
-      data={school_count}
-      title="Schools"
-      value="metric_value__latest_year"
-      fnt="num0"
-      comparison=metric_time__year__latest_year
-      comparisonTitle="Latest Refresh"
-      comparisonFmt="id"
-      comparisonDelta=false
-    />
-  <LinkButton  url='/school'>
-    More Details on schools
-  </LinkButton >
-  <LineBreak/>
-
-  <BigValue
-      data={funding_aud_post_adjustments}
-      title="Funding"
-      value="metric_value__latest_year"
-      fnt="num0"
-      comparison=metric_time__year__latest_year
-      comparisonTitle="Latest Refresh"
-      comparisonFmt="id"
-      comparisonDelta=false
-    />
-  <LinkButton  url='/funding'>
-    More Details on funding
-  </LinkButton >
-  <LineBreak/>
-
-
-
-  <BigValue
-    data={fct__web_analytics_monthly}
-    value=total_users
-    title="Visualisation Users"
-    sparkline=event_month
-    comparison=prior_month_growth_pct
-    comparisonFmt=pct1
-    comparisonTitle="vs. Last Month"
-
+<BigValue
+    data={staff_count}
+    title="Staff"
+    value="metric_value__latest_year"
+    fmt="num0"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh"
+    comparisonFmt="id"
+    comparisonDelta=false
   />
-
-  <LinkButton  url='/useage'>
-    More Details on useage
-  </LinkButton >
-  <LineBreak/>
-<!-- </Grid> -->
+<LinkButton  url='/staff'>
+  More Details on Staff
+</LinkButton >
 
 
+<LineBreak/>
 
-<!--
-## Metrics Consolidated Refference
+<BigValue
+    data={student_count}
+    title="Students"
+    value="metric_value__latest_year"
+    fnt="num0"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh"
+    comparisonFmt="id"
+    comparisonDelta=false
+  />
+<LinkButton  url='/student'>
+  More Details on students
+</LinkButton >
+<LineBreak/>
 
-### Summary
-<DataTable data="{metrics_by_year_saved_query_latest}" search="true" />
+<BigValue
+    data={school_count}
+    title="Schools"
+    value="metric_value__latest_year"
+    fnt="num0"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh"
+    comparisonFmt="id"
+    comparisonDelta=false
+  />
+<LinkButton  url='/school'>
+  More Details on schools
+</LinkButton >
+<LineBreak/>
 
-### Detail by Year
+<BigValue
+    data={funding_aud_post_adjustments}
+    title="Funding"
+    value="metric_value__latest_year"
+    fnt="num0"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh"
+    comparisonFmt="id"
+    comparisonDelta=false
+  />
+<LinkButton  url='/funding'>
+  More Details on funding
+</LinkButton >
+<LineBreak/>
 
-<DataTable data="{metrics_by_year_saved_query}" search="true" /> -->
 
+
+<BigValue
+  data={fct__web_analytics_monthly}
+  value=total_users
+  title="Visualisation Users"
+  sparkline=event_month
+  comparison=prior_month_growth_pct
+  comparisonFmt=pct1
+  comparisonTitle="vs. Last Month"
+/>
+
+<LinkButton  url='/useage'>
+  More Details on useage
+</LinkButton >
+<LineBreak/>
 
 
 ```sql staff_count

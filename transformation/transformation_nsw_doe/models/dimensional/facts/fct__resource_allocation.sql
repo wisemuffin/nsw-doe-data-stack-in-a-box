@@ -19,7 +19,7 @@ final as (
         --Foreign Keys
         ----Conformed Dimensions
         {{ get_keyed_nulls('dim__school._meta__dim__school__sk') }} as _meta__dim__school__sk,
-        prep__resource_allocation.year || '-01-01' as _meta__dim__date__sk, -- dont love this. 🚧 TODO - if only one date in fact this works...also doesnt force 
+        prep__resource_allocation.year || '-01-01' as _meta__dim__date__sk, -- dont love this. 🚧 TODO - if only one date in fact this works...also doesnt force
 
         ----Local Dimensions
 
@@ -37,7 +37,7 @@ final as (
     from prep__resource_allocation
     left join
         dim__school
-        on prep__resource_allocation.school_code = dim__school.school_code
+        on cast(prep__resource_allocation.school_code as varchar) = cast(dim__school.school_code as varchar)
     {# left join dim__date on prep__resource_allocation.year || '-01-01' = dim__date. #}
 )
 

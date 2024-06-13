@@ -20,8 +20,6 @@ models:
       description: ""
     - name: School_Email
       description: ""
-    - name: Website
-      description: ""
     - name: Fax
       description: ""
     - name: Latest_Year_Enrolment_FTE

@@ -1,10 +1,10 @@
+name: Dev quick checks
 on:
   workflow_dispatch:
   pull_request:
     branches:
       - main
-    types:
-      - ready_for_review
+    types: [opened, synchronize, reopened, closed]
 
 env:
   NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR:    ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}
@@ -14,7 +14,6 @@ env:
 
   NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB:         ${{ secrets.NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB }}
   NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME:                ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME }}
-  NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA:          ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }}__pr_$(date +%s)
 
   MOTHERDUCK_TOKEN:                                   ${{ secrets.MOTHERDUCK_TOKEN }}
   DATAFOLD_APIKEY:                                    ${{ secrets.DATAFOLD_APIKEY }}
@@ -41,6 +40,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
+      - name: Set NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
+        run: |
+          echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_dbt_only_$(date +%s)_$(echo ${GITHUB_HEAD_REF} | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9]/_/g')" >> $GITHUB_ENV
+          echo schema = $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
       - name: Setup Python
         uses: actions/setup-python@v5.0.0
         with:
@@ -57,12 +60,15 @@ jobs:
         run: uv pip install --system -r requirements.txt
       - name: Dbt checks
         run: |
+          echo schema $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
           cd ${{github.workspace}}/transformation/transformation_nsw_doe
           dbt deps
           dbt parse
       # mf validate-configs # hold off until figure out how to run dagster to generate source data then dbt build ect...
       - name: Lint SQL
-        run: sqlfluff lint --format github-annotation-native
+        run: |
+          echo schema $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
+          sqlfluff lint --format github-annotation-native
       # required to set path for pytest
       - name: set pythonpath
         run: |

@@ -5,13 +5,19 @@
 
 # Welcome to New South Wales Department of Education (NSW DOE) data stack in a box
 
-![CI Checks](https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/actions/workflows/ci__prod__no_source_change.yml/badge.svg)
+![Prod CI Checks](https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/actions/workflows/ci_prod_deploy.yml/badge.svg)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+
+
 
 This is an data-stack-in-a-box based data from [NSW Education Data Hub](https://data.cese.nsw.gov.au/). With the push of one button you can have your own data stack!
 
 > [!IMPORTANT]
 > Click below 👇🏼 to setup your own free data stack packed with [NSW Department of Education](https://education.nsw.gov.au/) data.
+
+> [!WARNING]
+> Only 100 Schools will appear. Currently have a bug where master data set is malformed and cant get all shcools
+> to remove this filter when fixed `df = df.head(100)` in master data asset
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/wisemuffin/nsw-doe-data-stack-in-a-box?quickstart=1)
 
@@ -202,9 +208,8 @@ operations after testing (also done during pipeline execution)
 
 
 **CICD**
-🚧 branch deployments
-🚧 linting, sql fluff ect
-🚧 data quality test
+
+see CICD section
 
 ## Key Features - where we dont have a good open source option
 
@@ -230,6 +235,31 @@ operations after testing (also done during pipeline execution)
 
 
 
+# CICD does several things:
+CICD `.yml` files are located in `.github/workflow`
+## CICD before commit - `linting`
+- pre commit hooks: checks several things `formatting`,  `linting` for our SQL, Python and some YAML files.
+
+## CICD when pull request raised
+- `ci_dev_quick_checks.yml`: this checks `testing code quality` see docs for more info. This check is the quickest so will give developer feedback early.
+- `ci_test_branch_deployments_only_dbt.yml`: this checks `unit testing` will take a bit longer to run.
+- `ci_test_branch_deployments_end_to_end.yml` - deploys all artifacts to dagster plus when a PR is created and updated to enable end to end testing. This will take the longest time.
+
+## CICD Human in the middle review
+- Using dagster plus we have an environment isolated to only the changes we have made. It wont collide with other developers. This should make pull requests much easier.
+- We also use [dbt's defer to production](https://docs.getdbt.com/reference/node-selection/defer) to avoid extra compute and storage when referencing models that have not changed. No more having to sync prod and dev environments 🚀
+- 🚧 data quality overview - TODO
+- 🚧 CICD for data vis
+  - ideally would spin up a vis for each branch. Need to wait for pipeline to run. If its only a subset (deffer rest to prod) then this is hard to handle on the vis side.
+  - could just rely on data contracts betweem vis and data layers?
+  - would need to param schema used by visuals and pass variables to vis to show which branch they are from.
+  - maybe use netlify branch deploys for vis: https://docs.netlify.com/site-deploys/overview/
+  - run dagster with `dagster-cloud --help`
+
+## CICD on merge into main branch aka Prod
+- `ci_prod_deploy_dbt_only.yml` - deploys strait into prod on merge to main for assets not requiring ingestion (**turned off for now**)
+- `ci_prod_deploy.yml` deploys onto dagster plus
+
 ## Todo
 
 ### 🚧working on
@@ -239,6 +269,7 @@ operations after testing (also done during pipeline execution)
 
 - dbt unit tests 🧱 waiting for 1.8 release and how if i need to wait for mother duck
 
+- if a upstream dependancy for dbt breaks then the whole of the dbt run fails.
 
 - move to dagster+
   - for catalog [dagster+](https://www.youtube.com/watch?v=_Z4xxZYEQNs&t=5s)
@@ -262,7 +293,7 @@ operations after testing (also done during pipeline execution)
   - ✅ pytest
   - ✅ sqlfluff
   - ✅ that python rust package for python linting ect
-  - end to end test orchistration
+  - ✅ end to end test orchistration
   - dagster teams integration
 
 
@@ -442,6 +473,13 @@ Due to the evolving nature of school information and local enrolment areas, no r
 ### Contributing - Data Analyses & Reporting
 
 🚧 TODO
+
+to run the report locally simply run:
+
+```bash
+task evidence_setup
+task evidence
+```
 
 ### Contributing - Data Science
 

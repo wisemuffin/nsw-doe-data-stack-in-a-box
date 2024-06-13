@@ -128,6 +128,7 @@ dagster==1.7.6
     #   dagster-graphql
     #   dagster-msteams
     #   dagster-openai
+    #   dagster-pandera
     #   dagster-webserver
     #   dagstermill
 dagster-aws==0.23.6
@@ -143,6 +144,7 @@ dagster-graphql==1.7.6
     # via dagster-webserver
 dagster-msteams==0.23.6
 dagster-openai==0.23.6
+dagster-pandera==0.23.6
 dagster-pipes==1.7.6
     # via dagster
 dagster-webserver==1.7.6
@@ -561,6 +563,7 @@ pandas==1.5.3
     # via
     #   cmdstanpy
     #   dagster-duckdb-pandas
+    #   dagster-pandera
     #   metricflow
     #   pandera
     #   phik
@@ -571,6 +574,7 @@ pandas==1.5.3
     #   visions
     #   ydata-profiling
 pandera==0.19.3
+    # via dagster-pandera
 pandocfilters==1.5.1
     # via nbconvert
 papermill==2.6.0

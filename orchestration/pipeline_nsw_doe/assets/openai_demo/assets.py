@@ -27,7 +27,7 @@ docs_partitions_def = StaticPartitionsDefinition(
 
 
 @asset(
-    compute_kind="GitHub", group_name="raw_github", partitions_def=docs_partitions_def
+    compute_kind="GitHub", group_name="OpenAI_Demo", partitions_def=docs_partitions_def
 )
 def source_docs(context: AssetExecutionContext):
     return list(get_github_docs("dagster-io", "dagster", context.partition_key))

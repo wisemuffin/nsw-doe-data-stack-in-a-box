@@ -4,7 +4,8 @@ sources:
   - name: raw
     database: |
       {{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME') }}
-    schema: raw
+    schema: |
+      {{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA') }}
     tables:
       - name: raw_google_analytics_metrics
         meta:

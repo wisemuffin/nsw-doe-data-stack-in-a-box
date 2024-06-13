@@ -19,6 +19,7 @@ dagster_aws
 # data schema validation
 pandera
 pandera[io]
+dagster-pandera
 
 # required for pandas to read excel for acara data
 openpyxl

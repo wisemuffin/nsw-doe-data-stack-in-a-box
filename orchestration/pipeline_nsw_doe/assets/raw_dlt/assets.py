@@ -1,3 +1,4 @@
+import os
 from typing import Optional
 
 from dagster import (
@@ -19,6 +20,10 @@ from ...dlt_sources.google_analytics import google_analytics
 
 # dlt_configuration_path = file_relative_path(__file__, "../../dlt_sources/dlt_configuration.yaml")
 # dlt_configuration = yaml.safe_load(open(dlt_configuration_path))
+
+NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: str = os.getenv(
+    "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA", "schema_not_set"
+)
 
 
 class GithubDagsterDltTranslator(DagsterDltTranslator):
@@ -62,10 +67,10 @@ class GithubDagsterDltTranslator(DagsterDltTranslator):
 
 @dlt_assets(
     dlt_source=github_reactions(
-        # owner= "wisemuffin",
-        # name="nsw-doe-data-stack-in-a-box",
-        owner="dagster-io",
-        name="dagster",
+        owner="wisemuffin",
+        name="nsw-doe-data-stack-in-a-box",
+        # owner="dagster-io",
+        # name="dagster",
         # access_token = "", #dlt.secrets.value,
         items_per_page=100,
         max_items=10,
@@ -73,8 +78,10 @@ class GithubDagsterDltTranslator(DagsterDltTranslator):
     # .with_resources("issues")
     dlt_pipeline=pipeline(
         pipeline_name="github_github_reactions",
-        dataset_name="raw",  # schema
-        destination="duckdb",
+        dataset_name=NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA,  # schema
+        destination="duckdb"
+        if os.getenv("NSW_DOE_DATA_STACK_IN_A_BOX__ENV", "dev") == "dev"
+        else "motherduck",
     ),
     name="github",
     # key_prefix=["raw"], # TODO: no prefixing yet
@@ -89,10 +96,10 @@ def github_reactions_dagster_assets(
 
 @dlt_assets(
     dlt_source=github_repo_events(
-        # owner= "wisemuffin",
-        # name="nsw-doe-data-stack-in-a-box",
-        owner="dagster-io",
-        name="dagster",
+        owner="wisemuffin",
+        name="nsw-doe-data-stack-in-a-box",
+        # owner="dagster-io",
+        # name="dagster",
         # access_token = "", #dlt.secrets.value,
         # items_per_page=100,
         # max_items=10
@@ -100,8 +107,10 @@ def github_reactions_dagster_assets(
     # .with_resources("repo_events")
     dlt_pipeline=pipeline(
         pipeline_name="github_repo_events",
-        dataset_name="raw_github",  # schema
-        destination="duckdb",
+        dataset_name=NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA,  # schema
+        destination="duckdb"
+        if os.getenv("NSW_DOE_DATA_STACK_IN_A_BOX__ENV", "dev") == "dev"
+        else "motherduck",
     ),
     name="github_evt",
     # key_prefix=["raw"], # TODO: no prefixing yet
@@ -175,9 +184,11 @@ GA_QUERIES = [
 @dlt_assets(
     dlt_source=google_analytics(queries=GA_QUERIES),
     dlt_pipeline=pipeline(
-        pipeline_name="github_github_reactions",
-        dataset_name="raw",  # schema
-        destination="duckdb",
+        pipeline_name="google_analytics",
+        dataset_name=NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA,  # schema
+        destination="duckdb"
+        if os.getenv("NSW_DOE_DATA_STACK_IN_A_BOX__ENV", "dev") == "dev"
+        else "motherduck",
     ),
     name="google_analytics",
     # key_prefix=["raw"], # TODO: no prefixing yet

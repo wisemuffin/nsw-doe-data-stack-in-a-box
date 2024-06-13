@@ -1,11 +1,13 @@
-name: Serverless Branch Deployments
+name: Prod Deployment
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
+  push:
+    branches:
+      - "main"
+      - "master"
 
 concurrency:
   # Cancel in-progress deploys to same branch
-  group: ${{ github.ref }}/branch_deployments
+  group: ${{ github.ref }}/deploy
   cancel-in-progress: true
 env:
   DAGSTER_CLOUD_URL: "http://wisemuffin.dagster.cloud"
@@ -24,7 +26,7 @@ env:
 
   NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB:         ${{ secrets.NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB }}
   NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME:                ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME }}
-  NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA:          ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }}__pr_$(date +%s)
+  NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA:          ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }}
 
   MOTHERDUCK_TOKEN:                                   ${{ secrets.MOTHERDUCK_TOKEN }}
   DATAFOLD_APIKEY:                                    ${{ secrets.DATAFOLD_APIKEY }}
@@ -47,7 +49,7 @@ jobs:
   dagster_cloud_default_deploy:
     name: Dagster Serverless Deploy
     runs-on: ubuntu-20.04
-    environment: test
+    environment: prod
     outputs:
       build_info: ${{ steps.parse-workspace.outputs.build_info }}
 
@@ -88,10 +90,12 @@ jobs:
         with:
           project_dir: .
           dagster_cloud_yaml_path: ${{ env.DAGSTER_CLOUD_FILE }}
+          deployment: 'prod'
 
       - name: Prepare DBT project for deployment
         if: steps.prerun.outputs.result == 'pex-deploy'
-        # --upgrade-strategy eager picks up newer packages that are required for things to work
+
+        # add project to python path to enable imports for dagster being in a child directory
         run: |
           # echo "PYTHONPATH="pwd >> $GITHUB_ENV
           python -m pip install uv
@@ -105,6 +109,27 @@ jobs:
           # The cli command below can be used to manage syncing the prod manifest to branches if state_path is set on the DbtProject
           # dagster-cloud ci dagster-dbt project manage-state --file ./${{ env.DAGSTER_PROJECT_NAME }}/project.py
         shell: bash
+
+      # - name: dave test
+      #   run: |
+      #     echo "PYTHONPATH="$GITHUB_WORKSPACE >> $GITHUB_ENV
+
+      # - name: dave test
+      #   run: |
+      #     echo GITHUB_ACTION_PATH
+      #     cd $GITHUB_ACTION_PATH
+      #     pwd
+      #     ls
+      #     echo cd ..
+      #     pwd
+      #     cd ..
+      #     ls
+      #     echo cd ..
+      #     pwd
+      #     cd ..
+      #     ls
+      #     echo cat deploy_pex.py
+      #     cat deploy_pex.py
 
       - name: Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'
@@ -131,7 +156,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
       - name: Build and deploy to Dagster Cloud serverless
-        uses: dagster-io/dagster-cloud-action/actions/serverless_branch_deploy@v0.1
+        uses: dagster-io/dagster-cloud-action/actions/serverless_prod_deploy@v0.1
         with:
           dagster_cloud_api_token: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}
           location: ${{ toJson(matrix.location) }}

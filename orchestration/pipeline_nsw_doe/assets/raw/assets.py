@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 from dagster import (
     AssetCheckResult,
@@ -7,28 +9,36 @@ from dagster import (
     asset,
 )
 
-from pipeline_nsw_doe.factory import pandera_schema_to_dagster_type
+from dagster_pandera import pandera_schema_to_dagster_type
+# from pipeline_nsw_doe.factory import pandera_schema_to_dagster_type
 
 from .schema_masterdataset import schema as schema_masterdataset
 from .schema_ram import schema as schema_ram
 
 DatahubMasterDatasetDagsterType = pandera_schema_to_dagster_type(
-    schema=schema_masterdataset,
-    name="DatahubMasterDatasetDagsterType",
-    description="data frame DagsterType type for this dummy asset.",
+    schema=schema_masterdataset
+)
+
+NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: str = os.getenv(
+    "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA", "schema_not_set"
 )
 
 
 @asset(
     compute_kind="python",
-    key_prefix=["raw"],
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
     group_name="raw_datahub",
     io_manager_key="io_manager_dw",
     dagster_type=DatahubMasterDatasetDagsterType,
     check_specs=[
         AssetCheckSpec(
             name="raw__nsw_doe_datahub__master_dataset_id_has_no_nulls",
-            asset=AssetKey(["raw", "raw__nsw_doe_datahub__master_dataset"]),
+            asset=AssetKey(
+                [
+                    NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA,
+                    "raw__nsw_doe_datahub__master_dataset",
+                ]
+            ),
         )
     ],
 )
@@ -36,6 +46,7 @@ def raw__nsw_doe_datahub__master_dataset():
     url = "https://data.cese.nsw.gov.au/data/dataset/027493b2-33ad-3f5b-8ed9-37cdca2b8650/resource/2ac19870-44f6-443d-a0c3-4c867f04c305/download/master_dataset.csv"
     df = pd.read_csv(
         url,
+        on_bad_lines="skip",  # 🚧 TODO Temp workaround due to malformed csv
     )
 
     df["_load_timestamp"] = pd.Timestamp("now")
@@ -44,6 +55,8 @@ def raw__nsw_doe_datahub__master_dataset():
     df.head()
     print(df.shape)
     print(df.dtypes)
+
+    df = df.head(100)  # 🚧 TODO - temp fix to skip errors with malformed csv
 
     # schema = pa.infer_schema(df)
     # schema_script = schema.to_script('schema_template.py')
@@ -58,21 +71,21 @@ def raw__nsw_doe_datahub__master_dataset():
 
 DatahubRamDagsterType = pandera_schema_to_dagster_type(
     schema=schema_ram,
-    name="DatahubRamDagsterType",
-    description="data frame DagsterType type for this dummy asset.",
 )
 
 
 @asset(
     compute_kind="python",
-    key_prefix=["raw"],
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
     io_manager_key="io_manager_dw",
     group_name="raw_datahub",
     dagster_type=DatahubRamDagsterType,
     check_specs=[
         AssetCheckSpec(
             name="raw__nsw_doe_datahub__ram_id_has_no_nulls",
-            asset=AssetKey(["raw", "raw__nsw_doe_datahub__ram"]),
+            asset=AssetKey(
+                [NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA, "raw__nsw_doe_datahub__ram"]
+            ),
         )
     ],
 )
@@ -128,7 +141,7 @@ def raw__nsw_doe_datahub__ram():
 
 @asset(
     compute_kind="python",
-    key_prefix=["raw"],
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
     group_name="raw_acara",
     io_manager_key="io_manager_dw",
 )
@@ -146,7 +159,7 @@ def raw__acara__staff_numbers():
 
 @asset(
     compute_kind="python",
-    key_prefix=["raw"],
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
     group_name="raw_acara",
     io_manager_key="io_manager_dw",
 )

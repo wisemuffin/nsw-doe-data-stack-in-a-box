@@ -14,6 +14,8 @@ dagstermill
 papermill-origami>=0.0.8
 dagster-cloud
 
+dagster_aws
+
 # data schema validation
 pandera
 pandera[io]
@@ -61,3 +63,6 @@ dagster-openai
 langchain==0.1.11
 tiktoken
 faiss-cpu
+
+
+s3fs

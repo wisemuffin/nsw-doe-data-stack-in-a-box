@@ -15,7 +15,6 @@ The Usage page will help deterine how we are doing on our main quest of getting 
   comparison=prior_month_growth_pct
   comparisonFmt=pct1
   comparisonTitle="vs. Last Month"
-
 />
 
 <Details title="Definitions">
@@ -34,7 +33,6 @@ The Usage page will help deterine how we are doing on our main quest of getting 
   data={fct__repo_issue_reaction_total}
   value=cnt_reaction
   title="Reactions to Issues"
-
 />
 
 <Details title="Definitions">

@@ -1,9 +1,9 @@
-name: Prod Deploy dbt only
+name: Prod Deploy dbt metadata
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 
 env:
     NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR:    ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}
@@ -66,15 +66,21 @@ jobs:
         # role-duration-seconds: 1200
         role-session-name: MySessionName
 
-    - name: Get the last manifest.json from s3
-      run: |
-        echo s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json
-        aws s3 cp s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest/manifest.json
+    # - name: Get the last manifest.json from s3
+    #   run: |
+    #     echo s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json
+    #     aws s3 cp s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest/manifest.json
 
-    - name: Deploy
+    # - name: Deploy
+    #   run: |
+    #     cd ${{github.workspace}}/transformation/transformation_nsw_doe
+    #     dbt build --exclude "+*github*+ +*google*+" --models state:modified+ --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
+
+    - name: Generate Manifest
       run: |
         cd ${{github.workspace}}/transformation/transformation_nsw_doe
-        dbt build --exclude "+*github*+ +*google*+" --models state:modified+ --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
+        dbt parse --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
+
 
     - name: Upload manifest.json from s3
       run: |

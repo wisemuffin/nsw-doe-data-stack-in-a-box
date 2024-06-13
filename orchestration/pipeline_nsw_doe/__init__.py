@@ -23,7 +23,7 @@ from dagster_openai import OpenAIResource
 
 from dagster_embedded_elt.dlt import DagsterDltResource
 
-from dagster_aws.s3 import S3PickleIOManager, S3Resource
+from pipeline_nsw_doe.io_managers import PandasParquetIOManager
 
 
 # from dagster_airbyte import airbyte_resource
@@ -72,34 +72,27 @@ NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA = os.getenv(
 
 S3_BUCKET_METADATA = os.getenv("S3_BUCKET_METADATA")
 
+NSW_DOE_DATA_STACK_IN_A_BOX__ENV = os.getenv("NSW_DOE_DATA_STACK_IN_A_BOX__ENV", "dev")
+
 resources_by_env = {
     "prod": {
         "io_manager_dw": DuckDBPandasIOManager(
             database=f"{NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB}",
         ),
-        "io_manager": S3PickleIOManager(
-            s3_resource=S3Resource(),
-            s3_bucket=f"{S3_BUCKET_METADATA}",
-            s3_prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA}",
-        ),
+        # "io_manager": S3PickleIOManager(
+        #     s3_resource=S3Resource(),
+        #     s3_bucket=f"{S3_BUCKET_METADATA}",
+        #     s3_prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA}",
+        # ),
+        "io_manager": FilesystemIOManager(),
         "dbt": DbtCliResource(project_dir=nsw_doe_data_stack_in_a_box_project),
         "dlt": DagsterDltResource(),
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),
         "openai": OpenAIResource(api_key=EnvVar("OPENAI_API_KEY")),
-    },
-    "test": {
-        "io_manager_dw": DuckDBPandasIOManager(
-            database=f"{NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB}",
+        "pandas_parquet_io_manager": PandasParquetIOManager(
+            bucket_name=f"{S3_BUCKET_METADATA}",
+            prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX__ENV}/{NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA}",
         ),
-        "io_manager": S3PickleIOManager(
-            s3_resource=S3Resource(),
-            s3_bucket=f"{S3_BUCKET_METADATA}",
-            s3_prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA}",
-        ),
-        "dbt": DbtCliResource(project_dir=nsw_doe_data_stack_in_a_box_project),
-        "dlt": DagsterDltResource(),
-        "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),
-        "openai": OpenAIResource(api_key=EnvVar("OPENAI_API_KEY")),
     },
     "test": {
         "io_manager_dw": DuckDBPandasIOManager(
@@ -110,6 +103,10 @@ resources_by_env = {
         "dlt": DagsterDltResource(),
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),
         "openai": OpenAIResource(api_key=EnvVar("OPENAI_API_KEY")),
+        "pandas_parquet_io_manager": PandasParquetIOManager(
+            bucket_name=f"{S3_BUCKET_METADATA}",
+            prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX__ENV}/{NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA}",
+        ),
     },
     "dev": {
         "io_manager_dw": DuckDBPandasIOManager(database=DUCKDB_PROJECT_DIR),
@@ -118,6 +115,10 @@ resources_by_env = {
         "dlt": DagsterDltResource(),
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),
         "openai": OpenAIResource(api_key=EnvVar("OPENAI_API_KEY")),
+        "pandas_parquet_io_manager": PandasParquetIOManager(
+            bucket_name=f"{S3_BUCKET_METADATA}",
+            prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX__ENV}/{NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA}",
+        ),
     },
 }
 
@@ -186,7 +187,7 @@ schedule_etl_not_requiring_apis = ScheduleDefinition(
 
 defs = Definitions(
     assets=all_assets,
-    resources=resources_by_env[os.getenv("NSW_DOE_DATA_STACK_IN_A_BOX__ENV", "dev")],
+    resources=resources_by_env[NSW_DOE_DATA_STACK_IN_A_BOX__ENV],
     jobs=[etl_requiring_apis, etl_not_requiring_apis],
     schedules=[schedule_etl_requiring_apis, schedule_etl_not_requiring_apis],
     sensors=[msteams_on_run_failure, sensors.question_sensor],
@@ -194,6 +195,6 @@ defs = Definitions(
     # see: https://duckdb.org/docs/connect/concurrency.html
     # when in prod or test env we are using motherduck so no concurrency limitations
     executor=in_process_executor
-    if os.getenv("NSW_DOE_DATA_STACK_IN_A_BOX__ENV", "dev") == "dev"
+    if NSW_DOE_DATA_STACK_IN_A_BOX__ENV == "dev"
     else multi_or_in_process_executor,
 )

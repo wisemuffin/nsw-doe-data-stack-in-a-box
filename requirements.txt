@@ -2,10 +2,16 @@
 #    uv pip compile requirements.in -o requirements.txt
 agate==1.7.1
     # via dbt-core
+aiobotocore==2.13.0
+    # via s3fs
 aiohttp==3.9.5
     # via
+    #   aiobotocore
     #   langchain
     #   langchain-community
+    #   s3fs
+aioitertools==0.11.0
+    # via aiobotocore
 aiosignal==1.3.1
     # via aiohttp
 alembic==1.13.1
@@ -47,10 +53,11 @@ black==24.4.2
     # via pandera
 bleach==6.1.0
     # via nbconvert
-boto3==1.34.117
+boto3==1.34.106
     # via dagster-aws
-botocore==1.34.117
+botocore==1.34.106
     # via
+    #   aiobotocore
     #   boto3
     #   s3transfer
 cachetools==5.3.3
@@ -217,9 +224,10 @@ frozenlist==1.4.1
     # via
     #   aiohttp
     #   aiosignal
-fsspec==2024.5.0
+fsspec==2024.6.0
     # via
     #   dlt
+    #   s3fs
     #   universal-pathlib
 gitdb==4.0.11
     # via gitpython
@@ -813,6 +821,7 @@ ruamel-yaml==0.17.40
 ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
 ruff==0.4.4
+s3fs==2024.6.0
 s3transfer==0.10.1
     # via boto3
 scikit-learn==1.5.0
@@ -1039,7 +1048,9 @@ widgetsnbextension==4.0.10
 wordcloud==1.9.3
     # via ydata-profiling
 wrapt==1.16.0
-    # via pandera
+    # via
+    #   aiobotocore
+    #   pandera
 yarl==1.9.4
     # via
     #   aiohttp

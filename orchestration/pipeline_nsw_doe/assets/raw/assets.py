@@ -46,7 +46,7 @@ def raw__nsw_doe_datahub__master_dataset():
     url = "https://data.nsw.gov.au/data/dataset/78c10ea3-8d04-4c9c-b255-bbf8547e37e7/resource/3e6d5f6a-055c-440d-a690-fc0537c31095/download/master_dataset.csv"
     df = pd.read_csv(
         url,
-        on_bad_lines="skip",  # 🚧 TODO Temp workaround due to malformed csv
+        # on_bad_lines="skip",  # 🚧 TODO Temp workaround due to malformed csv
     )
 
     df["_load_timestamp"] = pd.Timestamp("now")
@@ -56,7 +56,7 @@ def raw__nsw_doe_datahub__master_dataset():
     print(df.shape)
     print(df.dtypes)
 
-    df = df.head(100)  # 🚧 TODO - temp fix to skip errors with malformed csv
+    # df = df.head(100)  # 🚧 TODO - temp fix to skip errors with malformed csv
 
     # schema = pa.infer_schema(df)
     # schema_script = schema.to_script('schema_template.py')

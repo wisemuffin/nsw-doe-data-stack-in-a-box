@@ -10,7 +10,7 @@ from pipeline_nsw_doe.dlt_sources.nsw_doe.helpers import get_nsw_doe_data
 
 
 @dlt.source(max_table_nesting=2)
-def nsw_doe_enrolments(access_token: Optional[str] = None) -> Sequence[DltResource]:
+def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
     """
     Args:
         access_token (str): The classic or fine-grained access token. If not provided, calls are made anonymously
@@ -24,7 +24,21 @@ def nsw_doe_enrolments(access_token: Optional[str] = None) -> Sequence[DltResour
         raw__nsw_doe_datahub__enrolments_secondary(access_token),
         raw__nsw_doe_datahub__enrolments_central(access_token),
         raw__nsw_doe_datahub__enrolments_ssp(access_token),
-    )
+        raw__nsw_doe_datahub__incidents_2022_part_1(access_token),
+        raw__nsw_doe_datahub__incidents_2022_part_2(access_token),
+        raw__nsw_doe_datahub__incidents_2021_part_1(access_token),
+        raw__nsw_doe_datahub__incidents_2021_part_2(access_token),
+        raw__nsw_doe_datahub__incidents_2020_part_1(access_token),
+        raw__nsw_doe_datahub__incidents_2020_part_2(access_token),
+        raw__nsw_doe_datahub__class_size(access_token),
+        raw__nsw_doe_datahub__aparent_retention_rate_10_to_12(access_token),
+        raw__nsw_doe_datahub__aparent_retention_rate_7_to_10(access_token),
+        raw__nsw_doe_datahub__aparent_retention_rate_aboriginal_and_or_torres_strait_islanders(
+            access_token
+        ),
+        raw__nsw_doe_datahub__early_childhood_education_centres(access_token),
+        raw__nsw_doe_datahub__university(access_token),
+    )  # type: ignore
 
 
 # use naming function in table name to generate separate tables for each event
@@ -32,6 +46,7 @@ def nsw_doe_enrolments(access_token: Optional[str] = None) -> Sequence[DltResour
     # primary_key="id",
     # table_name=lambda i: "raw_github_events_" + i["type"]
     write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
     # columns={
     #     "last_online": {"data_type": "timestamp"},
     #     "joined": {"data_type": "timestamp"},
@@ -59,6 +74,7 @@ def raw__nsw_doe_datahub__enrolments_primary(
 
 @dlt.resource(
     write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
 )
 def raw__nsw_doe_datahub__enrolments_secondary(
     access_token: Optional[str] = None,
@@ -71,6 +87,7 @@ def raw__nsw_doe_datahub__enrolments_secondary(
 
 @dlt.resource(
     write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
 )
 def raw__nsw_doe_datahub__enrolments_central(
     access_token: Optional[str] = None,
@@ -83,12 +100,193 @@ def raw__nsw_doe_datahub__enrolments_central(
 
 @dlt.resource(
     write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
 )
 def raw__nsw_doe_datahub__enrolments_ssp(
     access_token: Optional[str] = None,
 ) -> Iterator[TDataItems]:
     for page in get_nsw_doe_data(
         access_token, "?resource_id=5f0736cd-9b26-48e2-a45d-b74c7cbe83ed"
+    ):
+        yield page
+
+
+dlt.resource(
+    write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
+)
+
+
+def raw__nsw_doe_datahub__incidents_2022_part_1(
+    access_token: Optional[str] = None,
+) -> Iterator[TDataItems]:
+    for page in get_nsw_doe_data(
+        access_token, "?resource_id=7aad21e8-552b-49e1-a667-f99ff8b71f25"
+    ):
+        yield page
+
+
+dlt.resource(
+    write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
+)
+
+
+def raw__nsw_doe_datahub__incidents_2022_part_2(
+    access_token: Optional[str] = None,
+) -> Iterator[TDataItems]:
+    for page in get_nsw_doe_data(
+        access_token, "?resource_id=413aacee-7673-46de-8d1e-8d0c7e2cb896"
+    ):
+        yield page
+
+
+dlt.resource(
+    write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
+)
+
+
+def raw__nsw_doe_datahub__incidents_2021_part_1(
+    access_token: Optional[str] = None,
+) -> Iterator[TDataItems]:
+    for page in get_nsw_doe_data(
+        access_token, "?resource_id=aac44f6c-be1e-47f6-b420-c636470fd806"
+    ):
+        yield page
+
+
+dlt.resource(
+    write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
+)
+
+
+def raw__nsw_doe_datahub__incidents_2021_part_2(
+    access_token: Optional[str] = None,
+) -> Iterator[TDataItems]:
+    for page in get_nsw_doe_data(
+        access_token, "?resource_id=8175de13-eb11-4c87-b886-15a2e6ad4043"
+    ):
+        yield page
+
+
+dlt.resource(
+    write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
+)
+
+
+def raw__nsw_doe_datahub__incidents_2020_part_1(
+    access_token: Optional[str] = None,
+) -> Iterator[TDataItems]:
+    for page in get_nsw_doe_data(
+        access_token, "?resource_id=a761d9ab-e7b3-4e51-91de-52cc9299ead3"
+    ):
+        yield page
+
+
+dlt.resource(
+    write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
+)
+
+
+def raw__nsw_doe_datahub__incidents_2020_part_2(
+    access_token: Optional[str] = None,
+) -> Iterator[TDataItems]:
+    for page in get_nsw_doe_data(
+        access_token, "?resource_id=32c6acdc-5192-454a-8bf5-d4597a8b8ea7"
+    ):
+        yield page
+
+
+dlt.resource(
+    write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
+)
+
+
+def raw__nsw_doe_datahub__class_size(
+    access_token: Optional[str] = None,
+) -> Iterator[TDataItems]:
+    for page in get_nsw_doe_data(
+        access_token, "?resource_id=7616001d-e4cb-4e4a-9a4f-76b166df5d37"
+    ):
+        yield page
+
+
+dlt.resource(
+    write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
+)
+
+
+def raw__nsw_doe_datahub__aparent_retention_rate_10_to_12(
+    access_token: Optional[str] = None,
+) -> Iterator[TDataItems]:
+    for page in get_nsw_doe_data(
+        access_token, "?resource_id=6c36db3e-ff18-4ff1-a1e1-af5299cade19"
+    ):
+        yield page
+
+
+dlt.resource(
+    write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
+)
+
+
+def raw__nsw_doe_datahub__aparent_retention_rate_7_to_10(
+    access_token: Optional[str] = None,
+) -> Iterator[TDataItems]:
+    for page in get_nsw_doe_data(
+        access_token, "?resource_id=73529e52-b9ce-492e-a5fa-2e4aaf5993cd"
+    ):
+        yield page
+
+
+dlt.resource(
+    write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
+)
+
+
+def raw__nsw_doe_datahub__aparent_retention_rate_aboriginal_and_or_torres_strait_islanders(
+    access_token: Optional[str] = None,
+) -> Iterator[TDataItems]:
+    for page in get_nsw_doe_data(
+        access_token, "?resource_id=61aa10b5-4f2e-43db-862e-32fde8e8eb82"
+    ):
+        yield page
+
+
+dlt.resource(
+    write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
+)
+
+
+def raw__nsw_doe_datahub__early_childhood_education_centres(
+    access_token: Optional[str] = None,
+) -> Iterator[TDataItems]:
+    for page in get_nsw_doe_data(
+        access_token, "?resource_id=80c2ccfc-971d-43cd-8ee6-e7cc4f15e989"
+    ):
+        yield page
+
+
+dlt.resource(
+    write_disposition="replace",
+    schema_contract={"tables": "evolve", "columns": "evolve", "data_type": "freeze"},
+)
+
+
+def raw__nsw_doe_datahub__university(
+    access_token: Optional[str] = None,
+) -> Iterator[TDataItems]:
+    for page in get_nsw_doe_data(
+        access_token, "?resource_id=ff846431-5400-4f8e-95fb-891648f05975"
     ):
         yield page
 

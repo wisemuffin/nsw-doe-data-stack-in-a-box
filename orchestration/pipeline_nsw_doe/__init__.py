@@ -135,8 +135,8 @@ assets_requiring_apis = (
 )
 assets_not_requiring_apis = AssetSelection.all() - assets_requiring_apis
 
-etl_not_requiring_apis = define_asset_job(
-    name="etl_not_requiring_apis",
+etl_education = define_asset_job(
+    name="etl_education",
     selection=assets_not_requiring_apis,
     # config={
     #     "execution": {
@@ -149,8 +149,8 @@ etl_not_requiring_apis = define_asset_job(
     # },
 )
 
-etl_requiring_apis = define_asset_job(
-    name="etl_requiring_apis",
+etl_utilisation = define_asset_job(
+    name="etl_utilisation",
     selection=assets_requiring_apis - AssetSelection.groups("OpenAI_Demo"),
     # config={
     #     "execution": {
@@ -165,16 +165,16 @@ etl_requiring_apis = define_asset_job(
 
 msteams_on_run_failure = make_teams_on_run_failure_sensor(
     hook_url="",
-    monitored_jobs=([etl_requiring_apis]),
+    monitored_jobs=([etl_utilisation]),
 )
 
 
-schedule_etl_requiring_apis = ScheduleDefinition(
-    job=etl_requiring_apis, cron_schedule="0 0 * * *"
+schedule_etl_utilisation = ScheduleDefinition(
+    job=etl_utilisation, cron_schedule="0 0 * * *"
 )
 
-schedule_etl_not_requiring_apis = ScheduleDefinition(
-    job=etl_not_requiring_apis, cron_schedule="0 1 * * *"
+schedule_etl_education = ScheduleDefinition(
+    job=etl_education, cron_schedule="0 1 * * *"
 )
 
 
@@ -188,8 +188,8 @@ schedule_etl_not_requiring_apis = ScheduleDefinition(
 defs = Definitions(
     assets=all_assets,
     resources=resources_by_env[NSW_DOE_DATA_STACK_IN_A_BOX__ENV],
-    jobs=[etl_requiring_apis, etl_not_requiring_apis],
-    schedules=[schedule_etl_requiring_apis, schedule_etl_not_requiring_apis],
+    jobs=[etl_utilisation, etl_education],
+    schedules=[schedule_etl_utilisation, schedule_etl_education],
     sensors=[msteams_on_run_failure, sensors.question_sensor],
     # assets to not be materialized concurrently when running in local dev environments to avoid duckdb limitation of conncurrancy
     # see: https://duckdb.org/docs/connect/concurrency.html

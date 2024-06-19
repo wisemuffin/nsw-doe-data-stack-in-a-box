@@ -255,7 +255,5 @@ class NSWDOEDagsterDltTranslator(DagsterDltTranslator):
     group_name="raw_datahub",
     dlt_dagster_translator=NSWDOEDagsterDltTranslator(),
 )
-def raw__nsw_doe_datahub__enrolments(
-    context: AssetExecutionContext, dlt: DagsterDltResource
-):
+def raw__nsw_doe_data(context: AssetExecutionContext, dlt: DagsterDltResource):
     yield from dlt.run(context=context)

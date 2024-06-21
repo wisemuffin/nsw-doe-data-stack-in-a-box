@@ -9,7 +9,7 @@ metrics:
     type: derived
     type_params:
       expr: funding_aud_post_adjustments_prev_year
-      metrics: 
+      metrics:
         - name: funding_aud_post_adjustments
           offset_window: 1 year
           alias: funding_aud_post_adjustments_prev_year
@@ -18,7 +18,7 @@ metrics:
   #   type: derived
   #   type_params:
   #     expr: funding_aud_post_adjustments / funding_aud_post_adjustments_prev_year -1
-  #     metrics: 
+  #     metrics:
   #       - name: funding_aud_post_adjustments
   #       - name: funding_aud_post_adjustments
   #         offset_window: 1 year
@@ -38,7 +38,7 @@ metrics:
   #   label: count of staff latest
   #   type: derived
   #   type_params:
-  #     metrics: 
+  #     metrics:
   #       - name: staff_count
   #       - name: staff_year_max
   #   filter: |
@@ -56,6 +56,71 @@ metrics:
     type_params:
       measure: school_count
 
+  - name: attendance_rate
+    label: attendance rate
+    type: simple
+    type_params:
+      measure: attendance_rate
+
+  - name: apprenticeship_traineeship_training_contract_approvals
+    label: apprenticeship traineeship training contract approvals
+    type: simple
+    type_params:
+      measure: apprenticeship_traineeship_training_contract_approvals
+
+  - name: apprenticeship_traineeship_training_contract_completions
+    label: apprenticeship traineeship training contract completions
+    type: simple
+    type_params:
+      measure: apprenticeship_traineeship_training_contract_completions
+
+  - name: class_size_k_6
+    label: average class size k to year 6
+    type: simple
+    type_params:
+      measure: class_size_k_6
+
+  - name: enrolments
+    label: enrolments
+    type: simple
+    type_params:
+      measure: enrolments
+
+  - name: incidents
+    label: incidents
+    type: simple
+    type_params:
+      measure: incidents
+
+  - name: aparent_retention_rate_7_to_10
+    label: aparent retention rate 7 to 10
+    type: simple
+    type_params:
+      measure: aparent_retention_rate_7_to_10
+
+  - name: aparent_retention_rate_10_to_12
+    label: aparent retention rate 10 to 12
+    type: simple
+    type_params:
+      measure: aparent_retention_rate_10_to_12
+
+  - name: aparent_retention_rate_10_to_12_aboriginal_and_or_torres_strait_islanders
+    label: aparent retention rate 10 to 12 aboriginal and or torres strait islanders
+    type: simple
+    type_params:
+      measure: aparent_retention_rate_10_to_12_aboriginal_and_or_torres_strait_islanders
+
+  - name: aparent_retention_rate_7_to_10_aboriginal_and_or_torres_strait_islanders
+    label: aparent retention rate 7 to 10 aboriginal and or torres strait islanders
+    type: simple
+    type_params:
+      measure: aparent_retention_rate_7_to_10_aboriginal_and_or_torres_strait_islanders
+
+  - name: aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders
+    label: aparent retention rate 7 to 12 aboriginal and or torres strait islanders
+    type: simple
+    type_params:
+      measure: aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders
 
 saved_queries:
   - name: metrics_saved_query
@@ -70,6 +135,17 @@ saved_queries:
             - staff_count
             - student_count
             - school_count
+            - attendance_rate
+            - apprenticeship_traineeship_training_contract_approvals
+            - apprenticeship_traineeship_training_contract_completions
+            - class_size_k_6
+            - enrolments
+            - incidents
+            - aparent_retention_rate_7_to_10
+            - aparent_retention_rate_10_to_12
+            - aparent_retention_rate_10_to_12_aboriginal_and_or_torres_strait_islanders
+            - aparent_retention_rate_7_to_10_aboriginal_and_or_torres_strait_islanders
+            - aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders
         group_by:
             - TimeDimension('metric_time', 'year')
   - name: metrics_by_year_saved_query

@@ -1,0 +1,25 @@
+semantic_models:
+  - name: class
+    defaults:
+      agg_time_dimension: calendar_year
+    description: |
+      🚧
+    model: ref('fct__class')
+    entities:
+      - name: class
+        type: primary
+        expr: _meta__fct__class__sk
+      - name: school
+        type: foreign
+        expr: _meta__dim__school__sk
+    dimensions:
+      - name: calendar_year
+        expr: calendar_year
+        type: time
+        type_params:
+          time_granularity: year
+    measures:
+      - name: class_size_k_6
+        description: 🚧
+        agg: average
+        expr: k_6

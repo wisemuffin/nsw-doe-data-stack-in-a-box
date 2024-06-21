@@ -1,5 +1,5 @@
 with source as (
-    select *, from {{ source('raw', 'raw_nsw_doe_datahub_aparent_retention_rate_7_to_10') }}
+    select *, from {{ source('raw', 'raw_nsw_doe_datahub_aparent_retention_rate_10_to_12') }}
 ),
 
 renamed as (
@@ -27,15 +27,21 @@ unpivoted as (
     on columns(* exclude (sa4_groups, _dlt_load_id, _dlt_id))
     into
     name year
-    value aparent_retention_rate_7_to_10
+    value aparent_retention_rate_10_to_12
 ),
 
 final as (
     select
         sa4_groups,
         cast(substring(year, 2, 4) as INTEGER) as calendar_year,
-        aparent_retention_rate_7_to_10,
+        cast(aparent_retention_rate_10_to_12 as DECIMAL) as aparent_retention_rate_10_to_12,
     from unpivoted
 )
 
-select *, from final
+  {{ dbt_audit(
+    cte_ref="final",
+    created_by="@daveg",
+    updated_by="@daveg",
+    created_date="2024-06-20",
+    updated_date="2024-06-20"
+) }}

@@ -46,7 +46,6 @@ The project is designed to be very simple but allow you the flexibility for you 
 - **Love DevOps and platform engineering?** Check out our Orchestration, CICD pipelines, and automation such as linting, data diffs ect.
 
 
-
 ## Overview of Project (Architecture) 🥨
 
 
@@ -74,10 +73,133 @@ The project is designed to be very simple but allow you the flexibility for you 
   - column level linage
 -->
 
+## Information Management
+### Data Catalog
+🚧 TODO likley openmetadata see [example](https://sandbox.open-metadata.org/table/RedshiftProd.dev.demo_dbt_jaffle.customers/lineage)
+### Conceptual Data Model
 
-## Sources
+```mermaid
+erDiagram
+    "STUDENT ✅" {
+        int student_id
+        string name
+        date date_of_birth
+        string gender
+        int school_id
+    }
+    STAFF {
+        int staff_id
+        string name
+        string role
+        date date_of_birth
+        int school_id
+    }
+    COURSE {
+        int course_id
+        string course_name
+        string description
+        int school_id
+    }
+    ENROLLMENT {
+        int enrollment_id
+        int student_id
+        int course_id
+        date enrollment_date
+    }
+    CLASS {
+        int class_id
+        int course_id
+        int staff_id
+        string class_room
+        date class_time
+        int class_size
+    }
+    SCHOOL {
+        int school_id
+        string school_name
+        string address
+    }
+    NAPLAN {
+        int naplan_id
+        int student_id
+        date test_date
+        string test_type
+        int score
+    }
+    %% HSC {
+    %%     int hsc_id
+    %%     int student_id
+    %%     date exam_date
+    %%     string subject
+    %%     int score
+    %% }
+    INCIDENT {
+        int incident_id
+        int school_id
+        date incident_date
+        string incident_type
+        string description
+    }
+    ATTENDANCE {
+        int attendance_id
+        int student_id
+        date attendance_date
+        bool present
+    }
+    RETENTION {
+        int retention_id
+        int school_id
+        int year
+        float retention_rate
+    }
+    EARLY_CHILDHOOD_EDU {
+        int ece_id
+        int school_id
+        string program_name
+        string description
+    }
+    UNIVERSITY {
+        int university_id
+        string university_name
+        string address
+    }
+    APPRENTICESHIP {
+        int apprenticeship_id
+        int student_id
+        string trade
+        date start_date
+        date end_date
+    }
+    TRAINEESHIP {
+        int traineeship_id
+        int student_id
+        string field
+        date start_date
+        date end_date
+    }
+    "STUDENT ✅" ||--o{ ENROLLMENT : enrolls
+    COURSE ||--o{ ENROLLMENT : includes
+    STAFF ||--o{ CLASS : teaches
+    COURSE ||--o{ CLASS : consists_of
+    SCHOOL ||--o{ "STUDENT ✅" : has
+    SCHOOL ||--o{ STAFF : employs
+    SCHOOL ||--o{ COURSE : offers
+    "STUDENT ✅" ||--o{ NAPLAN : takes
+    %% "STUDENT ✅" ||--o{ HSC : sits
+    SCHOOL ||--o{ INCIDENT : reports
+    "STUDENT ✅" ||--o{ ATTENDANCE : records
+    SCHOOL ||--o{ RETENTION : tracks
+    EARLY_CHILDHOOD_EDU ||--o{ "STUDENT ✅"  : provides
+    "STUDENT ✅" ||--o{ APPRENTICESHIP : undertakes
+    "STUDENT ✅" ||--o{ TRAINEESHIP : participates_in
+    "STUDENT ✅" ||--o{ UNIVERSITY : enrolls_in
 
-### Education Sources
+```
+The data available publically for each entitity does not go down to a student. In some cases school level data is avaiable. But most entities only have data published at a state wide (NSW) aggregate level.
+
+### Sources
+
+#### Education Sources
 🚧 add column for asset checks
 | Name          | Method (API, CSV, Excel) | Contract Y/N | Description                            | Source URL |
 | ------------- | ----------------- | ------------ | -------------------------------------- | ---------- |
@@ -94,13 +216,13 @@ The project is designed to be very simple but allow you the flexibility for you 
 | `Student retention rates at NSW government schools` | API | ❌ | The full-time apparent retention rate (ARR) measures the proportion of a cohort of full-time students that moves from one grade to the next, based on an expected rate of progression of one grade per year. It does not track individual students through their final years of secondary schooling. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-c9fd51b3-506d-4707-b607-0b1853654ce6 |
 | `University` | API | ❌ | NSW University Locations by campus | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-0d43537e-429a-4a71-8d12-92d2d45eccd0 |
 
-### Utilisation Sources
+#### Utilisation Sources
 | Name          | Method (API, CSV, Excel) | Contract Y/N | Description                            | Source URL |
 | ------------- | ----------------- | ------------ | -------------------------------------- | ---------- |
 | `Google Analytics` | API | ❌ | Captures all the traffic to the data visualisation via [evidence.dev](https://nsw-doe-data-stack-in-a-box-prod.evidence.app/) | https://analytics.google.com/analytics/web/?pli=1#/p438587109/reports/intelligenthome |
 | `Github` | API | ❌ | Captures all the events that occour with the open source project [nsw-doe-data-stack-in-a-box](https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box)  | https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box |
 
-## Bus Matrix
+### Bus Matrix
 🚧 add descriptions for facts
 | Fact          | Status | Dim School                            | Dim Schoolastic Year| Dim Calendar Year | Description |
 | ------------- | ---------------- | -------------------------------------- | --- | --- | ---|
@@ -119,17 +241,17 @@ The project is designed to be very simple but allow you the flexibility for you 
 | `Web Analytics` | ✅ | ❌ | ❌ | ✅  |  |
 | `Repo Reactions` | ✅ | ❌ | ❌ | ✅  |  |
 
-## ERD
+### ERD
 
 [Dimensional ERD check out](./ERD.md)
 
-## Give me more data!
+### Give me more data!
 
-### Data that I want from DOE
+#### Data that I want from DOE
 
 - `Number of techers per school` was on the data hub but was removed citing will now be reported by ABS. But ABS data isnt at a school level.
 
-### Data from ACARA / NESA
+#### Data from ACARA / NESA
 
 - `NAPLAN` and `HSC attainment` by school. Can get NAPLAN by school going to ACARA's [MySchool](https://www.myschool.edu.au/school/41307) but no easy way to get a view for all schools data.
 

@@ -52,5 +52,6 @@
     "orchestration"
   ],
   "python.testing.unittestEnabled": false,
-  "python.testing.pytestEnabled": true
+  "python.testing.pytestEnabled": true,
+  "dbt.perspectiveTheme": "Vintage"
 }

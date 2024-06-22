@@ -75,6 +75,21 @@ Warning for Developer: Visuals update when sql in evidence is changed. But sourc
 <LineBreak/>
 
 
+<BigValue
+    data={attendance_rate}
+    title="Attendance"
+    value="metric_value__latest_year"
+    fnt="num0"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh"
+    comparisonFmt="id"
+    comparisonDelta=false
+  />
+<!-- <LinkButton  url='/funding'>
+  More Details on attendance
+</LinkButton > -->
+<LineBreak/>
+
 
 <BigValue
   data={fct__web_analytics_monthly}
@@ -91,6 +106,21 @@ Warning for Developer: Visuals update when sql in evidence is changed. But sourc
 </LinkButton >
 <LineBreak/>
 
+  <!-- - attendance_rate
+  - apprenticeship_traineeship_training_contract_approvals
+  - apprenticeship_traineeship_training_contract_completions
+  - class_size_k_6
+  - enrolments
+  - incidents
+  - aparent_retention_rate_7_to_10
+  - aparent_retention_rate_10_to_12
+  - aparent_retention_rate_10_to_12_aboriginal_and_or_torres_strait_islanders
+  - aparent_retention_rate_7_to_10_aboriginal_and_or_torres_strait_islanders
+  - aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders -->
+
+```sql attendance_rate
+select * from ${metrics_by_year_saved_query_latest} where metric_name = 'attendance_rate'
+```
 
 ```sql staff_count
 select * from ${metrics_by_year_saved_query_latest} where metric_name = 'staff_count'

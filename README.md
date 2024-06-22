@@ -417,14 +417,15 @@ CICD `.yml` files are located in `.github/workflow`
 
 ### 🚧working on
 
-- msteams sensor on failure of job need to setup webhook somewhere
+- update duckdb to 1.0, dbt dagster,evidence ect.
 
+- metrics from dimensions e.g. ece and unis
 
 - dbt unit tests 🧱 waiting for 1.8 release and how if i need to wait for mother duck
 
 - if a upstream dependancy for dbt breaks then the whole of the dbt run fails.
 
-- move to dagster+
+- ✅ move to dagster+
   - for catalog [dagster+](https://www.youtube.com/watch?v=_Z4xxZYEQNs&t=5s)
     - do this instead of openmetadata
   - demos catalog and data reliability (insights) - asset checks.
@@ -447,7 +448,7 @@ CICD `.yml` files are located in `.github/workflow`
   - ✅ sqlfluff
   - ✅ that python rust package for python linting ect
   - ✅ end to end test orchistration
-  - dagster teams integration
+  - ✅ dagster teams and slack integration
 
 
 ### Help Wanted

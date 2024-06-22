@@ -14,6 +14,8 @@
           {%- for col in columns %}
             {% if col.name|lower == primary_key %}
             MD5('-1') AS {{ col.name|lower }}
+            {% elif 'school_code' in col.name|lower %}
+            -1 AS {{ col.name|lower }}
             -- if the column is part of a relationship test, set it to -1 so this test does not fail
             {% elif col.name|lower in referential_integrity_columns|lower %}
             MD5('-1') AS {{ col.name|lower }}
@@ -59,6 +61,6 @@
     {%- endset %}
 
   {{ duckdb__get_delete_insert_merge_sql(target, source, primary_key, columns, incremental_predicates=none) }}
-  
+
 
 {%- endmacro -%}

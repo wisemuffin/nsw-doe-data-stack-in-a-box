@@ -21,6 +21,14 @@ from ..transformation import nsw_doe_dbt_assets
         get_asset_key_for_model([nsw_doe_dbt_assets], "fct__staff"),
         get_asset_key_for_model([nsw_doe_dbt_assets], "fct__student"),
         get_asset_key_for_model([nsw_doe_dbt_assets], "fct__school"),
+        get_asset_key_for_model(
+            [nsw_doe_dbt_assets], "fct__apprenticeship_traineeship_training"
+        ),
+        get_asset_key_for_model([nsw_doe_dbt_assets], "fct__attendance"),
+        get_asset_key_for_model([nsw_doe_dbt_assets], "fct__class"),
+        get_asset_key_for_model([nsw_doe_dbt_assets], "fct__enrolment"),
+        get_asset_key_for_model([nsw_doe_dbt_assets], "fct__incident"),
+        get_asset_key_for_model([nsw_doe_dbt_assets], "fct__retention"),
         get_asset_key_for_model([nsw_doe_dbt_assets], "dim__date"),
     ],
 )

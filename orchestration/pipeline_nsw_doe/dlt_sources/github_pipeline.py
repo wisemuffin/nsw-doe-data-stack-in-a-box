@@ -14,7 +14,7 @@ def load_duckdb_repo_reactions_issues_only() -> None:
     # get only 100 items (for issues and pull request)
     data = github_reactions(
         "duckdb", "duckdb", items_per_page=100, max_items=100
-    ).with_resources("issues")
+    ).with_resources("raw_github_reactions_issues")
     print(pipeline.run(data))
 
 
@@ -43,6 +43,6 @@ def load_dlthub_dlt_all_data() -> None:
 
 
 if __name__ == "__main__":
-    load_duckdb_repo_reactions_issues_only()
-    load_airflow_events()
+    # load_duckdb_repo_reactions_issues_only()
+    # load_airflow_events()
     load_dlthub_dlt_all_data()

@@ -1,0 +1,25 @@
+semantic_models:
+  - name: attendance
+    defaults:
+      agg_time_dimension: calendar_year
+    description: |
+      🚧
+    model: ref('fct__attendance')
+    entities:
+      - name: attendance
+        type: primary
+        expr: _meta__fct__attendance__sk
+      - name: school
+        type: foreign
+        expr: _meta__dim__school__sk
+    dimensions:
+      - name: calendar_year
+        expr: calendar_year
+        type: time
+        type_params:
+          time_granularity: year
+    measures:
+      - name: attendance_rate
+        description: attendance aggregation currently only possible to average averages due to limitations with public data...🚧
+        agg: average
+        expr: attendance

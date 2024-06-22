@@ -1,0 +1,24 @@
+semantic_models:
+  - name: apprenticeship_traineeship_training
+    defaults:
+      agg_time_dimension: calendar_year
+    description: |
+      🚧
+    model: ref('fct__apprenticeship_traineeship_training')
+    entities:
+      - name: apprenticeship_traineeship_training
+        type: primary
+        expr: _meta__fct__apprenticeship_traineeship_training__sk
+    dimensions:
+      - name: calendar_year
+        expr: calendar_year
+        type: time
+        type_params:
+          time_granularity: year
+    measures:
+      - name: apprenticeship_traineeship_training_contract_approvals
+        description: 🚧
+        agg: average
+      - name: apprenticeship_traineeship_training_contract_completions
+        description: 🚧
+        agg: average

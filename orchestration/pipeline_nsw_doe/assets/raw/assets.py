@@ -46,7 +46,7 @@ def raw__nsw_doe_datahub__master_dataset():
     url = "https://data.nsw.gov.au/data/dataset/78c10ea3-8d04-4c9c-b255-bbf8547e37e7/resource/3e6d5f6a-055c-440d-a690-fc0537c31095/download/master_dataset.csv"
     df = pd.read_csv(
         url,
-        on_bad_lines="skip",  # 🚧 TODO Temp workaround due to malformed csv
+        # on_bad_lines="skip",  # 🚧 TODO Temp workaround due to malformed csv
     )
 
     df["_load_timestamp"] = pd.Timestamp("now")
@@ -56,7 +56,7 @@ def raw__nsw_doe_datahub__master_dataset():
     print(df.shape)
     print(df.dtypes)
 
-    df = df.head(100)  # 🚧 TODO - temp fix to skip errors with malformed csv
+    # df = df.head(100)  # 🚧 TODO - temp fix to skip errors with malformed csv
 
     # schema = pa.infer_schema(df)
     # schema_script = schema.to_script('schema_template.py')
@@ -137,6 +137,103 @@ def raw__nsw_doe_datahub__ram():
     # checks
     count_nulls = df_ram_all_years["School Code"].isna().sum()
     yield AssetCheckResult(passed=bool(count_nulls == 0))
+
+
+@asset(
+    compute_kind="python",
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
+    group_name="raw_datahub",
+    io_manager_key="io_manager_dw",
+    check_specs=[
+        AssetCheckSpec(
+            name="raw__nsw_doe_datahub__attendance_id_has_no_nulls",
+            asset=AssetKey(
+                [
+                    NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA,
+                    "raw__nsw_doe_datahub__attendance",
+                ]
+            ),
+        )
+    ],
+)
+def raw__nsw_doe_datahub__attendance():
+    url = "https://data.nsw.gov.au/data/dataset/b558a070-09f5-4941-a140-e60a744327bf/resource/df5e3989-0595-4c61-94ab-0f63ab6b1528/download/2023-attendance-rates-by-government-schools.csv"
+    df = pd.read_csv(
+        url,
+    )
+
+    df["_load_timestamp"] = pd.Timestamp("now")
+    df["_source"] = url
+
+    df.head()
+    print(df.shape)
+    print(df.dtypes)
+
+    yield Output(df, metadata={"num_rows": df.shape[0]})
+
+    # checks
+    count_nulls = df["school_code"].isna().sum()
+    yield AssetCheckResult(passed=bool(count_nulls == 0))
+
+
+@asset(
+    compute_kind="python",
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
+    group_name="raw_datahub",
+    io_manager_key="io_manager_dw",
+)
+def raw__nsw_doe_datahub__apprenticeship_traineeship_training_contract_approvals():
+    url = "https://data.nsw.gov.au/data/dataset/f7cba3fc-6e9b-4b8b-b1fd-e7dda9b49001/resource/54d2df2f-44ae-4d67-980f-ce855d68f2d5/download/apprenticeship_traineeship_training_contract_approvals-1.xlsx"
+    df = pd.read_excel(url, sheet_name="Training Type", header=3)
+
+    df["_load_timestamp"] = pd.Timestamp("now")
+    df["_source"] = url
+
+    df.head()
+    print(df.shape)
+    print(df.dtypes)
+
+    yield Output(df, metadata={"num_rows": df.shape[0]})
+
+
+@asset(
+    compute_kind="python",
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
+    group_name="raw_datahub",
+    io_manager_key="io_manager_dw",
+)
+def raw__nsw_doe_datahub__apprenticeship_traineeship_training_contract_completions():
+    url = "https://data.nsw.gov.au/data/dataset/f7cba3fc-6e9b-4b8b-b1fd-e7dda9b49001/resource/e969d98e-d89a-474b-b89b-9452f1e45644/download/apprenticeship_traineeship_training_contract_completions.xlsx"
+    df = pd.read_excel(url, sheet_name="Training Type", header=3)
+
+    df["_load_timestamp"] = pd.Timestamp("now")
+    df["_source"] = url
+
+    df.head()
+    print(df.shape)
+    print(df.dtypes)
+
+    yield Output(df, metadata={"num_rows": df.shape[0]})
+
+
+@asset(
+    compute_kind="python",
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
+    group_name="raw_datahub",
+    io_manager_key="io_manager_dw",
+)
+def raw__nsw_doe_datahub__apprenticeship_traineeship_training_contract_in_training():
+    url = "https://data.nsw.gov.au/data/dataset/f7cba3fc-6e9b-4b8b-b1fd-e7dda9b49001/resource/fe7169bf-32ba-433b-8354-eb9ef5477eaa/download/apprenticeship_traineeship_training_contract_in-trainings.xlsx"
+    df = pd.read_excel(url, sheet_name="Training Type", header=3)
+
+    df["_load_timestamp"] = pd.Timestamp("now")
+    df["_source"] = url
+
+    df.head()
+    print(df.shape)
+    print(df.dtypes)
+
+    yield Output(df, metadata={"num_rows": df.shape[0]})
 
 
 @asset(

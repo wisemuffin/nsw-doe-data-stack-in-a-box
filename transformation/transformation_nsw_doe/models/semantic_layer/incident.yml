@@ -1,0 +1,22 @@
+semantic_models:
+  - name: incident
+    defaults:
+      agg_time_dimension: calendar_year
+    description: |
+      🚧
+    model: ref('fct__incident')
+    entities:
+      - name: incident
+        type: primary
+        expr: _meta__fct__incident__sk
+    dimensions:
+      - name: calendar_year
+        expr: calendar_year
+        type: time
+        type_params:
+          time_granularity: year
+    measures:
+      - name: incidents
+        description: 🚧
+        agg: sum
+        expr: incidents

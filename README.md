@@ -10,7 +10,7 @@
 
 
 
-This is an data-stack-in-a-box based data from [NSW Education Data Hub](https://data.cese.nsw.gov.au/). With the push of one button you can have your own data stack!
+This is an data-stack-in-a-box based data from [NSW Education Data](https://data.nsw.gov.au/). With the push of one button you can have your own data stack!
 
 > [!IMPORTANT]
 > Click below 👇🏼 to setup your own free data stack packed with [NSW Department of Education](https://education.nsw.gov.au/) data.
@@ -46,14 +46,14 @@ The project is designed to be very simple but allow you the flexibility for you 
 - **Love DevOps and platform engineering?** Check out our Orchestration, CICD pipelines, and automation such as linting, data diffs ect.
 
 
-
 ## Overview of Project (Architecture) 🥨
 
 
 ![Data Architecture](.github/static/architecture.png)
 
 
-> ![Info] We are simply going to extract data from the [NSW Education Data Hub](https://data.cese.nsw.gov.au/) and load it into our in memory data warehouse 🦆, model, clean, and analyse our data.
+> ![Info] We are simply going to extract data from the [NSW Education Data](https://data.nsw.gov.au/) and load it into our in memory data warehouse 🦆, model, clean, and analyse our data.
+> behind the scenes uses https://ckan.org/ an open source data management system used by the likes of [Government of Canada](https://www.canada.ca/en.html), [NHS](https://www.nhs.uk/), [USAs Open Data](https://data.gov/).
 
 
 > [!WARNING]
@@ -73,32 +73,185 @@ The project is designed to be very simple but allow you the flexibility for you 
   - column level linage
 -->
 
+## Information Management
+### Data Catalog
+🚧 TODO likley openmetadata see [example](https://sandbox.open-metadata.org/table/RedshiftProd.dev.demo_dbt_jaffle.customers/lineage)
+### Conceptual Data Model
 
+```mermaid
+erDiagram
+    "STUDENT ✅" {
+        int student_id
+        string name
+        date date_of_birth
+        string gender
+        int school_id
+    }
+    STAFF {
+        int staff_id
+        string name
+        string role
+        date date_of_birth
+        int school_id
+    }
+    COURSE {
+        int course_id
+        string course_name
+        string description
+        int school_id
+    }
+    ENROLLMENT {
+        int enrollment_id
+        int student_id
+        int course_id
+        date enrollment_date
+    }
+    CLASS {
+        int class_id
+        int course_id
+        int staff_id
+        string class_room
+        date class_time
+        int class_size
+    }
+    SCHOOL {
+        int school_id
+        string school_name
+        string address
+    }
+    NAPLAN {
+        int naplan_id
+        int student_id
+        date test_date
+        string test_type
+        int score
+    }
+    %% HSC {
+    %%     int hsc_id
+    %%     int student_id
+    %%     date exam_date
+    %%     string subject
+    %%     int score
+    %% }
+    INCIDENT {
+        int incident_id
+        int school_id
+        date incident_date
+        string incident_type
+        string description
+    }
+    ATTENDANCE {
+        int attendance_id
+        int student_id
+        date attendance_date
+        bool present
+    }
+    RETENTION {
+        int retention_id
+        int school_id
+        int year
+        float retention_rate
+    }
+    EARLY_CHILDHOOD_EDU {
+        int ece_id
+        int school_id
+        string program_name
+        string description
+    }
+    UNIVERSITY {
+        int university_id
+        string university_name
+        string address
+    }
+    APPRENTICESHIP {
+        int apprenticeship_id
+        int student_id
+        string trade
+        date start_date
+        date end_date
+    }
+    TRAINEESHIP {
+        int traineeship_id
+        int student_id
+        string field
+        date start_date
+        date end_date
+    }
+    "STUDENT ✅" ||--o{ ENROLLMENT : enrolls
+    COURSE ||--o{ ENROLLMENT : includes
+    STAFF ||--o{ CLASS : teaches
+    COURSE ||--o{ CLASS : consists_of
+    SCHOOL ||--o{ "STUDENT ✅" : has
+    SCHOOL ||--o{ STAFF : employs
+    SCHOOL ||--o{ COURSE : offers
+    "STUDENT ✅" ||--o{ NAPLAN : takes
+    %% "STUDENT ✅" ||--o{ HSC : sits
+    SCHOOL ||--o{ INCIDENT : reports
+    "STUDENT ✅" ||--o{ ATTENDANCE : records
+    SCHOOL ||--o{ RETENTION : tracks
+    EARLY_CHILDHOOD_EDU ||--o{ "STUDENT ✅"  : provides
+    "STUDENT ✅" ||--o{ APPRENTICESHIP : undertakes
+    "STUDENT ✅" ||--o{ TRAINEESHIP : participates_in
+    "STUDENT ✅" ||--o{ UNIVERSITY : enrolls_in
 
+```
+The data available publically for each entitity does not go down to a student. In some cases school level data is avaiable. But most entities only have data published at a state wide (NSW) aggregate level.
 
-## Bus Matrix
+### Sources
 
-| Fact          | Status | Dim School                            | Dim Schoolastic Year| Dim Calendar Year | Fact Source Url | Notes|
-| ------------- | ---------------- | -------------------------------------- | --- | --- | ---| ---|
-| `Full-time equivalent (FTE) enrolments` | ❌ | ✅ | ✅ | ❌ | https://data.cese.nsw.gov.au/data/dataset/resource-allocation-model | Not doing. No temporal data. |
-| `Resource Allocation Model (RAM)`  | 🚧 | ✅  | ❌ | ✅ | https://data.cese.nsw.gov.au/data/dataset/resource-allocation-model| Each file name is differnt and path is also different will need to manually check and update path |
-|`Specialist support classes` | ❌ | ✅  | ❌ | ❌ |https://data.cese.nsw.gov.au/data/dataset/specialist-support-classes-by-school-and-support-needs-type | Not doing. No temporal data.
-|`Attendance rates` | ❌ `cancelled` | ✅  | ❌ | ✅ | https://data.cese.nsw.gov.au/data/dataset/student-attendance-rate-by-schoo | Dont have numerator and denominator so cant aggregate this fact table |
-|`Multi age or composite classes` | 🚧 | ✅  | ❌ | ✅ | https://data.cese.nsw.gov.au/data/dataset/multi-age-or-composite-classes-in-nsw-government-schools | Required some pivoting |
-|`Staff` | 🚧 | ❌ | ❌ | ✅ | https://www.acara.edu.au/reporting/national-report-on-schooling-in-australia/staff-numbers||
-|`Students` | 🚧 | ❌ | ❌ | ✅ | https://www.acara.edu.au/reporting/national-report-on-schooling-in-australia/student-numbers||
+#### Education Sources
+🚧 add column for asset checks
+| Name          | Method (API, CSV, Excel) | Contract Y/N | Description                            | Source URL |
+| ------------- | ----------------- | ------------ | -------------------------------------- | ---------- |
+| `Apprenticeship and Traineeship training contract` | Excel | ❌ | Apprenticeships and Traineeships combine formal study of a nationally recognised qualification with on-the-job training. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-f7cba3fc-6e9b-4b8b-b1fd-e7dda9b49001 |
+| `Average government primary school class sizes` | API | ❌ | The average class size for each grade is calculated by taking the number of students in all classes that a student from that grade is in (including composite/multi age classes) divided by the total number of classes that includes a student from that grade. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-43438137-084e-4d50-81c0-ce741ea3b37b/details |
+| `Early Childhood Education and Care program locations` | API | ❌ | NSW Early Childhood Education and Care program locations | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-c41c950f-043c-45ea-bf84-22d8037b74bb |
+| `Enrolments` | API | ❌ | This data shows February census enrolment figures. All enrolments are self-reported in full-time equivalent (FTE) units and include both full-time and part-time students. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-818ae0d8-d7fb-4b62-963c-7263fdb8e1ca |
+| `Incidents` | API | ❌ | Incidents in public schools and how the department supports schools through incidents while still protecting the identity of students and staff. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-43438137-084e-4d50-81c0-ce741ea3b37b |
+| `Master dataset: NSW government school locations and student enrolment numbers` | CSV | ✅ | The master dataset contains comprehensive information for all government schools in NSW. Data items include school locations, latitude and longitude coordinates, school type, student enrolment numbers, electorate information, contact details and more. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-78c10ea3-8d04-4c9c-b255-bbf8547e37e7 |
+|`Resource Allocation Model (RAM)` | CSV | ✅ | The Resource Allocation Model (RAM) was developed to ensure a fair, efficient and transparent allocation of the state public education budget for every school. The model recognises that students and school communities are not all the same and that they have different needs which require different levels of support. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-3ea5010a-89bd-46bf-be2a-13c82cc0e1bb |
+|`Staff` | CSV | ❌ | -------------------------------------- | https://www.acara.edu.au/reporting/national-report-on-schooling-in-australia/staff-numbers||
+|`Students` | CSV | ❌ | -------------------------------------- | https://www.acara.edu.au/reporting/national-report-on-schooling-in-australia/student-numbers||
+| `Student attendance` | CSV | ❌ | This dataset shows the attendance rates for all NSW government schools in Semester One by alphabetical order. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-b558a070-09f5-4941-a140-e60a744327bf |
+| `Student retention rates at NSW government schools` | API | ❌ | The full-time apparent retention rate (ARR) measures the proportion of a cohort of full-time students that moves from one grade to the next, based on an expected rate of progression of one grade per year. It does not track individual students through their final years of secondary schooling. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-c9fd51b3-506d-4707-b607-0b1853654ce6 |
+| `University` | API | ❌ | NSW University Locations by campus | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-0d43537e-429a-4a71-8d12-92d2d45eccd0 |
 
-## ERD
+#### Utilisation Sources
+| Name          | Method (API, CSV, Excel) | Contract Y/N | Description                            | Source URL |
+| ------------- | ----------------- | ------------ | -------------------------------------- | ---------- |
+| `Google Analytics` | API | ❌ | Captures all the traffic to the data visualisation via [evidence.dev](https://nsw-doe-data-stack-in-a-box-prod.evidence.app/) | https://analytics.google.com/analytics/web/?pli=1#/p438587109/reports/intelligenthome |
+| `Github` | API | ❌ | Captures all the events that occour with the open source project [nsw-doe-data-stack-in-a-box](https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box)  | https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box |
+
+### Bus Matrix
+🚧 add descriptions for facts
+| Fact          | Status | Dim School                            | Dim Schoolastic Year| Dim Calendar Year | Description |
+| ------------- | ---------------- | -------------------------------------- | --- | --- | ---|
+| `Resource Allocation Model (RAM)`  | ✅ | ✅  | ❌ | ✅ |  |
+|`Staff` | ✅ | ❌ | ❌ | ✅ ||
+|`Students` | ✅ | ❌ | ❌ | ✅ ||
+|`Incident` | 🚧 | ❌ | ❌ | ✅ ||
+|`Class Size` | 🚧 | ❌ | ❌ | ✅ ||
+|`Aparent Retention Rate` | 🚧 | ❌ | ❌ | ✅ | |
+|`Early Childhood Education Centre` | 🚧 | ❌ | ❌ | ❌ | |
+|`School` | 🚧 | ❌ | ❌ | ❌ | |
+|`Attendance` | 🚧 | ✅  | ❌ | ✅ |  Dont have numerator and denominator so cant aggregate this fact table. Could just out disclamer on average of average |
+| `Enrolment` | 🚧 | ✅ | ❌ | ✅ |  |
+| `University` | 🚧 | ❌ | ❌ | ❌ |  |
+| `Apprenticeship and Traineeship training contract` | 🚧 | ❌ | ❌ | ✅ partially |  |
+| `Web Analytics` | ✅ | ❌ | ❌ | ✅  |  |
+| `Repo Reactions` | ✅ | ❌ | ❌ | ✅  |  |
+
+### ERD
 
 [Dimensional ERD check out](./ERD.md)
 
-## Give me more data!
+### Give me more data!
 
-### Data that I want from DOE
+#### Data that I want from DOE
 
 - `Number of techers per school` was on the data hub but was removed citing will now be reported by ABS. But ABS data isnt at a school level.
 
-### Data from ACARA / NESA
+#### Data from ACARA / NESA
 
 - `NAPLAN` and `HSC attainment` by school. Can get NAPLAN by school going to ACARA's [MySchool](https://www.myschool.edu.au/school/41307) but no easy way to get a view for all schools data.
 
@@ -264,14 +417,15 @@ CICD `.yml` files are located in `.github/workflow`
 
 ### 🚧working on
 
-- msteams sensor on failure of job need to setup webhook somewhere
+- update duckdb to 1.0, dbt dagster,evidence ect.
 
+- metrics from dimensions e.g. ece and unis
 
 - dbt unit tests 🧱 waiting for 1.8 release and how if i need to wait for mother duck
 
 - if a upstream dependancy for dbt breaks then the whole of the dbt run fails.
 
-- move to dagster+
+- ✅ move to dagster+
   - for catalog [dagster+](https://www.youtube.com/watch?v=_Z4xxZYEQNs&t=5s)
     - do this instead of openmetadata
   - demos catalog and data reliability (insights) - asset checks.
@@ -294,7 +448,7 @@ CICD `.yml` files are located in `.github/workflow`
   - ✅ sqlfluff
   - ✅ that python rust package for python linting ect
   - ✅ end to end test orchistration
-  - dagster teams integration
+  - ✅ dagster teams and slack integration
 
 
 ### Help Wanted

@@ -1,0 +1,38 @@
+semantic_models:
+  - name: retention
+    defaults:
+      agg_time_dimension: calendar_year
+    description: |
+      🚧 cant aggregate these numbers! can only have them at state level
+    model: ref('fct__retention')
+    entities:
+      - name: retention
+        type: primary
+        expr: _meta__fct__retention__sk
+    dimensions:
+      - name: calendar_year
+        expr: calendar_year
+        type: time
+        type_params:
+          time_granularity: year
+    measures:
+      - name: aparent_retention_rate_7_to_10
+        description: 🚧 cant aggregate these numbers! can only have them at state level
+        agg: average
+        expr: aparent_retention_rate_7_to_10
+      - name: aparent_retention_rate_10_to_12
+        description: 🚧 cant aggregate these numbers! can only have them at state level
+        agg: average
+        expr: aparent_retention_rate_10_to_12
+      - name: aparent_retention_rate_10_to_12_aboriginal_and_or_torres_strait_islanders
+        description: 🚧 cant aggregate these numbers! can only have them at state level
+        agg: average
+        expr: aparent_retention_rate_10_to_12_aboriginal_and_or_torres_strait_islanders
+      - name: aparent_retention_rate_7_to_10_aboriginal_and_or_torres_strait_islanders
+        description: 🚧 cant aggregate these numbers! can only have them at state level
+        agg: average
+        expr: aparent_retention_rate_7_to_10_aboriginal_and_or_torres_strait_islanders
+      - name: aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders
+        description: 🚧 cant aggregate these numbers! can only have them at state level
+        agg: average
+        expr: aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders

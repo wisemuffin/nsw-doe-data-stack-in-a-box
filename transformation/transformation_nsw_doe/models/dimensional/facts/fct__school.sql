@@ -28,7 +28,6 @@ final as (
     from prep__school
     left join dim__school on prep__school.school_code = dim__school.school_code
 )
-
 {{ dbt_audit(
     cte_ref="final",
     created_by="@daveg",

@@ -35,7 +35,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
         #     "joined": {"data_type": "timestamp"},
         # },
     )
-    def raw__nsw_doe_datahub__enrolments_primary(
+    def raw__nsw_doe_datansw__enrolments_primary(
         access_token: Optional[str] = access_token,
         # last_created_at: dlt.sources.incremental[str] = dlt.sources.incremental(
         #     "created_at", initial_value="1970-01-01T00:00:00Z", last_value_func=max
@@ -62,7 +62,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
     )
-    def raw__nsw_doe_datahub__enrolments_secondary(
+    def raw__nsw_doe_datansw__enrolments_secondary(
         access_token: Optional[str] = access_token,
     ) -> Iterator[TDataItems]:
         for page in get_nsw_doe_data(
@@ -78,7 +78,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
     )
-    def raw__nsw_doe_datahub__enrolments_central(
+    def raw__nsw_doe_datansw__enrolments_central(
         access_token: Optional[str] = access_token,
     ) -> Iterator[TDataItems]:
         for page in get_nsw_doe_data(
@@ -94,7 +94,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
     )
-    def raw__nsw_doe_datahub__enrolments_ssp(
+    def raw__nsw_doe_datansw__enrolments_ssp(
         access_token: Optional[str] = access_token,
     ) -> Iterator[TDataItems]:
         for page in get_nsw_doe_data(
@@ -110,7 +110,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
     )
-    def raw__nsw_doe_datahub__incidents_2022_part_1(
+    def raw__nsw_doe_datansw__incidents_2022_part_1(
         access_token: Optional[str] = access_token,
     ) -> Iterator[TDataItems]:
         for page in get_nsw_doe_data(
@@ -126,7 +126,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
     )
-    def raw__nsw_doe_datahub__incidents_2022_part_2(
+    def raw__nsw_doe_datansw__incidents_2022_part_2(
         access_token: Optional[str] = access_token,
     ) -> Iterator[TDataItems]:
         for page in get_nsw_doe_data(
@@ -142,7 +142,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
     )
-    def raw__nsw_doe_datahub__incidents_2021_part_1(
+    def raw__nsw_doe_datansw__incidents_2021_part_1(
         access_token: Optional[str] = access_token,
     ) -> Iterator[TDataItems]:
         for page in get_nsw_doe_data(
@@ -158,7 +158,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
     )
-    def raw__nsw_doe_datahub__incidents_2021_part_2(
+    def raw__nsw_doe_datansw__incidents_2021_part_2(
         access_token: Optional[str] = access_token,
     ) -> Iterator[TDataItems]:
         for page in get_nsw_doe_data(
@@ -174,7 +174,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
     )
-    def raw__nsw_doe_datahub__incidents_2020_part_1(
+    def raw__nsw_doe_datansw__incidents_2020_part_1(
         access_token: Optional[str] = access_token,
     ) -> Iterator[TDataItems]:
         for page in get_nsw_doe_data(
@@ -190,7 +190,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
     )
-    def raw__nsw_doe_datahub__incidents_2020_part_2(
+    def raw__nsw_doe_datansw__incidents_2020_part_2(
         access_token: Optional[str] = access_token,
     ) -> Iterator[TDataItems]:
         for page in get_nsw_doe_data(
@@ -206,7 +206,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
     )
-    def raw__nsw_doe_datahub__class_size(
+    def raw__nsw_doe_datansw__class_size(
         access_token: Optional[str] = access_token,
     ) -> Iterator[TDataItems]:
         for page in get_nsw_doe_data(
@@ -222,7 +222,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
     )
-    def raw__nsw_doe_datahub__aparent_retention_rate_10_to_12(
+    def raw__nsw_doe_datansw__aparent_retention_rate_10_to_12(
         access_token: Optional[str] = access_token,
     ) -> Iterator[TDataItems]:
         for page in get_nsw_doe_data(
@@ -238,7 +238,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
     )
-    def raw__nsw_doe_datahub__aparent_retention_rate_7_to_10(
+    def raw__nsw_doe_datansw__aparent_retention_rate_7_to_10(
         access_token: Optional[str] = access_token,
     ) -> Iterator[TDataItems]:
         for page in get_nsw_doe_data(
@@ -254,7 +254,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
     )
-    def raw__nsw_doe_datahub__aparent_retention_rate_aboriginal_and_or_torres_strait_islanders(
+    def raw__nsw_doe_datansw__aparent_retention_rate_aboriginal_and_or_torres_strait_islanders(
         access_token: Optional[str] = access_token,
     ) -> Iterator[TDataItems]:
         for page in get_nsw_doe_data(
@@ -270,7 +270,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
     )
-    def raw__nsw_doe_datahub__early_childhood_education_centres(
+    def raw__nsw_doe_datansw__early_childhood_education_centres(
         access_token: Optional[str] = access_token,
     ) -> Iterator[TDataItems]:
         for page in get_nsw_doe_data(
@@ -286,7 +286,7 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
     )
-    def raw__nsw_doe_datahub__university(
+    def raw__nsw_doe_datansw__university(
         access_token: Optional[str] = access_token,
     ) -> Iterator[TDataItems]:
         for page in get_nsw_doe_data(
@@ -295,22 +295,22 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             yield page
 
     return (
-        raw__nsw_doe_datahub__enrolments_primary,
-        raw__nsw_doe_datahub__enrolments_secondary,
-        raw__nsw_doe_datahub__enrolments_central,
-        raw__nsw_doe_datahub__enrolments_ssp,
-        raw__nsw_doe_datahub__incidents_2022_part_1,
-        raw__nsw_doe_datahub__incidents_2022_part_2,
-        raw__nsw_doe_datahub__incidents_2021_part_1,
-        raw__nsw_doe_datahub__incidents_2021_part_2,
-        raw__nsw_doe_datahub__incidents_2020_part_1,
-        raw__nsw_doe_datahub__incidents_2020_part_2,
-        raw__nsw_doe_datahub__class_size,
-        raw__nsw_doe_datahub__aparent_retention_rate_10_to_12,
-        raw__nsw_doe_datahub__aparent_retention_rate_7_to_10,
-        raw__nsw_doe_datahub__aparent_retention_rate_aboriginal_and_or_torres_strait_islanders,
-        raw__nsw_doe_datahub__early_childhood_education_centres,
-        raw__nsw_doe_datahub__university,
+        raw__nsw_doe_datansw__enrolments_primary,
+        raw__nsw_doe_datansw__enrolments_secondary,
+        raw__nsw_doe_datansw__enrolments_central,
+        raw__nsw_doe_datansw__enrolments_ssp,
+        raw__nsw_doe_datansw__incidents_2022_part_1,
+        raw__nsw_doe_datansw__incidents_2022_part_2,
+        raw__nsw_doe_datansw__incidents_2021_part_1,
+        raw__nsw_doe_datansw__incidents_2021_part_2,
+        raw__nsw_doe_datansw__incidents_2020_part_1,
+        raw__nsw_doe_datansw__incidents_2020_part_2,
+        raw__nsw_doe_datansw__class_size,
+        raw__nsw_doe_datansw__aparent_retention_rate_10_to_12,
+        raw__nsw_doe_datansw__aparent_retention_rate_7_to_10,
+        raw__nsw_doe_datansw__aparent_retention_rate_aboriginal_and_or_torres_strait_islanders,
+        raw__nsw_doe_datansw__early_childhood_education_centres,
+        raw__nsw_doe_datansw__university,
     )
 
 

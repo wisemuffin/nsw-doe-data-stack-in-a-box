@@ -612,12 +612,6 @@ References:
 - dagster dbt doesnt like saved queries. As a work around have to remove via selection e.g. '@dbt_assets(..., exclude="*saved_query")'
 - dagster assets can set deps instead of loading in a asset via io to make a dependancy
 
-## Issues encountered with Datahub datasets
-
-### Data Set - Resource Allocation Model
-- Problem masterdataset is a current view of schools, however historic data such as Resource Allocation shows historic school, some of which like 1515, 2037 which are not in current list from datahubs master schools
-- Each years file the schema changes e.g. naming for original vs estimate... some columns have blanks at start.
-- Some files have grand totals at the bottom
 
 ## Disclaimer
 

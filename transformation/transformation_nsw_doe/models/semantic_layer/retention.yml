@@ -11,7 +11,7 @@ semantic_models:
         expr: _meta__fct__retention__sk
     dimensions:
       - name: calendar_year
-        expr: calendar_year
+        expr: calendar_date
         type: time
         type_params:
           time_granularity: year

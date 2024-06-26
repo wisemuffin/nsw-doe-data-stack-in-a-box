@@ -1,5 +1,5 @@
-with stg__nsw_doe_datahub__attendance as (
-    from {{ ref('stg__nsw_doe_datahub__attendance') }}
+with stg__nsw_doe_datansw__attendance as (
+    from {{ ref('stg__nsw_doe_datansw__attendance') }}
 ),
 
 dim__school as (
@@ -10,11 +10,11 @@ final as (
 
     select
         --Primary Key
-        {{ dbt_utils.generate_surrogate_key(['stg__nsw_doe_datahub__attendance.school_code', 'stg__nsw_doe_datahub__attendance.calendar_year']) }}
+        {{ dbt_utils.generate_surrogate_key(['stg__nsw_doe_datansw__attendance.school_code', 'stg__nsw_doe_datansw__attendance.calendar_year']) }}
             as _meta__fct__school__sk,
 
         --Natural Key
-        stg__nsw_doe_datahub__attendance.school_code,
+        stg__nsw_doe_datansw__attendance.school_code,
 
         --Foreign Keys
         ----Conformed Dimensions
@@ -22,15 +22,16 @@ final as (
 
 
         ----Local Dimensions
-        stg__nsw_doe_datahub__attendance.calendar_year,
+        stg__nsw_doe_datansw__attendance.calendar_year,
+        cast((stg__nsw_doe_datansw__attendance.calendar_year || '-01-01') as date) as calendar_date, -- this is ugly 🚧 TODO, required for dbt metrics layer
 
 
         -- Measures
-        stg__nsw_doe_datahub__attendance.attendance,
+        stg__nsw_doe_datansw__attendance.attendance /100  as attendance,
 
 
-    from stg__nsw_doe_datahub__attendance
-    left join dim__school on stg__nsw_doe_datahub__attendance.school_code = dim__school.school_code
+    from stg__nsw_doe_datansw__attendance
+    left join dim__school on stg__nsw_doe_datansw__attendance.school_code = dim__school.school_code
 )
 
 {{ dbt_audit(

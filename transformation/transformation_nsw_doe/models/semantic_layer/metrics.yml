@@ -123,31 +123,6 @@ metrics:
       measure: aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders
 
 saved_queries:
-  - name: metrics_saved_query
-    description: test desc
-    label: Test saved query
-    query_params:
-        metrics:
-            - funding_aud_post_adjustments
-            - funding_aud_original
-            - funding_aud_post_adjustments_prev_year
-            # - funding_aud_post_adjustments_yoy
-            - staff_count
-            - student_count
-            - school_count
-            - attendance_rate
-            - apprenticeship_traineeship_training_contract_approvals
-            - apprenticeship_traineeship_training_contract_completions
-            - class_size_k_6
-            - enrolments
-            - incidents
-            - aparent_retention_rate_7_to_10
-            - aparent_retention_rate_10_to_12
-            - aparent_retention_rate_10_to_12_aboriginal_and_or_torres_strait_islanders
-            - aparent_retention_rate_7_to_10_aboriginal_and_or_torres_strait_islanders
-            - aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders
-        group_by:
-            - TimeDimension('metric_time', 'year')
   - name: metrics_by_year_saved_query
     description: test desc
     label: Test saved query
@@ -156,10 +131,20 @@ saved_queries:
             - funding_aud_post_adjustments
             - funding_aud_original
             - funding_aud_post_adjustments_prev_year
-            # - funding_aud_post_adjustments_yoy
             - staff_count
             - student_count
             - school_count
+            - attendance_rate
+            - apprenticeship_traineeship_training_contract_approvals
+            - apprenticeship_traineeship_training_contract_completions
+            # - class_size_k_6 #  LATERAL join cannot contain aggregates! AVG(k_6) AS class_size_k_6
+            - enrolments
+            - incidents
+            - aparent_retention_rate_7_to_10
+            - aparent_retention_rate_10_to_12
+            - aparent_retention_rate_10_to_12_aboriginal_and_or_torres_strait_islanders
+            - aparent_retention_rate_7_to_10_aboriginal_and_or_torres_strait_islanders
+            - aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders
         group_by:
             - TimeDimension('metric_time', 'year')
   - name: metrics_by_year_school_saved_query

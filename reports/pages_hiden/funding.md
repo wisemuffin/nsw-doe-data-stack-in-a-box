@@ -3,23 +3,20 @@
 
 <BigValue
     data={funding_aud_post_adjustments}
-    title="Funding"
-    value="metric_value__latest_year"
-    fnt="num0"
+    title="Funding - Schools Yearly"
+    value="metric_value"
+    fmt="$#,##0;"
+    sparkline=metric_time__year
+    sparklineDateFmt="YYYY"
     comparison=metric_value__comp
-    comparisonTitle="prior year growth"
-    comparisonFmt="pct"
+    comparisonTitle="vs. Last Year"
+    comparisonFmt="0.0%"
   />
-
-  <BigValue
-    data={funding_aud_post_adjustments}
-    title="Latest Refresh"
+<BigValue
+    data={funding_aud_post_adjustments_latest}
+    title="Latest Year"
     value="metric_time__year__latest_year"
-    fmt="id"
-    comparison=metric_time__year__prior_year
-    comparisonTitle="prior year"
-    comparisonDelta=false
-    comparisonFmt="id"
+    fmt="####"
   />
 
 <Details title="Definitions">
@@ -41,15 +38,23 @@
 <BarChart
   data={metrics_by_year_saved_query}
   x=metric_time__year
-  y=funding_aud_post_adjustments
+  y=metric_value
+  yfmt="$#,##0"
+  xfmt="YYYY"
   fillColor="#488f96"
 >
   <ReferenceArea xMin="2020-03-15" xMax="2021-05-15" label="COVID Impacted" color=red/>
 </BarChart>
 
+
 ```sql funding_aud_post_adjustments
+select * from ${metrics_by_year_saved_query} where metric_name = 'funding_aud_post_adjustments'
+```
+
+```sql funding_aud_post_adjustments_latest
 select * from ${metrics_by_year_saved_query_latest} where metric_name = 'funding_aud_post_adjustments'
 ```
+
 
 ```sql metrics_by_year_saved_query
 select * from metrics_by_year_saved_query

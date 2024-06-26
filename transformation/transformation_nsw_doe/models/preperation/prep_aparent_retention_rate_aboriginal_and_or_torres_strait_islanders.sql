@@ -1,9 +1,9 @@
-with stg__nsw_doe_datahub__aparent_retention_rate_aboriginal_and_or_torres_strait_islanders as (
-    from {{ ref('stg__nsw_doe_datahub__aparent_retention_rate_aboriginal_and_or_torres_strait_islanders') }}
+with stg__nsw_doe_datansw__aparent_retention_rate_aboriginal_and_or_torres_strait_islanders as (
+    from {{ ref('stg__nsw_doe_datansw__aparent_retention_rate_aboriginal_and_or_torres_strait_islanders') }}
 ),
 
 pivoted as (
-    pivot stg__nsw_doe_datahub__aparent_retention_rate_aboriginal_and_or_torres_strait_islanders
+    pivot stg__nsw_doe_datansw__aparent_retention_rate_aboriginal_and_or_torres_strait_islanders
     on retention_period
     using sum(aparent_retention_rate_aboriginal_and_or_torres_strait_islanders)
     {# GROUP BY ⟨calendar_year⟩ #}

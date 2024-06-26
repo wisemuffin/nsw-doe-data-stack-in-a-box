@@ -23,6 +23,7 @@ final as (
 
         ----Local Dimensions
         prep__enrolment.calendar_year,
+        cast((prep__enrolment.calendar_year || '-01-01') as date) as calendar_date, -- this is ugly 🚧 TODO, required for dbt metrics layer
 
 
         -- Measures

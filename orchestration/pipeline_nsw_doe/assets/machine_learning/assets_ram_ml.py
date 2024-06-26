@@ -24,42 +24,8 @@ from sklearn.linear_model import LinearRegression
 import numpy as np
 
 
-# example of getting dagster asset when developing locally
-# from dagster import AssetKey
-# from pipeline_nsw_doe import defs
-# metrics_by_year_school_saved_query = defs.load_asset_value(AssetKey(['analytics','metrics_by_year_school_saved_query']))
-
-
-@multi_asset(
-    ins={"metrics_by_year_school_saved_query": AssetIn(key_prefix=["analytics"])},
-    outs={"training_data_demo": AssetOut(), "test_data_demo": AssetOut()},
-    group_name="ml_demo",
-)
-def training_test_data(
-    context: AssetExecutionContext, metrics_by_year_school_saved_query: pd.DataFrame
-):
-    # df = pd.DataFrame({"col1": [1, 2], "col2": [3, 4]})
-    # X = df.drop("col1")
-    # y = df["col2"]
-
-    features = [
-        "school__latest_year_enrolment_fte",
-        "school__level_of_schooling",
-        "school__icsea_value",
-        "school__selective_school",
-        "school__school_specialty_type",
-    ]
-    X = metrics_by_year_school_saved_query[
-        metrics_by_year_school_saved_query.columns.intersection(features)
-    ]
-    y = metrics_by_year_school_saved_query["funding_aud_original"]
-    # Split the dataset to reserve 20% of records as the test set
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-    return (X_train, y_train), (X_test, y_test)
-
-
 @asset(
-    group_name="ml_dg",
+    group_name="machine_learning__resource_allocation_model",
     ins={"metrics_by_year_school_saved_query": AssetIn(key_prefix=["analytics"])},
 )
 def preprocess_dataset(
@@ -90,7 +56,8 @@ def preprocess_dataset(
 
 
 @multi_asset(
-    outs={"training_data": AssetOut(), "test_data": AssetOut()}, group_name="ml_dg"
+    outs={"training_data": AssetOut(), "test_data": AssetOut()},
+    group_name="machine_learning__resource_allocation_model",
 )
 def create_train_test_data(
     context: AssetExecutionContext, preprocess_dataset: pd.DataFrame
@@ -114,7 +81,7 @@ def create_train_test_data(
 
 @multi_asset(
     outs={"train_model_baseline": AssetOut(), "importance": AssetOut()},
-    group_name="ml_dg",
+    group_name="machine_learning__resource_allocation_model",
 )
 def train_model_baseline(
     context: AssetExecutionContext, training_data: pd.DataFrame, test_data: pd.DataFrame
@@ -148,13 +115,13 @@ def train_model_baseline(
     yield Output(importance, output_name="importance")
 
 
-# @asset(group_name="ml_dg")
+# @asset(group_name="machine_learning__resource_allocation_model")
 # def train_model_baseline_test_set_r_squared(test_data, train_model_baseline: LinearRegression):
 #     transformed_X_test, transformed_y_test = transformed_test_data
 #     score = train_model_baseline.score()
 
 
-@asset(group_name="ml_dg")
+@asset(group_name="machine_learning__resource_allocation_model")
 def predictions(test_data: pd.DataFrame, train_model_baseline: LinearRegression):
     """Function to forecast the test dataset
 
@@ -173,7 +140,7 @@ def predictions(test_data: pd.DataFrame, train_model_baseline: LinearRegression)
     return predictions
 
 
-@asset(group_name="ml_dg")
+@asset(group_name="machine_learning__resource_allocation_model")
 def create_metrics(
     predictions, test_data: pd.DataFrame, train_model_baseline: LinearRegression
 ):

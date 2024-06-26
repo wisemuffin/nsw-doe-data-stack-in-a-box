@@ -1,5 +1,5 @@
 with source as (
-    select *, from {{ source('raw', 'raw_nsw_doe_datahub_aparent_retention_rate_aboriginal_and_or_torres_strait_islanders') }}
+    select *, from {{ source('raw', 'raw_nsw_doe_datansw_aparent_retention_rate_aboriginal_and_or_torres_strait_islanders') }}
 ),
 
 renamed as (

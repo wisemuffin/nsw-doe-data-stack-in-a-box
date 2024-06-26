@@ -6,7 +6,7 @@
 deploying to vm
 deployment CICD
 
-🐛bugs 
+🐛bugs
 - dagster_deltalake supplies a schema for destination table in fabric lakehouse but fabric lakehouse doesnt accept schemas just yet [🐛bug info](https://dev.azure.com/educationtransformation/cese-dai-analytics/_workitems/edit/1)
 
 🔙🪵backlog
@@ -20,7 +20,6 @@ deployment CICD
 💩 Not workings
 - definitions_example_duckdb.py -- due to no catalog for duckdb wont use
 - example onelake_df_ingestion.py -- works but only for one csv file
-
 
 
 ## Key features
@@ -293,5 +292,3 @@ docker compose up -d --no-deps --build demo_pipeline_jaffle_shop
 ```bash
  pip install dagster==1.6.0 dagster-webserver==1.6.0 dagster-dbt==0.22.0 dagster-duckdb==0.22.0 dagster-duckdb-pyspark==0.22.0 dagster-duckdb-pandas==0.22.0 dagster-deltalake-pandas==0.22.0 dagster-aws==0.22.0
  ```
-
-

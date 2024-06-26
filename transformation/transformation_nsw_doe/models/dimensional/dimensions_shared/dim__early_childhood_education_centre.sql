@@ -29,7 +29,7 @@ with final as (
         longitude,
         geo_data,
 
-    from {{ ref('stg__nsw_doe_datahub__early_childhood_education_centres') }}
+    from {{ ref('stg__nsw_doe_datansw__early_childhood_education_centres') }}
 
 )
 

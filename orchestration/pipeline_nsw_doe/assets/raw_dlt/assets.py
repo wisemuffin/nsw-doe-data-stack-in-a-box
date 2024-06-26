@@ -190,6 +190,7 @@ GA_QUERIES = [
         destination="duckdb"
         if os.getenv("NSW_DOE_DATA_STACK_IN_A_BOX__ENV", "dev") == "dev"
         else "motherduck",
+        # full_refresh=True # doesnt work :(
     ),
     name="google_analytics",
     # key_prefix=["raw"], # TODO: no prefixing yet
@@ -252,7 +253,7 @@ class NSWDOEDagsterDltTranslator(DagsterDltTranslator):
     ),
     name="nsw_doe",
     # key_prefix=["raw"], # TODO: no prefixing yet
-    group_name="raw_datahub",
+    group_name="raw_datansw",
     dlt_dagster_translator=NSWDOEDagsterDltTranslator(),
 )
 def raw__nsw_doe_data(context: AssetExecutionContext, dlt: DagsterDltResource):

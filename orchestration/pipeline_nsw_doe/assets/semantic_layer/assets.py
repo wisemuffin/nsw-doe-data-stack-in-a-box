@@ -15,7 +15,7 @@ from ..transformation import nsw_doe_dbt_assets
     compute_kind="python",
     io_manager_key="io_manager_dw",
     key_prefix=["analytics"],
-    group_name="semantic_layer",
+    group_name="semantic_layer_fake",
     deps=[
         get_asset_key_for_model([nsw_doe_dbt_assets], "fct__resource_allocation"),
         get_asset_key_for_model([nsw_doe_dbt_assets], "fct__staff"),
@@ -75,7 +75,7 @@ def metrics_by_year_saved_query(context: AssetExecutionContext):
     compute_kind="python",
     io_manager_key="io_manager_dw",
     key_prefix=["analytics"],
-    group_name="semantic_layer",
+    group_name="semantic_layer_fake",
     deps=[
         get_asset_key_for_model([nsw_doe_dbt_assets], "fct__resource_allocation"),
         get_asset_key_for_model([nsw_doe_dbt_assets], "dim__school"),
@@ -125,7 +125,7 @@ def metrics_by_year_school_saved_query(context: AssetExecutionContext):
     compute_kind="python",
     io_manager_key="pandas_parquet_io_manager",
     key_prefix=["analytics"],
-    group_name="semantic_layer",
+    group_name="semantic_layer_fake",
 )
 def metrics_by_year_saved_query_s3(metrics_by_year_saved_query: pd.DataFrame):
     """also sending the semantic model extract to s3 as some tools cant connect to mother duck e.g. tableau"""
@@ -136,7 +136,7 @@ def metrics_by_year_saved_query_s3(metrics_by_year_saved_query: pd.DataFrame):
     compute_kind="python",
     io_manager_key="pandas_parquet_io_manager",
     key_prefix=["analytics"],
-    group_name="semantic_layer",
+    group_name="semantic_layer_fake",
 )
 def metrics_by_year_school_saved_query_s3(
     metrics_by_year_school_saved_query: pd.DataFrame,

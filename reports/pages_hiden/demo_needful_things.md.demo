@@ -36,7 +36,7 @@ group by 1 order by 1 desc
 
 In your markdown file, you can include SQL queries in code fences. Evidence will run these queries through your database and return the results to the page.
 
-<Alert status=info>  
+<Alert status=info>
 To see the queries on a page, click the 3-dot menu at the top right of the page and Show Queries. You can see both the SQL and the query results by interacting with the query above.
 </Alert>
 
@@ -46,17 +46,17 @@ To see the queries on a page, click the 3-dot menu at the top right of the page 
 
 Last month customers placed **<Value data={orders_by_month} column=number_of_orders/>** orders. The AOV was **<Value data={orders_by_month} column=average_order_value fmt=usd2/>**.
 
-### Big Value 
+### Big Value
 <BigValue data={orders_by_month} value=sales fmt=usd0/>
 <BigValue data={orders_by_month} value=number_of_orders />
 
 
 ### Bar Chart
 
-<BarChart 
-  data={orders_by_month} 
+<BarChart
+  data={orders_by_month}
   x=order_month
-  y=number_of_orders 
+  y=number_of_orders
   fillColor="#488f96"
 >
   <ReferenceArea xMin="2020-03-15" xMax="2021-05-15" label="COVID Impacted" color=red/>
@@ -74,7 +74,7 @@ Last month customers placed **<Value data={orders_by_month} column=number_of_ord
 
 The latest version of Evidence includes features that allow you to easily create interactive data visualizations.
 
-### Chart with Filter 
+### Chart with Filter
 
 ```sql categories
 select
@@ -95,7 +95,7 @@ group by category
 </Dropdown>
 
 ```sql orders_by_category
-select 
+select
     date_trunc('month', order_datetime) as month,
     sum(sales) as sales_usd,
     category
@@ -119,7 +119,7 @@ order by sales_usd desc
 
 # Share with Evidence Cloud
 
-Evidence Cloud is the easiest way to securely share your project. 
+Evidence Cloud is the easiest way to securely share your project.
 
 - Get your project online
 - Authenticate users

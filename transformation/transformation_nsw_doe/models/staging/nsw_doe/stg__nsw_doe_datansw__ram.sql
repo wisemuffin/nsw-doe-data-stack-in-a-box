@@ -1,5 +1,5 @@
 with source as (
-    select *, from {{ source('raw', 'raw__nsw_doe_datahub__ram') }}
+    select *, from {{ source('raw', 'raw__nsw_doe_datansw__ram') }}
 ),
 
 renamed as (

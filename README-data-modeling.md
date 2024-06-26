@@ -6,7 +6,7 @@ Kimball-style warehouse
 
 naming: `raw__<source>__<source table name>`
 
-All raw data will still be in the RAW database. These raw tables are referred to as source tables or raw tables. They are typically stored in a schema that indicates its original data source, e.g. datahub
+All raw data will still be in the RAW database. These raw tables are referred to as source tables or raw tables. They are typically stored in a schema that indicates its original data source, e.g. datansw
 
 
 ### Staging

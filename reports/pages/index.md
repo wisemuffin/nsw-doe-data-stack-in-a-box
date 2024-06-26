@@ -1,65 +1,265 @@
 ---
-title: NSW Public Schools
+title: New South Wales Public School
 ---
 
-## Overview
 
 <Alert status="info">
-This data comes from a mix of New South Wales Department of Education and ACARA. This is a work in progress 🚧 data quality issues being investigated
+
+ℹ️ This Data Visualisation is powered by [nsw-doe-data-stack-in-a-box](https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box). With the push of one button you can have your own data stack!
+
+<LineBreak/>
+
+The data comes from a mix of [New South Wales Department of Education](https://education.nsw.gov.au/) via [Data.NSW](https://data.nsw.gov.au/) and [ACARA](https://acara.edu.au/).
+
 </Alert>
 
 <Alert status="warning">
-Warning for Developer: Visuals update when sql in evidence is changed. But source cache doesnt get notified when data changes in database. 🚧 Figure out longer term fix.
+⚠️ Warning this data is being validated. Do not use.
 </Alert>
 
-<BigValue
-    data={staff_count}
-    title="Staff"
+
+## Overview
+
+
+<!-- <BigValue
+    data={attendance_rate}
+    title="Attendance"
     value="metric_value__latest_year"
-    fmt="num0"
+    fmt="0.0%"
     comparison=metric_time__year__latest_year
     comparisonTitle="Latest Refresh"
     comparisonFmt="id"
     comparisonDelta=false
-  />
-<LinkButton  url='/staff'>
-  More Details on Staff
-</LinkButton >
-
-
-<LineBreak/>
-
+  /> -->
 <BigValue
-    data={student_count}
-    title="Students"
+    data={attendance_rate}
+    title="Attendance"
+    value="metric_value"
+    fmt="0.0%"
+    sparkline=metric_time__year
+    sparklineDateFmt="YYYY"
+    comparison=metric_value__comp
+    comparisonTitle="vs. Last Year"
+    comparisonFmt="0.0%"
+  />
+<BigValue
+    data={attendance_rate_latest}
+    title="Latest Year"
+    value="metric_time__year__latest_year"
+    fmt="####"
+  />
+<LineBreak/>
+<LineBreak/>
+<!-- <BigValue
+    data={aparent_retention_rate_7_to_10}
+    title="Aparent retention rate 7 to 10"
     value="metric_value__latest_year"
-    fnt="num0"
+    fmt="0.0%"
     comparison=metric_time__year__latest_year
     comparisonTitle="Latest Refresh"
     comparisonFmt="id"
     comparisonDelta=false
+  /> -->
+<BigValue
+    data={aparent_retention_rate_7_to_10}
+    title="Aparent retention rate 7 to 10"
+    value="metric_value"
+    fmt="0.0%"
+    sparkline=metric_time__year
+    sparklineDateFmt="YYYY"
+    comparison=metric_value__comp
+    comparisonTitle="vs. Last Year"
+    comparisonFmt="0.0%"
   />
-<LinkButton  url='/student'>
-  More Details on students
-</LinkButton >
+<BigValue
+    data={aparent_retention_rate_7_to_10_latest}
+    title="Latest Year"
+    value="metric_time__year__latest_year"
+    fmt="####"
+  />
 <LineBreak/>
 
-<BigValue
-    data={school_count}
-    title="Schools"
+  <!-- <BigValue
+    data={aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders}
+    title="Aparent retention rate 7 to 12 (Aboriginal and or Torres Strait Islanders)"
     value="metric_value__latest_year"
-    fnt="num0"
+    fmt="0.0%"
     comparison=metric_time__year__latest_year
     comparisonTitle="Latest Refresh"
     comparisonFmt="id"
     comparisonDelta=false
+  /> -->
+<BigValue
+    data={aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders}
+    title="Aparent retention rate 7 to 12 (Aboriginal and or Torres Strait Islanders)"
+    value="metric_value"
+    fmt="0.0%"
+    sparkline=metric_time__year
+    sparklineDateFmt="YYYY"
+    comparison=metric_value__comp
+    comparisonTitle="vs. Last Year"
+    comparisonFmt="0.0%"
   />
-<LinkButton  url='/school'>
-  More Details on schools
-</LinkButton >
+<BigValue
+    data={aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders_latest}
+    title="Latest Year"
+    value="metric_time__year__latest_year"
+    fmt="####"
+  />
 <LineBreak/>
 
+<!-- <BigValue
+    data={aparent_retention_rate_10_to_12}
+    title="Aparent retention rate 10 to 12"
+    value="metric_value__latest_year"
+    fmt="0.0%"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh"
+    comparisonFmt="id"
+    comparisonDelta=false
+  /> -->
 <BigValue
+    data={aparent_retention_rate_10_to_12}
+    title="Aparent retention rate 10 to 12"
+    value="metric_value"
+    fmt="0.0%"
+    sparkline=metric_time__year
+    sparklineDateFmt="YYYY"
+    comparison=metric_value__comp
+    comparisonTitle="vs. Last Year"
+    comparisonFmt="0.0%"
+  />
+<BigValue
+    data={aparent_retention_rate_10_to_12_latest}
+    title="Latest Year"
+    value="metric_time__year__latest_year"
+    fmt="####"
+  />
+<LineBreak/>
+
+<!-- <BigValue
+    data={aparent_retention_rate_10_to_12_aboriginal_and_or_torres_strait_islanders}
+    title="Aparent retention rate 10 to 12 (Aboriginal and or Torres Strait Islanders)"
+    value="metric_value__latest_year"
+    fmt="0.0%"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh"
+    comparisonFmt="id"
+    comparisonDelta=false
+  /> -->
+
+<BigValue
+    data={aparent_retention_rate_10_to_12_aboriginal_and_or_torres_strait_islanders}
+    title="Aparent retention rate 10 to 12 (Aboriginal and or Torres Strait Islanders)"
+    value="metric_value"
+    fmt="0.0%"
+    sparkline=metric_time__year
+    sparklineDateFmt="YYYY"
+    comparison=metric_value__comp
+    comparisonTitle="vs. Last Year"
+    comparisonFmt="0.0%"
+  />
+<BigValue
+    data={aparent_retention_rate_10_to_12_aboriginal_and_or_torres_strait_islanders_latest}
+    title="Latest Year"
+    value="metric_time__year__latest_year"
+    fmt="####"
+  />
+<LineBreak/>
+
+<LineBreak/>
+
+<!-- <BigValue
+    data={apprenticeship_traineeship_training_contract_approvals}
+    title="Apprenticeship traineeship - Approvals"
+    value="metric_value__latest_year"
+    fmt="#,##0;"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh"
+    comparisonFmt="id"
+    comparisonDelta=false
+  /> -->
+<BigValue
+    data={apprenticeship_traineeship_training_contract_approvals}
+    title="Apprenticeship traineeship - Approvals"
+    value="metric_value"
+    fmt="#,##0;"
+    sparkline=metric_time__year
+    sparklineDateFmt="YYYY"
+    comparison=metric_value__comp
+    comparisonTitle="vs. Last Year"
+    comparisonFmt="0.0%"
+  />
+<BigValue
+    data={apprenticeship_traineeship_training_contract_approvals_latest}
+    title="Latest Year"
+    value="metric_time__year__latest_year"
+    fmt="####"
+  />
+<LineBreak/>
+
+<!-- <BigValue
+    data={apprenticeship_traineeship_training_contract_completions}
+    title="Apprenticeship traineeship - Completions"
+    value="metric_value__latest_year"
+    fmt="#,##0;"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh"
+    comparisonFmt="id"
+    comparisonDelta=false
+  /> -->
+<BigValue
+    data={apprenticeship_traineeship_training_contract_completions}
+    title="Apprenticeship traineeship - Completions"
+    value="metric_value"
+    fmt="#,##0;"
+    sparkline=metric_time__year
+    sparklineDateFmt="YYYY"
+    comparison=metric_value__comp
+    comparisonTitle="vs. Last Year"
+    comparisonFmt="0.0%"
+  />
+<BigValue
+    data={apprenticeship_traineeship_training_contract_completions_latest}
+    title="Latest Year"
+    value="metric_time__year__latest_year"
+    fmt="####"
+  />
+
+<LineBreak/>
+
+<!-- <BigValue
+    data={enrolments}
+    title="Enrolments"
+    value="metric_value__latest_year"
+    fmt="#,##0;"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh"
+    comparisonFmt="id"
+    comparisonDelta=false
+  /> -->
+
+<BigValue
+    data={enrolments}
+    title="Enrolments"
+    value="metric_value"
+    fmt="#,##0;"
+    sparkline=metric_time__year
+    sparklineDateFmt="YYYY"
+    comparison=metric_value__comp
+    comparisonTitle="vs. Last Year"
+    comparisonFmt="0.0%"
+  />
+<BigValue
+    data={enrolments_latest}
+    title="Latest Year"
+    value="metric_time__year__latest_year"
+    fmt="####"
+  />
+
+<LineBreak/>
+
+<!-- <BigValue
     data={funding_aud_post_adjustments}
     title="Funding"
     value="metric_value__latest_year"
@@ -68,38 +268,178 @@ Warning for Developer: Visuals update when sql in evidence is changed. But sourc
     comparisonTitle="Latest Refresh"
     comparisonFmt="id"
     comparisonDelta=false
+  /> -->
+<BigValue
+    data={funding_aud_post_adjustments}
+    title="Funding - Schools Yearly"
+    value="metric_value"
+    fmt="$#,##0;"
+    sparkline=metric_time__year
+    sparklineDateFmt="YYYY"
+    comparison=metric_value__comp
+    comparisonTitle="vs. Last Year"
+    comparisonFmt="0.0%"
+  />
+<BigValue
+    data={funding_aud_post_adjustments_latest}
+    title="Latest Year"
+    value="metric_time__year__latest_year"
+    fmt="####"
   />
 <LinkButton  url='/funding'>
   More Details on funding
 </LinkButton >
 <LineBreak/>
 
-
+<!-- <BigValue
+    data={incidents}
+    title="Incidents"
+    value="metric_value__latest_year"
+    fmt="#,##0;"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh"
+    comparisonFmt="id"
+    comparisonDelta=false
+  /> -->
 <BigValue
-    data={attendance_rate}
-    title="Attendance"
+    data={incidents}
+    title="Incidents"
+    value="metric_value"
+    fmt="#,##0;"
+    sparkline=metric_time__year
+    sparklineDateFmt="YYYY"
+    comparison=metric_value__comp
+    comparisonTitle="vs. Last Year"
+    comparisonFmt="0.0%"
+  />
+<BigValue
+    data={incidents_latest}
+    title="Latest Year"
+    value="metric_time__year__latest_year"
+    fmt="####"
+  />
+<LineBreak/>
+
+<!-- <BigValue
+    data={school_count}
+    title="Schools"
     value="metric_value__latest_year"
     fnt="num0"
     comparison=metric_time__year__latest_year
     comparisonTitle="Latest Refresh"
     comparisonFmt="id"
     comparisonDelta=false
+  /> -->
+<BigValue
+    data={school_count}
+    title="Schools"
+    value="metric_value"
+    fnt="num0"
   />
-<!-- <LinkButton  url='/funding'>
-  More Details on attendance
-</LinkButton > -->
+<BigValue
+    data={school_count_latest}
+    title="Latest Year"
+    value="metric_time__year__latest_year"
+    fmt="####"
+  />
+<LinkButton  url='/school'>
+  More Details on schools
+</LinkButton >
 <LineBreak/>
+
+<!-- <BigValue
+    data={staff_count}
+    title="Staff"
+    value="metric_value__latest_year"
+    fmt="num0"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh"
+    comparisonFmt="id"
+    comparisonDelta=false
+  /> -->
+<BigValue
+    data={staff_count}
+    title="Staff"
+    value="metric_value"
+    fnt="num0"
+    sparkline=metric_time__year
+    sparklineDateFmt="YYYY"
+    comparison=metric_value__comp
+    comparisonTitle="vs. Last Year"
+    comparisonFmt="0.0%"
+  />
+<BigValue
+    data={staff_count_latest}
+    title="Latest Year"
+    value="metric_time__year__latest_year"
+    fmt="####"
+  />
+<LinkButton  url='/staff'>
+  More Details on Staff
+</LinkButton >
+
+
+<LineBreak/>
+
+
+<!-- <BigValue
+    data={student_count}
+    title="Students"
+    value="metric_value__latest_year"
+    fnt="num0"
+    comparison=metric_time__year__latest_year
+    comparisonTitle="Latest Refresh"
+    comparisonFmt="id"
+    comparisonDelta=false
+  /> -->
+<BigValue
+    data={student_count}
+    title="Students"
+    value="metric_value"
+    fnt="num0"
+    sparkline=metric_time__year
+    sparklineDateFmt="YYYY"
+    comparison=metric_value__comp
+    comparisonTitle="vs. Last Year"
+    comparisonFmt="0.0%"
+  />
+<BigValue
+    data={student_count_latest}
+    title="Latest Year"
+    value="metric_time__year__latest_year"
+    fmt="####"
+  />
+<LinkButton  url='/student'>
+  More Details on students
+</LinkButton >
+<LineBreak/>
+
+
+
+
+<!-- WIP 🚧 need to be able to not aggregate and just show latest value, but show history with line line -->
+<!-- <BigValue
+  data={metrics_by_year_saved_query}
+  value=metric_value
+  title="attendance_rate 🚧"
+  lineline=metric_time__year
+/> -->
+
+<LineBreak/>
+
+## Goals of this Project
 
 
 <BigValue
   data={fct__web_analytics_monthly}
   value=total_users
   title="Visualisation Users"
-  sparkline=event_month
+  lineline=event_month
   comparison=prior_month_growth_pct
   comparisonFmt=pct1
   comparisonTitle="vs. Last Month"
 />
+
 
 <LinkButton  url='/useage'>
   More Details on useage
@@ -118,25 +458,109 @@ Warning for Developer: Visuals update when sql in evidence is changed. But sourc
   - aparent_retention_rate_7_to_10_aboriginal_and_or_torres_strait_islanders
   - aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders -->
 
+
 ```sql attendance_rate
+select * from ${metrics_by_year_saved_query} where metric_name = 'attendance_rate'
+```
+
+```sql attendance_rate_latest
 select * from ${metrics_by_year_saved_query_latest} where metric_name = 'attendance_rate'
 ```
 
+```sql aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders
+select * from ${metrics_by_year_saved_query} where metric_name = 'aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders'
+```
+
+```sql aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders_latest
+select * from ${metrics_by_year_saved_query_latest} where metric_name = 'aparent_retention_rate_7_to_12_aboriginal_and_or_torres_strait_islanders'
+```
+
+```sql aparent_retention_rate_10_to_12_aboriginal_and_or_torres_strait_islanders
+select * from ${metrics_by_year_saved_query} where metric_name = 'aparent_retention_rate_10_to_12_aboriginal_and_or_torres_strait_islanders'
+```
+
+```sql aparent_retention_rate_10_to_12_aboriginal_and_or_torres_strait_islanders_latest
+select * from ${metrics_by_year_saved_query_latest} where metric_name = 'aparent_retention_rate_10_to_12_aboriginal_and_or_torres_strait_islanders'
+```
+
+```sql aparent_retention_rate_10_to_12
+select * from ${metrics_by_year_saved_query} where metric_name = 'aparent_retention_rate_10_to_12'
+```
+
+```sql aparent_retention_rate_10_to_12_latest
+select * from ${metrics_by_year_saved_query_latest} where metric_name = 'aparent_retention_rate_10_to_12'
+```
+
+```sql aparent_retention_rate_7_to_10
+select * from ${metrics_by_year_saved_query} where metric_name = 'aparent_retention_rate_7_to_10'
+```
+
+```sql aparent_retention_rate_7_to_10_latest
+select * from ${metrics_by_year_saved_query_latest} where metric_name = 'aparent_retention_rate_7_to_10'
+```
+
+```sql apprenticeship_traineeship_training_contract_approvals
+select * from ${metrics_by_year_saved_query}  where metric_name = 'apprenticeship_traineeship_training_contract_approvals'
+```
+
+```sql apprenticeship_traineeship_training_contract_approvals_latest
+select * from ${metrics_by_year_saved_query_latest}  where metric_name = 'apprenticeship_traineeship_training_contract_approvals'
+```
+
+```sql apprenticeship_traineeship_training_contract_completions
+select * from ${metrics_by_year_saved_query} where metric_name = 'apprenticeship_traineeship_training_contract_completions'
+```
+
+```sql apprenticeship_traineeship_training_contract_completions_latest
+select * from ${metrics_by_year_saved_query_latest} where metric_name = 'apprenticeship_traineeship_training_contract_completions'
+```
+
+```sql enrolments
+select * from ${metrics_by_year_saved_query} where metric_name = 'enrolments'
+```
+
+```sql enrolments_latest
+select * from ${metrics_by_year_saved_query_latest} where metric_name = 'enrolments'
+```
+
+```sql incidents
+select * from ${metrics_by_year_saved_query} where metric_name = 'incidents'
+```
+
+```sql incidents_latest
+select * from ${metrics_by_year_saved_query_latest} where metric_name = 'incidents'
+```
+
 ```sql staff_count
+select * from ${metrics_by_year_saved_query} where metric_name = 'staff_count'
+```
+
+```sql staff_count_latest
 select * from ${metrics_by_year_saved_query_latest} where metric_name = 'staff_count'
 ```
 
 ```sql student_count
+select * from ${metrics_by_year_saved_query} where metric_name = 'student_count'
+```
+
+```sql student_count_latest
 select * from ${metrics_by_year_saved_query_latest} where metric_name = 'student_count'
 ```
 
-
 ```sql school_count
+select * from ${metrics_by_year_saved_query} where metric_name = 'school_count'
+```
+
+```sql school_count_latest
 select * from ${metrics_by_year_saved_query_latest} where metric_name = 'school_count'
 ```
 
 
 ```sql funding_aud_post_adjustments
+select * from ${metrics_by_year_saved_query} where metric_name = 'funding_aud_post_adjustments'
+```
+
+```sql funding_aud_post_adjustments_latest
 select * from ${metrics_by_year_saved_query_latest} where metric_name = 'funding_aud_post_adjustments'
 ```
 

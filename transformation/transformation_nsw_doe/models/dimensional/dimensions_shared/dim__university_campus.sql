@@ -28,7 +28,7 @@ with final as (
         longitude,
         geo_data,
 
-    from {{ ref('stg__nsw_doe_datahub_university') }}
+    from {{ ref('stg__nsw_doe_datansw_university') }}
 
 )
 

@@ -1,5 +1,5 @@
 with source as (
-    select *, from {{ source('raw', 'raw__nsw_doe_datahub__apprenticeship_traineeship_training_contract_completions') }}
+    select *, from {{ source('raw', 'raw__nsw_doe_datansw__apprenticeship_traineeship_training_contract_completions') }}
 ),
 
 renamed as (

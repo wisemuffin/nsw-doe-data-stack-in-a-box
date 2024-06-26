@@ -1,5 +1,5 @@
 with source as (
-    select *, from {{ source('raw', 'raw_nsw_doe_datahub_incidents_2020_part_2') }}
+    select *, from {{ source('raw', 'raw_nsw_doe_datansw_incidents_2021_part_2') }}
 ),
 
 renamed as (
@@ -14,8 +14,8 @@ renamed as (
         {{ adapter.quote("summary_of_the_incident_external_distributionx") }},
         {{ adapter.quote("incident_priority_rating") }},
         {{ adapter.quote("incident_occurred") }},
-        {{ adapter.quote("secondary_category") }},
         {{ adapter.quote("primary_sub_category") }},
+        {{ adapter.quote("secondary_category") }},
     {# {{ adapter.quote("_dlt_load_id") }}, #}
     {# {{ adapter.quote("_dlt_id") }}, #}
 

@@ -15,7 +15,7 @@ metrics_by_year_school_saved_query = define_dagstermill_asset(
         __file__, "../../notebooks/data-science-example.ipynb"
     ),
     ins={"metrics_by_year_school_saved_query": AssetIn(key_prefix=["analytics"])},
-    group_name="machine_learning",
+    group_name="machine_learning__demo_notebooks",
     # group_name="ML",
     config_schema=Field(
         Int,
@@ -29,7 +29,7 @@ metrics_by_year_school_saved_query = define_dagstermill_asset(
 @asset(
     ins={"metrics_by_year_school_saved_query": AssetIn(key_prefix=["analytics"])},
     compute_kind="pandas",
-    group_name="machine_learning",
+    group_name="machine_learning__demo_notebooks",
 )
 def example_ml_for_testing(
     context: AssetExecutionContext, metrics_by_year_school_saved_query: pd.DataFrame

@@ -286,9 +286,9 @@ The data comes from a mix of [New South Wales Department of Education](https://e
     value="metric_time__year__latest_year"
     fmt="####"
   />
-<LinkButton  url='/funding'>
+<!-- <LinkButton  url='/funding'>
   More Details on funding
-</LinkButton >
+</LinkButton > -->
 <LineBreak/>
 
 <!-- <BigValue
@@ -342,9 +342,9 @@ The data comes from a mix of [New South Wales Department of Education](https://e
     value="metric_time__year__latest_year"
     fmt="####"
   />
-<LinkButton  url='/school'>
+<!-- <LinkButton  url='/school'>
   More Details on schools
-</LinkButton >
+</LinkButton > -->
 <LineBreak/>
 
 <!-- <BigValue
@@ -374,9 +374,9 @@ The data comes from a mix of [New South Wales Department of Education](https://e
     value="metric_time__year__latest_year"
     fmt="####"
   />
-<LinkButton  url='/staff'>
+<!-- <LinkButton  url='/staff'>
   More Details on Staff
-</LinkButton >
+</LinkButton > -->
 
 
 <LineBreak/>
@@ -409,9 +409,9 @@ The data comes from a mix of [New South Wales Department of Education](https://e
     value="metric_time__year__latest_year"
     fmt="####"
   />
-<LinkButton  url='/student'>
+<!-- <LinkButton  url='/student'>
   More Details on students
-</LinkButton >
+</LinkButton > -->
 <LineBreak/>
 
 

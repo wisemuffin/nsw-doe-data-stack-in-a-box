@@ -67,7 +67,7 @@ DUCKDB_PROJECT_DIR = str(
     )
 )
 NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA = os.getenv(
-    "NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB"
+    "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA"
 )
 
 S3_BUCKET_METADATA = os.getenv("S3_BUCKET_METADATA")
@@ -91,7 +91,7 @@ resources_by_env = {
         "openai": OpenAIResource(api_key=EnvVar("OPENAI_API_KEY")),
         "pandas_parquet_io_manager": PandasParquetIOManager(
             bucket_name=f"{S3_BUCKET_METADATA}",
-            prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX__ENV}/{NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA}",
+            prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX__ENV}",
         ),
     },
     "test": {
@@ -105,7 +105,7 @@ resources_by_env = {
         "openai": OpenAIResource(api_key=EnvVar("OPENAI_API_KEY")),
         "pandas_parquet_io_manager": PandasParquetIOManager(
             bucket_name=f"{S3_BUCKET_METADATA}",
-            prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX__ENV}/{NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA}",
+            prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX__ENV}",
         ),
     },
     "dev": {
@@ -117,7 +117,7 @@ resources_by_env = {
         "openai": OpenAIResource(api_key=EnvVar("OPENAI_API_KEY")),
         "pandas_parquet_io_manager": PandasParquetIOManager(
             bucket_name=f"{S3_BUCKET_METADATA}",
-            prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX__ENV}/{NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA}",
+            prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX__ENV}",
         ),
     },
 }

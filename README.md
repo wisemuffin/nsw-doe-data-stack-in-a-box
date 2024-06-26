@@ -6,23 +6,14 @@
 # Welcome to New South Wales Department of Education (NSW DOE) data stack in a box
 
 ![Prod CI Checks](https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/actions/workflows/ci_prod_deploy.yml/badge.svg)
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+<!-- [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![dbt](https://img.shields.io/badge/dbt-orange)](https://www.getdbt.com/)
+[![dagster](https://img.shields.io/badge/dagster-purple)](https://dagster.io/) -->
 
 
 
 This is an data-stack-in-a-box based data from [NSW Education Data](https://data.nsw.gov.au/). With the push of one button you can have your own data stack!
 
-## Data Stack
-
-> [!IMPORTANT]
-> Click below 👇🏼 to setup your own free data stack packed with [NSW Department of Education](https://education.nsw.gov.au/) data.
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/wisemuffin/nsw-doe-data-stack-in-a-box?quickstart=1)
-
-
-## Reports
-
-[evidence.dev](https://nsw-doe-data-stack-in-a-box-prod.evidence.app/)
 
 ## Objectives
 
@@ -36,6 +27,19 @@ This is an data-stack-in-a-box based data from [NSW Education Data](https://data
 - Level up our data stack by demoing features in the data stack that we are lacking or need to improve in [NSW Department of Education](https://education.nsw.gov.au/). These demos will start the conversation on what features we want to prioritise.
 - Help identify engineering talent during the interview phase by using the project as a case study
 
+## TL;DR
+
+### Data Stack
+
+> [!IMPORTANT]
+> Click below 👇🏼 to setup your own free data stack packed with [NSW Department of Education](https://education.nsw.gov.au/) data.
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/wisemuffin/nsw-doe-data-stack-in-a-box?quickstart=1)
+
+
+### Reports
+
+[![Dashboard - evidence.dev]][Report]
 
 ## Audience
 The project is designed to be very simple but allow you the flexibility for you to go as deep you like!
@@ -239,7 +243,7 @@ The data available publically for each entitity does not go down to a student. I
 | `Web Analytics` | ✅ | ❌ | ❌ | ✅  |  |
 | `Repo Reactions` | ✅ | ❌ | ❌ | ✅  |  |
 
-### ERD
+### ERD 🚧 TODO
 
 [Dimensional ERD check out](./ERD.md)
 
@@ -693,3 +697,10 @@ Behind the scenes VSCode is using `launch.json` with the following args to run d
 ```
 
 This is one of the first things i wish i knew when learning dagster!
+
+
+<!---------------------------------------------------------------------------->
+
+[Dashboard - evidence.dev]: https://img.shields.io/badge/Dashboard_-_evidence.dev-37a779?style=for-the-badge
+
+[Report]: https://nsw-doe-data-stack-in-a-box-prod.evidence.app/

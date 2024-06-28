@@ -25,48 +25,48 @@
   // "runArgs": [
   //   "--env-file", "${localWorkspaceFolder}/.env.dev"
   //   ],
-  "secrets": {
-    "MOTHERDUCK_TOKEN": {
-      "description": "used for production data warehouse",
-      // "documentationUrl": ""
-    },
-    "DATAFOLD_APIKEY": {
-      "description": "used for cicd",
-      // "documentationUrl": ""
-    },
-    "AWS_ROLE_TO_ASSUME": {
-      "description": "used for dbt defer for storing manifest",
-      // "documentationUrl": ""
-    },
-    "S3_BUCKET_METADATA": {
-      "description": "used for dbt defer for storing manifest",
-      // "documentationUrl": ""
-    },
-    "DESTINATION__DUCKDB__CREDENTIALS": {
-      "description": "used for dbt defer for storing manifest",
-      // "documentationUrl": ""
-    },
-    "SOURCES__GITHUB__ACCESS_TOKEN": {
-      "description": "used for dbt defer for storing manifest",
-      // "documentationUrl": ""
-    },
-    "SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PROJECT_ID": {
-      "description": "used for dbt defer for storing manifest",
-      // "documentationUrl": ""
-    },
-    "SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__CLIENT_EMAIL": {
-      "description": "used for dbt defer for storing manifest",
-      // "documentationUrl": ""
-    },
-    "SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PRIVATE_KEY": {
-      "description": "used for dbt defer for storing manifest",
-      // "documentationUrl": ""
-    },
-    "SOURCES__GOOGLE_ANALYTICS__PROPERTY_ID": {
-      "description": "used for dbt defer for storing manifest",
-      // "documentationUrl": ""
-    }
-  },
+  // "secrets": {
+  //   "MOTHERDUCK_TOKEN": {
+  //     "description": "used for production data warehouse",
+  //     // "documentationUrl": ""
+  //   },
+  //   "DATAFOLD_APIKEY": {
+  //     "description": "used for cicd",
+  //     // "documentationUrl": ""
+  //   },
+  //   "AWS_ROLE_TO_ASSUME": {
+  //     "description": "used for dbt defer for storing manifest",
+  //     // "documentationUrl": ""
+  //   },
+  //   "S3_BUCKET_METADATA": {
+  //     "description": "used for dbt defer for storing manifest",
+  //     // "documentationUrl": ""
+  //   },
+  //   "DESTINATION__DUCKDB__CREDENTIALS": {
+  //     "description": "used for dbt defer for storing manifest",
+  //     // "documentationUrl": ""
+  //   },
+  //   "SOURCES__GITHUB__ACCESS_TOKEN": {
+  //     "description": "used for dbt defer for storing manifest",
+  //     // "documentationUrl": ""
+  //   },
+  //   "SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PROJECT_ID": {
+  //     "description": "used for dbt defer for storing manifest",
+  //     // "documentationUrl": ""
+  //   },
+  //   "SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__CLIENT_EMAIL": {
+  //     "description": "used for dbt defer for storing manifest",
+  //     // "documentationUrl": ""
+  //   },
+  //   "SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PRIVATE_KEY": {
+  //     "description": "used for dbt defer for storing manifest",
+  //     // "documentationUrl": ""
+  //   },
+  //   "SOURCES__GOOGLE_ANALYTICS__PROPERTY_ID": {
+  //     "description": "used for dbt defer for storing manifest",
+  //     // "documentationUrl": ""
+  //   }
+  // },
 
 	"containerEnv": {
 		// use a .env file outside of source control to store secrets or via repo secrets
@@ -79,6 +79,8 @@
     "NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB": "reports/sources/nsw_doe_data_stack_in_a_box/nsw_doe_data_stack_in_a_box__dev.duckdb",
     "NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME": "nsw_doe_data_stack_in_a_box__dev",
     "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA": "analytics",
+
+    "DESTINATION__DUCKDB__CREDENTIALS": "duckdb:///////workspaces/nsw-doe-data-stack-in-a-box/reports/sources/nsw_doe_data_stack_in_a_box/nsw_doe_data_stack_in_a_box__dev.duckdb",
 
     "DAGSTER_HOME": "orchestration/dagster-local-file-store",
 

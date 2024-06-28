@@ -1,0 +1,10 @@
+# put your configuration values here
+
+[runtime]
+log_level="WARNING"  # the system log level of dlt
+# use the dlthub_telemetry setting to enable/disable anonymous usage data reporting, see https://dlthub.com/docs/telemetry
+dlthub_telemetry = true
+
+[sources.google_analytics]
+# property_id = 0 # doing this in .env file
+# queries = ["a", "b", "c"] # not required, will pass query into `google_analytics()`

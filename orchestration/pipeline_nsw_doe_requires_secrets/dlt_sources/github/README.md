@@ -57,4 +57,3 @@ To learn about grabbing the GitHub credentials and configuring the verified sour
 
 
 💡 To explore additional customizations for this pipeline, we recommend referring to the official `dlt` GitHub documentation. It provides comprehensive information and guidance on how to further customize and tailor the pipeline to suit your specific needs. You can find the `dlt` GitHub documentation in [Setup Guide: GitHub](https://dlthub.com/docs/dlt-ecosystem/verified-sources/github).
-

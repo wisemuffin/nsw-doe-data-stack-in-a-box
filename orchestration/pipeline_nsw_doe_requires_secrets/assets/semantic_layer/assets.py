@@ -119,3 +119,27 @@ def metrics_by_year_school_saved_query(context: AssetExecutionContext):
 
     # print(df.dtypes)
     yield Output(df, metadata={"num_rows": df.shape[0]})
+
+
+@asset(
+    compute_kind="python",
+    io_manager_key="pandas_parquet_io_manager",
+    key_prefix=["analytics"],
+    group_name="semantic_layer_fake",
+)
+def metrics_by_year_saved_query_s3(metrics_by_year_saved_query: pd.DataFrame):
+    """also sending the semantic model extract to s3 as some tools cant connect to mother duck e.g. tableau"""
+    return metrics_by_year_saved_query
+
+
+@asset(
+    compute_kind="python",
+    io_manager_key="pandas_parquet_io_manager",
+    key_prefix=["analytics"],
+    group_name="semantic_layer_fake",
+)
+def metrics_by_year_school_saved_query_s3(
+    metrics_by_year_school_saved_query: pd.DataFrame,
+):
+    """also sending the semantic model extract to s3 as some tools cant connect to mother duck e.g. tableau"""
+    return metrics_by_year_school_saved_query

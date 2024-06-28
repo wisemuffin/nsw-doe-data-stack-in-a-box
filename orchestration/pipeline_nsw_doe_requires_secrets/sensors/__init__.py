@@ -3,7 +3,7 @@ import json
 
 from dagster import sensor, RunRequest, SensorResult
 
-from pipeline_nsw_doe.assets.openai_demo import question_job
+from pipeline_nsw_doe_requires_secrets.assets.openai_demo import question_job
 
 
 @sensor(job=question_job)

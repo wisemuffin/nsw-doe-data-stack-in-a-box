@@ -32,27 +32,3 @@ def evidence_dashboard__experimental():
     # subprocess.run(["npm", "--prefix", evidence_project_path, "run", "build"])
 
     pass
-
-
-@asset(
-    compute_kind="tableau",
-    group_name="reporting",
-    deps=[metrics_by_year_saved_query, metrics_by_year_school_saved_query],
-)
-def tableau_dashboard__experimental():
-    """
-    This is done in the requires secrets version of this data stack
-    """
-    pass
-
-
-@asset(
-    compute_kind="powerbi",
-    group_name="reporting",
-    deps=[metrics_by_year_saved_query, metrics_by_year_school_saved_query],
-)
-def powerbi_dashboard__experimental():
-    """
-    This is done in the requires secrets version of this data stack
-    """
-    pass

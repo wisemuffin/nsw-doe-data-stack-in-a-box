@@ -4,35 +4,37 @@ from pathlib import Path
 
 import tempfile
 import pandas as pd
-from dagster import Output, asset, AssetExecutionContext
-from dagster_dbt import get_asset_key_for_model
+from dagster import AssetExecutionContext, AssetKey, Output, SourceAsset, asset
 
 from ...project import nsw_doe_data_stack_in_a_box_project
-from ..transformation import nsw_doe_dbt_assets
+
+NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA = os.getenv(
+    "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA", "schema_not_set"
+)
+
+metrics_by_year_saved_query = SourceAsset(
+    key=AssetKey(
+        [NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA, "metrics_by_year_saved_query"]
+    )
+)
+metrics_by_year_school_saved_query = SourceAsset(
+    key=AssetKey(
+        [
+            NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA,
+            "metrics_by_year_school_saved_query",
+        ]
+    )
+)
 
 
 @asset(
     compute_kind="python",
     io_manager_key="io_manager_dw",
-    key_prefix=["analytics"],
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
     group_name="semantic_layer_fake",
-    deps=[
-        get_asset_key_for_model([nsw_doe_dbt_assets], "fct__resource_allocation"),
-        get_asset_key_for_model([nsw_doe_dbt_assets], "fct__staff"),
-        get_asset_key_for_model([nsw_doe_dbt_assets], "fct__student"),
-        get_asset_key_for_model([nsw_doe_dbt_assets], "fct__school"),
-        get_asset_key_for_model(
-            [nsw_doe_dbt_assets], "fct__apprenticeship_traineeship_training"
-        ),
-        get_asset_key_for_model([nsw_doe_dbt_assets], "fct__attendance"),
-        get_asset_key_for_model([nsw_doe_dbt_assets], "fct__class"),
-        get_asset_key_for_model([nsw_doe_dbt_assets], "fct__enrolment"),
-        get_asset_key_for_model([nsw_doe_dbt_assets], "fct__incident"),
-        get_asset_key_for_model([nsw_doe_dbt_assets], "fct__retention"),
-        get_asset_key_for_model([nsw_doe_dbt_assets], "dim__date"),
-    ],
+    deps=[metrics_by_year_saved_query],
 )
-def metrics_by_year_saved_query(context: AssetExecutionContext):
+def metrics_by_year_saved_query_temp(context: AssetExecutionContext):
     working_dir = nsw_doe_data_stack_in_a_box_project.project_dir
     command = ["dbt", "docs", "generate"]
     subprocess.check_call(command, cwd=working_dir)
@@ -74,15 +76,11 @@ def metrics_by_year_saved_query(context: AssetExecutionContext):
 @asset(
     compute_kind="python",
     io_manager_key="io_manager_dw",
-    key_prefix=["analytics"],
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
     group_name="semantic_layer_fake",
-    deps=[
-        get_asset_key_for_model([nsw_doe_dbt_assets], "fct__resource_allocation"),
-        get_asset_key_for_model([nsw_doe_dbt_assets], "dim__school"),
-        get_asset_key_for_model([nsw_doe_dbt_assets], "dim__date"),
-    ],
+    deps=[metrics_by_year_school_saved_query],
 )
-def metrics_by_year_school_saved_query(context: AssetExecutionContext):
+def metrics_by_year_school_saved_query_temp(context: AssetExecutionContext):
     working_dir = nsw_doe_data_stack_in_a_box_project.project_dir
     command = ["dbt", "docs", "generate"]
     subprocess.check_call(command, cwd=working_dir)
@@ -124,22 +122,22 @@ def metrics_by_year_school_saved_query(context: AssetExecutionContext):
 @asset(
     compute_kind="python",
     io_manager_key="pandas_parquet_io_manager",
-    key_prefix=["analytics"],
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
     group_name="semantic_layer_fake",
 )
-def metrics_by_year_saved_query_s3(metrics_by_year_saved_query: pd.DataFrame):
+def metrics_by_year_saved_query_s3(metrics_by_year_saved_query_temp: pd.DataFrame):
     """also sending the semantic model extract to s3 as some tools cant connect to mother duck e.g. tableau"""
-    return metrics_by_year_saved_query
+    return metrics_by_year_saved_query_temp
 
 
 @asset(
     compute_kind="python",
     io_manager_key="pandas_parquet_io_manager",
-    key_prefix=["analytics"],
+    key_prefix=[NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA],
     group_name="semantic_layer_fake",
 )
 def metrics_by_year_school_saved_query_s3(
-    metrics_by_year_school_saved_query: pd.DataFrame,
+    metrics_by_year_school_saved_query_temp: pd.DataFrame,
 ):
     """also sending the semantic model extract to s3 as some tools cant connect to mother duck e.g. tableau"""
-    return metrics_by_year_school_saved_query
+    return metrics_by_year_school_saved_query_temp

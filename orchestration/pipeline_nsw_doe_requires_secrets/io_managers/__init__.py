@@ -12,7 +12,7 @@ class PandasParquetIOManager(ConfigurableIOManager):
             id = context.get_asset_identifier()
         else:
             id = context.get_identifier()
-        return f"s3://{self.bucket_name}/{self.prefix}/{'/'.join(id)}.parquet"
+        return f"s3://{self.bucket_name}/{self.prefix}/{'/'.join(id)}/{'-'.join(id)}.parquet"
 
     def handle_output(self, context: OutputContext, obj) -> None:
         if obj is None:

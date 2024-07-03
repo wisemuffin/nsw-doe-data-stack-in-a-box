@@ -155,8 +155,6 @@ saved_queries:
             - funding_aud_post_adjustments
             - funding_aud_original
             - funding_aud_post_adjustments_prev_year
-            - attendance_rate
-            - enrolments
             # - funding_aud_post_adjustments_yoy
         group_by:
             - Dimension('school__school_name')

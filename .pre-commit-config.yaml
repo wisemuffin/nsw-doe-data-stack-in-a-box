@@ -28,10 +28,10 @@ repos:
   #   hooks:
   #     - id: black
   ## need to work on this some more
-  - repo: https://github.com/sqlfluff/sqlfluff
-    rev: 3.0.6
-    hooks:
-      - id: sqlfluff-fix
-  #       # args: ["."]
-        additional_dependencies:
-          ["dbt-duckdb~=1.7.1", "sqlfluff-templater-dbt~=3.0.6"]
+  # - repo: https://github.com/sqlfluff/sqlfluff
+  #   rev: 3.0.6
+  #   hooks:
+  #     - id: sqlfluff-fix
+  # #       # args: ["."]
+  #       additional_dependencies:
+  #         ["dbt-duckdb~=1.7.1", "sqlfluff-templater-dbt~=3.0.6"]

@@ -49,9 +49,6 @@ The data comes from a mix of [New South Wales Department of Education](https://e
     fmt="####"
   />
 <LineBreak/>
-<Alert status="warning">
-⚠️ Attendance metric is averaging an average (which statistically is a terrible idea). Do not use. Only indicative.
-</Alert>
 <LineBreak/>
 <!-- <BigValue
     data={aparent_retention_rate_7_to_10}
@@ -448,13 +445,6 @@ The data comes from a mix of [New South Wales Department of Education](https://e
   More Details on useage
 </LinkButton >
 <LineBreak/>
-<Alert status="info">
-
-ℹ️ Usage will appear as an error for open source users. I have a seperate workflow that gets usage data requiring API secrets. I dont expose these secrets. So will just show an error when the public are creating the report. But when it goes to production and through CICD we see usage.
-
-</Alert>
-<LineBreak/>
-
 
   <!-- - attendance_rate
   - apprenticeship_traineeship_training_contract_approvals

@@ -28,3 +28,8 @@ DROP TABLE IF EXISTS partsupp;
 DROP TABLE IF EXISTS region;
 DROP TABLE IF EXISTS supplier;
 ```
+
+generate a lot of data
+```bash
+CALL dbgen(sf = 50, children = 100, step = 0);
+```

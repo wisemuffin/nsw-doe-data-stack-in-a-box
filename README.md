@@ -1,3 +1,5 @@
+
+
 <!-- ![NSW Department of Education logo](.github/static/nsw-doe.png) -->
 
 <img src=".github/static/nsw-doe.png" width="150" >
@@ -5,17 +7,25 @@
 
 # Welcome to New South Wales Department of Education (NSW DOE) data stack in a box
 
-![Prod CI Checks](https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/actions/workflows/ci_prod_deploy.yml/badge.svg)
+<div align="center">
+  <img alt="GitHub" src="https://img.shields.io/github/license/wisemuffin/nsw-doe-data-stack-in-a-box?style=flat-square">
+  <img alt="GitHub Workflow Status" src="https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/actions/workflows/ci_prod_deploy.yml/badge.svg?style=flat-square">
+  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/wisemuffin/nsw-doe-data-stack-in-a-box?style=flat-square">
+</div>
+
+<br>
+
+<!-- ![Prod CI Checks](https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/actions/workflows/ci_prod_deploy.yml/badge.svg) -->
 <!-- [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![dbt](https://img.shields.io/badge/dbt-orange)](https://www.getdbt.com/)
 [![dagster](https://img.shields.io/badge/dagster-purple)](https://dagster.io/) -->
 
 
 
-This is an data-stack-in-a-box based data from [NSW Education Data](https://data.nsw.gov.au/). With the push of one button you can have your own data stack!
+This is an data-stack-in-a-box based data from [NSW Education Data](https://data.nsw.gov.au/). With the push of one button you can have your own data stack up and running in 2 mins! 🏎️
 
 
-## TL;DR - What have we achieved?
+## 🚀 TL;DR - What have we achieved?
 
 ### Data Stack
 
@@ -30,12 +40,12 @@ This dashboard contains all the metrics we have collected in this data stack pro
 
 [![Dashboard - evidence.dev]][Report]
 
-## Objectives
+## 💡 Objectives
 
 ### Main quests
 [NSW Department of Education](https://education.nsw.gov.au/) data stack in a box has two objectives:
-1)	Getting humans excited about the publically available data curated by NSW Department of Education and our partners.
-2)	Simple one click totaly free 💲 datastack, aiding in learning and proof of concepts.
+1)	Getting humans excited about the publicly available data curated by NSW Department of Education and our partners.
+2)	Simple one click totally free 💲 data stack, aiding in learning and proof of concepts.
 
 
 ### Side quests
@@ -44,14 +54,14 @@ This dashboard contains all the metrics we have collected in this data stack pro
 - Help identify data quality and reliability issues with our data. This project is being run daily.
 
 
-## Audience
+## 🤗 Audience
 The project is designed to be very simple when getting started but allows you to go as deep you like!
 - **I want to analyse and gain insights into the data.** With the infrastructure free and deployed in one click you don’t need to worry about any implementation details. You can skip straight to analysing and training ML models on top of your own local warehouse.
 - **Interested in modelling via SQL?** We got you covered with a environment setup for DBT.
 - **Love DevOps and platform engineering?** Check out our Orchestration, CICD pipelines, and automation such as linting, ect.
 
 
-## Overview of Data Stack (Architecture) 🥨
+## 🥨 Overview of Data Stack (Architecture)
 
 
 ![Data Architecture](.github/static/architecture.png)
@@ -78,7 +88,7 @@ The project is designed to be very simple when getting started but allows you to
   - column level linage
 -->
 
-## Information Management
+## 👅 Information Management
 ### Data Catalog
 🚧 TODO likley openmetadata see [example](https://sandbox.open-metadata.org/table/RedshiftProd.dev.demo_dbt_jaffle.customers/lineage)
 

@@ -168,17 +168,6 @@ erDiagram
         int year
         float retention_rate
     }
-    EARLY_CHILDHOOD_EDU {
-        int ece_id
-        int school_id
-        string program_name
-        string description
-    }
-    UNIVERSITY {
-        int university_id
-        string university_name
-        string address
-    }
     APPRENTICESHIP {
         int apprenticeship_id
         int student_id
@@ -205,10 +194,8 @@ erDiagram
     SCHOOL ||--o{ INCIDENT : reports
     "STUDENT" ||--o{ ATTENDANCE : records
     SCHOOL ||--o{ RETENTION : tracks
-    EARLY_CHILDHOOD_EDU ||--o{ "STUDENT"  : provides
     "STUDENT" ||--o{ APPRENTICESHIP : undertakes
     "STUDENT" ||--o{ TRAINEESHIP : participates_in
-    "STUDENT" ||--o{ UNIVERSITY : enrolls_in
 
 ```
 This is a high level overview of the entities that we are going to model in this project.
@@ -224,7 +211,6 @@ The data available publically for each entitity does not go down to a student. I
 | ------------- | ----------------- | ------------ | -------------------------------------- | ---------- |
 | `Apprenticeship and Traineeship training contract` | Excel | ❌ | Apprenticeships and Traineeships combine formal study of a nationally recognised qualification with on-the-job training. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-f7cba3fc-6e9b-4b8b-b1fd-e7dda9b49001 |
 | `Average government primary school class sizes` | API | ❌ | The average class size for each grade is calculated by taking the number of students in all classes that a student from that grade is in (including composite/multi age classes) divided by the total number of classes that includes a student from that grade. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-43438137-084e-4d50-81c0-ce741ea3b37b/details |
-| `Early Childhood Education and Care program locations` | API | ❌ | NSW Early Childhood Education and Care program locations | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-c41c950f-043c-45ea-bf84-22d8037b74bb |
 | `Enrolments` | API | ❌ | This data shows February census enrolment figures. All enrolments are self-reported in full-time equivalent (FTE) units and include both full-time and part-time students. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-818ae0d8-d7fb-4b62-963c-7263fdb8e1ca |
 | `Incidents` | API | ❌ | Incidents in public schools and how the department supports schools through incidents while still protecting the identity of students and staff. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-43438137-084e-4d50-81c0-ce741ea3b37b |
 | `Master dataset: NSW government school locations and student enrolment numbers` | CSV | ✅ | The master dataset contains comprehensive information for all government schools in NSW. Data items include school locations, latitude and longitude coordinates, school type, student enrolment numbers, electorate information, contact details and more. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-78c10ea3-8d04-4c9c-b255-bbf8547e37e7 |
@@ -233,7 +219,6 @@ The data available publically for each entitity does not go down to a student. I
 |`Students` | CSV | ❌ | -------------------------------------- | https://www.acara.edu.au/reporting/national-report-on-schooling-in-australia/student-numbers||
 | `Student attendance` | CSV | ❌ | This dataset shows the attendance rates for all NSW government schools in Semester One by alphabetical order. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-b558a070-09f5-4941-a140-e60a744327bf |
 | `Student retention rates at NSW government schools` | API | ❌ | The full-time apparent retention rate (ARR) measures the proportion of a cohort of full-time students that moves from one grade to the next, based on an expected rate of progression of one grade per year. It does not track individual students through their final years of secondary schooling. | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-c9fd51b3-506d-4707-b607-0b1853654ce6 |
-| `University` | API | ❌ | NSW University Locations by campus | https://data.nsw.gov.au/search/dataset/ds-nsw-ckan-0d43537e-429a-4a71-8d12-92d2d45eccd0 |
 
 #### Utilisation Sources
 | Name          | Method (API, CSV, Excel) | Contract Y/N | Description                            | Source URL |
@@ -251,7 +236,6 @@ The data available publically for each entitity does not go down to a student. I
 |`Incident` | 🚧 | ❌ | ❌ | ✅ ||
 |`Class Size` | 🚧 | ❌ | ❌ | ✅ ||
 |`Aparent Retention Rate` | 🚧 | ❌ | ❌ | ✅ | |
-|`Early Childhood Education Centre` | 🚧 | ❌ | ❌ | ❌ | |
 |`School` | 🚧 | ❌ | ❌ | ❌ | |
 |`Attendance` | 🚧 | ✅  | ❌ | ✅ |  Dont have numerator and denominator so cant aggregate this fact table. Could just out disclamer on average of average |
 | `Enrolment` | 🚧 | ✅ | ❌ | ✅ |  |

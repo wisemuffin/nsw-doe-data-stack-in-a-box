@@ -7,7 +7,7 @@
 
       invalidate_hard_deletes=True,
       strategy='check',
-      check_cols=["School_code","AgeID","School_name","Street","Town_suburb","Postcode","Phone","School_Email","Website","Fax","latest_year_enrolment_FTE","Indigenous_pct","LBOTE_pct","ICSEA_value","Level_of_schooling","Selective_school","Opportunity_class","School_specialty_type","School_subtype","Support_classes","Preschool_ind","Distance_education","Intensive_english_centre","School_gender","Late_opening_school","Date_1st_teacher","LGA","electorate_from_2023","electorate_2015_2022","Fed_electorate","Operational_directorate","Principal_network","Operational_directorate_office","Operational_directorate_office_phone","Operational_directorate_office_address","FACS_district","Local_health_district","AECG_region","ASGS_remoteness","Latitude","Longitude","Assets unit","SA4","FOEI_Value"],
+      check_cols=["School_code","AgeID","School_name","Street","Town_suburb","Postcode","Phone","School_Email","Website","Fax","latest_year_enrolment_FTE","Indigenous_pct","LBOTE_pct","ICSEA_value","Level_of_schooling","Selective_school","Opportunity_class","School_specialty_type","School_subtype","Support_classes","Preschool_ind","Distance_education","Intensive_english_centre","School_gender","Late_opening_school","Date_1st_teacher","LGA","electorate_from_2023","electorate_2015_2022","Fed_electorate","Operational_directorate","Principal_network","Operational_directorate_office","Operational_directorate_office_phone","Operational_directorate_office_address","FACS_district","Local_health_district","AECG_region","ASGS_remoteness","Latitude","Longitude","SA4","FOEI_Value"],
 
     )
 }}

@@ -22,7 +22,7 @@
 
 
 
-This is an data-stack-in-a-box based data from [NSW Education Data](https://data.nsw.gov.au/). With the push of one button you can have your own data stack up and running in 2 mins! 🏎️
+This is an data-stack-in-a-box based data from [NSW Education Data](https://data.nsw.gov.au/). With the push of one button you can have your own data stack up and running in 5 mins! 🏎️
 
 
 ## 🚀 TL;DR - What have we achieved?
@@ -34,11 +34,18 @@ This is an data-stack-in-a-box based data from [NSW Education Data](https://data
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/wisemuffin/nsw-doe-data-stack-in-a-box?quickstart=1)
 
+![Data Stack Setup](.github/static/nsw-doe-data-stack-in-a-box-codespace-setup-Made-with-Clipchamp.gif)
+
+
+![Data Pipeline](.github/static/nsw-doe-data-stack-in-a-box-codespace-pipeline-run-Made-with-Clipchamp.gif)
+
 
 ### Reports
 This dashboard contains all the metrics we have collected in this data stack project. It uses a visualisation as code tool called [evidence.dev](https:evidence.dev).
 
 [![Dashboard - evidence.dev]][Report]
+
+![Dashboard](.github/static/nsw-doe-data-stack-in-a-box-report-Made-with-Clipchamp.gif)
 
 ## 💡 Objectives
 
@@ -49,9 +56,8 @@ This dashboard contains all the metrics we have collected in this data stack pro
 
 
 ### Side quests
-- Level up our data stack by demoing features in the data stack that we are lacking or need to improve in [NSW Department of Education](https://education.nsw.gov.au/). These demos will start the conversation on what features we want to prioritise.
-- Help identify engineering talent during the interview phase by using the project as a case study
-- Help identify data quality and reliability issues with our data. This project is being run daily.
+- Help identify data quality and reliability issues with our data. This project is being run daily with several tests so hopefully we can find any issues first!
+- Building a report that shows all metrics related to [(NSW) Department of Education (DOE)](https://education.nsw.gov.au/) data, and consolidate any other publicaly available data.
 
 
 ## 🤗 Audience
@@ -67,17 +73,17 @@ The project is designed to be very simple when getting started but allows you to
 ![Data Architecture](.github/static/architecture.png)
 
 
-> ![Info] We are simply going to extract data from the [NSW Education Data](https://data.nsw.gov.au/) and load it into our in memory data warehouse 🦆, model, clean, and analyse our data.
-> behind the scenes uses https://ckan.org/ an open source data management system used by the likes of [Government of Canada](https://www.canada.ca/en.html), [NHS](https://www.nhs.uk/), [USAs Open Data](https://data.gov/).
+> [!NOTE] We are simply going to extract data from the [Data.NSW](https://data.nsw.gov.au/) and load it into our in memory data warehouse 🦆, model, clean, and analyse our data.
+> [Data.NSW](https://data.nsw.gov.au/) behind the scenes uses [CKAN](https://ckan.org/) an open source data management system used by the likes of [Government of Canada](https://www.canada.ca/en.html), [NHS](https://www.nhs.uk/), and [USAs Open Data](https://data.gov/).
 
 
 > [!WARNING]
-> Some of the datasets from ACARA and NSW DOE are based on static urls. These URLs make it challenging to manage future releases of data without manually identifiing the URLs for new data. I will try to keep an eye out for this every few months. 🚧 TODO setup discussion on limitations with public datasets.
+> Some of the datasets from ACARA and [Data.NSW](https://data.nsw.gov.au/) are based on CSV files located on their sites. This is challenging as the CSV name and URL for future datasets is unknown, so requires a code change each time new data arrives.
 
 
 <!-- ## Option tooling (Architecture) 🥨
 
-> ![Info] These components are purley for demoing purposes. They are not needed in the project.
+> [!NOTE] These components are purley for demoing purposes. They are not needed in the project.
 
 - Tableau
   - ai monitoring
@@ -200,7 +206,7 @@ erDiagram
 ```
 This is a high level overview of the entities that we are going to model in this project.
 
-> [!INFO] Limitation -
+> [!NOTE] Limitation -
 The data available publically for each entitity does not go down to a student. In some cases school level data is avaiable. But most entities only have data published at a state wide (NSW) aggregate level.
 
 ### Sources
@@ -233,13 +239,11 @@ The data available publically for each entitity does not go down to a student. I
 | `Resource Allocation Model (RAM)`  | ✅ | ✅  | ❌ | ✅ |  |
 |`Staff` | ✅ | ❌ | ❌ | ✅ ||
 |`Students` | ✅ | ❌ | ❌ | ✅ ||
-|`Incident` | 🚧 | ❌ | ❌ | ✅ ||
-|`Class Size` | 🚧 | ❌ | ❌ | ✅ ||
-|`Aparent Retention Rate` | 🚧 | ❌ | ❌ | ✅ | |
-|`School` | 🚧 | ❌ | ❌ | ❌ | |
-|`Attendance` | 🚧 | ✅  | ❌ | ✅ |  Dont have numerator and denominator so cant aggregate this fact table. Could just out disclamer on average of average |
-| `Enrolment` | 🚧 | ✅ | ❌ | ✅ |  |
-| `University` | 🚧 | ❌ | ❌ | ❌ |  |
+|`Incident` | ✅ | ❌ | ❌ | ✅ ||
+|`Aparent Retention Rate` | ✅ | ❌ | ❌ | ✅ | |
+|`School` | ✅ | ❌ | ❌ | ❌ | |
+|`Attendance` | ✅ | ✅  | ❌ | ✅ |  Dont have numerator and denominator so cant aggregate this fact table. Could just out disclamer on average of average |
+| `Enrolment` | ✅ | ✅ | ❌ | ✅ |  |
 | `Apprenticeship and Traineeship training contract` | 🚧 | ❌ | ❌ | ✅ partially |  |
 | `Web Analytics` | ✅ | ❌ | ❌ | ✅  |  |
 | `Repo Reactions` | ✅ | ❌ | ❌ | ✅  |  |

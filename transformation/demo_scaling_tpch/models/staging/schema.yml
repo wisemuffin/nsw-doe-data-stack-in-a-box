@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: main
+    schema: main
+    tables:
+      - name: customer
+      - name: lineitem
+      - name: nation
+      - name: orders
+      - name: part
+      - name: partsupp
+      - name: region
+      - name: supplier

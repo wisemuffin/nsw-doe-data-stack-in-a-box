@@ -24,6 +24,7 @@ from dagster_openai import OpenAIResource
 from dagster_embedded_elt.dlt import DagsterDltResource
 
 from pipeline_nsw_doe.io_managers import PandasParquetIOManager
+from pipeline_nsw_doe.sensors import sensor_freshness, checks_freshness_def
 
 
 # from dagster_airbyte import airbyte_resource
@@ -162,11 +163,12 @@ schedule_etl_education = ScheduleDefinition(
 #     )
 
 defs = Definitions(
+    asset_checks=[*checks_freshness_def],
     assets=all_assets,
     resources=resources_by_env[NSW_DOE_DATA_STACK_IN_A_BOX__ENV],
     jobs=[etl_education],
     schedules=[schedule_etl_education],
-    sensors=[msteams_on_run_failure],
+    sensors=[msteams_on_run_failure, sensor_freshness],
     # assets to not be materialized concurrently when running in local dev environments to avoid duckdb limitation of conncurrancy
     # see: https://duckdb.org/docs/connect/concurrency.html
     # when in prod or test env we are using motherduck so no concurrency limitations

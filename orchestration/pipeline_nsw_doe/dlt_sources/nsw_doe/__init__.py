@@ -262,38 +262,6 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
         ):
             yield page
 
-    @dlt.resource(
-        write_disposition="replace",
-        schema_contract={
-            "tables": "evolve",
-            "columns": "evolve",
-            "data_type": "freeze",
-        },
-    )
-    def raw__nsw_doe_datansw__early_childhood_education_centres(
-        access_token: Optional[str] = access_token,
-    ) -> Iterator[TDataItems]:
-        for page in get_nsw_doe_data(
-            access_token, "?resource_id=80c2ccfc-971d-43cd-8ee6-e7cc4f15e989"
-        ):
-            yield page
-
-    @dlt.resource(
-        write_disposition="replace",
-        schema_contract={
-            "tables": "evolve",
-            "columns": "evolve",
-            "data_type": "freeze",
-        },
-    )
-    def raw__nsw_doe_datansw__university(
-        access_token: Optional[str] = access_token,
-    ) -> Iterator[TDataItems]:
-        for page in get_nsw_doe_data(
-            access_token, "?resource_id=ff846431-5400-4f8e-95fb-891648f05975"
-        ):
-            yield page
-
     return (
         raw__nsw_doe_datansw__enrolments_primary,
         raw__nsw_doe_datansw__enrolments_secondary,
@@ -309,8 +277,6 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
         raw__nsw_doe_datansw__aparent_retention_rate_10_to_12,
         raw__nsw_doe_datansw__aparent_retention_rate_7_to_10,
         raw__nsw_doe_datansw__aparent_retention_rate_aboriginal_and_or_torres_strait_islanders,
-        raw__nsw_doe_datansw__early_childhood_education_centres,
-        raw__nsw_doe_datansw__university,
     )
 
 

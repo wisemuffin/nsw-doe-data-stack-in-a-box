@@ -1,42 +1,13 @@
-import os
-import json
+from datetime import timedelta
 
-from dagster import sensor, RunRequest, SensorResult
+from dagster import build_last_update_freshness_checks, build_sensor_for_freshness_checks
 
-from pipeline_nsw_doe.assets.openai_demo import question_job
+from pipeline_nsw_doe.assets.raw.assets import raw__nsw_doe_datansw__master_dataset 
 
 
-@sensor(job=question_job)
-def question_sensor(context):
-    PATH_TO_QUESTIONS = os.path.join(
-        os.path.dirname(__file__), "../assets/openai_demo", "data/questions"
-    )
+checks_freshness_def = build_last_update_freshness_checks(
+    assets=[raw__nsw_doe_datansw__master_dataset], lower_bound_delta=timedelta(hours=3),
+    deadline_cron="0 1 * * *"
+)
 
-    previous_state = json.loads(context.cursor) if context.cursor else {}
-    current_state = {}
-    runs_to_request = []
-
-    for filename in os.listdir(PATH_TO_QUESTIONS):
-        file_path = os.path.join(PATH_TO_QUESTIONS, filename)
-        if filename.endswith(".json") and os.path.isfile(file_path):
-            last_modified = os.path.getmtime(file_path)
-
-            current_state[filename] = last_modified
-
-            if (
-                filename not in previous_state
-                or previous_state[filename] != last_modified
-            ):
-                with open(file_path, "r") as f:
-                    request_config = json.load(f)
-
-                    runs_to_request.append(
-                        RunRequest(
-                            run_key=f"adhoc_request_{filename}_{last_modified}",
-                            run_config={
-                                "ops": {"completion": {"config": {**request_config}}}
-                            },
-                        )
-                    )
-
-    return SensorResult(run_requests=runs_to_request, cursor=json.dumps(current_state))
+sensor_freshness = build_sensor_for_freshness_checks(freshness_checks=checks_freshness_def, minimum_interval_seconds=3600)

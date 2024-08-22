@@ -1,0 +1,4 @@
+{
+    "model": "gpt-3.5-turbo",
+    "question": "How can I use dbt with Dagster?"
+    }

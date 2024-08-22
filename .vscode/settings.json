@@ -20,7 +20,7 @@
       "**/target/**": ""
   },
   "python.analysis.typeCheckingMode": "basic",
-  // "python.defaultInterpreterPath": ".venv/bin/python",
+  "python.defaultInterpreterPath": ".venv/bin/python",
   "python.envFile": "${workspaceFolder}/.env",
   // "[python]": {
   //   "editor.formatOnSave": true,

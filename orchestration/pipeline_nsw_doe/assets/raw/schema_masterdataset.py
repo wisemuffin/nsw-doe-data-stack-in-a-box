@@ -20,8 +20,8 @@ schema = DataFrameSchema(
         "AgeID": Column(
             dtype="float64",
             checks=[
-                Check.greater_than_or_equal_to(min_value=6354.0),
-                Check.less_than_or_equal_to(max_value=88927.0),
+                Check.greater_than_or_equal_to(min_value=0),
+                Check.less_than_or_equal_to(max_value=99999999),
             ],
             nullable=True,
             unique=False,
@@ -65,12 +65,12 @@ schema = DataFrameSchema(
             title=None,
         ),
         "Postcode": Column(
-            dtype="int64",
-            checks=[
-                Check.greater_than_or_equal_to(min_value=2000.0),
-                Check.less_than_or_equal_to(max_value=4383.0),
-            ],
-            nullable=False,
+            dtype="object",
+            # checks=[
+            #     Check.greater_than_or_equal_to(min_value=2000.0),
+            #     Check.less_than_or_equal_to(max_value=4383.0),
+            # ],
+            nullable=True,
             unique=False,
             coerce=False,
             required=True,

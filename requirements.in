@@ -1,5 +1,5 @@
 dbt-duckdb>=1.8.0
-dbt-metricflow[duckdb]
+dbt-metricflow[duckdb]==0.7.1
 
 ipykernel
 

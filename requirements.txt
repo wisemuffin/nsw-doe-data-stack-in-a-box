@@ -183,7 +183,7 @@ dbt-core==1.8.3
 dbt-duckdb==1.8.1
 dbt-extractor==0.5.1
     # via dbt-core
-dbt-metricflow==0.7.0
+dbt-metricflow==0.7.1
 dbt-semantic-interfaces==0.5.1
     # via
     #   dbt-core

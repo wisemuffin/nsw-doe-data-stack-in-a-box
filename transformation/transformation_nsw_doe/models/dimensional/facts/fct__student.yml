@@ -1,0 +1,13 @@
+unit_tests:
+  - name: test_filtering
+    description: "Check filtering on just NSW Government schools"
+    model: fct__student
+    given:
+      - input: ref('stg__acara__student_numbers')
+        rows:
+          - {"state_territory": "New South Wales",    "school_sector": "Government", "calendar_year": 2024}
+          - {"state_territory": "New South Wales",    "school_sector": "Private", "calendar_year": 2024}
+          - {"state_territory": "ACT",    "school_sector": "Government", "calendar_year": 2024}
+    expect:
+      rows:
+        - {"calendar_year": 2024}

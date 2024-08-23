@@ -33,7 +33,7 @@ final as (
 
         ----Local Dimensions
         prep.calendar_year,
-        prep.staff_function,
+        {# prep.staff_function, #}
         prep.sex_gender,
         prep.fte_status,
 

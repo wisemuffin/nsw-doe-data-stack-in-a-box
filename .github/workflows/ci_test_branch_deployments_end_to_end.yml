@@ -119,7 +119,8 @@ jobs:
           python_version: "${{ env.PYTHON_VERSION }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
+          # NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
+          NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: "pr_dave_test"
 
   dagster_cloud_docker_deploy:
     name: Docker Deploy

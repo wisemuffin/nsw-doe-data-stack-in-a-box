@@ -1,0 +1,142 @@
+semantic_models:
+  - name: order
+    description: "Metrics for orders and order items"
+    model: ref('fct__order')
+    entities:
+      - name: order
+        type: primary
+        expr: order_key
+      - name: customer
+        type: foreign
+        expr: customer_key
+    dimensions:
+      - name: order_date
+        type: time
+        description: "Date of the order"
+        type_params:
+          time_granularity: day
+      - name: order_status_code
+        type: categorical
+        description: "Status code of the order"
+      - name: order_priority_code
+        type: categorical
+        description: "Priority code of the order"
+      - name: order_clerk_name
+        type: categorical
+        description: "Name of the order clerk"
+      - name: shipping_priority
+        type: categorical
+        description: "Shipping priority of the order"
+      - name: item_summary
+        type: categorical
+        description: "Summary of the order status and sales amount"
+    measures:
+      - name: order_count
+        description: "Count of orders"
+        agg: count
+        expr: 1
+      - name: gross_item_sales_amount
+        description: "Gross sales amount of items"
+        agg: sum
+      - name: item_discount_amount
+        description: "Discount amount on items"
+        agg: sum
+      - name: item_tax_amount
+        description: "Tax amount on items"
+        agg: sum
+      - name: net_item_sales_amount
+        description: "Net sales amount of items"
+        agg: sum
+      - name: net_check_amount
+        description: "Net check amount after discounts and taxes"
+        agg: sum
+    defaults:
+      agg_time_dimension: order_date
+
+metrics:
+  - name: order_count
+    label: Count of orders
+    type: simple
+    type_params:
+      measure:
+        name: order_count
+  - name: gross_item_sales_amount
+    label: Gross sales amount of items
+    type: simple
+    type_params:
+      measure:
+        name: gross_item_sales_amount
+  - name: item_discount_amount
+    label: "Discount amount on items"
+    type: simple
+    type_params:
+      measure:
+        name: item_discount_amount
+  - name: item_tax_amount
+    label: "Tax amount on items"
+    type: simple
+    type_params:
+      measure:
+        name: item_tax_amount
+  - name: net_item_sales_amount
+    label: "Net sales amount of items"
+    type: simple
+    type_params:
+      measure:
+        name: net_item_sales_amount
+  - name: net_check_amount
+    label: "Net check amount after discounts and taxes"
+    type: simple
+    type_params:
+      measure:
+        name: net_check_amount
+
+  - name: average_order_value
+    label: average order value
+    type: ratio
+    type_params:
+      numerator:
+        name: gross_item_sales_amount
+      denominator:
+        name: order_count
+
+  - name: average_discount_rate
+    label: average discount rate
+    type: ratio
+    type_params:
+      numerator:
+        name: item_discount_amount
+      denominator:
+        name: gross_item_sales_amount
+
+  - name: cumulative_gross_item_sales_amount
+    label: Cumulative gross_item_sales_amount (All-Time)
+    type: cumulative
+    type_params:
+      measure:
+        name: gross_item_sales_amount
+
+  # need to upgrade dbt
+  # - name: eight_weekly_gross_item_sales_amount
+  #   label: 8 Weekly gross_item_sales_amount
+  #   type: cumulative
+  #   type_params:
+  #     measure:
+  #       name: gross_item_sales_amount
+  #     cumulative_type_params:
+  #       window: 8 weeks
+  #       period_agg: first
+
+saved_queries:
+  - name: order_metrics
+    label: order metrics saved query
+    description: Relevant order metrics
+    query_params:
+      metrics:
+        # - eight_weekly_gross_item_sales_amount
+        - cumulative_gross_item_sales_amount
+        - gross_item_sales_amount
+        - average_order_value
+      group_by:
+        - TimeDimension('order__order_date', 'year')
+        - Dimension('customer__customer_name')

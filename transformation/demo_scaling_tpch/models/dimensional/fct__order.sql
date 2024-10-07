@@ -62,11 +62,12 @@ final as (
         order_item_summary.item_tax_amount,
         order_item_summary.net_item_sales_amount
     from orders
-    join order_item_summary
+    left join order_item_summary
         on orders.order_key = order_item_summary.order_key
 )
 select *
-from final
+from
+final
 {# {{ dbt_audit(
     cte_ref="final",
     created_by="@davidgriffiths",

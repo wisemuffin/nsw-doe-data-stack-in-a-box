@@ -33,3 +33,12 @@ generate a lot of data
 ```bash
 CALL dbgen(sf = 50, children = 100, step = 0);
 ```
+
+
+# metriflow examples
+
+```bash
+dbt parse
+mf query --metrics gross_item_sales_amount --group-by metric_time__year
+mf query --saved-query order_metrics
+```

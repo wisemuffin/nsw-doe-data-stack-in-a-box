@@ -48,14 +48,14 @@ select
         * (1 - order_item.discount_percentage))
     as discounted_item_sales_amount,
     -- We model discounts as negative amounts
-    (-1 * order_item.extended_price
+    (1 * order_item.extended_price
         * order_item.discount_percentage)
     as item_discount_amount,
-    ((gross_item_sales_amount + item_discount_amount)
+    ((gross_item_sales_amount - item_discount_amount)
         * order_item.tax_rate) as item_tax_amount,
     (gross_item_sales_amount
-        + item_discount_amount
-        + item_tax_amount
+        - item_discount_amount
+        - item_tax_amount
     ) as net_item_sales_amount,
 
     {{ dbt_utils.generate_surrogate_key(['orders.order_key', 'order_item.order_line_number']) }} as order_item_key

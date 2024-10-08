@@ -1,13 +1,13 @@
-from dagster import multi_asset, MaterializeResult, AssetSpec, AssetKey
+from dagster import multi_asset, MaterializeResult, AssetSpec, AssetKey, Config
+from pydantic import Field
 import duckdb
 from dagster_duckdb_pandas import DuckDBPandasIOManager
 
 
-# @asset(
-#     name="tpch_data",
-#     description="Generates TPC-H data using dbgen with scale factor 1",
-#     io_manager_key="io_manager_dw",
-# )
+class GenerateTPCHDataConfig(Config):
+    scaling_factor: int = Field(default=1)
+
+
 @multi_asset(
     specs=[
         AssetSpec(AssetKey(["tpch", table]), skippable=True)
@@ -24,7 +24,7 @@ from dagster_duckdb_pandas import DuckDBPandasIOManager
     ],
     required_resource_keys={"io_manager_dw"},
 )
-def generate_tpch_data(context):
+def generate_tpch_data(context, config: GenerateTPCHDataConfig):
     # Retrieve the database name from the context
     io_manager_dw: DuckDBPandasIOManager = context.resources.io_manager_dw
     database = io_manager_dw._database
@@ -44,7 +44,7 @@ def generate_tpch_data(context):
 
     # Generate TPC-H data
     context.log.info("Generating TPC-H data with scale factor 1.")
-    conn.execute("CALL dbgen(sf = 1)")
+    conn.execute(f"CALL dbgen(sf = {config.scaling_factor})")
 
     # update the schema
     context.log.info("Updating schema for TPC-H data")

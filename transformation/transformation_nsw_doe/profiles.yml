@@ -1,19 +1,19 @@
-nsw_doe_data_stack_in_a_box_profile:
+tpch_profile:
   outputs:
     dev:
       type: duckdb
-      path: "../../{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB') }}"
-      database: "{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME') }}"
-      schema: "{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA') }}"
+      path: "../../{{ env_var('TPCH_DB_PATH_AND_DB') }}"
+      database: "{{ env_var('TPCH_DB_NAME') }}"
+      schema: "{{ env_var('TPCH_TARGET_SCHEMA') }}"
       threads: 4
     prod:
       type: duckdb
-      path: "{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB') }}"
-      schema: "{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA') }}"
+      path: "{{ env_var('TPCH_DB_PATH_AND_DB') }}"
+      schema: "{{ env_var('TPCH_TARGET_SCHEMA') }}"
       threads: 4
     test:
       type: duckdb
-      path: "{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB') }}"
-      schema: "{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA') }}"
+      path: "{{ env_var('TPCH_DB_PATH_AND_DB') }}"
+      schema: "{{ env_var('TPCH_TARGET_SCHEMA') }}"
       threads: 4
-  target: "{{ env_var('NSW_DOE_DATA_STACK_IN_A_BOX__ENV') }}"
+  target: "{{ env_var('TPCH__ENV') }}"

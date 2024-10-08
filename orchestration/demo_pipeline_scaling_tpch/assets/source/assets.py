@@ -1,12 +1,28 @@
-from dagster import asset, Output
+from dagster import multi_asset, MaterializeResult, AssetSpec
 import duckdb
 from dagster_duckdb_pandas import DuckDBPandasIOManager
 
 
-@asset(
-    name="tpch_data",
-    description="Generates TPC-H data using dbgen with scale factor 1",
-    io_manager_key="io_manager_dw",
+# @asset(
+#     name="tpch_data",
+#     description="Generates TPC-H data using dbgen with scale factor 1",
+#     io_manager_key="io_manager_dw",
+# )
+@multi_asset(
+    specs=[
+        AssetSpec(table, skippable=True)
+        for table in [
+            "customer",
+            "lineitem",
+            "nation",
+            "orders",
+            "part",
+            "partsupp",
+            "region",
+            "supplier",
+        ]
+    ],
+    required_resource_keys={"io_manager_dw"},
 )
 def generate_tpch_data(context):
     # Retrieve the database name from the context
@@ -30,7 +46,24 @@ def generate_tpch_data(context):
     context.log.info("Generating TPC-H data with scale factor 1.")
     conn.execute("CALL dbgen(sf = 1)")
 
+    # update the schema
+    context.log.info("Updating schema for TPC-H data")
+    tables = [
+        "customer",
+        "lineitem",
+        "nation",
+        "orders",
+        "part",
+        "partsupp",
+        "region",
+        "supplier",
+    ]
+    for table in tables:
+        # would have prefered to `alter table {table} set schema {schema_name}`` but not supported yet see: https://github.com/duckdb/duckdb/discussions/10641
+        conn.execute(f"CREATE TABLE {schema_name}.{table} as select * from {table}")
+
     # Verify data generation
+    context.log.info("Verify data generation")
     tables = conn.execute(
         f"SELECT table_name FROM information_schema.tables WHERE table_schema = '{schema_name}'"
     ).fetchall()
@@ -42,8 +75,5 @@ def generate_tpch_data(context):
         context.log.error("Failed to generate TPC-H data.")
 
     for table in tables:
-        yield Output(
-            value=None,
-            output_name=table,
-            metadata={"schema": schema_name, "table": table},
-        )
+        table_name = table[0]
+        yield MaterializeResult(asset_key=table_name)

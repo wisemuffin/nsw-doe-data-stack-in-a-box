@@ -1,15 +1,15 @@
-name: 'nsw_doe_data_stack_in_a_box'
+name: 'tpch'
 
 config-version: 2
 version: '0.1'
 
-profile: 'nsw_doe_data_stack_in_a_box_profile'
+profile: 'tpch_profile'
 # profile: 'my_dbt_trino_project'
 
 vars:
   truncate_timespan_to: "{{ current_timestamp() }}"
   "dbt_date:time_zone": "America/Los_Angeles"
-  
+
 model-paths: ["models"]
 seed-paths: ["seeds"]
 test-paths: ["tests"]
@@ -27,7 +27,7 @@ require-dbt-version: [">=1.0.0", "<2.0.0"]
 models:
   +tags:
     - "all"
-  nsw_doe_data_stack_in_a_box:
+  tpch:
     +materialized: table
     # +schema: common
     dimensional:

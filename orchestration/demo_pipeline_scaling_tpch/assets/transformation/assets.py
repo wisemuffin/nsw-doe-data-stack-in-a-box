@@ -8,7 +8,7 @@ from dagster_dbt import (
     dbt_assets,
 )
 
-from ...constants import dbt_manifest_path
+from ...project import tpch_project
 
 
 class CustomDagsterDbtTranslator(DagsterDbtTranslator):
@@ -25,7 +25,7 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
 
 
 @dbt_assets(
-    manifest=dbt_manifest_path,
+    manifest=tpch_project.manifest_path,
     dagster_dbt_translator=CustomDagsterDbtTranslator(
         settings=DagsterDbtTranslatorSettings(enable_asset_checks=True)
     ),

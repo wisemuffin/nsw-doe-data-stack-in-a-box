@@ -1,8 +1,8 @@
 version: 2
 
 sources:
-  - name: main
-    schema: main
+  - name: tpch
+    schema: tpch
     tables:
       - name: customer
       - name: lineitem

@@ -1,4 +1,4 @@
-from dagster import multi_asset, MaterializeResult, AssetSpec
+from dagster import multi_asset, MaterializeResult, AssetSpec, AssetKey
 import duckdb
 from dagster_duckdb_pandas import DuckDBPandasIOManager
 
@@ -10,7 +10,7 @@ from dagster_duckdb_pandas import DuckDBPandasIOManager
 # )
 @multi_asset(
     specs=[
-        AssetSpec(table, skippable=True)
+        AssetSpec(AssetKey(["tpch", table]), skippable=True)
         for table in [
             "customer",
             "lineitem",
@@ -76,4 +76,4 @@ def generate_tpch_data(context):
 
     for table in tables:
         table_name = table[0]
-        yield MaterializeResult(asset_key=table_name)
+        yield MaterializeResult(asset_key=AssetKey([schema_name, table_name]))

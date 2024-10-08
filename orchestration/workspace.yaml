@@ -12,6 +12,7 @@ load_from:
 #       host: pipeline_nsw_doe
 #       port: 4003
 #       location_name: "pipeline_nsw_doe"
-    - python_module: pipeline_nsw_doe
+    # - python_module: pipeline_nsw_doe
+    - python_module: demo_pipeline_scaling_tpch
     # - python_module: demo_pipeline_jaffle_shop
     # - python_module: pipeline_nsw_doe_requires_secrets

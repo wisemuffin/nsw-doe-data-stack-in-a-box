@@ -61,9 +61,14 @@ jobs:
 
       - name: Set NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
         run: |
-          echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_full_$(echo ${GITHUB_HEAD_REF} | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9]/_/g')" >> $GITHUB_ENV
-          echo schema ${{ env.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }}
-          echo GITHUB_HEAD_REF ${GITHUB_HEAD_REF}
+          # echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_full_$(echo ${GITHUB_HEAD_REF} | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9]/_/g')" >> $GITHUB_ENV
+          NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_full_$(echo ${GITHUB_HEAD_REF} | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9]/_/g')
+          echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=$(echo $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA)" >> $GITHUB_ENV
+          # echo schema ${{ env.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }} # cant ref env variables in command in same run
+          echo schema $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
+
+      - name: check schema
+        run: echo schema ${{ env.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }}
 
 
       - name: Launch Docker Deploy

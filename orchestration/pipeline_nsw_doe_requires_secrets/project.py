@@ -18,6 +18,7 @@ dbt = DbtCliResource(project_dir=str(project_dir))
 if os.getenv("DAGSTER_DBT_PARSE_PROJECT_ON_LOAD") or not os.path.exists(
     os.path.join(project_dir, "target")
 ):
+    dbt.cli(["deps"]).wait()
     dbt_parse_invocation = dbt.cli(["parse"]).wait()
 
 

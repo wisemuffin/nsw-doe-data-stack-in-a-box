@@ -1,9 +1,9 @@
-name: 'tpch'
+name: 'nsw_doe_data_stack_in_a_box'
 
 config-version: 2
 version: '0.1'
 
-profile: 'tpch_profile'
+profile: 'nsw_doe_data_stack_in_a_box_profile'
 # profile: 'my_dbt_trino_project'
 
 vars:
@@ -27,7 +27,7 @@ require-dbt-version: [">=1.0.0", "<2.0.0"]
 models:
   +tags:
     - "all"
-  tpch:
+  nsw_doe_data_stack_in_a_box:
     +materialized: table
     # +schema: common
     dimensional:

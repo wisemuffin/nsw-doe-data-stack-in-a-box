@@ -18,7 +18,7 @@ from dlt.extract.resource import DltResource
 from ...dlt_sources.github import github_reactions, github_repo_events
 from ...dlt_sources.google_analytics import google_analytics
 
-from pipeline_nsw_doe import set_schema_name_env
+from pipeline_nsw_doe_requires_secrets import set_schema_name_env
 
 set_schema_name_env()
 

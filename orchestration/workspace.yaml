@@ -16,8 +16,8 @@ load_from:
 
     # # enables these two when doing local development. But when merging into main comment them out
     # # so that they dont confuse users of the code space. the requires secret one also requires  env i wont share
-    # - python_module: demo_pipeline_scaling_tpch
-    # - python_module: pipeline_nsw_doe_requires_secrets
+    - python_module: demo_pipeline_scaling_tpch
+    - python_module: pipeline_nsw_doe_requires_secrets
 
 
     # - python_module: demo_pipeline_jaffle_shop

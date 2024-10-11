@@ -14,7 +14,6 @@ order_item as (
     select * from {{ ref('stg__order_item') }}
 
 )
-
 select
 
     orders.order_key,
@@ -42,7 +41,7 @@ select
     (order_item.extended_price
         / nullif(order_item.quantity, 0)) as base_price,
     (base_price * (1 - order_item.discount_percentage))
-         as discounted_price,
+        as discounted_price,
 
     (order_item.extended_price
         * (1 - order_item.discount_percentage))
@@ -59,9 +58,6 @@ select
     ) as net_item_sales_amount,
 
     {{ dbt_utils.generate_surrogate_key(['orders.order_key', 'order_item.order_line_number']) }} as order_item_key
-
-from orders
-join order_item
-    on orders.order_key = order_item.order_key
-order by
-    orders.order_date
+from  orders
+left join order_item
+        on orders.order_key = order_item.order_key

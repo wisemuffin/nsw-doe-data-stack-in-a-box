@@ -127,8 +127,9 @@ metrics:
   #       window: 8 weeks
   #       period_agg: first
 
+
 saved_queries:
-  - name: order_metrics
+  - name: order_metrics_saved_query
     label: order metrics saved query
     description: Relevant order metrics
     query_params:

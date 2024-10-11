@@ -5,7 +5,7 @@ from dagster_duckdb_pandas import DuckDBPandasIOManager
 
 
 class GenerateTPCHDataConfig(Config):
-    scaling_factor: int = Field(default=1)
+    scaling_factor: float = Field(default=0.1)
 
 
 @multi_asset(
@@ -39,11 +39,23 @@ def generate_tpch_data(context, config: GenerateTPCHDataConfig):
         context.log.info(f"Schema '{schema_name}' exists. Dropping schema and tables.")
         conn.execute(f"DROP SCHEMA {schema_name} CASCADE")
 
+    # remove landing tables
+    conn.execute("drop table IF EXISTS customer")
+    conn.execute("drop table IF EXISTS lineitem")
+    conn.execute("drop table IF EXISTS nation")
+    conn.execute("drop table IF EXISTS orders")
+    conn.execute("drop table IF EXISTS part")
+    conn.execute("drop table IF EXISTS partsupp")
+    conn.execute("drop table IF EXISTS region")
+    conn.execute("drop table IF EXISTS supplier")
+
     # Create schema
     conn.execute(f"CREATE SCHEMA {schema_name}")
 
     # Generate TPC-H data
-    context.log.info("Generating TPC-H data with scale factor 1.")
+    context.log.info(
+        f"Generating TPC-H data with scale factor {config.scaling_factor}."
+    )
     conn.execute(f"CALL dbgen(sf = {config.scaling_factor})")
 
     # update the schema

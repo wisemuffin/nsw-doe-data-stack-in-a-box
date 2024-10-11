@@ -30,7 +30,8 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
         settings=DagsterDbtTranslatorSettings(enable_asset_checks=True)
     ),
     io_manager_key="io_manager_dw",
-    exclude="*saved_query",
+    exclude="saved_query:* *google* *github* *web_analytics* *repo*",
+    select="fqn:*",
 )
 def jaffle_shop_dbt_assets(context: AssetExecutionContext, dbt: DbtCliResource):
     yield from dbt.cli(["build"], context=context).stream()

@@ -61,8 +61,14 @@ jobs:
 
       - name: Set NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
         run: |
-          echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_full_$(echo ${GITHUB_HEAD_REF} | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9]/_/g')" >> $GITHUB_ENV
+          head_ref=$(echo ${GITHUB_HEAD_REF} | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9]/_/g')
+          echo head_ref = $head_ref
+          echo GITHUB_HEAD_REF = ${GITHUB_HEAD_REF}
+          echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_full_${head_ref}" >> $GITHUB_ENV
           echo schema = $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
+          echo GITHUB_HEAD_REF $GITHUB_HEAD_REF
+          echo head_ref $head_ref
+          echo schema $schema
 
       - name: Launch Docker Deploy
         if: steps.prerun.outputs.result == 'docker-deploy'

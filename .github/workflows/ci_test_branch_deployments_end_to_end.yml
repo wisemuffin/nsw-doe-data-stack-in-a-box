@@ -127,6 +127,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: ${{ env.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }}
+          # cant seem to send env to dagster config, for now when doing end to end test will need to set this env in the UI
 
   dagster_cloud_docker_deploy:
     name: Docker Deploy

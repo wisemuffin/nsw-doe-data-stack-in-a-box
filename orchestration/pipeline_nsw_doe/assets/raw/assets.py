@@ -15,12 +15,17 @@ from dagster_pandera import pandera_schema_to_dagster_type
 from .schema_masterdataset import schema as schema_masterdataset
 from .schema_ram import schema as schema_ram
 
-datanswMasterDatasetDagsterType = pandera_schema_to_dagster_type(
-    schema=schema_masterdataset
+from ...util.branching import set_schema_name_env
+
+set_schema_name_env()
+
+NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA = os.getenv(
+    "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA", "schema_not_set"
 )
 
-NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: str = os.getenv(
-    "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA", "schema_not_set"
+
+datanswMasterDatasetDagsterType = pandera_schema_to_dagster_type(
+    schema=schema_masterdataset
 )
 
 

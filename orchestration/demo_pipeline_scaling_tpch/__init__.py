@@ -1,6 +1,4 @@
-import time
 import os
-import re
 from pathlib import Path
 
 from dagster import Definitions, FilesystemIOManager, load_assets_from_package_module
@@ -16,33 +14,20 @@ from . import assets
 from .project import tpch_project
 from .schedules import schedules
 
+from .util.branching import set_schema_name_env
+
 load_dotenv()
 
 
-# work around to set schema when in a branch deployment, DAGSTER_CLOUD_GIT_BRANCH is only present in branch deployments
-if "DAGSTER_CLOUD_GIT_BRANCH" in os.environ and os.getenv("TPCH__ENV") != "prod":
-    # Get the current timestamp
-    timestamp = int(time.time())
-    # pr_string = f"pr_{timestamp}_"
-    pr_string = "pr_full_"
+set_schema_name_env()
 
-    # Get the Git branch (assuming it's an environment variable)
-    git_branch = os.environ.get("DAGSTER_CLOUD_GIT_BRANCH", "")
-    git_branch_lower = git_branch.lower()
+TPCH_TARGET_SCHEMA = os.getenv("TPCH_TARGET_SCHEMA")
 
-    # Replace non-alphanumeric characters with underscores
-    git_branch_clean = re.sub(r"[^a-zA-Z0-9]", "_", git_branch_lower)
-
-    # Final result
-    result = pr_string + git_branch_clean
-    print(f"setting TPCH_TARGET_SCHEMA = {result}")
-    os.environ["TPCH_TARGET_SCHEMA"] = result
 
 TPCH_DB_PATH_AND_DB = os.getenv("TPCH_DB_PATH_AND_DB")
 DUCKDB_PROJECT_DIR = str(
     Path(__file__).parent.parent.parent.joinpath(os.environ["TPCH_DB_PATH_AND_DB"])
 )
-TPCH_TARGET_SCHEMA = os.getenv("TPCH_TARGET_SCHEMA")
 
 S3_BUCKET_METADATA = os.getenv("S3_BUCKET_METADATA")
 

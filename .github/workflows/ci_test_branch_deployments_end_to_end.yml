@@ -42,6 +42,12 @@ env:
   SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PRIVATE_KEY:  ${{ secrets.SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PRIVATE_KEY }}
   SOURCES__GOOGLE_ANALYTICS__PROPERTY_ID:             ${{ secrets.SOURCES__GOOGLE_ANALYTICS__PROPERTY_ID }}
 
+
+  TPCH__ENV:  ${{ vars.TPCH__ENV}}
+  TPCH_DBT_PROJECT_DIR:   ${{ vars.TPCH_DBT_PROJECT_DIR}}
+  TPCH_DB_PATH_AND_DB:  ${{ secrets.TPCH_DB_PATH_AND_DB}}
+  TPCH_DB_NAME:   ${{ vars.TPCH_DB_NAME}}
+
 jobs:
   dagster_cloud_default_deploy:
     name: Dagster Serverless Deploy

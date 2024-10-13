@@ -6,8 +6,7 @@ from dagster_dbt import DbtProject, DbtCliResource
 
 project_dir = (
     Path(__file__)
-    # .joinpath("..", "..", "..", os.environ["TPCH_DBT_PROJECT_DIR"])
-    .joinpath("..", "..", "..", "transformation/demo_transformation_scaling_tpch")
+    .joinpath("..", "..", "..", os.environ["TPCH_DBT_PROJECT_DIR"])
     .resolve()
 )
 

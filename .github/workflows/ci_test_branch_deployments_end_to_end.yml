@@ -128,9 +128,12 @@ jobs:
           cd ./${{ env.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}
           uv pip install .
 
-          dagster-dbt project prepare-for-deployment --file ./${{ env.DAGSTER_PROJECT_NAME }}/project.py
-          dagster-dbt project prepare-for-deployment --file ./demo_pipeline_scaling_tpch/project.py
+          # dagster-dbt project prepare-for-deployment --file ./${{ env.DAGSTER_PROJECT_NAME }}/project.py
           # dagster-dbt project prepare-for-deployment --file ./pipeline_nsw_doe_requires_secrets/project.py
+
+          cat ./demo_pipeline_scaling_tpch/project.py
+          dagster-dbt project prepare-for-deployment --file ./demo_pipeline_scaling_tpch/project.py
+
           # The cli command below can be used to manage syncing the prod manifest to branches if state_path is set on the DbtProject
           # dagster-cloud ci dagster-dbt project manage-state --file ./${{ env.DAGSTER_PROJECT_NAME }}/project.py
         shell: bash

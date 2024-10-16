@@ -212,7 +212,7 @@ dlt==1.2.0
     # via dagster-embedded-elt
 docstring-parser==0.16
     # via dagster
-duckdb==1.1.2
+duckdb==1.1.1
     # via
     #   dagster-duckdb
     #   dbt-duckdb
@@ -315,7 +315,7 @@ httplib2==0.22.0
     # via
     #   google-api-python-client
     #   google-auth-httplib2
-httptools==0.6.2
+httptools==0.6.4
     # via uvicorn
 httpx==0.27.2
     # via
@@ -862,7 +862,7 @@ semver==3.0.2
     # via dlt
 sending==0.3.0
     # via noteable-origami
-setuptools==75.1.0
+setuptools==75.2.0
     # via
     #   dagster
     #   dlt
@@ -1072,7 +1072,7 @@ wrapt==1.16.0
     # via
     #   aiobotocore
     #   pandera
-yarl==1.15.3
+yarl==1.15.4
     # via
     #   aiohttp
     #   gql

@@ -27,6 +27,7 @@ exclude = [
     "node_modules",
     "site-packages",
     "venv",
+    ".ipynb", # excluding .ipynb as having some issues where they dont get checked locally but do in ci
 ]
 
 # Same as Black.

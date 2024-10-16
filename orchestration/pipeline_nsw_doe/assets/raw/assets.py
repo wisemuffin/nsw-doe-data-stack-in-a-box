@@ -242,10 +242,6 @@ def raw__nsw_doe_datansw__apprenticeship_traineeship_training_contract_in_traini
     df["_load_timestamp"] = pd.Timestamp("now")
     df["_source"] = url
 
-    df.insert(
-        0, "Unnamed: 0", None
-    )  # fix to get schema the same as prior to fix for https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/issues/36
-
     df.head()
     print(df.shape)
     print(df.dtypes)

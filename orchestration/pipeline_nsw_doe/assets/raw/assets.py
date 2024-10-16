@@ -209,7 +209,7 @@ def raw__nsw_doe_datansw__apprenticeship_traineeship_training_contract_approvals
 )
 def raw__nsw_doe_datansw__apprenticeship_traineeship_training_contract_completions():
     url = "https://data.nsw.gov.au/data/dataset/f7cba3fc-6e9b-4b8b-b1fd-e7dda9b49001/resource/e969d98e-d89a-474b-b89b-9452f1e45644/download/apprenticeship_traineeship_training_contract_completions.xlsx"
-    df = pd.read_excel(url, sheet_name="Training Type", header=3)
+    df = pd.read_excel(url, sheet_name="Training Type", header=2)
 
     df["_load_timestamp"] = pd.Timestamp("now")
     df["_source"] = url

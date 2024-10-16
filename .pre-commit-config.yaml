@@ -18,10 +18,10 @@ repos:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
       - id: ruff-format
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.13.2
-    hooks:
-      - id: isort
+  # - repo: https://github.com/PyCQA/isort
+  #   rev: 5.13.2
+  #   hooks:
+  #     - id: isort
   ## using ruff which uses black already
   # - repo: https://github.com/psf/black
   #   rev: 24.2.0

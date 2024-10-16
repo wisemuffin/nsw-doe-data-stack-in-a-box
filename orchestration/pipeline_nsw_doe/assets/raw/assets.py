@@ -194,6 +194,10 @@ def raw__nsw_doe_datansw__apprenticeship_traineeship_training_contract_approvals
     df["_load_timestamp"] = pd.Timestamp("now")
     df["_source"] = url
 
+    df.insert(
+        0, "Unnamed: 0", None
+    )  # fix to get schema the same as prior to fix for https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/issues/36
+
     df.head()
     print(df.shape)
     print(df.dtypes)
@@ -233,10 +237,14 @@ def raw__nsw_doe_datansw__apprenticeship_traineeship_training_contract_completio
 )
 def raw__nsw_doe_datansw__apprenticeship_traineeship_training_contract_in_training():
     url = "https://data.nsw.gov.au/data/dataset/f7cba3fc-6e9b-4b8b-b1fd-e7dda9b49001/resource/fe7169bf-32ba-433b-8354-eb9ef5477eaa/download/apprenticeship_traineeship_training_contract_in-trainings.xlsx"
-    df = pd.read_excel(url, sheet_name="Training Type", header=3)
+    df = pd.read_excel(url, sheet_name="Training Type", header=2)
 
     df["_load_timestamp"] = pd.Timestamp("now")
     df["_source"] = url
+
+    df.insert(
+        0, "Unnamed: 0", None
+    )  # fix to get schema the same as prior to fix for https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/issues/36
 
     df.head()
     print(df.shape)

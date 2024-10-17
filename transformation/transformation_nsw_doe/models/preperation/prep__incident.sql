@@ -88,11 +88,12 @@ with unioned_data as (
         secondary_category,
         primary_sub_category,
     from {{ ref('stg__nsw_doe_datansw__incidents_2022_part_2') }}
-)
-, final as (
+),
+
+final as (
     select
         case_number,
-        cast(STRFTIME(STRPTIME(date_time_opened, '%d/%m/%Y %H:%M'), '%Y-%m-%d %H:%M:%S') as timestamp) as date_time_opened,
+        cast(strftime(strptime(date_time_opened, '%d/%m/%Y %H:%M'), '%Y-%m-%d %H:%M:%S') as timestamp) as date_time_opened,
         term,
         incident_group,
         operational_directorate,
@@ -105,6 +106,7 @@ with unioned_data as (
         primary_sub_category,
     from unioned_data
 )
+
 {{ dbt_audit(
     cte_ref="final",
     created_by="@daveg",

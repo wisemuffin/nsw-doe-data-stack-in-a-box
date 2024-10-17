@@ -27,7 +27,7 @@ final as (
 
 
         -- Measures
-        stg__nsw_doe_datansw__attendance.attendance /100  as attendance,
+        stg__nsw_doe_datansw__attendance.attendance / 100 as attendance,
 
 
     from stg__nsw_doe_datansw__attendance

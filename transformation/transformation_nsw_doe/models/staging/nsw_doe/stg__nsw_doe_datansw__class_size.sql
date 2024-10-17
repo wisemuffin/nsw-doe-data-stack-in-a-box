@@ -15,6 +15,7 @@ renamed as (
         cast({{ adapter.quote("year_5") }} as decimal) as year_5,
         cast({{ adapter.quote("year_6") }} as decimal) as year_6,
         cast({{ adapter.quote("k_6") }} as decimal) as k_6,
+        1 as dave,
 
     from source
     where year not in ('Year', '-') --api pulls doesn correctly start at header

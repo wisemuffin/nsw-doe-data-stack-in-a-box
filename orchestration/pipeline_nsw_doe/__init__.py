@@ -9,7 +9,6 @@ from dagster import (
     define_asset_job,
     in_process_executor,
     load_assets_from_package_module,
-    EnvVar,
     multi_or_in_process_executor,
 )
 from dagster_dbt import DbtCliResource
@@ -17,7 +16,6 @@ from dagster_duckdb_pandas import DuckDBPandasIOManager
 from dagster_msteams import make_teams_on_run_failure_sensor
 from dagstermill import ConfigurableLocalOutputNotebookIOManager
 from dotenv import load_dotenv
-from dagster_openai import OpenAIResource
 
 from dagster_embedded_elt.dlt import DagsterDltResource
 
@@ -68,7 +66,6 @@ resources_by_env = {
         "dbt": DbtCliResource(project_dir=nsw_doe_data_stack_in_a_box_project),
         "dlt": DagsterDltResource(),
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),
-        "openai": OpenAIResource(api_key=EnvVar("OPENAI_API_KEY")),
         "pandas_parquet_io_manager": PandasParquetIOManager(
             bucket_name=f"{S3_BUCKET_METADATA}",
             prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX__ENV}",
@@ -82,7 +79,6 @@ resources_by_env = {
         "dbt": DbtCliResource(project_dir=nsw_doe_data_stack_in_a_box_project),
         "dlt": DagsterDltResource(),
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),
-        "openai": OpenAIResource(api_key=EnvVar("OPENAI_API_KEY")),
         "pandas_parquet_io_manager": PandasParquetIOManager(
             bucket_name=f"{S3_BUCKET_METADATA}",
             prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX__ENV}",
@@ -94,7 +90,6 @@ resources_by_env = {
         "dbt": DbtCliResource(project_dir=nsw_doe_data_stack_in_a_box_project),
         "dlt": DagsterDltResource(),
         "output_notebook_io_manager": ConfigurableLocalOutputNotebookIOManager(),
-        "openai": OpenAIResource(api_key=EnvVar("OPENAI_API_KEY")),
         "pandas_parquet_io_manager": PandasParquetIOManager(
             bucket_name=f"{S3_BUCKET_METADATA}",
             prefix=f"{NSW_DOE_DATA_STACK_IN_A_BOX__ENV}",

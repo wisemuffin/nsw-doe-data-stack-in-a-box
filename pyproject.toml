@@ -27,6 +27,7 @@ exclude = [
     "node_modules",
     "site-packages",
     "venv",
+    ".ipynb", # excluding .ipynb as having some issues where they dont get checked locally but do in ci
 ]
 
 # Same as Black.
@@ -76,3 +77,12 @@ docstring-code-format = false
 # This only has an effect when the `docstring-code-format` setting is
 # enabled.
 docstring-code-line-length = "dynamic"
+
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "orchestration",
+
+]

@@ -1,11 +1,12 @@
 dbt-duckdb>=1.8.0
-dbt-metricflow[duckdb]==0.7.1
+dbt-metricflow[duckdb]
 
 ipykernel
 
-duckdb>=1.0.0 #latest version for mother duck
+duckdb==1.1.1 #latest version for mother duck
 
 # dagster deps
+dagster
 dagster-dbt
 dagster-duckdb
 dagster-duckdb-pandas
@@ -44,8 +45,7 @@ ydata_profiling
 ipywidgets
 
 # dlt
-dagster-embedded-elt
-# dlt[motherduck] # cant use motherduck yet with dlt if duckdb > 0.10
+dagster-embedded-elt #==0.23.11 # having some issues with later versions and dlt
 google-analytics-data
 google-api-python-client
 google-auth-oauthlib

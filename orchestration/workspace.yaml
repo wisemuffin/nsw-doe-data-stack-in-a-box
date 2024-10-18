@@ -13,5 +13,12 @@ load_from:
 #       port: 4003
 #       location_name: "pipeline_nsw_doe"
     - python_module: pipeline_nsw_doe
-    # - python_module: demo_pipeline_jaffle_shop
+
+    # # enables these two when doing local development. But when merging into main comment them out
+    # # so that they dont confuse users of the code space as you cant run jobs together accross code spaces with 1 materialise command.
+    # # the requires secret one also requires  env i wont share
+    # - python_module: demo_pipeline_scaling_tpch
     # - python_module: pipeline_nsw_doe_requires_secrets
+
+
+    # - python_module: demo_pipeline_jaffle_shop

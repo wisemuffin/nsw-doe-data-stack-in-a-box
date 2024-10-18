@@ -8,6 +8,10 @@ from dagster import AssetExecutionContext, AssetKey, Output, SourceAsset, asset
 
 from ...project import nsw_doe_data_stack_in_a_box_project
 
+from pipeline_nsw_doe import set_schema_name_env
+
+set_schema_name_env()
+
 NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA = os.getenv(
     "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA", "schema_not_set"
 )

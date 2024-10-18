@@ -15,12 +15,17 @@ from dagster_pandera import pandera_schema_to_dagster_type
 from .schema_masterdataset import schema as schema_masterdataset
 from .schema_ram import schema as schema_ram
 
-datanswMasterDatasetDagsterType = pandera_schema_to_dagster_type(
-    schema=schema_masterdataset
+from ...util.branching import set_schema_name_env
+
+set_schema_name_env()
+
+NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA = os.getenv(
+    "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA", "schema_not_set"
 )
 
-NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: str = os.getenv(
-    "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA", "schema_not_set"
+
+datanswMasterDatasetDagsterType = pandera_schema_to_dagster_type(
+    schema=schema_masterdataset
 )
 
 
@@ -184,10 +189,14 @@ def raw__nsw_doe_datansw__attendance():
 )
 def raw__nsw_doe_datansw__apprenticeship_traineeship_training_contract_approvals():
     url = "https://data.nsw.gov.au/data/dataset/f7cba3fc-6e9b-4b8b-b1fd-e7dda9b49001/resource/54d2df2f-44ae-4d67-980f-ce855d68f2d5/download/apprenticeship_traineeship_training_contract_approvals-1.xlsx"
-    df = pd.read_excel(url, sheet_name="Training Type", header=3)
+    df = pd.read_excel(url, sheet_name="Training Type", header=2)
 
     df["_load_timestamp"] = pd.Timestamp("now")
     df["_source"] = url
+
+    df.insert(
+        0, "Unnamed: 0", None
+    )  # fix to get schema the same as prior to fix for https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/issues/36
 
     df.head()
     print(df.shape)
@@ -204,10 +213,14 @@ def raw__nsw_doe_datansw__apprenticeship_traineeship_training_contract_approvals
 )
 def raw__nsw_doe_datansw__apprenticeship_traineeship_training_contract_completions():
     url = "https://data.nsw.gov.au/data/dataset/f7cba3fc-6e9b-4b8b-b1fd-e7dda9b49001/resource/e969d98e-d89a-474b-b89b-9452f1e45644/download/apprenticeship_traineeship_training_contract_completions.xlsx"
-    df = pd.read_excel(url, sheet_name="Training Type", header=3)
+    df = pd.read_excel(url, sheet_name="Training Type", header=2)
 
     df["_load_timestamp"] = pd.Timestamp("now")
     df["_source"] = url
+
+    df.insert(
+        0, "Unnamed: 0", None
+    )  # fix to get schema the same as prior to fix for https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/issues/36
 
     df.head()
     print(df.shape)
@@ -224,10 +237,14 @@ def raw__nsw_doe_datansw__apprenticeship_traineeship_training_contract_completio
 )
 def raw__nsw_doe_datansw__apprenticeship_traineeship_training_contract_in_training():
     url = "https://data.nsw.gov.au/data/dataset/f7cba3fc-6e9b-4b8b-b1fd-e7dda9b49001/resource/fe7169bf-32ba-433b-8354-eb9ef5477eaa/download/apprenticeship_traineeship_training_contract_in-trainings.xlsx"
-    df = pd.read_excel(url, sheet_name="Training Type", header=3)
+    df = pd.read_excel(url, sheet_name="Training Type", header=2)
 
     df["_load_timestamp"] = pd.Timestamp("now")
     df["_source"] = url
+
+    df.insert(
+        0, "Unnamed: 0", None
+    )  # fix to get schema the same as prior to fix for https://github.com/wisemuffin/nsw-doe-data-stack-in-a-box/issues/36
 
     df.head()
     print(df.shape)

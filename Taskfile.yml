@@ -22,8 +22,14 @@ tasks:
       # workaround as cant get dynamic manifest.json to build
       - cd ${GITHUB_WORKSPACE}/${NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR} && dbt parse
 
-      - cd transformation/demo_transformation_jaffle_shop && dbt deps
-      - cd transformation/demo_transformation_jaffle_shop && dbt parse
+      - cd ${GITHUB_WORKSPACE}/transformation/demo_transformation_jaffle_shop && dbt deps
+      - cd ${GITHUB_WORKSPACE}/transformation/demo_transformation_jaffle_shop && dbt parse
+
+      - cd ${GITHUB_WORKSPACE}/transformation/pipeline_nsw_doe_requires_secrets && dbt deps
+      - cd ${GITHUB_WORKSPACE}/transformation/pipeline_nsw_doe_requires_secrets && dbt parse
+
+      - cd ${GITHUB_WORKSPACE}/transformation/demo_pipeline_scaling_tpch && dbt deps
+      - cd ${GITHUB_WORKSPACE}/transformation/demo_pipeline_scaling_tpch && dbt parse
 
 
   node_deps:
@@ -87,6 +93,9 @@ tasks:
   duck:
     cmds:
       - duckdb ${GITHUB_WORKSPACE}/$NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB
+  duck_tpch:
+    cmds:
+      - duckdb ${GITHUB_WORKSPACE}/$TPCH_DB_PATH_AND_DB
   setup_sqltools:
     cmds:
       - cd ~/.local/share/vscode-sqltools && npm install duckdb-async@0.10.0 && exit 0

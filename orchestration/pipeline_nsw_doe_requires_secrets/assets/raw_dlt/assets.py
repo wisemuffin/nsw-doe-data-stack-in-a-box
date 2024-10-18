@@ -18,12 +18,17 @@ from dlt.extract.resource import DltResource
 from ...dlt_sources.github import github_reactions, github_repo_events
 from ...dlt_sources.google_analytics import google_analytics
 
-# dlt_configuration_path = file_relative_path(__file__, "../../dlt_sources/dlt_configuration.yaml")
-# dlt_configuration = yaml.safe_load(open(dlt_configuration_path))
+from pipeline_nsw_doe_requires_secrets import set_schema_name_env
 
-NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: str = os.getenv(
+set_schema_name_env()
+
+NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA = os.getenv(
     "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA", "schema_not_set"
 )
+
+
+# dlt_configuration_path = file_relative_path(__file__, "../../dlt_sources/dlt_configuration.yaml")
+# dlt_configuration = yaml.safe_load(open(dlt_configuration_path))
 
 
 class GithubDagsterDltTranslator(DagsterDltTranslator):

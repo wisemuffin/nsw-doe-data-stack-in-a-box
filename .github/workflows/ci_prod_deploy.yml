@@ -105,6 +105,15 @@ jobs:
           uv pip install -r requirements.txt
           cd ./${{ env.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}
           uv pip install .
+
+          cd ./transformation/demo_transformation_scaling_tpch
+          dbt deps
+          cd ../..
+
+          cd ./transformation/transformation_nsw_doe
+          dbt deps
+          cd ../..
+
           dagster-dbt project prepare-for-deployment --file ./${{ env.DAGSTER_PROJECT_NAME }}/project.py
           dagster-dbt project prepare-for-deployment --file ./pipeline_nsw_doe_requires_secrets/project.py
           dagster-dbt project prepare-for-deployment --file ./demo_pipeline_scaling_tpch/project.py

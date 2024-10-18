@@ -80,6 +80,13 @@
     "NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME": "nsw_doe_data_stack_in_a_box__dev",
     "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA": "analytics",
 
+    "TPCH__ENV":   "dev",
+    "TPCH_DBT_PROJECT_DIR":  "transformation/demo_transformation_scaling_tpch",
+    "TPCH_DB_PATH":  "reports/sources/demo_tpch__dev",
+    "TPCH_DB_PATH_AND_DB":   "reports/sources/demo_tpch__dev/demo_tpch__dev.duckdb",
+    "TPCH_DB_NAME":  "demo_tpch__dev",
+    "TPCH_TARGET_SCHEMA":  "analytics",
+
     "DESTINATION__DUCKDB__CREDENTIALS": "duckdb:///////workspaces/nsw-doe-data-stack-in-a-box/reports/sources/nsw_doe_data_stack_in_a_box/nsw_doe_data_stack_in_a_box__dev.duckdb",
 
     "DAGSTER_HOME": "orchestration/dagster-local-file-store",

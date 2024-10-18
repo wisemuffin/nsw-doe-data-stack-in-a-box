@@ -42,6 +42,12 @@ env:
   SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PRIVATE_KEY:  ${{ secrets.SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PRIVATE_KEY }}
   SOURCES__GOOGLE_ANALYTICS__PROPERTY_ID:             ${{ secrets.SOURCES__GOOGLE_ANALYTICS__PROPERTY_ID }}
 
+
+  TPCH__ENV:  ${{ vars.TPCH__ENV}}
+  TPCH_DBT_PROJECT_DIR:   ${{ vars.TPCH_DBT_PROJECT_DIR}}
+  TPCH_DB_PATH_AND_DB:  ${{ secrets.TPCH_DB_PATH_AND_DB}}
+  TPCH_DB_NAME:   ${{ vars.TPCH_DB_NAME}}
+
 jobs:
   dagster_cloud_default_deploy:
     name: Dagster Serverless Deploy
@@ -61,8 +67,15 @@ jobs:
 
       - name: Set NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
         run: |
-          echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_full_$(echo ${GITHUB_HEAD_REF} | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9]/_/g')" >> $GITHUB_ENV
-          echo schema = $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
+          # echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_full_$(echo ${GITHUB_HEAD_REF} | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9]/_/g')" >> $GITHUB_ENV
+          NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_full_$(echo ${GITHUB_HEAD_REF} | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9]/_/g')
+          echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=$(echo $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA)" >> $GITHUB_ENV
+          # echo schema ${{ env.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }} # cant ref env variables in command in same run
+          echo schema $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
+
+      - name: check schema
+        run: echo schema ${{ env.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }}
+
 
       - name: Launch Docker Deploy
         if: steps.prerun.outputs.result == 'docker-deploy'
@@ -103,9 +116,23 @@ jobs:
           source .venv/bin/activate
           # currently requirements.txt is stored at total project level one level above dagster project
           uv pip install -r requirements.txt
+
+          cd ./transformation/demo_transformation_scaling_tpch
+          dbt deps
+          cd ../..
+
+          cd ./transformation/transformation_nsw_doe
+          dbt deps
+          cd ../..
+
           cd ./${{ env.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}
           uv pip install .
+
           dagster-dbt project prepare-for-deployment --file ./${{ env.DAGSTER_PROJECT_NAME }}/project.py
+          dagster-dbt project prepare-for-deployment --file ./pipeline_nsw_doe_requires_secrets/project.py
+
+          dagster-dbt project prepare-for-deployment --file ./demo_pipeline_scaling_tpch/project.py
+
           # The cli command below can be used to manage syncing the prod manifest to branches if state_path is set on the DbtProject
           # dagster-cloud ci dagster-dbt project manage-state --file ./${{ env.DAGSTER_PROJECT_NAME }}/project.py
         shell: bash
@@ -119,7 +146,8 @@ jobs:
           python_version: "${{ env.PYTHON_VERSION }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
+          NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: ${{ env.NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA }}
+          # cant seem to send env to dagster config, for now when doing end to end test will need to set this env in the UI
 
   dagster_cloud_docker_deploy:
     name: Docker Deploy

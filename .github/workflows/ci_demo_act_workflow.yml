@@ -1,0 +1,69 @@
+name: CI Demo ACT
+on:
+  workflow_dispatch:
+  # pull_request:
+  #   types: [opened, synchronize, reopened, closed]
+
+concurrency:
+  # Cancel in-progress deploys to same branch
+  group: ${{ github.ref }}/branch_deployments
+  cancel-in-progress: true
+env:
+  DAGSTER_CLOUD_URL: "http://wisemuffin.dagster.cloud"
+  DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}
+  ENABLE_FAST_DEPLOYS: 'true'
+  PYTHON_VERSION: '3.11'
+  DAGSTER_CLOUD_FILE: 'dagster_cloud.yaml'
+
+  DAGSTER_CLOUD_ORGANIZATION: "wisemuffin"
+  DAGSTER_PROJECT_NAME: pipeline_nsw_doe
+
+  NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR:    ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DAGSTER_PROJECT_DIR }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR:        ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DBT_PROJECT_DIR }}
+
+  NSW_DOE_DATA_STACK_IN_A_BOX__ENV:                   ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX__ENV }}
+
+  NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB:         ${{ secrets.NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB }}
+  NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME:                ${{ vars.NSW_DOE_DATA_STACK_IN_A_BOX_DB_NAME }}
+
+  MOTHERDUCK_TOKEN:                                   ${{ secrets.MOTHERDUCK_TOKEN }}
+  DATAFOLD_APIKEY:                                    ${{ secrets.DATAFOLD_APIKEY }}
+
+  DAGSTER_HOME:                                       ${{ vars.DAGSTER_HOME }}
+
+  AWS_ROLE_TO_ASSUME:                                 ${{ secrets.AWS_ROLE_TO_ASSUME }}
+  S3_BUCKET_METADATA:                                 ${{ secrets.S3_BUCKET_METADATA }}
+
+  DESTINATION__DUCKDB__CREDENTIALS:                   ${{ secrets.DESTINATION__DUCKDB__CREDENTIALS }}
+
+  SOURCES__GITHUB__ACCESS_TOKEN:                      ${{ secrets.SOURCES__GITHUB__ACCESS_TOKEN }}
+
+  SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PROJECT_ID: ${{ secrets.SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PROJECT_ID }}
+  SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__CLIENT_EMAIL: ${{ secrets.SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__CLIENT_EMAIL }}
+  SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PRIVATE_KEY:  ${{ secrets.SOURCES__GOOGLE_ANALYTICS__CREDENTIALS__PRIVATE_KEY }}
+  SOURCES__GOOGLE_ANALYTICS__PROPERTY_ID:             ${{ secrets.SOURCES__GOOGLE_ANALYTICS__PROPERTY_ID }}
+
+jobs:
+  act_job:
+    name: ACT job
+    runs-on: ubuntu-20.04
+    environment: test
+    outputs:
+      build_info: ${{ steps.parse-workspace.outputs.build_info }}
+
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v5.0.0
+        with:
+          python-version: "3.11.x"
+      # - name: Prerun Checks
+      #   id: prerun
+      #   uses: dagster-io/dagster-cloud-action/actions/utils/prerun@v0.1
+
+      - name: Set NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
+        run: |
+          head_ref=$(echo ${GITHUB_HEAD_REF} | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9]/_/g')
+          echo head_ref = $head_ref
+          echo GITHUB_HEAD_REF = ${GITHUB_HEAD_REF}
+          echo "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA=pr_full_${head_ref}" >> $GITHUB_ENV
+          echo schema = $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA

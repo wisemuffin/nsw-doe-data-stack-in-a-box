@@ -17,8 +17,11 @@ from dlt import pipeline
 from dlt.extract.resource import DltResource
 from ...dlt_sources.nsw_doe import nsw_doe_data
 
+from ...util.branching import set_schema_name_env
 
-NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA: str = os.getenv(
+set_schema_name_env()
+
+NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA = os.getenv(
     "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA", "schema_not_set"
 )
 

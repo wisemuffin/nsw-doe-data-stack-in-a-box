@@ -75,10 +75,16 @@ jobs:
                 aws s3 cp s3://$S3_BUCKET_METADATA/prod/manifest/manifest.json ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest/manifest.json
 
             - name: Deploy
+              # have excluded source: from state modified as this seem to try to rebuild all models as source database are different between envs.
+              # also for now have remove the + at the end of state:modified as that was also causing all models to be created even when nothing changed.
+              # TODO
               run: |
                 echo schema $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
                 cd ${{github.workspace}}/transformation/transformation_nsw_doe
-                dbt build --exclude "+*github*+ +*google*+" --models state:modified+ --defer --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
+                echo models modified
+                dbt ls --exclude "source:* +*github*+ +*google*+" --models state:modified --defer --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
+                echo building modified models
+                dbt build --exclude "source:* +*github*+ +*google*+ *snapshot*" --models state:modified --defer --state ${{github.workspace}}/transformation/transformation_nsw_doe/target/last_manifest --profiles-dir ${{github.workspace}}/transformation/transformation_nsw_doe
 
 
             # reoving datafold until we get a motherduck connection

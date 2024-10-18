@@ -1,0 +1,19 @@
+demo_scaling_tpch:
+  outputs:
+    dev:
+      type: duckdb
+      path: "../../{{ env_var('TPCH_DB_PATH_AND_DB') }}"
+      database: "{{ env_var('TPCH_DB_NAME') }}"
+      schema: "tpch"
+      threads: 4
+    prod:
+      type: duckdb
+      path: "{{ env_var('TPCH_DB_PATH_AND_DB') }}"
+      schema: "tpch"
+      threads: 4
+    test:
+      type: duckdb
+      path: "{{ env_var('TPCH_DB_PATH_AND_DB') }}"
+      schema: "tpch"
+      threads: 4
+  target: "{{ env_var('TPCH__ENV') }}"

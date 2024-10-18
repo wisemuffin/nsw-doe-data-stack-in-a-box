@@ -1,0 +1,30 @@
+semantic_models:
+  - name: customer
+    description: "Semantic model for customers with nation and region details"
+    model: ref('dim__customer')
+    entities:
+      - name: customer
+        type: primary
+        expr: customer_key
+    dimensions:
+      - name: customer_name
+        type: categorical
+        description: "Name of the customer"
+      - name: customer_address
+        type: categorical
+        description: "Address of the customer"
+      - name: customer_nation_name
+        type: categorical
+        description: "Name of the customer's nation"
+      - name: customer_region_name
+        type: categorical
+        description: "Name of the customer's region"
+      - name: customer_phone_number
+        type: categorical
+        description: "Phone number of the customer"
+      - name: customer_market_segment_name
+        type: categorical
+        description: "Market segment of the customer"
+      - name: customer_account_balance
+        description: "Account balance of the customer"
+        type: categorical

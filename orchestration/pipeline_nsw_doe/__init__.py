@@ -1,6 +1,4 @@
-import time
 import os
-import re
 from pathlib import Path
 
 from dagster import (
@@ -32,31 +30,9 @@ from pipeline_nsw_doe.sensors import sensor_freshness, checks_freshness_def
 # from .assets import iris,raw,transformation,machine_learning
 from . import assets
 from .project import nsw_doe_data_stack_in_a_box_project
-
+from pipeline_nsw_doe.util.branching import set_schema_name_env
 
 load_dotenv()
-
-# work around to set schema when in a branch deployment, DAGSTER_CLOUD_GIT_BRANCH is only present in branch deployments
-if (
-    "DAGSTER_CLOUD_GIT_BRANCH" in os.environ
-    and os.getenv("NSW_DOE_DATA_STACK_IN_A_BOX__ENV") != "prod"
-):
-    # Get the current timestamp
-    timestamp = int(time.time())
-    # pr_string = f"pr_{timestamp}_"
-    pr_string = "pr_full_"
-
-    # Get the Git branch (assuming it's an environment variable)
-    git_branch = os.environ.get("DAGSTER_CLOUD_GIT_BRANCH", "")
-    git_branch_lower = git_branch.lower()
-
-    # Replace non-alphanumeric characters with underscores
-    git_branch_clean = re.sub(r"[^a-zA-Z0-9]", "_", git_branch_lower)
-
-    # Final result
-    result = pr_string + git_branch_clean
-    print(f"setting NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA = {result}")
-    os.environ["NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA"] = result
 
 NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB = os.getenv(
     "NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB"
@@ -66,9 +42,13 @@ DUCKDB_PROJECT_DIR = str(
         os.environ["NSW_DOE_DATA_STACK_IN_A_BOX_DB_PATH_AND_DB"]
     )
 )
+
+set_schema_name_env()
+
 NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA = os.getenv(
     "NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA"
 )
+
 
 S3_BUCKET_METADATA = os.getenv("S3_BUCKET_METADATA")
 

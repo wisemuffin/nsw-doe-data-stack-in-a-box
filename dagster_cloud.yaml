@@ -11,9 +11,9 @@ locations:
     build:
         directory: .
     working_directory: ./orchestration
-  # - code_source:
-  #     package_name: demo_pipeline_scaling_tpch
-  #   location_name: demo-pipeline-scaling-tpch
-  #   build:
-  #       directory: .
-  #   working_directory: ./orchestration
+  - code_source:
+      package_name: demo_pipeline_scaling_tpch
+    location_name: demo-pipeline-scaling-tpch
+    build:
+        directory: .
+    working_directory: ./orchestration

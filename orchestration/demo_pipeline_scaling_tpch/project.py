@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from dagster_dbt import DbtProject, DbtCliResource
+from dagster_dbt import DbtProject
 
 
 project_dir = (
@@ -9,9 +9,6 @@ project_dir = (
     .joinpath("..", "..", "..", os.environ["TPCH_DBT_PROJECT_DIR"])
     .resolve()
 )
-
-
-dbt = DbtCliResource(project_dir=str(project_dir))
 
 tpch_project = DbtProject(
     project_dir=project_dir,

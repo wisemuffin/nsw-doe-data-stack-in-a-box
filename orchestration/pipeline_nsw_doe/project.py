@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from dagster_dbt import DbtProject, DbtCliResource
+from dagster_dbt import DbtProject
 
 
 project_dir = (
@@ -11,9 +11,6 @@ project_dir = (
     )
     .resolve()
 )
-
-
-dbt = DbtCliResource(project_dir=str(project_dir))
 
 nsw_doe_data_stack_in_a_box_project = DbtProject(
     project_dir=project_dir,

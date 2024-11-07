@@ -7,6 +7,7 @@ schema = DataFrameSchema(
             dtype="int64",
             checks=[
                 Check.greater_than_or_equal_to(min_value=1001.0),
+                # Check.less_than_or_equal_to(max_value=6924.0),
                 Check.less_than_or_equal_to(max_value=8924.0),
             ],
             nullable=False,

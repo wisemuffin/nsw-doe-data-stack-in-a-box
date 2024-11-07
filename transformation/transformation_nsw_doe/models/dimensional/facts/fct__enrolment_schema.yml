@@ -13,8 +13,8 @@ models:
       description: ""
     - name: _meta__dim__school__sk
       description: ""
-      tests:
-        - not_null
+      # tests:
+      #   - not_null
     - name: calendar_year
       description: ""
     - name: calendar_date

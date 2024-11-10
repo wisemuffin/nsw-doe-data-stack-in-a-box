@@ -8,7 +8,7 @@ profile: 'nsw_doe_data_stack_in_a_box_profile'
 
 vars:
   truncate_timespan_to: "{{ current_timestamp() }}"
-  "dbt_date:time_zone": "America/Los_Angeles"
+  "dbt_date:time_zone": "Australia/Sydney"
 
 model-paths: ["models"]
 seed-paths: ["seeds"]

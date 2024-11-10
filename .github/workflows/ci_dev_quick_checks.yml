@@ -68,7 +68,7 @@ jobs:
       - name: Lint SQL
         run: |
           echo schema $NSW_DOE_DATA_STACK_IN_A_BOX_TARGET_SCHEMA
-          cd ${{github.workspace}}/transformation/transformation_nsw_doe
+          cd ${{github.workspace}}
           sqlfluff lint --format github-annotation-native
       # required to set path for pytest
       - name: set pythonpath

@@ -43,7 +43,6 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
     @dlt.resource(
         # primary_key="id",
         # table_name=lambda i: "raw_github_events_" + i["type"]
-        name="user",
         write_disposition="replace",
         schema_contract={
             "tables": "evolve",
@@ -51,7 +50,8 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "data_type": "freeze",
         },
         # columns=EnrolmentsPrimary # cant use pydantic yet see note in class
-        columns={
+        columns={  # column names dont even make it into dagster
+            # data types: https://dlthub.com/docs/general-usage/schema#data-types
             "School Performance Directorate": {"data_type": "text"},
             "School Code": {"data_type": "text"},
             "School Name": {"data_type": "text"},

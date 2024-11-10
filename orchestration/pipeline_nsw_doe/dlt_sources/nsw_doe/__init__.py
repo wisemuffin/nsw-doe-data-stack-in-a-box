@@ -5,8 +5,27 @@ from typing import Iterator, Optional, Sequence
 import dlt
 from dlt.common.typing import TDataItems
 from dlt.sources import DltResource
+from pydantic import BaseModel, Field
 
 from pipeline_nsw_doe.dlt_sources.nsw_doe.helpers import get_nsw_doe_data
+
+
+class EnrolmentsPrimary(BaseModel):
+    """cant get this to work as pydantic is currently pinned to pydantic>=1.10.0,<1.11.0 due to metric flow. But doing this with 2.9.2 works"""
+
+    school_performance_directorate: str = Field(
+        ..., alias="School Performance Directorate"
+    )
+    school_code: str = Field(alias="School Code")
+    school_name: str = Field(alias="School Name")
+    yr_2020: str = Field(alias="2020")
+    yr_2021: str = Field(alias="2021")
+    yr_2022: str = Field(alias="2022")
+    yr_2023: str = Field(alias="2023")
+    yr_2024: str = Field(alias="2024")
+
+    class Config:
+        allow_population_by_field_name = True
 
 
 @dlt.source(max_table_nesting=2)
@@ -30,10 +49,18 @@ def nsw_doe_data(access_token: Optional[str] = None) -> Sequence[DltResource]:
             "columns": "evolve",
             "data_type": "freeze",
         },
-        # columns={
-        #     "last_online": {"data_type": "timestamp"},
-        #     "joined": {"data_type": "timestamp"},
-        # },
+        # columns=EnrolmentsPrimary # cant use pydantic yet see note in class
+        columns={  # column names dont even make it into dagster
+            # data types: https://dlthub.com/docs/general-usage/schema#data-types
+            "School Performance Directorate": {"data_type": "text"},
+            "School Code": {"data_type": "text"},
+            "School Name": {"data_type": "text"},
+            "2020": {"data_type": "text"},
+            "2021": {"data_type": "text"},
+            "2022": {"data_type": "text"},
+            "2023": {"data_type": "text"},
+            "2024": {"data_type": "text"},
+        },
     )
     def raw__nsw_doe_datansw__enrolments_primary(
         access_token: Optional[str] = access_token,

@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: fct__enrolment
+    description: ""
+    columns:
+    - name: _meta__fct__school__sk
+      description: ""
+      tests:
+        # - not_null
+        - unique
+    - name: school_code
+      description: ""
+    - name: _meta__dim__school__sk
+      description: ""
+      # tests:
+      #   - not_null
+    - name: calendar_year
+      description: ""
+    - name: calendar_date
+      description: ""
+    - name: enrolments
+      description: ""
+    - name: _audit__created_by
+      description: ""
+    - name: _audit__updated_by
+      description: ""
+    - name: _audit__model_created_date
+      description: ""
+    - name: _audit__model_updated_date
+      description: ""
+    - name: _audit__dbt_updated_at
+      description: ""
+    - name: _audit__dbt_created_at
+      description: ""

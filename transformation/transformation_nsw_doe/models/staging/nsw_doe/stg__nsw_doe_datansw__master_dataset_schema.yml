@@ -6,6 +6,14 @@ models:
     columns:
     - name: School_Code
       description: ""
+      data_tests:
+        - dbt_expectations.expect_column_values_to_not_be_null:
+            row_condition: "School_Code is not null" # (Optional)
+        - dbt_expectations.expect_column_values_to_be_of_type:
+            column_type: bigint
+        - dbt_expectations.expect_column_values_to_be_between:
+            min_value: 0  # (Optional)
+            max_value: 10000 # (Optional)
     - name: Age_ID
       description: ""
     - name: School_Name

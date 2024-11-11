@@ -30,9 +30,12 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
     manifest=nsw_doe_data_stack_in_a_box_project.manifest_path,
     dagster_dbt_translator=CustomDagsterDbtTranslator(
         settings=DagsterDbtTranslatorSettings(
-            enable_asset_checks=True, enable_duplicate_source_asset_keys=True
+            enable_asset_checks=True,
+            enable_duplicate_source_asset_keys=True,
+            enable_code_references=True,
         )
     ),
+    project=nsw_doe_data_stack_in_a_box_project,
     io_manager_key="io_manager_dw",
     exclude="saved_query:* *google* *github* *web_analytics* *repo*",
     select="fqn:*",
@@ -44,4 +47,9 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
     # select="nsw_doe_data_stack_in_a_box.staging* nsw_doe_data_stack_in_a_box.dimensional*"
 )
 def nsw_doe_dbt_assets(context: AssetExecutionContext, dbt: DbtCliResource):
-    yield from dbt.cli(["build"], context=context).stream()
+    yield from (
+        dbt.cli(["build"], context=context)
+        .stream()
+        .fetch_column_metadata()
+        .fetch_row_counts()
+    )

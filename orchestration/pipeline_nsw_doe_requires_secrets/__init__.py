@@ -30,7 +30,7 @@ from pipeline_nsw_doe_requires_secrets.io_managers import PandasParquetIOManager
 from . import assets
 from . import sensors
 from .project import nsw_doe_data_stack_in_a_box_project
-
+from .temp_tableau_power_bi import tableau_workspace
 from .branching import set_schema_name_env
 
 load_dotenv()
@@ -168,16 +168,20 @@ schedule_etl_education_requires_secrets = ScheduleDefinition(
 #         dbt_select="fqn:*",
 #     )
 
-defs = Definitions(
-    assets=all_assets,
-    resources=resources_by_env[NSW_DOE_DATA_STACK_IN_A_BOX__ENV],
-    jobs=[etl_utilisation, etl_education_requires_secrets],
-    schedules=[schedule_etl_utilisation, schedule_etl_education_requires_secrets],
-    sensors=[msteams_on_run_failure, sensors.question_sensor],
-    # assets to not be materialized concurrently when running in local dev environments to avoid duckdb limitation of conncurrancy
-    # see: https://duckdb.org/docs/connect/concurrency.html
-    # when in prod or test env we are using motherduck so no concurrency limitations
-    executor=in_process_executor
-    if NSW_DOE_DATA_STACK_IN_A_BOX__ENV == "dev"
-    else multi_or_in_process_executor,
+
+defs = Definitions.merge(
+    tableau_workspace.build_defs(),
+    Definitions(
+        assets=all_assets,
+        resources=resources_by_env[NSW_DOE_DATA_STACK_IN_A_BOX__ENV],
+        jobs=[etl_utilisation, etl_education_requires_secrets],
+        schedules=[schedule_etl_utilisation, schedule_etl_education_requires_secrets],
+        sensors=[msteams_on_run_failure, sensors.question_sensor],
+        # assets to not be materialized concurrently when running in local dev environments to avoid duckdb limitation of conncurrancy
+        # see: https://duckdb.org/docs/connect/concurrency.html
+        # when in prod or test env we are using motherduck so no concurrency limitations
+        executor=in_process_executor
+        if NSW_DOE_DATA_STACK_IN_A_BOX__ENV == "dev"
+        else multi_or_in_process_executor,
+    ),
 )
